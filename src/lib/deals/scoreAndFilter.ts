@@ -26,6 +26,13 @@ type PendingDeal = {
   scoreResult: ScoreResult;
 };
 
+function isEuropeToSouthAmericaDeal(hubFare: HubFare): boolean {
+  return (
+    hubFare.hub.originContinent.trim() === "Europe" &&
+    hubFare.destinationContinent.trim() === "South America"
+  );
+}
+
 function finalizeDealsForOrigin(deals: PendingDeal[]): ScoredDeal[] {
   const nonstop = deals
     .filter((d) => d.hubFare.stops === 0)
@@ -78,6 +85,8 @@ export async function scoreAndFilter(hubFares: HubFare[]): Promise<DealsByOrigin
   for (const hubFare of hubFares) {
     const scoreResult = scoreFare(hubFare.price, hubFare.destination, history);
     if (!scoreResult.isGenuineDeal) continue;
+    if (!isEuropeToSouthAmericaDeal(hubFare)) continue;
+    if (hubFare.price > 700) continue;
 
     const origin = hubFare.hub.origin;
     const pending: PendingDeal = { hubFare, scoreResult };

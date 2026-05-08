@@ -25,12 +25,22 @@ export function getDigestSlot(now: Date): "morning" | "evening" {
   return hour >= 14 ? "evening" : "morning";
 }
 
-function buildDigestSubject(slot: "morning" | "evening", date: Date): string {
+function buildDigestSubject(
+  slot: "morning" | "evening",
+  date: Date,
+  focus: "general" | "south-america" = "general"
+): string {
   const dateStr = formatDigestSubjectDate(date);
-  const lead =
-    slot === "morning"
+  const lead = (() => {
+    if (focus === "south-america") {
+      return slot === "morning"
+        ? "This morning's best South America fares ✈️"
+        : "This evening's best South America fares ✈️";
+    }
+    return slot === "morning"
       ? "This morning's best escape fares ✈️"
       : "This evening's best escape fares ✈️";
+  })();
   return `${lead} — ${dateStr}`;
 }
 
@@ -73,7 +83,7 @@ function resolveDigestRecipients(): string[] {
 
 export async function sendDigest(
   deals: DealsByOrigin,
-  options?: { slot?: "morning" | "evening" }
+  options?: { slot?: "morning" | "evening"; focus?: "general" | "south-america" }
 ): Promise<void> {
   if (!process.env.RESEND_API_KEY) {
     console.log("[sendDigest] Missing RESEND_API_KEY");
@@ -95,6 +105,7 @@ export async function sendDigest(
     const resend = new Resend(process.env.RESEND_API_KEY);
     const now = new Date();
     const slot = options?.slot ?? getDigestSlot(now);
+    const focus = options?.focus ?? "general";
     const generatedAt = formatGeneratedAt(now);
     const html = await render(
       React.createElement(DealsDigest, {
@@ -106,7 +117,7 @@ export async function sendDigest(
     await resend.emails.send({
       from: "Flight Deals <onboarding@resend.dev>",
       to: recipients,
-      subject: buildDigestSubject(slot, now),
+      subject: buildDigestSubject(slot, now, focus),
       html,
     });
 

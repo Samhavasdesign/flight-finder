@@ -151,7 +151,7 @@ function DigestDealCard({
               letterSpacing: "-0.03em",
             }}
           >
-            ${m.price}
+            €{m.price}
           </Text>
         </Column>
       </Row>

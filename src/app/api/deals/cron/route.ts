@@ -44,7 +44,7 @@ export async function GET() {
   }
 
   try {
-    await sendDigest(rssValidatedDeals);
+    await sendDigest(rssValidatedDeals, { focus: "south-america" });
   } catch (error: unknown) {
     console.error("[cron] Failed to send digest:", error);
   }
