@@ -1,0 +1,522 @@
+@reference "../../app/globals.css";
+
+/* ── Shell & trip type (Hopper-style radios above pill) ─────────────────── */
+
+.shell {
+  @apply w-full max-w-5xl mx-auto;
+}
+
+.modeRow {
+  @apply flex justify-center mb-3 md:justify-start;
+}
+
+.tripTypeFieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.35rem;
+}
+
+.tripTypeLegend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.tripTypeRadioLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: rgb(255 255 255 / 0.92);
+  user-select: none;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.tripTypeRadioLabel:has(.tripTypeRadio:not(:checked)) {
+  color: rgb(255 255 255 / 0.72);
+}
+
+.tripTypeRadio {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex-shrink: 0;
+  cursor: pointer;
+  accent-color: white;
+  transition: transform 0.15s ease;
+}
+
+.tripTypeRadio:focus-visible {
+  outline: 2px solid rgb(125 211 252);
+  outline-offset: 3px;
+  border-radius: 9999px;
+}
+
+.tripTypeRadioLabel:active .tripTypeRadio {
+  transform: scale(0.92);
+}
+
+/* ── Pill bar: white rail + Hopper-style round search ───────────────────── */
+
+.form {
+  @apply flex w-full flex-col gap-4;
+}
+
+.rail {
+  --search-pad-inline-start: 0.45rem;
+  --search-pad-inline-end: 0.55rem;
+  --search-btn-size: 2.875rem;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+  border-radius: 9999px;
+  min-height: 3.5rem;
+  background: white;
+  box-shadow:
+    0 25px 50px -12px rgb(0 0 0 / 0.35),
+    0 0 0 1px rgb(255 255 255 / 0.45);
+  /* Must stay visible: overflow-x:auto forces overflow-y to auto and clips the calendar popover. */
+  overflow: visible;
+}
+
+@media (min-width: 640px) {
+  .rail {
+    --search-pad-inline-start: 0.6rem;
+    --search-pad-inline-end: 0.9rem;
+  }
+}
+
+.segment {
+  flex: 1 1 0;
+  min-width: 4.75rem;
+  padding: 0.5rem 0.65rem 0.55rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  justify-content: flex-start;
+  border-right: 1px solid rgb(226 232 240);
+}
+
+@media (min-width: 640px) {
+  .segment {
+    padding: 0.65rem 1rem 0.75rem;
+    gap: 0.15rem;
+  }
+}
+
+/* Last column is .searchWrap, not a .segment — keep dividers between all fields. */
+
+.segmentDates {
+  flex: 1.25 1 0;
+  min-width: 12rem;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+@media (min-width: 640px) {
+  .segmentDates {
+    gap: 0.4rem;
+  }
+}
+
+.segmentLabel {
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgb(100 116 139);
+}
+
+.autocompleteField {
+  @apply relative;
+}
+
+.autocompleteDropdown {
+  @apply absolute top-full left-0 right-0 z-50 mt-2 max-h-60 list-none overflow-y-auto rounded-xl border border-slate-200 bg-white p-0 shadow-xl;
+}
+
+.autocompleteOption {
+  @apply w-full cursor-pointer border-0 bg-transparent px-4 py-2.5 text-left text-sm text-slate-800 transition-colors;
+}
+
+.autocompleteOption:hover {
+  @apply bg-slate-100;
+}
+
+.input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 0.1rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgb(15 23 42);
+  outline: none;
+}
+
+.input::placeholder {
+  color: rgb(148 163 184);
+}
+
+.input:focus {
+  box-shadow: none;
+}
+
+.select {
+  width: 100%;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0.1rem 1.5rem 0.1rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgb(15 23 42);
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0 center;
+  background-size: 14px 14px;
+}
+
+.searchWrap {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  padding: 0.25rem var(--search-pad-inline-end) 0.25rem var(--search-pad-inline-start);
+}
+
+.searchCircle {
+  flex-shrink: 0;
+  width: var(--search-btn-size);
+  height: var(--search-btn-size);
+  border-radius: 9999px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(14 165 233);
+  color: white;
+  box-shadow: 0 8px 20px -6px rgb(14 165 233 / 0.55);
+  transition:
+    filter 0.15s,
+    transform 0.1s;
+}
+
+.searchCircle:hover {
+  filter: brightness(1.06);
+}
+
+.searchCircle:active {
+  transform: scale(0.97);
+}
+
+.searchCircle:focus-visible {
+  outline: 2px solid rgb(14 165 233);
+  outline-offset: 2px;
+}
+
+.fieldError {
+  @apply text-xs leading-snug text-amber-300;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+}
+
+/* ── Date chips inside pill ─────────────────────────────────────────────── */
+
+.dateInputsWrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.dateInputRow {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.dateInput {
+  flex: 1;
+  min-width: 5.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  border: none;
+  background: rgb(241 245 249);
+  padding: 0.45rem 0.6rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgb(100 116 139);
+  transition: box-shadow 0.15s;
+  outline: none;
+}
+
+.dateInputFilled {
+  color: rgb(15 23 42);
+  font-weight: 600;
+}
+
+.dateInputActive {
+  box-shadow: 0 0 0 2px rgb(14 165 233);
+}
+
+/* ── Calendar modal ─────────────────────────────────────────────────────── */
+
+.calendarModal {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 9999;
+  background: var(--color-background-brand-default);
+  border: 1px solid rgb(71 85 105 / 0.7);
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  min-width: min(100vw - 2rem, 560px);
+  max-width: calc(100vw - 2rem);
+}
+
+@media (max-width: 639px) {
+  .calendarModal {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.calendarModalToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem 0.65rem;
+  border-bottom: 1px solid rgb(51 65 85 / 0.55);
+}
+
+.calendarLegLabel {
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: rgb(203 213 225);
+}
+
+.calendarFlexSelect {
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: 9999px;
+  border: 1px solid rgb(45 212 191 / 0.4);
+  background-color: rgb(13 148 136 / 0.22);
+  padding: 0.32rem 2rem 0.32rem 0.85rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: rgb(153 246 228);
+  outline: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394f3d4' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.45rem center;
+  background-size: 12px 12px;
+  transition:
+    border-color 0.15s,
+    background-color 0.15s;
+}
+
+.calendarFlexSelect:hover {
+  border-color: rgb(45 212 191 / 0.55);
+  background-color: rgb(13 148 136 / 0.32);
+}
+
+.calendarFlexSelect:focus {
+  border-color: rgb(45 212 191 / 0.75);
+  box-shadow: 0 0 0 2px rgb(45 212 191 / 0.2);
+}
+
+.calendarNavRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.35rem 1.25rem 0.65rem;
+}
+
+.calendarNavBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: rgb(148 163 184);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  transition:
+    background-color 0.15s,
+    color 0.15s;
+}
+
+.calendarNavBtn:hover:not(:disabled) {
+  background: rgb(51 65 85);
+  color: white;
+}
+
+.calendarNavBtn:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.calendarMonths {
+  display: flex;
+  gap: 16px;
+  padding: 0 20px 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.calendarMonth {
+  flex: 1;
+  min-width: 240px;
+  max-width: 280px;
+}
+
+.calendarMonthTitle {
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 1px;
+}
+
+.calendarDayHeader {
+  text-align: center;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  font-weight: 500;
+  color: rgb(100 116 139);
+  padding: 2px 0 8px;
+}
+
+.calendarDayCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+}
+
+.calendarDayCellInRange {
+  background: rgb(14 165 233 / 0.15);
+}
+
+.calendarDayCellRangeStart {
+  background: linear-gradient(to right, transparent 50%, rgb(14 165 233 / 0.15) 50%);
+}
+
+.calendarDayCellRangeEnd {
+  background: linear-gradient(to left, transparent 50%, rgb(14 165 233 / 0.15) 50%);
+}
+
+.calendarDay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: rgb(203 213 225);
+  font-size: 0.8125rem;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  transition:
+    background-color 0.1s,
+    color 0.1s;
+}
+
+.calendarDay:hover:not(:disabled) {
+  background: rgb(51 65 85);
+  color: white;
+}
+
+.calendarDayPast {
+  color: rgb(51 65 85);
+  cursor: not-allowed;
+}
+
+.calendarDayPast:hover {
+  background: transparent !important;
+  color: rgb(51 65 85) !important;
+}
+
+.calendarDaySelected {
+  background: rgb(14 165 233) !important;
+  color: white !important;
+  font-weight: 600;
+}
+
+.calendarDaySelected:hover {
+  background: rgb(56 189 248) !important;
+}
+
+.calendarDayToday {
+  color: rgb(56 189 248);
+  font-weight: 600;
+}
+
+.calendarFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 20px 16px;
+  border-top: 1px solid rgb(51 65 85 / 0.6);
+}
+
+.calendarDoneBtn {
+  background: rgb(14 165 233);
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 8px 24px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.calendarDoneBtn:hover {
+  background: rgb(56 189 248);
+}

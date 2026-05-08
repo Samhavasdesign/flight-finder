@@ -1,0 +1,10 @@
+{
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/api/deals/cron/route": "/api/deals/cron",
+  "/api/deals/test/route": "/api/deals/test",
+  "/api/search/route": "/api/search",
+  "/favicon.ico/route": "/favicon.ico",
+  "/page": "/",
+  "/test/page": "/test"
+}

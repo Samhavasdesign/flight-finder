@@ -1,0 +1,97 @@
+/* [project]/Flight-app/flight-finder/src/components/Toggle/Toggle.module.css [app-client] (css) */
+.Toggle-module__B_hofW__root {
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-400);
+  width: 100%;
+  display: flex;
+}
+
+.Toggle-module__B_hofW__root--disabled {
+  opacity: .4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.Toggle-module__B_hofW__textGroup {
+  flex-direction: column;
+  gap: 2px;
+  display: flex;
+}
+
+.Toggle-module__B_hofW__label {
+  font-family: var(--font-family-sans);
+  font-weight: 700;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--color-text-default-default);
+  cursor: pointer;
+  line-height: 1.43;
+}
+
+.Toggle-module__B_hofW__description {
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  color: var(--color-text-default-secondary);
+  line-height: 1.5;
+}
+
+.Toggle-module__B_hofW__switchWrap {
+  flex-shrink: 0;
+  width: 48px;
+  height: 24px;
+  position: relative;
+}
+
+.Toggle-module__B_hofW__hiddenInput {
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  position: absolute;
+  overflow: hidden;
+}
+
+.Toggle-module__B_hofW__track {
+  inset: calc(var(--spacing, .25rem) * 0);
+  cursor: pointer;
+  background-color: var(--color-background-neutral-secondary);
+  padding: var(--space-100);
+  border-radius: 0;
+  align-items: center;
+  transition: background-color;
+  display: flex;
+  position: absolute;
+}
+
+.Toggle-module__B_hofW__thumb {
+  background-color: #fff;
+  border-radius: 0;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  transition: transform;
+  display: block;
+  transform: translateX(0);
+}
+
+.Toggle-module__B_hofW__hiddenInput:checked + .Toggle-module__B_hofW__track {
+  background-color: var(--color-text-default-default);
+}
+
+.Toggle-module__B_hofW__hiddenInput:checked + .Toggle-module__B_hofW__track .Toggle-module__B_hofW__thumb {
+  transform: translateX(24px);
+}
+
+.Toggle-module__B_hofW__hiddenInput:focus-visible + .Toggle-module__B_hofW__track {
+  outline: 2px solid var(--color-text-default-default);
+  outline-offset: 2px;
+}
+
+/*# sourceMappingURL=Flight-app_flight-finder_src_components_Toggle_Toggle_module_css_0w3-wzy._.single.css.map*/

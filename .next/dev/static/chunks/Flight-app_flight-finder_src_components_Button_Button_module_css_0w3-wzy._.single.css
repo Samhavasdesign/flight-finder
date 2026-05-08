@@ -1,0 +1,205 @@
+/* [project]/Flight-app/flight-finder/src/components/Button/Button.module.css [app-client] (css) */
+.Button-module__4o9B5G__button {
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  border-style: var(--tw-border-style);
+  --tw-outline-style: none;
+  font-family: var(--font-family-sans);
+  letter-spacing: .1375rem;
+  text-transform: uppercase;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-200);
+  border-width: 0;
+  border-radius: 0;
+  outline-style: none;
+  font-weight: 700;
+  line-height: 1.5;
+  transition: background-color, color, border-color, transform;
+  display: inline-flex;
+  position: relative;
+}
+
+.Button-module__4o9B5G__button:focus-visible {
+  outline: 2px solid var(--color-text-default-default);
+  outline-offset: 2px;
+}
+
+.Button-module__4o9B5G__variant--primary {
+  background-color: var(--color-text-default-default);
+  color: var(--color-background-neutral-tertiary);
+  border: none;
+}
+
+.Button-module__4o9B5G__variant--primary:hover:not(:disabled) {
+  background-color: var(--color-background-neutral-default);
+}
+
+.Button-module__4o9B5G__variant--primary:active:not(:disabled) {
+  transform: scale(.98);
+}
+
+.Button-module__4o9B5G__variant--primary:disabled {
+  background-color: var(--color-background-default-secondary);
+  color: var(--color-text-default-secondary);
+  cursor: not-allowed;
+}
+
+.Button-module__4o9B5G__variant--secondary {
+  color: var(--color-text-default-default);
+  border: 1px solid var(--color-text-default-default);
+  background-color: #0000;
+}
+
+.Button-module__4o9B5G__variant--secondary:hover:not(:disabled) {
+  background-color: var(--color-background-neutral-tertiary);
+}
+
+.Button-module__4o9B5G__variant--secondary:active:not(:disabled) {
+  transform: scale(.98);
+}
+
+.Button-module__4o9B5G__variant--secondary:disabled {
+  color: var(--color-text-default-secondary);
+  border-color: var(--color-background-default-secondary);
+  cursor: not-allowed;
+}
+
+.Button-module__4o9B5G__variant--tertiary {
+  color: var(--color-text-default-default);
+  gap: var(--space-200);
+  background-color: #0000;
+  border: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.Button-module__4o9B5G__variant--tertiary:hover:not(:disabled) {
+  color: var(--color-text-default-secondary);
+}
+
+.Button-module__4o9B5G__variant--tertiary:active:not(:disabled) {
+  transform: scale(.98);
+}
+
+.Button-module__4o9B5G__variant--tertiary:disabled {
+  color: var(--color-text-default-secondary);
+  cursor: not-allowed;
+}
+
+.Button-module__4o9B5G__variant--tonal {
+  background-color: var(--color-background-neutral-tertiary);
+  color: var(--color-text-default-default);
+  border: none;
+}
+
+.Button-module__4o9B5G__variant--tonal:hover:not(:disabled) {
+  background-color: var(--color-background-default-secondary-hover);
+}
+
+.Button-module__4o9B5G__variant--tonal:active:not(:disabled) {
+  transform: scale(.98);
+}
+
+.Button-module__4o9B5G__variant--tonal:disabled {
+  background-color: var(--color-background-default-secondary);
+  color: var(--color-text-default-secondary);
+  cursor: not-allowed;
+}
+
+.Button-module__4o9B5G__size--sm {
+  padding: var(--space-200) var(--space-600);
+  font-size: var(--font-scale-01);
+  letter-spacing: 1px;
+  min-height: 32px;
+}
+
+.Button-module__4o9B5G__size--md {
+  padding: var(--space-400) var(--space-800);
+  letter-spacing: 1.1px;
+  min-height: 48px;
+  font-size: .6875rem;
+}
+
+.Button-module__4o9B5G__size--lg {
+  padding: var(--space-600) 40px;
+  font-size: var(--font-scale-02);
+  letter-spacing: 1.4px;
+  min-height: 64px;
+}
+
+.Button-module__4o9B5G__full-width {
+  width: 100%;
+}
+
+.Button-module__4o9B5G__icon-only {
+  padding: var(--space-400);
+  aspect-ratio: 1;
+}
+
+.Button-module__4o9B5G__icon-only.Button-module__4o9B5G__size--sm {
+  padding: var(--space-200);
+  min-width: 32px;
+  min-height: 32px;
+}
+
+.Button-module__4o9B5G__icon-only.Button-module__4o9B5G__size--lg {
+  padding: var(--space-600);
+  min-width: 64px;
+  min-height: 64px;
+}
+
+.Button-module__4o9B5G__label {
+  --tw-leading: 1;
+  line-height: 1;
+}
+
+.Button-module__4o9B5G__iconWrap {
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 12px;
+  height: 12px;
+  display: flex;
+}
+
+.Button-module__4o9B5G__iconWrap img, .Button-module__4o9B5G__iconWrap svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.Button-module__4o9B5G__iconLeft {
+  margin-right: calc(var(--space-200) * -.5);
+}
+
+.Button-module__4o9B5G__iconRight {
+  margin-left: calc(var(--space-200) * -.5);
+}
+
+.Button-module__4o9B5G__tertiaryArrow {
+  font-family: var(--font-family-sans);
+  letter-spacing: 0;
+  margin-left: var(--space-100);
+  text-transform: none;
+  align-items: center;
+  font-size: .625rem;
+  font-weight: 400;
+  line-height: 1;
+  display: inline-flex;
+}
+
+@property --tw-border-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+
+@property --tw-leading {
+  syntax: "*";
+  inherits: false
+}
+
+/*# sourceMappingURL=Flight-app_flight-finder_src_components_Button_Button_module_css_0w3-wzy._.single.css.map*/

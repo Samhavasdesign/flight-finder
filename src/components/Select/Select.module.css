@@ -1,0 +1,129 @@
+/* ==========================================================================
+   Select.module.css — The Sommelier Editorial System
+   Custom dropdown. Closed: subtle border. Open: 1px black full outline.
+   Selected item: black bg. Disabled item: 30% opacity, italic.
+   ========================================================================== */
+
+@reference "tailwindcss";
+
+.root {
+  @apply flex flex-col w-full relative;
+  gap: var(--space-200);
+}
+
+.root--disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------
+   Label
+   -------------------------------------------------------------------------- */
+
+.label {
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--color-text-default-secondary);
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   Trigger (closed state)
+   -------------------------------------------------------------------------- */
+
+.trigger {
+  @apply flex items-center justify-between w-full cursor-pointer;
+  background-color: white;
+  border: 1px solid rgba(198, 198, 198, 0.3);
+  border-radius: 0;
+  padding: 17px;
+  transition: border-color 0ms;
+  outline: none;
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--color-text-default-default);
+  outline-offset: 0;
+}
+
+/* Open state — 1px solid black */
+.trigger--open {
+  border-color: var(--color-text-default-default);
+}
+
+.triggerText {
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-02);
+  color: var(--color-text-default-default);
+  line-height: 1.43;
+}
+
+.triggerText--placeholder {
+  color: var(--color-text-default-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   Chevron
+   -------------------------------------------------------------------------- */
+
+.chevron {
+  flex-shrink: 0;
+  transition: transform 0ms; /* Instantaneous */
+}
+
+.chevron--open {
+  transform: rotate(180deg);
+}
+
+/* --------------------------------------------------------------------------
+   Dropdown panel
+   -------------------------------------------------------------------------- */
+
+.dropdown {
+  @apply absolute w-full z-50 m-0 p-0 list-none;
+  top: calc(100%);
+  left: 0;
+  background-color: white;
+  border-left: 1px solid var(--color-text-default-default);
+  border-right: 1px solid var(--color-text-default-default);
+  border-bottom: 1px solid var(--color-text-default-default);
+  border-top: none;
+  border-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Options
+   -------------------------------------------------------------------------- */
+
+.option {
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-02);
+  color: var(--color-text-default-default);
+  line-height: 1.43;
+  padding: var(--space-400);
+  cursor: pointer;
+  transition: background-color 0ms;
+}
+
+.option:hover:not(.option--selected):not(.option--disabled) {
+  background-color: var(--color-background-default-secondary-hover);
+}
+
+/* Selected — black bg, warm off-white text */
+.option--selected {
+  background-color: var(--color-text-default-default);
+  color: var(--color-background-neutral-tertiary);
+}
+
+/* Disabled — italic, faded */
+.option--disabled {
+  opacity: 0.3;
+  font-style: italic;
+  cursor: not-allowed;
+}

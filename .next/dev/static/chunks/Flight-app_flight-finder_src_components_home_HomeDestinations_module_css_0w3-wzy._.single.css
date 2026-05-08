@@ -1,0 +1,240 @@
+/* [project]/Flight-app/flight-finder/src/components/home/HomeDestinations.module.css [app-client] (css) */
+.HomeDestinations-module__cUePJa__section {
+  padding: 88px var(--layout-gutter, 40px) 32px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.HomeDestinations-module__cUePJa__headerRow {
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 28px;
+  display: flex;
+}
+
+.HomeDestinations-module__cUePJa__titleRow {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  display: flex;
+}
+
+.HomeDestinations-module__cUePJa__eyebrow {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-default-secondary, #757575);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: .75rem;
+  font-weight: 500;
+}
+
+.HomeDestinations-module__cUePJa__title {
+  font-family: var(--font-family-sans);
+  letter-spacing: -.02em;
+  color: var(--color-text-default-default, #1e1e1e);
+  margin: 10px 0 0;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.HomeDestinations-module__cUePJa__seeAll {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-default-default, #1e1e1e);
+  text-underline-offset: 3px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: .875rem;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.HomeDestinations-module__cUePJa__filters {
+  flex-wrap: wrap;
+  gap: 8px;
+  display: flex;
+}
+
+.HomeDestinations-module__cUePJa__filterBtn {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-default-default, #1e1e1e);
+  background: var(--color-background-default-default, #fff);
+  border: 1px solid var(--color-border-default-default, #d9d9d9);
+  border-radius: var(--radius-full, 9999px);
+  cursor: pointer;
+  padding: 9px 16px;
+  font-size: .8125rem;
+  font-weight: 500;
+  transition: background .12s ease-out, color .12s ease-out, border-color .12s ease-out;
+}
+
+.HomeDestinations-module__cUePJa__filterBtn:hover {
+  border-color: var(--color-text-default-default, #1e1e1e);
+}
+
+.HomeDestinations-module__cUePJa__filterBtnActive {
+  font-family: var(--font-family-sans);
+  color: #fff;
+  background: var(--color-text-default-default, #1e1e1e);
+  border: 1px solid var(--color-text-default-default, #1e1e1e);
+  border-radius: var(--radius-full, 9999px);
+  cursor: pointer;
+  padding: 9px 16px;
+  font-size: .8125rem;
+  font-weight: 600;
+  transition: background .12s ease-out, color .12s ease-out, border-color .12s ease-out;
+}
+
+.HomeDestinations-module__cUePJa__grid {
+  grid-template-columns: 1fr;
+  gap: 20px;
+  display: grid;
+}
+
+@media (min-width: 640px) {
+  .HomeDestinations-module__cUePJa__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .HomeDestinations-module__cUePJa__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.HomeDestinations-module__cUePJa__card {
+  background: var(--color-background-default-default, #fff);
+  border-radius: var(--radius-400, 16px);
+  border: 1px solid var(--color-border-default-default, #d9d9d9);
+  cursor: pointer;
+  flex-direction: column;
+  transition: box-shadow .15s ease-out;
+  display: flex;
+  overflow: hidden;
+  box-shadow: 0 1px 4px #0c0c0d0d, 0 1px 4px #0c0c0d1a;
+}
+
+.HomeDestinations-module__cUePJa__card:hover {
+  box-shadow: 0 4px 12px #0c0c0d14, 0 2px 6px #0c0c0d0f;
+}
+
+.HomeDestinations-module__cUePJa__imageWrap {
+  aspect-ratio: 4 / 3;
+  position: relative;
+  overflow: hidden;
+}
+
+.HomeDestinations-module__cUePJa__image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  transition: transform .4s ease-out;
+  display: block;
+}
+
+.HomeDestinations-module__cUePJa__card:hover .HomeDestinations-module__cUePJa__image {
+  transform: scale(1.04);
+}
+
+.HomeDestinations-module__cUePJa__tagDefault {
+  font-family: var(--font-family-sans);
+  letter-spacing: .02em;
+  border-radius: var(--radius-100, 4px);
+  background: var(--color-text-default-default, #1e1e1e);
+  color: #fff;
+  align-items: center;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}
+
+.HomeDestinations-module__cUePJa__tagSuccess {
+  font-family: var(--font-family-sans);
+  letter-spacing: .02em;
+  border-radius: var(--radius-100, 4px);
+  color: #fff;
+  background: #1aa053;
+  align-items: center;
+  padding: 6px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  display: inline-flex;
+  position: absolute;
+  top: 12px;
+  left: 12px;
+}
+
+.HomeDestinations-module__cUePJa__cardBody {
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 18px 18px;
+  display: flex;
+}
+
+.HomeDestinations-module__cUePJa__row {
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  display: flex;
+}
+
+.HomeDestinations-module__cUePJa__city {
+  font-family: var(--font-family-sans);
+  letter-spacing: -.01em;
+  color: var(--color-text-default-default, #1e1e1e);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow: hidden;
+}
+
+.HomeDestinations-module__cUePJa__country {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-default-secondary, #757575);
+  margin-top: 3px;
+  font-size: .8125rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.HomeDestinations-module__cUePJa__priceCol {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.HomeDestinations-module__cUePJa__fromLabel {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-default-secondary, #757575);
+  margin-bottom: 3px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.HomeDestinations-module__cUePJa__price {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-default-default, #1e1e1e);
+  letter-spacing: -.01em;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.HomeDestinations-module__cUePJa__meta {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-default-secondary, #757575);
+  font-size: .75rem;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/*# sourceMappingURL=Flight-app_flight-finder_src_components_home_HomeDestinations_module_css_0w3-wzy._.single.css.map*/

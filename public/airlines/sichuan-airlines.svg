@@ -1,0 +1,6 @@
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sichuan Airlines">
+  <rect width="120" height="40" rx="6" fill="#8B1D3B"/>
+  <circle cx="21" cy="20" r="7.5" fill="#FFFFFF" opacity="0.2"/>
+  <path d="M18 23C22 20 24 18 25 15" stroke="#FFFFFF" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <text x="35" y="25" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="10.5" font-weight="700">SICHUAN</text>
+</svg>

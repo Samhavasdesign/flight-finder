@@ -1,0 +1,98 @@
+/* ==========================================================================
+   Toggle.module.css — The Sommelier Editorial System
+   48×24px switch. Black when on, #c6c6c6 when off.
+   Thumb is a 16×16 white square (sharp-cut). No border radius on track.
+   Instantaneous — no easing, no spring, no transition.
+   ========================================================================== */
+
+@reference "tailwindcss";
+
+.root {
+  @apply flex items-center justify-between w-full;
+  gap: var(--space-400);
+}
+
+.root--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   Text group
+   -------------------------------------------------------------------------- */
+
+.textGroup {
+  @apply flex flex-col;
+  gap: 2px;
+}
+
+.label {
+  font-family: var(--font-family-sans);
+  font-weight: 700;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--color-text-default-default);
+  line-height: 1.43;
+  cursor: pointer;
+}
+
+.description {
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  color: var(--color-text-default-secondary);
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   Switch anatomy
+   -------------------------------------------------------------------------- */
+
+.switchWrap {
+  @apply relative flex-shrink-0;
+  width: 48px;
+  height: 24px;
+}
+
+/* Hide native input, keep accessible */
+.hiddenInput {
+  @apply sr-only;
+}
+
+/* Track */
+.track {
+  @apply absolute inset-0 flex items-center cursor-pointer;
+  background-color: var(--color-background-neutral-secondary); /* Off state */
+  border-radius: 0; /* Sharp-cut — no pill shape */
+  padding: var(--space-100);
+  transition: background-color 0ms; /* Instantaneous cut */
+}
+
+/* Thumb */
+.thumb {
+  @apply block flex-shrink-0;
+  width: 16px;
+  height: 16px;
+  background-color: white;
+  border-radius: 0; /* Square thumb */
+  transform: translateX(0); /* Off position */
+  transition: transform 0ms; /* Instantaneous cut */
+}
+
+/* On state — black track, thumb slides to right */
+.hiddenInput:checked + .track {
+  background-color: var(--color-text-default-default);
+}
+
+.hiddenInput:checked + .track .thumb {
+  transform: translateX(24px); /* 48px track - 16px thumb - 4px padding × 2 = 24px */
+}
+
+/* Focus ring */
+.hiddenInput:focus-visible + .track {
+  outline: 2px solid var(--color-text-default-default);
+  outline-offset: 2px;
+}

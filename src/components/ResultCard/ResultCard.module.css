@@ -1,0 +1,119 @@
+@reference "../../app/globals.css";
+
+.card {
+  @apply flex flex-col gap-3 rounded-2xl border border-slate-700/60 bg-slate-800 p-5 transition-colors duration-150;
+}
+
+.card:hover {
+  @apply border-slate-500/80;
+}
+
+/* ── Header row ─────────────────────────────────────────────────────────── */
+
+.header {
+  @apply flex items-start justify-between gap-2;
+}
+
+.titleStack {
+  @apply min-w-0 flex-1;
+}
+
+.destination {
+  @apply text-2xl font-bold leading-tight text-white sm:text-[1.7rem];
+}
+
+.destinationCountry {
+  @apply font-semibold text-slate-400;
+}
+
+.airportCode {
+  @apply mt-1 text-sm font-semibold uppercase tracking-[0.14em] text-slate-400;
+}
+
+.providerBadge {
+  @apply shrink-0 rounded-full border border-slate-600/80 bg-slate-900/60 px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.08em] text-slate-200;
+}
+
+/* ── Price ──────────────────────────────────────────────────────────────── */
+
+.priceRow {
+  @apply flex items-baseline gap-1;
+}
+
+.price {
+  @apply text-4xl font-extrabold tabular-nums tracking-tight text-indigo-300;
+}
+
+/* ── Outbound schedule ─────────────────────────────────────────────────── */
+
+.timingRow {
+  @apply flex flex-wrap items-center gap-1.5 text-sm text-slate-300;
+}
+
+.timingItem {
+  @apply leading-snug;
+}
+
+.scheduleRow {
+  @apply -mt-1 flex flex-wrap items-center gap-2 text-sm text-slate-400;
+}
+
+.scheduleArrow {
+  @apply select-none text-slate-500;
+}
+
+.flexDateHint {
+  @apply -mt-1 text-xs text-emerald-300;
+}
+
+/* ── Details row ────────────────────────────────────────────────────────── */
+
+.details {
+  @apply flex flex-wrap items-center gap-1.5 text-sm text-slate-400;
+}
+
+.airlineWithMark {
+  @apply inline-flex max-w-full min-w-0 items-center gap-2;
+}
+
+.airlineLogo {
+  @apply size-6 shrink-0 object-contain object-left;
+}
+
+.airlineIataBadge {
+  @apply flex size-6 shrink-0 items-center justify-center rounded-md bg-slate-900 text-[0.65rem] font-bold tracking-wide text-slate-400;
+}
+
+.airlinePlaneWrap {
+  @apply flex size-6 shrink-0 items-center justify-center text-slate-500;
+}
+
+.airlinePlane {
+  @apply size-4;
+}
+
+.detailItem {
+  @apply min-w-0 leading-snug;
+}
+
+.dot {
+  @apply select-none text-slate-600;
+}
+
+/* ── Flexible date hint (informational) ─────────────────────────────────── */
+
+.saveRow {
+  @apply -mx-5 mt-1 border-t border-slate-600/40 px-5 pt-3;
+}
+
+.saveBtn {
+  @apply w-full rounded-lg border border-indigo-500/40 bg-indigo-950/40 px-3 py-2 text-sm font-semibold text-indigo-200 transition hover:border-indigo-400/60 hover:bg-indigo-900/40 disabled:cursor-default disabled:border-slate-600 disabled:bg-slate-800/50 disabled:text-slate-500;
+}
+
+.flexBanner {
+  @apply -mx-5 mt-3 border-t border-slate-600/50 bg-slate-900/35 px-5 pt-3 text-xs leading-relaxed text-slate-400;
+}
+
+.flexSaving {
+  @apply font-semibold text-indigo-400;
+}

@@ -1,0 +1,1787 @@
+module.exports = [
+"[externals]/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js [external] (next/dist/compiled/next-server/app-route-turbo.runtime.dev.js, cjs)", ((__turbopack_context__, module, exports) => {
+
+const mod = __turbopack_context__.x("next/dist/compiled/next-server/app-route-turbo.runtime.dev.js", () => require("next/dist/compiled/next-server/app-route-turbo.runtime.dev.js"));
+
+module.exports = mod;
+}),
+"[externals]/next/dist/compiled/@opentelemetry/api [external] (next/dist/compiled/@opentelemetry/api, cjs)", ((__turbopack_context__, module, exports) => {
+
+const mod = __turbopack_context__.x("next/dist/compiled/@opentelemetry/api", () => require("next/dist/compiled/@opentelemetry/api"));
+
+module.exports = mod;
+}),
+"[externals]/next/dist/compiled/next-server/app-page-turbo.runtime.dev.js [external] (next/dist/compiled/next-server/app-page-turbo.runtime.dev.js, cjs)", ((__turbopack_context__, module, exports) => {
+
+const mod = __turbopack_context__.x("next/dist/compiled/next-server/app-page-turbo.runtime.dev.js", () => require("next/dist/compiled/next-server/app-page-turbo.runtime.dev.js"));
+
+module.exports = mod;
+}),
+"[externals]/next/dist/server/app-render/work-unit-async-storage.external.js [external] (next/dist/server/app-render/work-unit-async-storage.external.js, cjs)", ((__turbopack_context__, module, exports) => {
+
+const mod = __turbopack_context__.x("next/dist/server/app-render/work-unit-async-storage.external.js", () => require("next/dist/server/app-render/work-unit-async-storage.external.js"));
+
+module.exports = mod;
+}),
+"[externals]/next/dist/server/app-render/work-async-storage.external.js [external] (next/dist/server/app-render/work-async-storage.external.js, cjs)", ((__turbopack_context__, module, exports) => {
+
+const mod = __turbopack_context__.x("next/dist/server/app-render/work-async-storage.external.js", () => require("next/dist/server/app-render/work-async-storage.external.js"));
+
+module.exports = mod;
+}),
+"[externals]/next/dist/shared/lib/no-fallback-error.external.js [external] (next/dist/shared/lib/no-fallback-error.external.js, cjs)", ((__turbopack_context__, module, exports) => {
+
+const mod = __turbopack_context__.x("next/dist/shared/lib/no-fallback-error.external.js", () => require("next/dist/shared/lib/no-fallback-error.external.js"));
+
+module.exports = mod;
+}),
+"[externals]/next/dist/server/app-render/after-task-async-storage.external.js [external] (next/dist/server/app-render/after-task-async-storage.external.js, cjs)", ((__turbopack_context__, module, exports) => {
+
+const mod = __turbopack_context__.x("next/dist/server/app-render/after-task-async-storage.external.js", () => require("next/dist/server/app-render/after-task-async-storage.external.js"));
+
+module.exports = mod;
+}),
+"[project]/Flight-app/flight-finder/src/lib/hubs.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "FULL_HUBS",
+    ()=>FULL_HUBS,
+    "MVP_HUBS",
+    ()=>MVP_HUBS,
+    "getHubs",
+    ()=>getHubs
+]);
+const MVP_HUBS = [
+    {
+        origin: "LHR",
+        originCity: "London",
+        originContinent: "Europe"
+    },
+    {
+        origin: "CDG",
+        originCity: "Paris",
+        originContinent: "Europe"
+    },
+    {
+        origin: "AMS",
+        originCity: "Amsterdam",
+        originContinent: "Europe"
+    },
+    {
+        origin: "FCO",
+        originCity: "Rome",
+        originContinent: "Europe"
+    },
+    {
+        origin: "MAD",
+        originCity: "Madrid",
+        originContinent: "Europe"
+    },
+    {
+        origin: "LIS",
+        originCity: "Lisbon",
+        originContinent: "Europe"
+    },
+    {
+        origin: "BCN",
+        originCity: "Barcelona",
+        originContinent: "Europe"
+    },
+    {
+        origin: "DUB",
+        originCity: "Dublin",
+        originContinent: "Europe"
+    },
+    {
+        origin: "VIE",
+        originCity: "Vienna",
+        originContinent: "Europe"
+    },
+    {
+        origin: "ZRH",
+        originCity: "Zurich",
+        originContinent: "Europe"
+    },
+    {
+        origin: "CPH",
+        originCity: "Copenhagen",
+        originContinent: "Europe"
+    },
+    {
+        origin: "ARN",
+        originCity: "Stockholm",
+        originContinent: "Europe"
+    },
+    {
+        origin: "HEL",
+        originCity: "Helsinki",
+        originContinent: "Europe"
+    },
+    {
+        origin: "WAW",
+        originCity: "Warsaw",
+        originContinent: "Europe"
+    },
+    {
+        origin: "PRG",
+        originCity: "Prague",
+        originContinent: "Europe"
+    },
+    {
+        origin: "BUD",
+        originCity: "Budapest",
+        originContinent: "Europe"
+    },
+    {
+        origin: "ATH",
+        originCity: "Athens",
+        originContinent: "Europe"
+    },
+    {
+        origin: "IST",
+        originCity: "Istanbul",
+        originContinent: "Europe"
+    }
+];
+const FULL_HUBS = MVP_HUBS;
+function getHubs() {
+    return process.env.DEALS_PHASE === "mvp" ? MVP_HUBS : FULL_HUBS;
+}
+}),
+"[project]/Flight-app/flight-finder/src/lib/deals/fetchFares.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "fetchDealSurfFaresForHubs",
+    ()=>fetchDealSurfFaresForHubs,
+    "fetchFaresForHubs",
+    ()=>fetchFaresForHubs
+]);
+function normalizeSearchResponse(data) {
+    if (Array.isArray(data)) return data;
+    return Array.isArray(data.results) ? data.results : [];
+}
+function formatIsoDate(date) {
+    return date.toISOString().slice(0, 10);
+}
+/** Keep one row per origin→destination IATA code: lowest price (ties → earlier outbound date). */ function collapseCheapestPerDestination(fares) {
+    const byRoute = new Map();
+    for (const fare of fares){
+        const dest = fare.destination.trim().toUpperCase();
+        const key = `${fare.hub.origin}|${dest}`;
+        const prev = byRoute.get(key);
+        if (!prev) {
+            byRoute.set(key, fare);
+            continue;
+        }
+        if (fare.price < prev.price) {
+            byRoute.set(key, fare);
+            continue;
+        }
+        if (fare.price === prev.price && fare.departureDate < prev.departureDate) {
+            byRoute.set(key, fare);
+        }
+    }
+    return [
+        ...byRoute.values()
+    ];
+}
+async function fetchDealSurfFaresForHubs(hubs, referenceDate) {
+    const waves = [
+        {
+            depPlusDays: 37,
+            tripDays: 4
+        },
+        {
+            depPlusDays: 75,
+            tripDays: 7
+        },
+        {
+            depPlusDays: 120,
+            tripDays: 14
+        }
+    ];
+    const batches = await Promise.all(waves.map(({ depPlusDays, tripDays })=>{
+        const departure = new Date(referenceDate);
+        departure.setDate(departure.getDate() + depPlusDays);
+        const returning = new Date(departure);
+        returning.setDate(returning.getDate() + tripDays);
+        return fetchFaresForHubs(hubs, formatIsoDate(departure), formatIsoDate(returning));
+    }));
+    return collapseCheapestPerDestination(batches.flat());
+}
+async function fetchFaresForHubs(hubs, departureDate, returnDate) {
+    const baseUrl = ("TURBOPACK compile-time value", "http://localhost:3001") || "http://localhost:3001";
+    const results = await Promise.allSettled(hubs.map(async (hub)=>{
+        try {
+            // Flexible dates ±5d around anchor so search explores nearby departures; returns cheapest per destination below.
+            const response = await fetch(`${baseUrl}/api/search`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    origin: hub.origin,
+                    departureDate,
+                    returnDate,
+                    tripType: "round-trip",
+                    flexibleDates: true,
+                    dateFlexDays: 5
+                })
+            });
+            if (!response.ok) {
+                throw new Error(`Failed to fetch fares (${response.status})`);
+            }
+            const data = await response.json();
+            const searchResults = normalizeSearchResponse(data);
+            const mapped = searchResults.map((result)=>({
+                    hub,
+                    destination: result.airportCode,
+                    destinationCity: result.destination,
+                    destinationContinent: result.continent?.trim() ?? "",
+                    price: result.price,
+                    airline: result.airline,
+                    stops: result.stops,
+                    departureDate: result.departureDate,
+                    returnDate: result.returnDate ?? "",
+                    outboundDuration: result.outboundDuration ?? null,
+                    outboundDepartsAt: result.outboundDepartsAt ?? null
+                }));
+            return collapseCheapestPerDestination(mapped);
+        } catch (error) {
+            console.error(`[fetchFares] Failed for origin: ${hub.origin}`, error);
+            throw error;
+        }
+    }));
+    const allFares = [];
+    for (const result of results){
+        if (result.status === "fulfilled") {
+            allFares.push(...result.value);
+        }
+    }
+    return allFares;
+}
+}),
+"[project]/Flight-app/flight-finder/src/lib/dealScore.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "scoreFare",
+    ()=>scoreFare
+]);
+function scoreFare(price, airportCode, history) {
+    const normalizedAirportCode = airportCode.trim().toUpperCase();
+    const routeHistory = history.filter((record)=>record.airportCode.trim().toUpperCase() === normalizedAirportCode);
+    if (routeHistory.length === 0) {
+        return {
+            score: 0,
+            isGenuineDeal: false,
+            dominantSignal: "none",
+            label: "Insufficient data",
+            conservativeMode: true
+        };
+    }
+    const nonSeedCount = routeHistory.filter((record)=>record.source !== "seed").length;
+    const conservativeMode = nonSeedCount < 7;
+    const baselinePrice = routeHistory.reduce((sum, record)=>sum + record.price, 0) / routeHistory.length;
+    if (!Number.isFinite(baselinePrice) || baselinePrice <= 0) {
+        return {
+            score: 0,
+            isGenuineDeal: false,
+            dominantSignal: "none",
+            label: "Insufficient data",
+            conservativeMode
+        };
+    }
+    const priceDelta = (baselinePrice - price) / baselinePrice;
+    const threshold = conservativeMode ? 0.05 : 0.05;
+    let score = 0;
+    if (priceDelta >= threshold) {
+        const maxDelta = 0.5;
+        const normalizedProgress = Math.min((priceDelta - threshold) / (maxDelta - threshold), 1);
+        score = Math.round(65 + normalizedProgress * 35);
+    }
+    const dominantSignal = score > 0 ? "historical_delta" : "none";
+    const label = score > 0 ? `Usually $${Math.round(baselinePrice)} — currently $${Math.round(price)}${conservativeMode ? " (early data — treat as indicative)" : ""}` : "Not a deal at current pricing";
+    return {
+        score,
+        isGenuineDeal: score >= 65,
+        dominantSignal,
+        label,
+        conservativeMode
+    };
+}
+}),
+"[project]/Flight-app/flight-finder/src/lib/deals/scoreAndFilter.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "scoreAndFilter",
+    ()=>scoreAndFilter
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$dealScore$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/src/lib/dealScore.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$supabase$2d$js$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/supabase-js/dist/index.mjs [app-route] (ecmascript) <locals>");
+;
+;
+const MAX_DEALS_PER_ORIGIN = 5;
+function finalizeDealsForOrigin(deals) {
+    const nonstop = deals.filter((d)=>d.hubFare.stops === 0).sort((a, b)=>a.hubFare.price - b.hubFare.price);
+    const connecting = deals.filter((d)=>d.hubFare.stops !== 0).sort((a, b)=>a.hubFare.price - b.hubFare.price);
+    const ordered = [
+        ...nonstop,
+        ...connecting
+    ].slice(0, MAX_DEALS_PER_ORIGIN);
+    return ordered.map((d)=>({
+            hubFare: d.hubFare,
+            scoreResult: d.scoreResult,
+            isFeatured: d.hubFare.stops === 0 && d.hubFare.price < 150,
+            rssConfirmed: false
+        }));
+}
+async function scoreAndFilter(hubFares) {
+    if (hubFares.length === 0) return {};
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+    if (!supabaseUrl || !supabaseAnonKey) {
+        console.error("Supabase env vars are missing: SUPABASE_URL and SUPABASE_ANON_KEY");
+        return {};
+    }
+    const supabase = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$supabase$2d$js$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__["createClient"])(supabaseUrl, supabaseAnonKey);
+    const airportCodes = [
+        ...new Set(hubFares.map((fare)=>fare.destination.toUpperCase()))
+    ];
+    const { data, error } = await supabase.from("fare_history").select("airport_code, price, source, recorded_at").in("airport_code", airportCodes);
+    if (error) {
+        console.error("Failed to fetch fare history:", error);
+        return {};
+    }
+    const rows = Array.isArray(data) ? data : [];
+    const history = rows.map((row)=>({
+            airportCode: row.airport_code,
+            price: row.price,
+            source: row.source,
+            recordedAt: row.recorded_at
+        }));
+    const pendingByOrigin = {};
+    for (const hubFare of hubFares){
+        const scoreResult = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$dealScore$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["scoreFare"])(hubFare.price, hubFare.destination, history);
+        if (!scoreResult.isGenuineDeal) continue;
+        const origin = hubFare.hub.origin;
+        const pending = {
+            hubFare,
+            scoreResult
+        };
+        const existing = pendingByOrigin[origin];
+        if (existing) {
+            existing.push(pending);
+        } else {
+            pendingByOrigin[origin] = [
+                pending
+            ];
+        }
+    }
+    const dealsByOrigin = {};
+    for (const [origin, pendingList] of Object.entries(pendingByOrigin)){
+        const finalized = finalizeDealsForOrigin(pendingList);
+        if (finalized.length > 0) {
+            dealsByOrigin[origin] = finalized;
+        }
+    }
+    return dealsByOrigin;
+}
+}),
+"[project]/Flight-app/flight-finder/src/lib/deals/deduplicate.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "deduplicateDeals",
+    ()=>deduplicateDeals
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$supabase$2d$js$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/supabase-js/dist/index.mjs [app-route] (ecmascript) <locals>");
+;
+async function deduplicateDeals(deals) {
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+    if (!supabaseUrl || !supabaseAnonKey) {
+        console.warn("Dedup skipped: missing SUPABASE_URL or SUPABASE_ANON_KEY");
+        return deals;
+    }
+    const airportCodes = Object.values(deals).flatMap((originDeals)=>originDeals.map((deal)=>deal.hubFare.destination.trim().toUpperCase())).filter((code)=>code.length > 0);
+    if (airportCodes.length === 0) return deals;
+    const supabase = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$supabase$2d$js$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__["createClient"])(supabaseUrl, supabaseAnonKey);
+    const cutoffIso = new Date(Date.now() - 72 * 60 * 60 * 1000).toISOString();
+    const { data, error } = await supabase.from("dedup_index").select("airport_code, last_surfaced_at").in("airport_code", airportCodes).gte("last_surfaced_at", cutoffIso);
+    if (error) {
+        console.error("Dedup query failed:", error);
+        return deals;
+    }
+    const recentRows = Array.isArray(data) ? data : [];
+    const recentCodes = new Set(recentRows.map((row)=>row.airport_code.trim().toUpperCase()));
+    const filtered = {};
+    for (const [origin, originDeals] of Object.entries(deals)){
+        const keptDeals = originDeals.filter((deal)=>{
+            const airportCode = deal.hubFare.destination.trim().toUpperCase();
+            return !recentCodes.has(airportCode);
+        });
+        if (keptDeals.length > 0) {
+            filtered[origin] = keptDeals;
+        }
+    }
+    return filtered;
+}
+}),
+"[externals]/http [external] (http, cjs)", ((__turbopack_context__, module, exports) => {
+
+const mod = __turbopack_context__.x("http", () => require("http"));
+
+module.exports = mod;
+}),
+"[externals]/https [external] (https, cjs)", ((__turbopack_context__, module, exports) => {
+
+const mod = __turbopack_context__.x("https", () => require("https"));
+
+module.exports = mod;
+}),
+"[externals]/stream [external] (stream, cjs)", ((__turbopack_context__, module, exports) => {
+
+const mod = __turbopack_context__.x("stream", () => require("stream"));
+
+module.exports = mod;
+}),
+"[externals]/events [external] (events, cjs)", ((__turbopack_context__, module, exports) => {
+
+const mod = __turbopack_context__.x("events", () => require("events"));
+
+module.exports = mod;
+}),
+"[externals]/timers [external] (timers, cjs)", ((__turbopack_context__, module, exports) => {
+
+const mod = __turbopack_context__.x("timers", () => require("timers"));
+
+module.exports = mod;
+}),
+"[externals]/url [external] (url, cjs)", ((__turbopack_context__, module, exports) => {
+
+const mod = __turbopack_context__.x("url", () => require("url"));
+
+module.exports = mod;
+}),
+"[project]/Flight-app/flight-finder/src/lib/deals/validateWithRSS.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "validateWithRSS",
+    ()=>validateWithRSS
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$rss$2d$parser$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/rss-parser/index.js [app-route] (ecmascript)");
+;
+const RSS_FEED_URLS = [
+    "https://www.secretflying.com/feed/",
+    "https://theflightdeal.com/feed/",
+    "https://www.airfarewatchdog.com/blog/feed/"
+];
+async function fetchFeedStrings(url) {
+    try {
+        const parser = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$rss$2d$parser$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"]();
+        const feed = await parser.parseURL(url);
+        const strings = [];
+        for (const item of feed.items){
+            if (typeof item.title === "string" && item.title.trim() !== "") {
+                strings.push(item.title);
+            }
+            const description = typeof item.contentSnippet === "string" && item.contentSnippet.trim() !== "" ? item.contentSnippet : typeof item.content === "string" && item.content.trim() !== "" ? item.content : typeof item.summary === "string" ? item.summary : "";
+            if (description.trim() !== "") {
+                strings.push(description);
+            }
+        }
+        return strings;
+    } catch (error) {
+        console.error("[validateWithRSS] RSS fetch/parse failed:", url, error);
+        return [];
+    }
+}
+function rssMatchesDeal(combinedLower, deal) {
+    const destCode = deal.hubFare.destination.trim();
+    const destCity = deal.hubFare.destinationCity.trim();
+    const originCity = deal.hubFare.hub.originCity.trim();
+    const needles = [
+        destCode,
+        destCity,
+        originCity
+    ].filter((s)=>s.length > 0);
+    for (const needle of needles){
+        if (combinedLower.includes(needle.toLowerCase())) {
+            return true;
+        }
+    }
+    return false;
+}
+async function validateWithRSS(deals) {
+    const results = await Promise.allSettled(RSS_FEED_URLS.map((url)=>fetchFeedStrings(url)));
+    const combinedChunks = [];
+    for(let i = 0; i < results.length; i++){
+        const settled = results[i];
+        if (settled.status === "fulfilled") {
+            combinedChunks.push(...settled.value);
+        } else {
+            console.error("[validateWithRSS] Feed promise rejected:", RSS_FEED_URLS[i], settled.reason);
+        }
+    }
+    const combinedLower = combinedChunks.join(" ").toLowerCase();
+    const updated = {};
+    for (const [origin, originDeals] of Object.entries(deals)){
+        updated[origin] = originDeals.map((deal)=>({
+                ...deal,
+                rssConfirmed: rssMatchesDeal(combinedLower, deal)
+            }));
+    }
+    return updated;
+}
+}),
+"[project]/Flight-app/flight-finder/src/data/airportCoordinates.json.[json].cjs [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+
+module.exports = JSON.parse("{\"POM\":{\"lat\":-9.44338035583496,\"lon\":147.22000122070312},\"YEG\":{\"lat\":53.3097000122,\"lon\":-113.580001831},\"YHZ\":{\"lat\":44.8807983398,\"lon\":-63.5085983276},\"YOW\":{\"lat\":45.3224983215332,\"lon\":-75.66919708251953},\"YQB\":{\"lat\":46.7911,\"lon\":-71.393303},\"YUL\":{\"lat\":45.4706001282,\"lon\":-73.7407989502},\"YVR\":{\"lat\":49.193901062,\"lon\":-123.183998108},\"YWG\":{\"lat\":49.909999847399995,\"lon\":-97.2398986816},\"YYC\":{\"lat\":51.113899231,\"lon\":-114.019996643},\"YYJ\":{\"lat\":48.646900177,\"lon\":-123.426002502},\"YYZ\":{\"lat\":43.6772003174,\"lon\":-79.63059997559999},\"ALG\":{\"lat\":36.69100189208984,\"lon\":3.215409994125366},\"CZL\":{\"lat\":36.2760009765625,\"lon\":6.620389938354492},\"ORN\":{\"lat\":35.6239013672,\"lon\":-0.6211829781529999},\"COO\":{\"lat\":6.357230186462402,\"lon\":2.384350061416626},\"OUA\":{\"lat\":12.3532,\"lon\":-1.51242},\"BOY\":{\"lat\":11.160099983215332,\"lon\":-4.33096981048584},\"ACC\":{\"lat\":5.605189800262451,\"lon\":-0.16678600013256073},\"ABJ\":{\"lat\":5.261390209197998,\"lon\":-3.9262900352478023},\"BYK\":{\"lat\":7.738800048828125,\"lon\":-5.073669910430908},\"ABV\":{\"lat\":9.006790161132812,\"lon\":7.263169765472412},\"ENU\":{\"lat\":6.474269866943359,\"lon\":7.561960220336914},\"KAN\":{\"lat\":12.0476,\"lon\":8.52462},\"LOS\":{\"lat\":6.5773701667785645,\"lon\":3.321160078048706},\"PHC\":{\"lat\":5.0154900550842285,\"lon\":6.94959020614624},\"NIM\":{\"lat\":13.4815,\"lon\":2.18361},\"MIR\":{\"lat\":35.75809860229492,\"lon\":10.75469970703125},\"TUN\":{\"lat\":36.85100173950195,\"lon\":10.22719955444336},\"SFA\":{\"lat\":34.71799850463867,\"lon\":10.690999984741213},\"TOE\":{\"lat\":33.939701080322266,\"lon\":8.110560417175293},\"LFW\":{\"lat\":6.165609836578369,\"lon\":1.2545100450515747},\"BRU\":{\"lat\":50.9014015198,\"lon\":4.48443984985},\"CRL\":{\"lat\":50.459202,\"lon\":4.45382},\"SXF\":{\"lat\":52.380001,\"lon\":13.5225},\"FRA\":{\"lat\":50.033333,\"lon\":8.570556},\"HAM\":{\"lat\":53.630401611328,\"lon\":9.9882297515869},\"CGN\":{\"lat\":50.8658981323,\"lon\":7.1427397728},\"DUS\":{\"lat\":51.289501,\"lon\":6.76678},\"MUC\":{\"lat\":48.353802,\"lon\":11.7861},\"NUE\":{\"lat\":49.498699,\"lon\":11.078056},\"LEJ\":{\"lat\":51.423889,\"lon\":12.236389},\"STR\":{\"lat\":48.689899444599995,\"lon\":9.22196006775},\"BRE\":{\"lat\":53.0475006104,\"lon\":8.78666973114},\"TLL\":{\"lat\":59.41329956049999,\"lon\":24.832799911499997},\"HEL\":{\"lat\":60.317199707031,\"lon\":24.963300704956},\"RVN\":{\"lat\":66.564796447754,\"lon\":25.830400466919},\"TMP\":{\"lat\":61.414100646973,\"lon\":23.604400634766},\"TKU\":{\"lat\":60.514099121094,\"lon\":22.262800216675},\"BFS\":{\"lat\":54.6575012207,\"lon\":-6.2158298492399995},\"BHX\":{\"lat\":52.453899383499994,\"lon\":-1.74802994728},\"MAN\":{\"lat\":53.35369873046875,\"lon\":-2.2749500274658203},\"LTN\":{\"lat\":51.874698638916016,\"lon\":-0.36833301186561584},\"LGW\":{\"lat\":51.148102,\"lon\":-0.190278},\"LHR\":{\"lat\":51.4706,\"lon\":-0.461941},\"GLA\":{\"lat\":55.8718986511,\"lon\":-4.43306016922},\"EDI\":{\"lat\":55.95000076293945,\"lon\":-3.372499942779541},\"STN\":{\"lat\":51.8849983215,\"lon\":0.234999999404},\"AMS\":{\"lat\":52.308601,\"lon\":4.76389},\"EIN\":{\"lat\":51.4500999451,\"lon\":5.37452983856},\"ORK\":{\"lat\":51.84130096435547,\"lon\":-8.491109848022461},\"DUB\":{\"lat\":53.421299,\"lon\":-6.27007},\"BLL\":{\"lat\":55.7402992249,\"lon\":9.15178012848},\"CPH\":{\"lat\":55.617900848389,\"lon\":12.656000137329},\"AAL\":{\"lat\":57.0927589138,\"lon\":9.84924316406},\"LUX\":{\"lat\":49.6233333,\"lon\":6.2044444},\"BGO\":{\"lat\":60.29339981,\"lon\":5.218140125},\"OSL\":{\"lat\":60.121,\"lon\":11.0502},\"TRD\":{\"lat\":63.4578018,\"lon\":10.9239998},\"SVG\":{\"lat\":58.876701354,\"lon\":5.6377801895},\"GDN\":{\"lat\":54.37760162353515,\"lon\":18.46619987487793},\"KRK\":{\"lat\":50.077702,\"lon\":19.7848},\"KTW\":{\"lat\":50.4743,\"lon\":19.08},\"WAW\":{\"lat\":52.1656990051,\"lon\":20.967100143399996},\"WRO\":{\"lat\":51.1026992798,\"lon\":16.885799408},\"GOT\":{\"lat\":57.662799835205,\"lon\":12.279800415039},\"MMX\":{\"lat\":55.536305364,\"lon\":13.3761978149},\"ARN\":{\"lat\":59.651901245117,\"lon\":17.918600082397},\"BFN\":{\"lat\":-29.0926990509,\"lon\":26.302400589},\"CPT\":{\"lat\":-33.9648017883,\"lon\":18.6016998291},\"DUR\":{\"lat\":-29.6144444444,\"lon\":31.1197222222},\"ELS\":{\"lat\":-33.0355987549,\"lon\":27.8258991241},\"GRJ\":{\"lat\":-34.0056,\"lon\":22.378902},\"JNB\":{\"lat\":-26.1392,\"lon\":28.246},\"HLA\":{\"lat\":-25.938499450699997,\"lon\":27.9260997772},\"PLZ\":{\"lat\":-33.9849014282,\"lon\":25.6173000336},\"UTN\":{\"lat\":-28.39909935,\"lon\":21.2602005005},\"GBE\":{\"lat\":-24.555201,\"lon\":25.9182},\"BZV\":{\"lat\":-4.251699924468994,\"lon\":15.253000259399414},\"MTS\":{\"lat\":-26.52899932861328,\"lon\":31.3075008392334},\"SSG\":{\"lat\":3.755270004272461,\"lon\":8.708720207214355},\"MRU\":{\"lat\":-20.430201,\"lon\":57.683601},\"DLA\":{\"lat\":4.0060801506,\"lon\":9.71947956085},\"LVI\":{\"lat\":-17.821800231933594,\"lon\":25.82270050048828},\"LUN\":{\"lat\":-15.3308000565,\"lon\":28.4526004791},\"NLA\":{\"lat\":-12.998100280762,\"lon\":28.66489982605},\"DZA\":{\"lat\":-12.804699897766112,\"lon\":45.28110122680664},\"RUN\":{\"lat\":-20.88710021972656,\"lon\":55.51029968261719},\"TNR\":{\"lat\":-18.7969,\"lon\":47.478802},\"MJN\":{\"lat\":-15.6668417421,\"lon\":46.351232528699995},\"LAD\":{\"lat\":-8.85837,\"lon\":13.2312},\"POG\":{\"lat\":-0.7117390036582947,\"lon\":8.754380226135254},\"LBV\":{\"lat\":0.458600014448,\"lon\":9.4122800827},\"BEW\":{\"lat\":-19.79640007019043,\"lon\":34.90760040283203},\"MPM\":{\"lat\":-25.920799,\"lon\":32.572601},\"SEZ\":{\"lat\":-4.67434,\"lon\":55.521801},\"NDJ\":{\"lat\":12.1337,\"lon\":15.034},\"BUQ\":{\"lat\":-20.017401,\"lon\":28.617901},\"VFA\":{\"lat\":-18.09589958190918,\"lon\":25.839000701904297},\"HRE\":{\"lat\":-17.931801,\"lon\":31.0928},\"BLZ\":{\"lat\":-15.679100036621094,\"lon\":34.9739990234375},\"LLW\":{\"lat\":-13.7894001007,\"lon\":33.78099823},\"MSU\":{\"lat\":-29.462299346923828,\"lon\":27.552499771118164},\"FIH\":{\"lat\":-4.38575,\"lon\":15.4446},\"FBM\":{\"lat\":-11.5913000107,\"lon\":27.5308990479},\"BKO\":{\"lat\":12.5335,\"lon\":-7.94994},\"BJL\":{\"lat\":13.338000297546388,\"lon\":-16.65220069885254},\"FUE\":{\"lat\":28.452699661254883,\"lon\":-13.863800048828123},\"LPA\":{\"lat\":27.931900024414062,\"lon\":-15.38659954071045},\"ACE\":{\"lat\":28.945499,\"lon\":-13.6052},\"TFS\":{\"lat\":28.044500351,\"lon\":-16.5725002289},\"TFN\":{\"lat\":28.4827003479,\"lon\":-16.3414993286},\"FNA\":{\"lat\":8.61644,\"lon\":-13.1955},\"ROB\":{\"lat\":6.23379,\"lon\":-10.3623},\"AGA\":{\"lat\":30.325000762939453,\"lon\":-9.41306972503662},\"FEZ\":{\"lat\":33.9272994995,\"lon\":-4.977960109709999},\"CMN\":{\"lat\":33.36750030517578,\"lon\":-7.589970111846924},\"RAK\":{\"lat\":31.606899261499997,\"lon\":-8.03629970551},\"OZZ\":{\"lat\":30.9391002655,\"lon\":-6.909430027010001},\"TNG\":{\"lat\":35.726898193400004,\"lon\":-5.91689014435},\"ZIG\":{\"lat\":12.5556,\"lon\":-16.281799},\"DKR\":{\"lat\":14.739700317382812,\"lon\":-17.49020004272461},\"NKC\":{\"lat\":18.31,\"lon\":-15.9697222},\"NDB\":{\"lat\":20.9330997467041,\"lon\":-17.030000686645508},\"SID\":{\"lat\":16.7414,\"lon\":-22.9494},\"ADD\":{\"lat\":8.97789001465,\"lon\":38.7993011475},\"DIR\":{\"lat\":9.624699592590332,\"lon\":41.85419845581055},\"MQX\":{\"lat\":13.467399597167969,\"lon\":39.53350067138672},\"BJM\":{\"lat\":-3.3240199089050293,\"lon\":29.318500518798828},\"HGA\":{\"lat\":9.518170356750488,\"lon\":44.08879852294922},\"CAI\":{\"lat\":30.12190055847168,\"lon\":31.40559959411621},\"HRG\":{\"lat\":27.178300857543945,\"lon\":33.799400329589844},\"LXR\":{\"lat\":25.671,\"lon\":32.7066},\"ASW\":{\"lat\":23.9643993378,\"lon\":32.8199996948},\"KIS\":{\"lat\":-0.0861390009522438,\"lon\":34.72890090942383},\"MBA\":{\"lat\":-4.034830093383789,\"lon\":39.594200134277344},\"KGL\":{\"lat\":-1.96863,\"lon\":30.1395},\"KRT\":{\"lat\":15.589500427246094,\"lon\":32.553199768066406},\"DAR\":{\"lat\":-6.87811,\"lon\":39.202599},\"JRO\":{\"lat\":-3.42940998077,\"lon\":37.0745010376},\"MWZ\":{\"lat\":-2.4444899559020996,\"lon\":32.932701110839844},\"ZNZ\":{\"lat\":-6.22202,\"lon\":39.224899},\"EBB\":{\"lat\":0.042386,\"lon\":32.443501},\"TIA\":{\"lat\":41.4146995544,\"lon\":19.7206001282},\"SOF\":{\"lat\":42.69669342041016,\"lon\":23.411436080932617},\"LCA\":{\"lat\":34.875099182128906,\"lon\":33.624900817871094},\"PFO\":{\"lat\":34.71799850463867,\"lon\":32.48569869995117},\"DBV\":{\"lat\":42.5614013671875,\"lon\":18.268199920654297},\"SPU\":{\"lat\":43.53889846801758,\"lon\":16.29800033569336},\"ZAG\":{\"lat\":45.7429008484,\"lon\":16.0687999725},\"ALC\":{\"lat\":38.28219985961914,\"lon\":-0.5581560134887695},\"BIO\":{\"lat\":43.30110168457031,\"lon\":-2.9106099605560303},\"BCN\":{\"lat\":41.2971,\"lon\":2.07846},\"GRO\":{\"lat\":41.901000977,\"lon\":2.7605500221},\"IBZ\":{\"lat\":38.8728981018,\"lon\":1.3731199502899998},\"MAD\":{\"lat\":40.471926,\"lon\":-3.56264},\"AGP\":{\"lat\":36.67490005493164,\"lon\":-4.499110221862793},\"VLC\":{\"lat\":39.4893,\"lon\":-0.481625},\"SVQ\":{\"lat\":37.417999267578125,\"lon\":-5.8931097984313965},\"BOD\":{\"lat\":44.8283004761,\"lon\":-0.715556025505},\"TLS\":{\"lat\":43.629101,\"lon\":1.36382},\"LYS\":{\"lat\":45.725556,\"lon\":5.081111},\"MRS\":{\"lat\":43.439271922,\"lon\":5.22142410278},\"NCE\":{\"lat\":43.6584014893,\"lon\":7.215869903560001},\"CDG\":{\"lat\":49.012798,\"lon\":2.55},\"ORY\":{\"lat\":48.7233333,\"lon\":2.3794444},\"LIL\":{\"lat\":50.563332,\"lon\":3.086886},\"NTE\":{\"lat\":47.153198242200006,\"lon\":-1.61073005199},\"BSL\":{\"lat\":47.59,\"lon\":7.5291667},\"SXB\":{\"lat\":48.538299560546875,\"lon\":7.628230094909668},\"HER\":{\"lat\":35.3396987915,\"lon\":25.1802997589},\"CFU\":{\"lat\":39.601898193359375,\"lon\":19.911699295043945},\"RHO\":{\"lat\":36.405399322509766,\"lon\":28.086200714111328},\"SKG\":{\"lat\":40.51969909667969,\"lon\":22.97089958190918},\"BUD\":{\"lat\":47.42976,\"lon\":19.261093},\"BRI\":{\"lat\":41.138901,\"lon\":16.760599},\"CTA\":{\"lat\":37.466801,\"lon\":15.0664},\"PMO\":{\"lat\":38.175999,\"lon\":13.091},\"MXP\":{\"lat\":45.6306,\"lon\":8.72811},\"TRN\":{\"lat\":45.200802,\"lon\":7.64963},\"LIN\":{\"lat\":45.445099,\"lon\":9.27674},\"BLQ\":{\"lat\":44.5354,\"lon\":11.2887},\"VRN\":{\"lat\":45.395699,\"lon\":10.8885},\"VCE\":{\"lat\":45.505299,\"lon\":12.3519},\"FCO\":{\"lat\":41.8002778,\"lon\":12.2388889},\"NAP\":{\"lat\":40.886002,\"lon\":14.2908},\"PSA\":{\"lat\":43.683899,\"lon\":10.3927},\"FLR\":{\"lat\":43.810001,\"lon\":11.2051},\"LJU\":{\"lat\":46.223701,\"lon\":14.4576},\"PRG\":{\"lat\":50.1008,\"lon\":14.26},\"TLV\":{\"lat\":32.01139831542969,\"lon\":34.88669967651367},\"MLA\":{\"lat\":35.857498,\"lon\":14.4775},\"INN\":{\"lat\":47.260201,\"lon\":11.344},\"LNZ\":{\"lat\":48.2332,\"lon\":14.1875},\"SZG\":{\"lat\":47.7933006287,\"lon\":13.0043001175},\"VIE\":{\"lat\":48.110298156738,\"lon\":16.569700241089},\"FAO\":{\"lat\":37.0144004822,\"lon\":-7.96590995789},\"OPO\":{\"lat\":41.2481002808,\"lon\":-8.68138980865},\"LIS\":{\"lat\":38.7813,\"lon\":-9.13592},\"SJJ\":{\"lat\":43.82460021972656,\"lon\":18.331499099731445},\"CLJ\":{\"lat\":46.78519821166992,\"lon\":23.686199188232425},\"IAS\":{\"lat\":47.17850112915039,\"lon\":27.6205997467041},\"OTP\":{\"lat\":44.5711111,\"lon\":26.085},\"TSR\":{\"lat\":45.80989837646485,\"lon\":21.337900161743164},\"GVA\":{\"lat\":46.23809814453125,\"lon\":6.108950138092041},\"ZRH\":{\"lat\":47.464699,\"lon\":8.54917},\"ESB\":{\"lat\":40.1281013489,\"lon\":32.995098114},\"AYT\":{\"lat\":36.898701,\"lon\":30.800501},\"GZT\":{\"lat\":36.9472007751,\"lon\":37.4786987305},\"ADB\":{\"lat\":38.2924003601,\"lon\":27.156999588},\"DIY\":{\"lat\":37.893901825,\"lon\":40.2010002136},\"TZX\":{\"lat\":40.99509811401367,\"lon\":39.78969955444336},\"SKP\":{\"lat\":41.961601,\"lon\":21.621401},\"BEG\":{\"lat\":44.8184013367,\"lon\":20.3090991974},\"TGD\":{\"lat\":42.359402,\"lon\":19.2519},\"PUJ\":{\"lat\":18.567399978599997,\"lon\":-68.36340332030001},\"POP\":{\"lat\":19.75790023803711,\"lon\":-70.56999969482422},\"SDQ\":{\"lat\":18.42970085144,\"lon\":-69.668899536133},\"GUA\":{\"lat\":14.5833,\"lon\":-90.527496},\"SAP\":{\"lat\":15.4526,\"lon\":-87.923599},\"TGU\":{\"lat\":14.06089973449707,\"lon\":-87.21720123291016},\"KIN\":{\"lat\":17.935699462890625,\"lon\":-76.7874984741211},\"MBJ\":{\"lat\":18.503700256347656,\"lon\":-77.91339874267578},\"AGU\":{\"lat\":21.705601,\"lon\":-102.318001},\"HUX\":{\"lat\":15.7753,\"lon\":-96.262604},\"GDL\":{\"lat\":20.521799087524418,\"lon\":-103.31099700927734},\"HMO\":{\"lat\":29.095899581900003,\"lon\":-111.047996521},\"BJX\":{\"lat\":20.9935,\"lon\":-101.481003},\"MID\":{\"lat\":20.937000274699997,\"lon\":-89.657699585},\"MEX\":{\"lat\":19.4363,\"lon\":-99.072098},\"MTY\":{\"lat\":25.7784996033,\"lon\":-100.107002258},\"MZT\":{\"lat\":23.1613998413,\"lon\":-106.26599884},\"OAX\":{\"lat\":16.9999008179,\"lon\":-96.726600647},\"PVR\":{\"lat\":20.680099487304688,\"lon\":-105.25399780273438},\"SJD\":{\"lat\":23.15180015563965,\"lon\":-109.72100067138672},\"SLP\":{\"lat\":22.254299163800003,\"lon\":-100.930999756},\"TIJ\":{\"lat\":32.541099548339844,\"lon\":-116.97000122070312},\"CUN\":{\"lat\":21.036500930800003,\"lon\":-86.8770980835},\"VER\":{\"lat\":19.1459007263,\"lon\":-96.1873016357},\"ZIH\":{\"lat\":17.601600647,\"lon\":-101.460998535},\"MGA\":{\"lat\":12.14150047302246,\"lon\":-86.16819763183594},\"PTY\":{\"lat\":9.0713596344,\"lon\":-79.3834991455},\"SJO\":{\"lat\":9.993860244750977,\"lon\":-84.20880126953125},\"SAL\":{\"lat\":13.4409,\"lon\":-89.055702},\"HAV\":{\"lat\":22.989200592041016,\"lon\":-82.40910339355469},\"GCM\":{\"lat\":19.2928009033,\"lon\":-81.3576965332},\"NAS\":{\"lat\":25.0389995575,\"lon\":-77.46620178219999},\"BZE\":{\"lat\":17.539100646972656,\"lon\":-88.30819702148438},\"NAN\":{\"lat\":-17.755399703979492,\"lon\":177.4429931640625},\"SUV\":{\"lat\":-18.04330062866211,\"lon\":178.5590057373047},\"TBU\":{\"lat\":-21.241199493408203,\"lon\":-175.14999389648438},\"TRW\":{\"lat\":1.3816399574279783,\"lon\":173.14700317382812},\"APW\":{\"lat\":-13.829999923706056,\"lon\":-172.00799560546875},\"PPG\":{\"lat\":-14.3310003281,\"lon\":-170.710006714},\"VLI\":{\"lat\":-17.699300765991,\"lon\":168.32000732422},\"AKL\":{\"lat\":-37.008098602299995,\"lon\":174.792007446},\"CHC\":{\"lat\":-43.48939895629883,\"lon\":172.53199768066406},\"DUD\":{\"lat\":-45.9281005859375,\"lon\":170.197998046875},\"HLZ\":{\"lat\":-37.8666992188,\"lon\":175.332000732},\"WLG\":{\"lat\":-41.3272018433,\"lon\":174.804992676},\"BAH\":{\"lat\":26.27079963684082,\"lon\":50.63359832763672},\"AHB\":{\"lat\":18.240400314299997,\"lon\":42.65660095210001},\"HOF\":{\"lat\":25.28529930114746,\"lon\":49.485198974609375},\"DMM\":{\"lat\":26.471200942993164,\"lon\":49.79790115356445},\"GIZ\":{\"lat\":16.901100158691406,\"lon\":42.58580017089844},\"JED\":{\"lat\":21.6796,\"lon\":39.156502},\"MED\":{\"lat\":24.5534,\"lon\":39.705101},\"RUH\":{\"lat\":24.957599639892575,\"lon\":46.69879913330078},\"TIF\":{\"lat\":21.483001,\"lon\":40.543442},\"AWZ\":{\"lat\":31.337400436399996,\"lon\":48.7620010376},\"IFN\":{\"lat\":32.75080108642578,\"lon\":51.86130142211914},\"THR\":{\"lat\":35.68920135498047,\"lon\":51.31340026855469},\"KER\":{\"lat\":30.274400711099997,\"lon\":56.9510993958},\"SYZ\":{\"lat\":29.53919982910156,\"lon\":52.58980178833008},\"TBZ\":{\"lat\":38.1338996887207,\"lon\":46.23500061035156},\"AMM\":{\"lat\":31.7226009369,\"lon\":35.9931983948},\"AQJ\":{\"lat\":29.611600875854492,\"lon\":35.01810073852539},\"KWI\":{\"lat\":29.226600646972656,\"lon\":47.96889877319336},\"BEY\":{\"lat\":33.820899963378906,\"lon\":35.488399505615234},\"AUH\":{\"lat\":24.433000564575195,\"lon\":54.651100158691406},\"DXB\":{\"lat\":25.2527999878,\"lon\":55.3643989563},\"RKT\":{\"lat\":25.613500595092773,\"lon\":55.93880081176758},\"SHJ\":{\"lat\":25.32859992980957,\"lon\":55.5172004699707},\"MCT\":{\"lat\":23.593299865722656,\"lon\":58.284400939941406},\"SLL\":{\"lat\":17.038700103759766,\"lon\":54.09130096435547},\"KHI\":{\"lat\":24.9065,\"lon\":67.160797},\"LHE\":{\"lat\":31.5216007232666,\"lon\":74.40360260009766},\"PEW\":{\"lat\":33.993900299072266,\"lon\":71.51460266113281},\"BSR\":{\"lat\":30.549100875854492,\"lon\":47.66210174560547},\"DAM\":{\"lat\":33.4114990234375,\"lon\":36.51559829711914},\"GUM\":{\"lat\":13.4834003448,\"lon\":144.796005249},\"KHH\":{\"lat\":22.57710075378418,\"lon\":120.3499984741211},\"TPE\":{\"lat\":25.0777,\"lon\":121.233002},\"NRT\":{\"lat\":35.7647018433,\"lon\":140.386001587},\"CTS\":{\"lat\":42.77519989013672,\"lon\":141.69200134277344},\"FUK\":{\"lat\":33.585899353027344,\"lon\":130.4510040283203},\"OIT\":{\"lat\":33.479400634799994,\"lon\":131.736999512},\"HIJ\":{\"lat\":34.4361000061,\"lon\":132.919006348},\"ITM\":{\"lat\":34.785499572753906,\"lon\":135.43800354003906},\"HND\":{\"lat\":35.552299,\"lon\":139.779999},\"CJU\":{\"lat\":33.51129913330078,\"lon\":126.49299621582033},\"PUS\":{\"lat\":35.1795005798,\"lon\":128.93800354},\"GMP\":{\"lat\":37.5583,\"lon\":126.791},\"OKA\":{\"lat\":26.1958007812,\"lon\":127.646003723},\"MNL\":{\"lat\":14.5086,\"lon\":121.019997},\"GES\":{\"lat\":6.05800008774,\"lon\":125.096000671},\"BCD\":{\"lat\":10.7764,\"lon\":123.014999},\"ILO\":{\"lat\":10.833017,\"lon\":122.493358},\"KLO\":{\"lat\":11.679400444,\"lon\":122.375999451},\"PPS\":{\"lat\":9.742119789123535,\"lon\":118.75900268554688},\"ROS\":{\"lat\":-32.9036,\"lon\":-60.785},\"AEP\":{\"lat\":-34.5592,\"lon\":-58.4156},\"COR\":{\"lat\":-31.323601,\"lon\":-64.208},\"MDZ\":{\"lat\":-32.8316993713,\"lon\":-68.7929000854},\"TUC\":{\"lat\":-26.8409,\"lon\":-65.104897},\"IGR\":{\"lat\":-25.737301,\"lon\":-54.4734},\"SLA\":{\"lat\":-24.856000900299996,\"lon\":-65.4861984253},\"CRD\":{\"lat\":-45.7853,\"lon\":-67.4655},\"USH\":{\"lat\":-54.8433,\"lon\":-68.2958},\"NQN\":{\"lat\":-38.949001,\"lon\":-68.155701},\"BRC\":{\"lat\":-41.151199,\"lon\":-71.157501},\"AJU\":{\"lat\":-10.984000206,\"lon\":-37.0703010559},\"BEL\":{\"lat\":-1.3792500495900002,\"lon\":-48.4762992859},\"BSB\":{\"lat\":-15.86916732788086,\"lon\":-47.92083358764648},\"CNF\":{\"lat\":-19.62444305419922,\"lon\":-43.97194290161133},\"CGR\":{\"lat\":-20.4687004089,\"lon\":-54.6725006104},\"CWB\":{\"lat\":-25.5284996033,\"lon\":-49.1758003235},\"CGB\":{\"lat\":-15.6528997421,\"lon\":-56.1166992188},\"MAO\":{\"lat\":-3.0386099815368652,\"lon\":-60.04970169067383},\"FLN\":{\"lat\":-27.670278549194336,\"lon\":-48.5525016784668},\"FOR\":{\"lat\":-3.776279926300049,\"lon\":-38.53260040283203},\"GIG\":{\"lat\":-22.8099994659,\"lon\":-43.2505569458},\"GYN\":{\"lat\":-16.631999969482422,\"lon\":-49.220699310302734},\"GRU\":{\"lat\":-23.435556411743164,\"lon\":-46.47305679321289},\"IOS\":{\"lat\":-14.815999984741,\"lon\":-39.033199310303},\"JPA\":{\"lat\":-7.145833015440001,\"lon\":-34.9486122131},\"VCP\":{\"lat\":-23.0074005127,\"lon\":-47.1344985962},\"MGF\":{\"lat\":-23.479444503799996,\"lon\":-52.01222229},\"MCZ\":{\"lat\":-9.510809898376465,\"lon\":-35.79169845581055},\"MCP\":{\"lat\":0.0506640002131,\"lon\":-51.0722007751},\"NAT\":{\"lat\":-5.768056,\"lon\":-35.376111},\"POA\":{\"lat\":-29.994400024414062,\"lon\":-51.1713981628418},\"PVH\":{\"lat\":-8.70928955078125,\"lon\":-63.90230178833008},\"RBR\":{\"lat\":-9.868888854980469,\"lon\":-67.89805603027344},\"REC\":{\"lat\":-8.126489639282227,\"lon\":-34.92359924316406},\"SDU\":{\"lat\":-22.910499572799996,\"lon\":-43.1631011963},\"SLZ\":{\"lat\":-2.585360050201416,\"lon\":-44.234100341796875},\"CGH\":{\"lat\":-23.626110076904297,\"lon\":-46.65638732910156},\"SSA\":{\"lat\":-12.9086112976,\"lon\":-38.3224983215},\"THE\":{\"lat\":-5.0599398613,\"lon\":-42.8235015869},\"UDI\":{\"lat\":-18.883612,\"lon\":-48.225277},\"PUQ\":{\"lat\":-53.002602,\"lon\":-70.854599},\"IQQ\":{\"lat\":-20.535200119018555,\"lon\":-70.1812973022461},\"SCL\":{\"lat\":-33.393001556396484,\"lon\":-70.78579711914062},\"ANF\":{\"lat\":-23.444501,\"lon\":-70.445099},\"CCP\":{\"lat\":-36.772701,\"lon\":-73.063103},\"IPC\":{\"lat\":-27.1648006439,\"lon\":-109.42199707},\"PMC\":{\"lat\":-41.43889999389648,\"lon\":-73.09400177001953},\"CUE\":{\"lat\":-2.88947,\"lon\":-78.984398},\"GPS\":{\"lat\":-0.45375800132751465,\"lon\":-90.26589965820312},\"GYE\":{\"lat\":-2.1574199199699997,\"lon\":-79.88359832760001},\"UIO\":{\"lat\":-0.129166666667,\"lon\":-78.3575},\"ASU\":{\"lat\":-25.239999771118164,\"lon\":-57.52000045776367},\"BGA\":{\"lat\":7.1265,\"lon\":-73.1848},\"BOG\":{\"lat\":4.70159,\"lon\":-74.1469},\"BAQ\":{\"lat\":10.8896,\"lon\":-74.7808},\"CTG\":{\"lat\":10.4424,\"lon\":-75.513},\"CLO\":{\"lat\":3.54322,\"lon\":-76.3816},\"PEI\":{\"lat\":4.81267,\"lon\":-75.7395},\"MDE\":{\"lat\":6.16454,\"lon\":-75.4231},\"SMR\":{\"lat\":11.1196,\"lon\":-74.2306},\"ADZ\":{\"lat\":12.5836,\"lon\":-81.7112},\"CBB\":{\"lat\":-17.421100616455078,\"lon\":-66.1771011352539},\"LPB\":{\"lat\":-16.5132999420166,\"lon\":-68.19229888916016},\"SRE\":{\"lat\":-19.007099151611328,\"lon\":-65.2886962890625},\"VVI\":{\"lat\":-17.6448,\"lon\":-63.135399},\"PBM\":{\"lat\":5.4528298377999995,\"lon\":-55.1878013611},\"CAY\":{\"lat\":4.819809913639999,\"lon\":-52.360401153599994},\"LIM\":{\"lat\":-12.0219,\"lon\":-77.114305},\"JUL\":{\"lat\":-15.467100143432615,\"lon\":-70.158203125},\"IQT\":{\"lat\":-3.7847399711608887,\"lon\":-73.30879974365234},\"AQP\":{\"lat\":-16.3411006927,\"lon\":-71.5830993652},\"TRU\":{\"lat\":-8.08141040802002,\"lon\":-79.10880279541016},\"PIU\":{\"lat\":-5.20574998856,\"lon\":-80.61640167239999},\"CUZ\":{\"lat\":-13.535699844400002,\"lon\":-71.9387969971},\"MVD\":{\"lat\":-34.838402,\"lon\":-56.0308},\"MAR\":{\"lat\":10.5582084656,\"lon\":-71.7278594971},\"CCS\":{\"lat\":10.601194,\"lon\":-66.991222},\"ANU\":{\"lat\":17.1367,\"lon\":-61.792702},\"BGI\":{\"lat\":13.0746002197,\"lon\":-59.4925003052},\"SJU\":{\"lat\":18.4393997192,\"lon\":-66.0018005371},\"UVF\":{\"lat\":13.7332,\"lon\":-60.952599},\"POS\":{\"lat\":10.595399856567385,\"lon\":-61.33720016479492},\"ALA\":{\"lat\":43.35210037231445,\"lon\":77.04049682617188},\"FRU\":{\"lat\":43.0612983704,\"lon\":74.4776000977},\"OSS\":{\"lat\":40.6090011597,\"lon\":72.793296814},\"GYD\":{\"lat\":40.467498779296875,\"lon\":50.04669952392578},\"KHV\":{\"lat\":48.52799987793,\"lon\":135.18800354004},\"VVO\":{\"lat\":43.39899826049805,\"lon\":132.1479949951172},\"IKT\":{\"lat\":52.268001556396,\"lon\":104.38899993896},\"KBP\":{\"lat\":50.345001220703125,\"lon\":30.894699096679688},\"LWO\":{\"lat\":49.8125,\"lon\":23.956100463867188},\"ODS\":{\"lat\":46.42679977416992,\"lon\":30.67650032043457},\"LED\":{\"lat\":59.80030059814453,\"lon\":30.262500762939453},\"KRR\":{\"lat\":45.034698486328,\"lon\":39.170501708984},\"ROV\":{\"lat\":47.493888,\"lon\":39.924722},\"AER\":{\"lat\":43.449902,\"lon\":39.9566},\"CEK\":{\"lat\":55.305801,\"lon\":61.5033},\"SVX\":{\"lat\":56.743099212646,\"lon\":60.802700042725},\"ASB\":{\"lat\":37.986801,\"lon\":58.361},\"DYU\":{\"lat\":38.5433006287,\"lon\":68.8249969482},\"SKD\":{\"lat\":39.70050048828125,\"lon\":66.98380279541016},\"TAS\":{\"lat\":41.257900238,\"lon\":69.2811965942},\"SVO\":{\"lat\":55.972599,\"lon\":37.4146},\"VKO\":{\"lat\":55.5914993286,\"lon\":37.2615013123},\"KZN\":{\"lat\":55.606201171875,\"lon\":49.278701782227},\"UFA\":{\"lat\":54.557498931885,\"lon\":55.874401092529},\"KUF\":{\"lat\":53.504901885986,\"lon\":50.16429901123},\"AMD\":{\"lat\":23.0771999359,\"lon\":72.63469696039999},\"BOM\":{\"lat\":19.0886993408,\"lon\":72.8678970337},\"BHO\":{\"lat\":23.2875003815,\"lon\":77.3374023438},\"GOI\":{\"lat\":15.3808002472,\"lon\":73.8313980103},\"IDR\":{\"lat\":22.7217998505,\"lon\":75.8011016846},\"NAG\":{\"lat\":21.092199325561523,\"lon\":79.04720306396484},\"PNQ\":{\"lat\":18.58209991455078,\"lon\":73.9197006225586},\"RAJ\":{\"lat\":22.3092002869,\"lon\":70.77950286869999},\"RPR\":{\"lat\":21.180401,\"lon\":81.7388},\"UDR\":{\"lat\":24.617700576799997,\"lon\":73.89610290530001},\"CMB\":{\"lat\":7.180759906768799,\"lon\":79.88410186767578},\"PNH\":{\"lat\":11.546600341796877,\"lon\":104.84400177001952},\"REP\":{\"lat\":13.410699844400002,\"lon\":103.81300354},\"IXB\":{\"lat\":26.68120002746582,\"lon\":88.32859802246094},\"BBI\":{\"lat\":20.244400024399997,\"lon\":85.8178024292},\"CCU\":{\"lat\":22.654699325561523,\"lon\":88.44670104980469},\"PAT\":{\"lat\":25.591299057,\"lon\":85.0879974365},\"CGP\":{\"lat\":22.24959945678711,\"lon\":91.81330108642578},\"DAC\":{\"lat\":23.843347,\"lon\":90.397783},\"HKG\":{\"lat\":22.308901,\"lon\":113.915001},\"ATQ\":{\"lat\":31.7096004486,\"lon\":74.7973022461},\"VNS\":{\"lat\":25.4524002075,\"lon\":82.8592987061},\"IXC\":{\"lat\":30.673500061035156,\"lon\":76.78849792480469},\"DEL\":{\"lat\":28.5665,\"lon\":77.103104},\"JDH\":{\"lat\":26.251100540161133,\"lon\":73.04889678955078},\"JAI\":{\"lat\":26.8242,\"lon\":75.812202},\"IXJ\":{\"lat\":32.6890983582,\"lon\":74.8374023438},\"LKO\":{\"lat\":26.7605991364,\"lon\":80.8892974854},\"SXR\":{\"lat\":33.987098693847656,\"lon\":74.77420043945312},\"LPQ\":{\"lat\":19.897300720214844,\"lon\":102.16100311279295},\"VTE\":{\"lat\":17.988300323500003,\"lon\":102.56300354},\"MFM\":{\"lat\":22.149599,\"lon\":113.592003},\"KTM\":{\"lat\":27.6966,\"lon\":85.3591},\"BLR\":{\"lat\":13.1979,\"lon\":77.706299},\"CJB\":{\"lat\":11.029999733,\"lon\":77.0434036255},\"COK\":{\"lat\":10.152,\"lon\":76.401901},\"IXM\":{\"lat\":9.83450984955,\"lon\":78.09339904790001},\"MAA\":{\"lat\":12.990005493164062,\"lon\":80.16929626464844},\"IXZ\":{\"lat\":11.641200065612791,\"lon\":92.72969818115234},\"TRZ\":{\"lat\":10.765399932861328,\"lon\":78.70970153808594},\"PBH\":{\"lat\":27.4032001495,\"lon\":89.42459869380001},\"MLE\":{\"lat\":4.191830158233643,\"lon\":73.52909851074219},\"DMK\":{\"lat\":13.9125995636,\"lon\":100.607002258},\"UTP\":{\"lat\":12.67990016937256,\"lon\":101.00499725341795},\"KBV\":{\"lat\":8.09912014008,\"lon\":98.9861984253},\"USM\":{\"lat\":9.547789573669998,\"lon\":100.06199646},\"HKT\":{\"lat\":8.1132,\"lon\":98.316902},\"HDY\":{\"lat\":6.93320989609,\"lon\":100.392997742},\"DAD\":{\"lat\":16.043899536132812,\"lon\":108.1989974975586},\"HAN\":{\"lat\":21.221200942993164,\"lon\":105.80699920654295},\"HUI\":{\"lat\":16.401500701899998,\"lon\":107.70300293},\"PQC\":{\"lat\":10.1698,\"lon\":103.9931},\"SGN\":{\"lat\":10.8187999725,\"lon\":106.652000427},\"MDL\":{\"lat\":21.70219993591309,\"lon\":95.97789764404295},\"RGN\":{\"lat\":16.907300949099998,\"lon\":96.1332015991},\"UPG\":{\"lat\":-5.061629772186279,\"lon\":119.5540008544922},\"DJJ\":{\"lat\":-2.5769500733,\"lon\":140.5160064698},\"MDC\":{\"lat\":1.5492600202560425,\"lon\":124.9260025024414},\"AMQ\":{\"lat\":-3.7102599144,\"lon\":128.089004517},\"KCH\":{\"lat\":1.4846999645233154,\"lon\":110.34700012207033},\"MYY\":{\"lat\":4.322010040283203,\"lon\":113.98699951171876},\"BKI\":{\"lat\":5.9372100830078125,\"lon\":116.0510025024414},\"BWN\":{\"lat\":4.944200038909912,\"lon\":114.9280014038086},\"CGK\":{\"lat\":-6.1255698204,\"lon\":106.65599823},\"PDG\":{\"lat\":-0.786917,\"lon\":100.280998},\"PLM\":{\"lat\":-2.8982501029968,\"lon\":104.69999694824},\"JHB\":{\"lat\":1.64131,\"lon\":103.669998},\"KUL\":{\"lat\":2.745579957962,\"lon\":101.70999908447},\"LGK\":{\"lat\":6.329730033874512,\"lon\":99.72869873046876},\"PEN\":{\"lat\":5.297140121459961,\"lon\":100.2770004272461},\"DIL\":{\"lat\":-8.54640007019,\"lon\":125.526000977},\"SIN\":{\"lat\":1.35019,\"lon\":103.994003},\"BNE\":{\"lat\":-27.384199142456055,\"lon\":153.11700439453125},\"OOL\":{\"lat\":-28.1644001007,\"lon\":153.505004883},\"CNS\":{\"lat\":-16.885799408,\"lon\":145.755004883},\"TSV\":{\"lat\":-19.252500534057617,\"lon\":146.76499938964844},\"HBA\":{\"lat\":-42.836101532,\"lon\":147.509994507},\"MEL\":{\"lat\":-37.673302,\"lon\":144.843002},\"ADL\":{\"lat\":-34.945,\"lon\":138.531006},\"PER\":{\"lat\":-31.94029998779297,\"lon\":115.96700286865234},\"SYD\":{\"lat\":-33.94609832763672,\"lon\":151.177001953125},\"PEK\":{\"lat\":40.080101013183594,\"lon\":116.58499908447266},\"TSN\":{\"lat\":39.124401092499994,\"lon\":117.346000671},\"CAN\":{\"lat\":23.39240074157715,\"lon\":113.29900360107422},\"CSX\":{\"lat\":28.189199447599997,\"lon\":113.220001221},\"SZX\":{\"lat\":22.639299392700195,\"lon\":113.81099700927734},\"CGO\":{\"lat\":34.519699096699995,\"lon\":113.841003418},\"WUH\":{\"lat\":30.7838,\"lon\":114.208},\"LHW\":{\"lat\":36.5152015686,\"lon\":103.620002747},\"XIY\":{\"lat\":34.447102,\"lon\":108.751999},\"ULN\":{\"lat\":47.843102,\"lon\":106.766998},\"KMG\":{\"lat\":25.1019444,\"lon\":102.9291667},\"XMN\":{\"lat\":24.54400062561035,\"lon\":118.12799835205078},\"FOC\":{\"lat\":25.93510055541992,\"lon\":119.66300201416016},\"HGH\":{\"lat\":30.22949981689453,\"lon\":120.43399810791016},\"NKG\":{\"lat\":31.742000579833984,\"lon\":118.86199951171876},\"TAO\":{\"lat\":36.2661018372,\"lon\":120.374000549},\"SHA\":{\"lat\":31.197900772094727,\"lon\":121.33599853515624},\"CKG\":{\"lat\":29.719200134277344,\"lon\":106.64199829101562},\"CTU\":{\"lat\":30.578500747680664,\"lon\":103.9469985961914},\"URC\":{\"lat\":43.907100677490234,\"lon\":87.47419738769531},\"HRB\":{\"lat\":45.6234016418457,\"lon\":126.25},\"PVG\":{\"lat\":31.143400192260746,\"lon\":121.80500030517578},\"HBE\":{\"lat\":30.917699813842773,\"lon\":29.696399688720703},\"BOS\":{\"lat\":42.36429977,\"lon\":-71.00520325},\"OAK\":{\"lat\":37.721298,\"lon\":-122.221001},\"OGG\":{\"lat\":20.8986,\"lon\":-156.429993},\"MCI\":{\"lat\":39.2976,\"lon\":-94.713898},\"PHX\":{\"lat\":33.43429946899414,\"lon\":-112.01200103759766},\"SFO\":{\"lat\":37.61899948120117,\"lon\":-122.375},\"MEM\":{\"lat\":35.04240036010742,\"lon\":-89.97669982910156},\"LAX\":{\"lat\":33.94250107,\"lon\":-118.4079971},\"CLE\":{\"lat\":41.4117012024,\"lon\":-81.8498001099},\"CVG\":{\"lat\":39.0488014221,\"lon\":-84.6678009033},\"EWR\":{\"lat\":40.692501068115234,\"lon\":-74.168701171875},\"DAL\":{\"lat\":32.847099,\"lon\":-96.851799},\"DCA\":{\"lat\":38.8521,\"lon\":-77.037697},\"FLL\":{\"lat\":26.072599,\"lon\":-80.152702},\"SLC\":{\"lat\":40.78839874267578,\"lon\":-111.97799682617188},\"IAH\":{\"lat\":29.984399795532227,\"lon\":-95.34140014648438},\"HOU\":{\"lat\":29.64539909,\"lon\":-95.27890015},\"PIT\":{\"lat\":40.49150085,\"lon\":-80.23290253},\"MIA\":{\"lat\":25.79319953918457,\"lon\":-80.29060363769531},\"SEA\":{\"lat\":47.449001,\"lon\":-122.308998},\"IND\":{\"lat\":39.7173,\"lon\":-86.294403},\"ORF\":{\"lat\":36.89459991455078,\"lon\":-76.20120239257812},\"RDU\":{\"lat\":35.877601623535156,\"lon\":-78.7874984741211},\"TUS\":{\"lat\":32.1161003112793,\"lon\":-110.94100189208984},\"PVD\":{\"lat\":41.732601,\"lon\":-71.420403},\"DTW\":{\"lat\":42.212398529052734,\"lon\":-83.35340118408203},\"TPA\":{\"lat\":27.975500106811523,\"lon\":-82.533203125},\"DFW\":{\"lat\":32.896801,\"lon\":-97.038002},\"AUS\":{\"lat\":30.194499969482425,\"lon\":-97.6698989868164},\"STL\":{\"lat\":38.748697,\"lon\":-90.370003},\"ATL\":{\"lat\":33.6367,\"lon\":-84.428101},\"BNA\":{\"lat\":36.1245002746582,\"lon\":-86.6781997680664},\"LGA\":{\"lat\":40.77719879,\"lon\":-73.87259674},\"IAD\":{\"lat\":38.94449997,\"lon\":-77.45580292},\"MKE\":{\"lat\":42.94720077514648,\"lon\":-87.89659881591797},\"PDX\":{\"lat\":45.58869934,\"lon\":-122.5979996},\"HNL\":{\"lat\":21.32062,\"lon\":-157.924228},\"SAN\":{\"lat\":32.7336006165,\"lon\":-117.190002441},\"MDW\":{\"lat\":41.785999,\"lon\":-87.752403},\"SJC\":{\"lat\":37.362598,\"lon\":-121.929001},\"DEN\":{\"lat\":39.861698150635,\"lon\":-104.672996521},\"PHL\":{\"lat\":39.87189865112305,\"lon\":-75.24109649658203},\"CMH\":{\"lat\":39.998001,\"lon\":-82.891899},\"ANC\":{\"lat\":61.17440032958984,\"lon\":-149.99600219726562},\"JFK\":{\"lat\":40.63980103,\"lon\":-73.77890015},\"SMF\":{\"lat\":38.69540023803711,\"lon\":-121.59100341796876},\"ORD\":{\"lat\":41.9786,\"lon\":-87.9048},\"BWI\":{\"lat\":39.1754,\"lon\":-76.668297},\"MSP\":{\"lat\":44.882,\"lon\":-93.221802},\"MSY\":{\"lat\":29.99340057373047,\"lon\":-90.25800323486328},\"SNA\":{\"lat\":33.67570114,\"lon\":-117.8679962},\"CLT\":{\"lat\":35.2140007019043,\"lon\":-80.94309997558594},\"LAS\":{\"lat\":36.08010101,\"lon\":-115.1520004},\"MCO\":{\"lat\":28.429399490356445,\"lon\":-81.30899810791016},\"BKK\":{\"lat\":13.681099891662598,\"lon\":100.74700164794922},\"JOG\":{\"lat\":-7.788179874420166,\"lon\":110.43199920654295},\"BTH\":{\"lat\":1.12102997303,\"lon\":104.119003296},\"BPN\":{\"lat\":-1.26827001572,\"lon\":116.893997192},\"SUB\":{\"lat\":-7.37982988357544,\"lon\":112.78700256347656},\"SOC\":{\"lat\":-7.516089916229248,\"lon\":110.75700378417967},\"ICN\":{\"lat\":37.46910095214844,\"lon\":126.45099639892578},\"CNX\":{\"lat\":18.766799926799997,\"lon\":98.962600708},\"CEI\":{\"lat\":19.952299118,\"lon\":99.8828964233},\"DPS\":{\"lat\":-8.7481698989868,\"lon\":115.16699981689},\"ATH\":{\"lat\":37.9364013672,\"lon\":23.9444999695},\"NGO\":{\"lat\":34.8583984375,\"lon\":136.80499267578125},\"RIX\":{\"lat\":56.92359924316406,\"lon\":23.971099853515625},\"VNO\":{\"lat\":54.634102,\"lon\":25.285801},\"EVN\":{\"lat\":40.1473007202,\"lon\":44.3959007263},\"ASM\":{\"lat\":15.291899681091309,\"lon\":38.910701751708984},\"BUS\":{\"lat\":41.6102981567,\"lon\":41.5997009277},\"TBS\":{\"lat\":41.6692008972,\"lon\":44.95470047},\"ADE\":{\"lat\":12.829500198364258,\"lon\":45.02880096435547},\"SAH\":{\"lat\":15.476300239562988,\"lon\":44.21969985961914},\"EZE\":{\"lat\":-34.8222,\"lon\":-58.5358},\"EBL\":{\"lat\":36.23759841918945,\"lon\":43.96319961547851},\"KIX\":{\"lat\":34.42729949951172,\"lon\":135.24400329589844},\"PMI\":{\"lat\":39.551700592,\"lon\":2.73881006241},\"DRW\":{\"lat\":-12.41469955444336,\"lon\":130.8769989013672},\"ABQ\":{\"lat\":35.040199,\"lon\":-106.609001},\"DME\":{\"lat\":55.40879821777344,\"lon\":37.90629959106445},\"SYX\":{\"lat\":18.302900314331055,\"lon\":109.41200256347656},\"SSH\":{\"lat\":27.9773006439,\"lon\":34.3950004578},\"NBO\":{\"lat\":-1.31923997402,\"lon\":36.9277992249},\"HIR\":{\"lat\":-9.4280004501343,\"lon\":160.05499267578},\"PPT\":{\"lat\":-17.553699,\"lon\":-149.606995},\"INU\":{\"lat\":-0.547458,\"lon\":166.919006},\"OVB\":{\"lat\":55.012599945068,\"lon\":82.650703430176},\"DVO\":{\"lat\":7.1255202293396,\"lon\":125.64600372314452},\"FNC\":{\"lat\":32.697899,\"lon\":-16.7745},\"STM\":{\"lat\":-2.424721956253052,\"lon\":-54.785831451416016},\"WDH\":{\"lat\":-22.4799,\"lon\":17.4709},\"TNA\":{\"lat\":36.857200622558594,\"lon\":117.21600341796876},\"JIB\":{\"lat\":11.547300338745115,\"lon\":43.15950012207031},\"HAK\":{\"lat\":19.934900283813477,\"lon\":110.45899963378906},\"BGW\":{\"lat\":33.262500762900004,\"lon\":44.2346000671},\"SDK\":{\"lat\":5.900899887084961,\"lon\":118.05899810791016},\"SHE\":{\"lat\":41.639801025390625,\"lon\":123.48300170898438},\"VDH\":{\"lat\":17.515,\"lon\":106.590556},\"NSI\":{\"lat\":3.722559928894043,\"lon\":11.553299903869627},\"CKY\":{\"lat\":9.57689,\"lon\":-13.612},\"CEB\":{\"lat\":10.307499885559,\"lon\":123.97899627686},\"BPS\":{\"lat\":-16.438601,\"lon\":-39.080898},\"GEO\":{\"lat\":6.498549938201904,\"lon\":-58.25410079956055},\"SAW\":{\"lat\":40.898601532,\"lon\":29.3092002869},\"IKA\":{\"lat\":35.416099548339844,\"lon\":51.152198791503906},\"MHD\":{\"lat\":36.235198974609375,\"lon\":59.64099884033203},\"KMS\":{\"lat\":6.714560031890869,\"lon\":-1.5908199548721311},\"MQP\":{\"lat\":-25.3831996918,\"lon\":31.1056003571},\"VPY\":{\"lat\":-19.15130043029785,\"lon\":33.42900085449219},\"OXB\":{\"lat\":11.894800186157228,\"lon\":-15.65369987487793},\"RAI\":{\"lat\":14.924500465393066,\"lon\":-23.493499755859375},\"MGQ\":{\"lat\":2.0144400596618652,\"lon\":45.3046989440918},\"MJI\":{\"lat\":32.894100189208984,\"lon\":13.276000022888184},\"AAN\":{\"lat\":24.261699676513672,\"lon\":55.60919952392578},\"ISU\":{\"lat\":35.5617485046,\"lon\":45.3167381287},\"HRK\":{\"lat\":49.924800872802734,\"lon\":36.290000915527344},\"GAU\":{\"lat\":26.10610008239746,\"lon\":91.58589935302734},\"CXR\":{\"lat\":11.99820041656494,\"lon\":109.21900177001952},\"VCA\":{\"lat\":10.085100174,\"lon\":105.711997986},\"PDP\":{\"lat\":-34.855098724365234,\"lon\":-55.09429931640625},\"WVB\":{\"lat\":-22.9799,\"lon\":14.6453},\"NYT\":{\"lat\":19.623501,\"lon\":96.200996},\"NJF\":{\"lat\":31.989853,\"lon\":44.404317},\"LOP\":{\"lat\":-8.757322,\"lon\":116.276675},\"HRI\":{\"lat\":6.284467,\"lon\":81.124128},\"KNO\":{\"lat\":3.642222,\"lon\":98.885278},\"PKX\":{\"lat\":39.509945,\"lon\":116.41092},\"DOH\":{\"lat\":25.273056,\"lon\":51.608056},\"HYD\":{\"lat\":17.2313175201,\"lon\":78.4298553467},\"IST\":{\"lat\":41.275278,\"lon\":28.751944},\"ISB\":{\"lat\":33.560713,\"lon\":72.851613},\"BER\":{\"lat\":52.3667,\"lon\":13.5033},\"NQZ\":{\"lat\":51.0222,\"lon\":71.4669}}");
+}),
+"[project]/Flight-app/flight-finder/src/lib/routeDistance.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getRouteDistanceKm",
+    ()=>getRouteDistanceKm,
+    "haversineKm",
+    ()=>haversineKm
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$data$2f$airportCoordinates$2e$json$2e5b$json$5d2e$cjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/src/data/airportCoordinates.json.[json].cjs [app-route] (ecmascript)");
+;
+const EARTH_RADIUS_KM = 6371;
+function haversineKm(a, b) {
+    const toRad = (d)=>d * Math.PI / 180;
+    const dLat = toRad(b.lat - a.lat);
+    const dLon = toRad(b.lon - a.lon);
+    const lat1 = toRad(a.lat);
+    const lat2 = toRad(b.lat);
+    const sinDLat = Math.sin(dLat / 2);
+    const sinDLon = Math.sin(dLon / 2);
+    const h = sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLon * sinDLon;
+    const c = 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+    return EARTH_RADIUS_KM * c;
+}
+function getRouteDistanceKm(originCode, destinationCode) {
+    const o = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$data$2f$airportCoordinates$2e$json$2e5b$json$5d2e$cjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"][originCode.toUpperCase()];
+    const d = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$data$2f$airportCoordinates$2e$json$2e5b$json$5d2e$cjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"][destinationCode.toUpperCase()];
+    if (!o || !d) return null;
+    return Math.round(haversineKm(o, d) * 10) / 10;
+}
+}),
+"[project]/Flight-app/flight-finder/src/lib/travelSearchWindow.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "formatApiTravelSpan",
+    ()=>formatApiTravelSpan,
+    "formatBestForPhrase",
+    ()=>formatBestForPhrase,
+    "formatCompactRoundTripDates",
+    ()=>formatCompactRoundTripDates,
+    "formatMonthRangeFromIso",
+    ()=>formatMonthRangeFromIso,
+    "formatTravelWindowHumanRange",
+    ()=>formatTravelWindowHumanRange,
+    "formatTripSpanDaysPhrase",
+    ()=>formatTripSpanDaysPhrase,
+    "getTravelSearchWindow",
+    ()=>getTravelSearchWindow,
+    "parseIsoDateUtc",
+    ()=>parseIsoDateUtc
+]);
+function formatIsoDateUtc(y, m, d) {
+    const mm = String(m + 1).padStart(2, "0");
+    const dd = String(d).padStart(2, "0");
+    return `${y}-${mm}-${dd}`;
+}
+function addDaysUtc(date, days) {
+    const next = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+    next.setUTCDate(next.getUTCDate() + days);
+    return next;
+}
+function getTravelSearchWindow(routeDistanceKm, currentDate) {
+    const d = routeDistanceKm ?? 3500;
+    let category;
+    let offsetEarliest;
+    let offsetLatest;
+    let displayLabel;
+    let suggestedTripLengths;
+    if (d < 1500) {
+        category = "short-haul";
+        offsetEarliest = 14;
+        offsetLatest = 60;
+        displayLabel = "Leave Soon";
+        suggestedTripLengths = {
+            minDays: 3,
+            maxDays: 5
+        };
+    } else if (d <= 5500) {
+        category = "medium-haul";
+        offsetEarliest = 30;
+        offsetLatest = 120;
+        displayLabel = "Worth Planning";
+        suggestedTripLengths = {
+            minDays: 5,
+            maxDays: 10
+        };
+    } else {
+        category = "long-haul";
+        offsetEarliest = 60;
+        offsetLatest = 180;
+        displayLabel = "Big Escape";
+        suggestedTripLengths = {
+            minDays: 10,
+            maxDays: 21
+        };
+    }
+    const earliest = addDaysUtc(currentDate, offsetEarliest);
+    const latest = addDaysUtc(currentDate, offsetLatest);
+    return {
+        category,
+        earliestDepartureDate: formatIsoDateUtc(earliest.getUTCFullYear(), earliest.getUTCMonth(), earliest.getUTCDate()),
+        latestDepartureDate: formatIsoDateUtc(latest.getUTCFullYear(), latest.getUTCMonth(), latest.getUTCDate()),
+        suggestedTripLengths,
+        displayLabel
+    };
+}
+function parseIsoDateUtc(iso) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso.trim());
+    if (!m) return null;
+    const y = Number(m[1]);
+    const mo = Number(m[2]) - 1;
+    const d = Number(m[3]);
+    const dt = new Date(Date.UTC(y, mo, d));
+    if (dt.getUTCFullYear() !== y || dt.getUTCMonth() !== mo || dt.getUTCDate() !== d) return null;
+    return dt;
+}
+const utcFmt = new Intl.DateTimeFormat("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC"
+});
+function formatApiTravelSpan(departureIso, returnIso) {
+    const a = parseIsoDateUtc(departureIso);
+    const b = parseIsoDateUtc(returnIso);
+    if (!a || !b) return "";
+    const left = utcFmt.format(a);
+    const right = utcFmt.format(b);
+    return `${left} – ${right}`;
+}
+function formatMonthRangeFromIso(isoStart, isoEnd) {
+    const a = parseIsoDateUtc(isoStart);
+    const b = parseIsoDateUtc(isoEnd);
+    if (!a || !b) return "";
+    const mo = (x)=>x.toLocaleDateString("en-US", {
+            month: "long",
+            timeZone: "UTC"
+        });
+    const yr = (x)=>x.getUTCFullYear();
+    const ma = mo(a);
+    const mb = mo(b);
+    const ya = yr(a);
+    const yb = yr(b);
+    if (ma === mb && ya === yb) return `${ma} ${ya}`;
+    if (ya === yb) return `${ma}–${mb} ${ya}`;
+    return `${ma} ${ya}–${mb} ${yb}`;
+}
+function formatTravelWindowHumanRange(isoStart, isoEnd) {
+    const a = parseIsoDateUtc(isoStart);
+    const b = parseIsoDateUtc(isoEnd);
+    if (!a || !b) return "";
+    const monthLong = (d)=>d.toLocaleDateString("en-US", {
+            month: "long",
+            timeZone: "UTC"
+        });
+    const ma = monthLong(a);
+    const mb = monthLong(b);
+    const ya = a.getUTCFullYear();
+    const yb = b.getUTCFullYear();
+    const da = a.getUTCDate();
+    const startPart = da >= 15 ? `late ${ma}` : ma;
+    if (ma === mb && ya === yb) {
+        return da >= 15 ? `late ${ma} ${ya}` : `${ma} ${ya}`;
+    }
+    if (ya === yb) {
+        return `${startPart}–${mb} ${ya}`;
+    }
+    return `${startPart} ${ya}–${mb} ${yb}`;
+}
+function formatBestForPhrase(category, lengths) {
+    const { minDays, maxDays } = lengths;
+    if (category === "short-haul") {
+        return `Best for: ${minDays}–${maxDays} day city break`;
+    }
+    if (category === "medium-haul") {
+        return `Best for: ${minDays}–${maxDays} day trip`;
+    }
+    return `Best for: ${minDays}–${maxDays} day escape`;
+}
+function formatCompactRoundTripDates(depIso, retIso) {
+    const a = parseIsoDateUtc(depIso);
+    const b = parseIsoDateUtc(retIso);
+    if (!a || !b) return null;
+    const moShort = (d)=>d.toLocaleDateString("en-US", {
+            month: "short",
+            timeZone: "UTC"
+        });
+    const da = a.getUTCDate();
+    const db = b.getUTCDate();
+    const ma = a.getUTCMonth();
+    const mb = b.getUTCMonth();
+    const ya = a.getUTCFullYear();
+    const yb = b.getUTCFullYear();
+    if (ma === mb && ya === yb) {
+        return `${moShort(a)} ${da}–${db}, ${ya}`;
+    }
+    if (ya === yb) {
+        return `${moShort(a)} ${da} – ${moShort(b)} ${db}, ${ya}`;
+    }
+    return `${moShort(a)} ${da}, ${ya} – ${moShort(b)} ${db}, ${yb}`;
+}
+function formatTripSpanDaysPhrase(depIso, retIso) {
+    const a = parseIsoDateUtc(depIso);
+    const b = parseIsoDateUtc(retIso);
+    if (!a || !b) return null;
+    const span = Math.round((b.getTime() - a.getTime()) / 86400000);
+    if (span <= 0) return null;
+    return `${span}-day trip`;
+}
+}),
+"[project]/Flight-app/flight-finder/src/lib/deals/dealTravelPresentation.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "buildDealDigestCard",
+    ()=>buildDealDigestCard,
+    "getDealTravelLines",
+    ()=>getDealTravelLines
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$routeDistance$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/src/lib/routeDistance.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$travelSearchWindow$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/src/lib/travelSearchWindow.ts [app-route] (ecmascript)");
+;
+;
+function isValidIsoDate(s) {
+    return /^\d{4}-\d{2}-\d{2}$/.test(s.trim());
+}
+function stopsPhrase(stops) {
+    if (stops === 0) return "Nonstop";
+    if (stops === 1) return "1 stop";
+    return `${stops} stops`;
+}
+/** Clock time from ISO instant (UTC) for compact email display. */ function formatDepartureClock(iso) {
+    if (!iso?.trim()) return null;
+    const t = Date.parse(iso);
+    if (!Number.isFinite(t)) return null;
+    const d = new Date(t);
+    const h = d.getUTCHours();
+    const m = d.getUTCMinutes();
+    const ampm = h >= 12 ? "PM" : "AM";
+    const h12 = h % 12 || 12;
+    return `${h12}:${String(m).padStart(2, "0")} ${ampm}`;
+}
+/**
+ * Airline · optional departure · optional trip span · Nonstop|stops · optional outbound duration.
+ * Omits trip span when dates are missing/invalid; omits duration when the feed did not provide it.
+ */ function buildFlightMetaLine(fare) {
+    const sp = stopsPhrase(fare.stops);
+    const parts = [
+        fare.airline
+    ];
+    const depClock = formatDepartureClock(fare.outboundDepartsAt ?? undefined);
+    if (depClock) parts.push(depClock);
+    const dep = fare.departureDate.trim();
+    const ret = fare.returnDate.trim();
+    const tripSpan = isValidIsoDate(dep) && isValidIsoDate(ret) ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$travelSearchWindow$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["formatTripSpanDaysPhrase"])(dep, ret) : null;
+    if (tripSpan) parts.push(tripSpan);
+    parts.push(sp);
+    const dur = fare.outboundDuration?.trim();
+    if (dur) parts.push(dur);
+    return parts.join(" · ");
+}
+function shortenWhySurfaced(deal) {
+    const stripped = deal.scoreResult.label.replace(/\s*\(early data — treat as indicative\)\s*$/i, "").trim();
+    if (!stripped) return "";
+    let out = stripped;
+    if (/[.!?]/.test(stripped)) {
+        const bits = stripped.split(/(?<=[.!?])\s+/).filter(Boolean);
+        out = bits.slice(0, 2).join(" ");
+    }
+    if (out.length > 220) out = `${out.slice(0, 217).trimEnd()}…`;
+    return out;
+}
+function fallbackWindowBody(window) {
+    const range = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$travelSearchWindow$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["formatTravelWindowHumanRange"])(window.earliestDepartureDate, window.latestDepartureDate);
+    return range || "see fare details";
+}
+function buildTravelWindowParts(deal, window) {
+    const dep = deal.hubFare.departureDate.trim();
+    const ret = deal.hubFare.returnDate.trim();
+    if (isValidIsoDate(dep) && isValidIsoDate(ret)) {
+        const span = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$travelSearchWindow$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["formatApiTravelSpan"])(dep, ret);
+        if (span) {
+            const body = span;
+            return {
+                body,
+                fullLine: `Travel window: ${body}`
+            };
+        }
+    }
+    const body = fallbackWindowBody(window);
+    return {
+        body,
+        fullLine: `Travel window: ${body}`
+    };
+}
+function buildDealDigestCard(deal) {
+    const compactTripDates = (()=>{
+        const dep = deal.hubFare.departureDate.trim();
+        const ret = deal.hubFare.returnDate.trim();
+        return isValidIsoDate(dep) && isValidIsoDate(ret) ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$travelSearchWindow$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["formatCompactRoundTripDates"])(dep, ret) : null;
+    })();
+    return {
+        destinationCity: deal.hubFare.destinationCity,
+        price: Math.round(deal.hubFare.price),
+        originCity: deal.hubFare.hub.originCity,
+        originCode: deal.hubFare.hub.origin,
+        destinationCode: deal.hubFare.destination,
+        airline: deal.hubFare.airline,
+        flightMetaLine: buildFlightMetaLine(deal.hubFare),
+        compactTripDates,
+        score: deal.scoreResult.score,
+        whyBrief: shortenWhySurfaced(deal),
+        showEarlyDataNote: deal.scoreResult.conservativeMode,
+        isFeatured: deal.isFeatured
+    };
+}
+function getDealTravelLines(deal, referenceDate) {
+    const dist = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$routeDistance$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getRouteDistanceKm"])(deal.hubFare.hub.origin, deal.hubFare.destination);
+    const window = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$travelSearchWindow$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getTravelSearchWindow"])(dist, referenceDate);
+    const { fullLine: travelWindowLine } = buildTravelWindowParts(deal, window);
+    const bestForLineFull = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$travelSearchWindow$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["formatBestForPhrase"])(window.category, window.suggestedTripLengths);
+    return {
+        timingLabel: window.displayLabel,
+        travelWindowLine,
+        bestForLine: bestForLineFull,
+        whySurfacedLine: `Why this surfaced: ${deal.scoreResult.label}`
+    };
+}
+}),
+"[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>DealsDigest
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$body$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@react-email/body/dist/index.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$column$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@react-email/column/dist/index.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$container$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@react-email/container/dist/index.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$head$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@react-email/head/dist/index.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$hr$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@react-email/hr/dist/index.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$html$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@react-email/html/dist/index.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$preview$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@react-email/preview/dist/index.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$row$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@react-email/row/dist/index.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$section$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@react-email/section/dist/index.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@react-email/text/dist/index.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$deals$2f$dealTravelPresentation$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/src/lib/deals/dealTravelPresentation.ts [app-route] (ecmascript)");
+;
+;
+;
+const ACCENT = "#defd4e";
+const CARD = "#161616";
+const MUTED = "#a3a3a3";
+const LABEL = "#737373";
+const BODY_TEXT = "#fafafa";
+const BORDER = "#2a2a2a";
+/** Same typography as digest H1, smaller and white. */ const digestSectionTitle = {
+    margin: "0 0 8px 0",
+    fontSize: "28px",
+    lineHeight: "1.15",
+    letterSpacing: "-0.02em",
+    fontWeight: 700,
+    color: "#ffffff"
+};
+const digestSectionSubtitle = {
+    margin: "0 0 22px 0",
+    fontSize: "14px",
+    lineHeight: "1.5",
+    color: MUTED
+};
+const fontStack = "ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
+const lab = {
+    margin: "0 0 4px 0",
+    fontSize: "10px",
+    lineHeight: "14px",
+    letterSpacing: "0.1em",
+    textTransform: "uppercase",
+    color: LABEL,
+    fontWeight: 600
+};
+function isEuropeContinent(label) {
+    return label.trim().toLowerCase() === "europe";
+}
+/** Same route + dates as one card — used to avoid repeating a Top Deals Today row elsewhere. */ function dealFingerprint(d) {
+    const h = d.hubFare;
+    return `${h.hub.origin}|${h.destination.trim().toUpperCase()}|${h.departureDate.trim()}|${h.returnDate.trim()}`;
+}
+function selectTopDealsToday(allDeals) {
+    return [
+        ...allDeals
+    ].filter((d)=>d.hubFare.stops === 0 && d.scoreResult.score >= 75).sort((a, b)=>a.hubFare.price - b.hubFare.price).slice(0, 5);
+}
+function selectIntraEuropeTop(allDeals, excludeKeys) {
+    return [
+        ...allDeals
+    ].filter((d)=>!excludeKeys.has(dealFingerprint(d)) && isEuropeContinent(d.hubFare.hub.originContinent) && isEuropeContinent(d.hubFare.destinationContinent)).sort((a, b)=>a.hubFare.price - b.hubFare.price).slice(0, 10);
+}
+function selectOutsideEuropeTop(allDeals, excludeKeys) {
+    return [
+        ...allDeals
+    ].filter((d)=>!excludeKeys.has(dealFingerprint(d)) && isEuropeContinent(d.hubFare.hub.originContinent) && d.hubFare.destinationContinent.trim() !== "" && !isEuropeContinent(d.hubFare.destinationContinent)).sort((a, b)=>a.hubFare.price - b.hubFare.price).slice(0, 10);
+}
+function DigestDealCard({ deal, index, sectionLabel, showTopDealTodayTag = false }) {
+    const m = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$deals$2f$dealTravelPresentation$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["buildDealDigestCard"])(deal);
+    const conservativeMode = deal.scoreResult.conservativeMode === true;
+    const showFooter = showTopDealTodayTag || Boolean(sectionLabel?.trim());
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$section$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Section"], {
+        style: {
+            backgroundColor: CARD,
+            borderRadius: "16px",
+            padding: "26px 24px 28px",
+            marginTop: index === 0 ? "0" : "28px"
+        },
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$row$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Row"], {
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$column$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Column"], {
+                        style: {
+                            width: "52%",
+                            verticalAlign: "top",
+                            paddingRight: "16px"
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                                style: {
+                                    ...lab,
+                                    margin: "0 0 8px 0"
+                                },
+                                children: "Destination"
+                            }, void 0, false, {
+                                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                lineNumber: 128,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                                style: {
+                                    margin: "0",
+                                    fontSize: "34px",
+                                    lineHeight: "1.12",
+                                    fontWeight: 700,
+                                    color: BODY_TEXT,
+                                    letterSpacing: "-0.02em"
+                                },
+                                children: m.destinationCity
+                            }, void 0, false, {
+                                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                lineNumber: 129,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                        lineNumber: 127,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$column$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Column"], {
+                        style: {
+                            width: "48%",
+                            verticalAlign: "top",
+                            textAlign: "right"
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                                style: {
+                                    ...lab,
+                                    margin: "0 0 8px 0",
+                                    textAlign: "right"
+                                },
+                                children: "Starting at"
+                            }, void 0, false, {
+                                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                lineNumber: 143,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                                style: {
+                                    margin: "0",
+                                    fontSize: "52px",
+                                    lineHeight: "1",
+                                    fontWeight: 800,
+                                    color: ACCENT,
+                                    letterSpacing: "-0.03em"
+                                },
+                                children: [
+                                    "$",
+                                    m.price
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                lineNumber: 144,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                        lineNumber: 142,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                lineNumber: 126,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                style: {
+                    ...lab,
+                    margin: "22px 0 6px 0"
+                },
+                children: "From / route"
+            }, void 0, false, {
+                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                lineNumber: 159,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                style: {
+                    margin: "0 0 18px 0",
+                    fontSize: "15px",
+                    lineHeight: "1.45",
+                    fontWeight: 600,
+                    color: "#ececec"
+                },
+                children: [
+                    "From ",
+                    m.originCity,
+                    " ",
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        style: {
+                            color: MUTED,
+                            fontWeight: 500
+                        },
+                        children: [
+                            "(",
+                            m.originCode,
+                            " → ",
+                            m.destinationCode,
+                            ")"
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                        lineNumber: 170,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                lineNumber: 160,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                style: {
+                    margin: "0 0 22px 0",
+                    fontSize: "13px",
+                    lineHeight: "1.5",
+                    color: MUTED
+                },
+                children: m.flightMetaLine
+            }, void 0, false, {
+                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                lineNumber: 175,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$hr$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Hr"], {
+                style: {
+                    borderColor: BORDER,
+                    borderWidth: "1px",
+                    margin: "0 0 20px 0"
+                }
+            }, void 0, false, {
+                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                lineNumber: 186,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$row$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Row"], {
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$column$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Column"], {
+                        style: {
+                            width: "50%",
+                            verticalAlign: "top",
+                            paddingRight: "14px"
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                                style: {
+                                    ...lab,
+                                    margin: "0 0 8px 0"
+                                },
+                                children: "Dates"
+                            }, void 0, false, {
+                                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                lineNumber: 190,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                                style: {
+                                    margin: "0",
+                                    fontSize: "15px",
+                                    lineHeight: "1.35",
+                                    fontWeight: 600,
+                                    color: BODY_TEXT
+                                },
+                                children: m.compactTripDates ?? "—"
+                            }, void 0, false, {
+                                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                lineNumber: 191,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                        lineNumber: 189,
+                        columnNumber: 9
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$column$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Column"], {
+                        style: {
+                            width: "50%",
+                            verticalAlign: "top",
+                            paddingLeft: "14px"
+                        },
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                                style: {
+                                    ...lab,
+                                    margin: "0 0 8px 0"
+                                },
+                                children: "Value score"
+                            }, void 0, false, {
+                                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                lineNumber: 204,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                                style: {
+                                    margin: "0",
+                                    fontSize: "15px",
+                                    lineHeight: "1.35",
+                                    fontWeight: 600,
+                                    ...conservativeMode ? {
+                                        display: "inline-block",
+                                        backgroundColor: "#444",
+                                        color: "#888",
+                                        padding: "8px 12px",
+                                        borderRadius: "8px"
+                                    } : {
+                                        color: BODY_TEXT
+                                    }
+                                },
+                                children: conservativeMode ? "Early data" : `${m.score}/100`
+                            }, void 0, false, {
+                                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                lineNumber: 205,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                        lineNumber: 203,
+                        columnNumber: 9
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                lineNumber: 188,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                style: {
+                    margin: "22px 0 0 0",
+                    fontSize: "13px",
+                    lineHeight: "1.55",
+                    color: "#d4d4d4"
+                },
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                        style: {
+                            fontWeight: 700,
+                            color: BODY_TEXT
+                        },
+                        children: "Why this surfaced:"
+                    }, void 0, false, {
+                        fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                        lineNumber: 235,
+                        columnNumber: 9
+                    }, this),
+                    " ",
+                    m.whyBrief
+                ]
+            }, void 0, true, {
+                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                lineNumber: 227,
+                columnNumber: 7
+            }, this),
+            m.showEarlyDataNote ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                style: {
+                    margin: "10px 0 0 0",
+                    fontSize: "11px",
+                    lineHeight: "1.45",
+                    color: "#64748b"
+                },
+                children: "Limited history on this route — treat pricing as indicative."
+            }, void 0, false, {
+                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                lineNumber: 240,
+                columnNumber: 9
+            }, this) : null,
+            showFooter ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$section$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Section"], {
+                style: {
+                    margin: "16px 0 0 0",
+                    paddingTop: "14px",
+                    borderTop: `1px solid ${BORDER}`
+                },
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$row$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Row"], {
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$column$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Column"], {
+                            style: {
+                                width: showTopDealTodayTag && sectionLabel?.trim() ? "62%" : "100%",
+                                verticalAlign: "middle"
+                            },
+                            children: showTopDealTodayTag ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                                style: {
+                                    margin: "0",
+                                    fontSize: "11px",
+                                    lineHeight: "1.45"
+                                },
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                    style: {
+                                        display: "inline-block",
+                                        border: `1px solid ${ACCENT}`,
+                                        borderRadius: "999px",
+                                        padding: "6px 14px",
+                                        backgroundColor: "#141414"
+                                    },
+                                    children: [
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                            style: {
+                                                color: ACCENT
+                                            },
+                                            children: "★"
+                                        }, void 0, false, {
+                                            fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                            lineNumber: 278,
+                                            columnNumber: 21
+                                        }, this),
+                                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                            style: {
+                                                marginLeft: "8px",
+                                                color: "#d4d4d4",
+                                                fontWeight: 600,
+                                                fontSize: "10px",
+                                                letterSpacing: "0.06em"
+                                            },
+                                            children: "Top deal today"
+                                        }, void 0, false, {
+                                            fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                            lineNumber: 279,
+                                            columnNumber: 21
+                                        }, this)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                    lineNumber: 269,
+                                    columnNumber: 19
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                lineNumber: 268,
+                                columnNumber: 17
+                            }, this) : sectionLabel?.trim() ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                                style: {
+                                    margin: "0",
+                                    fontSize: "10px",
+                                    letterSpacing: "0.06em",
+                                    color: "#525252"
+                                },
+                                children: sectionLabel
+                            }, void 0, false, {
+                                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                lineNumber: 293,
+                                columnNumber: 17
+                            }, this) : null
+                        }, void 0, false, {
+                            fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                            lineNumber: 261,
+                            columnNumber: 13
+                        }, this),
+                        showTopDealTodayTag && sectionLabel?.trim() ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$column$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Column"], {
+                            style: {
+                                width: "38%",
+                                verticalAlign: "middle",
+                                textAlign: "right"
+                            },
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                                style: {
+                                    margin: "0",
+                                    fontSize: "10px",
+                                    letterSpacing: "0.06em",
+                                    color: "#525252"
+                                },
+                                children: sectionLabel
+                            }, void 0, false, {
+                                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                lineNumber: 307,
+                                columnNumber: 17
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                            lineNumber: 306,
+                            columnNumber: 15
+                        }, this) : null
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                    lineNumber: 260,
+                    columnNumber: 11
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                lineNumber: 253,
+                columnNumber: 9
+            }, this) : null
+        ]
+    }, void 0, true, {
+        fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+        lineNumber: 118,
+        columnNumber: 5
+    }, this);
+}
+function HighlightSection({ title, subtitle, deals, cardKeyPrefix }) {
+    if (deals.length === 0) return null;
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$section$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Section"], {
+        style: {
+            backgroundColor: "#111111",
+            borderRadius: "18px",
+            padding: "28px 24px 32px",
+            margin: "0 0 28px 0"
+        },
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                style: {
+                    ...digestSectionTitle
+                },
+                children: title
+            }, void 0, false, {
+                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                lineNumber: 348,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                style: {
+                    ...digestSectionSubtitle,
+                    margin: "0 0 26px 0"
+                },
+                children: subtitle
+            }, void 0, false, {
+                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                lineNumber: 349,
+                columnNumber: 7
+            }, this),
+            deals.map((deal, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(DigestDealCard, {
+                    deal: deal,
+                    index: index,
+                    sectionLabel: title
+                }, `${cardKeyPrefix}-${deal.hubFare.hub.origin}-${deal.hubFare.destination}-${deal.hubFare.departureDate}-${index}`, false, {
+                    fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                    lineNumber: 351,
+                    columnNumber: 9
+                }, this))
+        ]
+    }, void 0, true, {
+        fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+        lineNumber: 340,
+        columnNumber: 5
+    }, this);
+}
+function DealsDigest({ deals, generatedAt }) {
+    const flatDeals = Object.values(deals).flat();
+    const topDealsToday = selectTopDealsToday(flatDeals);
+    const topDealKeys = new Set(topDealsToday.map(dealFingerprint));
+    const intraEuropeDeals = selectIntraEuropeTop(flatDeals, topDealKeys);
+    const outsideEuropeDeals = selectOutsideEuropeTop(flatDeals, topDealKeys);
+    return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$html$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Html"], {
+        children: [
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$head$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Head"], {}, void 0, false, {
+                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                lineNumber: 371,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$preview$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Preview"], {
+                children: "Today's cheapest routes worth paying attention to"
+            }, void 0, false, {
+                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                lineNumber: 372,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$body$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Body"], {
+                style: {
+                    backgroundColor: "#0a0a0a",
+                    margin: "0",
+                    padding: "48px 24px",
+                    color: "#e5e5e5",
+                    fontFamily: fontStack
+                },
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$container$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Container"], {
+                    style: {
+                        maxWidth: "640px",
+                        margin: "0 auto",
+                        backgroundColor: "#0a0a0a"
+                    },
+                    children: [
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                            style: {
+                                margin: "0 0 10px 0",
+                                fontSize: "11px",
+                                letterSpacing: "0.16em",
+                                textTransform: "uppercase",
+                                color: "#525252",
+                                fontWeight: 600
+                            },
+                            children: "Deal digest"
+                        }, void 0, false, {
+                            fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                            lineNumber: 389,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                            style: {
+                                margin: "0 0 12px 0",
+                                color: ACCENT,
+                                fontSize: "40px",
+                                lineHeight: "1.15",
+                                letterSpacing: "-0.02em",
+                                fontWeight: 700
+                            },
+                            children: "Today's cheapest routes worth paying attention to"
+                        }, void 0, false, {
+                            fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                            lineNumber: 401,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                            style: {
+                                margin: "0 0 36px 0",
+                                fontSize: "14px",
+                                lineHeight: "1.5",
+                                color: MUTED
+                            },
+                            children: [
+                                "Surfaced from major European hubs · ",
+                                generatedAt
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                            lineNumber: 413,
+                            columnNumber: 11
+                        }, this),
+                        topDealsToday.length > 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$section$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Section"], {
+                            style: {
+                                backgroundColor: "#111111",
+                                borderRadius: "18px",
+                                padding: "28px 24px 32px",
+                                margin: "0 0 28px 0"
+                            },
+                            children: [
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                                    style: {
+                                        ...digestSectionTitle
+                                    },
+                                    children: "Top Deals Today"
+                                }, void 0, false, {
+                                    fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                    lineNumber: 433,
+                                    columnNumber: 15
+                                }, this),
+                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                                    style: {
+                                        ...digestSectionSubtitle,
+                                        margin: "0 0 26px 0"
+                                    },
+                                    children: "Best nonstop fares across European hubs right now"
+                                }, void 0, false, {
+                                    fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                    lineNumber: 434,
+                                    columnNumber: 15
+                                }, this),
+                                topDealsToday.map((deal, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(DigestDealCard, {
+                                        deal: deal,
+                                        index: index,
+                                        showTopDealTodayTag: index < 5
+                                    }, `top-${deal.hubFare.hub.origin}-${deal.hubFare.destination}-${deal.hubFare.departureDate}-${index}`, false, {
+                                        fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                                        lineNumber: 439,
+                                        columnNumber: 17
+                                    }, this))
+                            ]
+                        }, void 0, true, {
+                            fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                            lineNumber: 425,
+                            columnNumber: 13
+                        }, this) : null,
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$section$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Section"], {
+                            style: {
+                                margin: "8px 0 28px 0",
+                                borderTop: `1px solid ${BORDER}`
+                            }
+                        }, void 0, false, {
+                            fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                            lineNumber: 449,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(HighlightSection, {
+                            title: "Within Europe",
+                            subtitle: "Top genuine deals between European hubs (by price)",
+                            deals: intraEuropeDeals,
+                            cardKeyPrefix: "intra"
+                        }, void 0, false, {
+                            fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                            lineNumber: 451,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(HighlightSection, {
+                            title: "Beyond Europe",
+                            subtitle: "Long-haul picks from European hubs (by price)",
+                            deals: outsideEuropeDeals,
+                            cardKeyPrefix: "outside"
+                        }, void 0, false, {
+                            fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                            lineNumber: 458,
+                            columnNumber: 11
+                        }, this),
+                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$text$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"], {
+                            style: {
+                                margin: "40px 0 0 0",
+                                fontSize: "12px",
+                                color: "#404040"
+                            },
+                            children: "Flight Deal Alerts · Built by Sam"
+                        }, void 0, false, {
+                            fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                            lineNumber: 465,
+                            columnNumber: 11
+                        }, this)
+                    ]
+                }, void 0, true, {
+                    fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                    lineNumber: 382,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+                lineNumber: 373,
+                columnNumber: 7
+            }, this)
+        ]
+    }, void 0, true, {
+        fileName: "[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx",
+        lineNumber: 370,
+        columnNumber: 5
+    }, this);
+}
+}),
+"[externals]/node:stream [external] (node:stream, cjs)", ((__turbopack_context__, module, exports) => {
+
+const mod = __turbopack_context__.x("node:stream", () => require("node:stream"));
+
+module.exports = mod;
+}),
+"[project]/Flight-app/flight-finder/src/lib/deals/sendDigest.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
+
+__turbopack_context__.s([
+    "getDigestSlot",
+    ()=>getDigestSlot,
+    "sendDigest",
+    ()=>sendDigest
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$resend$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/resend/dist/index.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$emails$2f$DealsDigest$2e$tsx__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/src/emails/DealsDigest.tsx [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$components$2f$node_modules$2f40$react$2d$email$2f$render$2f$dist$2f$node$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@react-email/components/node_modules/@react-email/render/dist/node/index.mjs [app-route] (ecmascript)");
+var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
+    __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$components$2f$node_modules$2f40$react$2d$email$2f$render$2f$dist$2f$node$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__
+]);
+[__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$components$2f$node_modules$2f40$react$2d$email$2f$render$2f$dist$2f$node$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__] = __turbopack_async_dependencies__.then ? (await __turbopack_async_dependencies__)() : __turbopack_async_dependencies__;
+;
+;
+;
+;
+/** Calendar date for subject line, e.g. "May 8, 2026" (Europe/Paris). */ function formatDigestSubjectDate(date) {
+    return new Intl.DateTimeFormat("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+        timeZone: "Europe/Paris"
+    }).format(date);
+}
+function getDigestSlot(now) {
+    const parts = new Intl.DateTimeFormat("en-US", {
+        hour: "numeric",
+        hour12: false,
+        timeZone: "Europe/Paris"
+    }).formatToParts(now);
+    const hour = Number(parts.find((p)=>p.type === "hour")?.value ?? "12");
+    return hour >= 14 ? "evening" : "morning";
+}
+function buildDigestSubject(slot, date) {
+    const dateStr = formatDigestSubjectDate(date);
+    const lead = slot === "morning" ? "This morning's best escape fares ✈️" : "This evening's best escape fares ✈️";
+    return `${lead} — ${dateStr}`;
+}
+function formatGeneratedAt(date) {
+    const datePart = new Intl.DateTimeFormat("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        timeZone: "Europe/Paris"
+    }).format(date);
+    const timeParts = new Intl.DateTimeFormat("en-US", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+        timeZone: "Europe/Paris",
+        timeZoneName: "short"
+    }).formatToParts(date);
+    const hour = timeParts.find((part)=>part.type === "hour")?.value ?? "";
+    const minute = timeParts.find((part)=>part.type === "minute")?.value ?? "00";
+    const dayPeriodRaw = timeParts.find((part)=>part.type === "dayPeriod")?.value ?? "";
+    const zone = timeParts.find((part)=>part.type === "timeZoneName")?.value ?? "";
+    const dayPeriod = dayPeriodRaw.toLowerCase();
+    return `${datePart} · ${hour}:${minute}${dayPeriod} ${zone}`;
+}
+/** Primary supports comma-separated list; optional second env for one extra inbox. */ function resolveDigestRecipients() {
+    const primaryRaw = process.env.DEALS_DIGEST_EMAIL?.trim() ?? "";
+    const secondaryRaw = process.env.DEALS_DIGEST_EMAIL_2?.trim() ?? "";
+    const fromPrimary = primaryRaw.split(",").map((s)=>s.trim()).filter(Boolean);
+    const secondary = secondaryRaw ? [
+        secondaryRaw
+    ] : [];
+    return [
+        ...new Set([
+            ...fromPrimary,
+            ...secondary
+        ])
+    ];
+}
+async function sendDigest(deals, options) {
+    if (!process.env.RESEND_API_KEY) {
+        console.log("[sendDigest] Missing RESEND_API_KEY");
+        return;
+    }
+    if (Object.keys(deals).length === 0) {
+        console.log("[sendDigest] No deals to send");
+        return;
+    }
+    const recipients = resolveDigestRecipients();
+    if (recipients.length === 0) {
+        console.log("[sendDigest] Missing DEALS_DIGEST_EMAIL (and no DEALS_DIGEST_EMAIL_2)");
+        return;
+    }
+    try {
+        const resend = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$resend$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Resend"](process.env.RESEND_API_KEY);
+        const now = new Date();
+        const slot = options?.slot ?? getDigestSlot(now);
+        const generatedAt = formatGeneratedAt(now);
+        const html = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$react$2d$email$2f$components$2f$node_modules$2f40$react$2d$email$2f$render$2f$dist$2f$node$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["render"])(/*#__PURE__*/ __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].createElement(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$emails$2f$DealsDigest$2e$tsx__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"], {
+            deals,
+            generatedAt
+        }));
+        await resend.emails.send({
+            from: "Flight Deals <onboarding@resend.dev>",
+            to: recipients,
+            subject: buildDigestSubject(slot, now),
+            html
+        });
+        console.log("[sendDigest] Email sent successfully");
+    } catch (error) {
+        console.error("[sendDigest] Failed to send:", error);
+    }
+}
+__turbopack_async_result__();
+} catch(e) { __turbopack_async_result__(e); } }, false);}),
+"[project]/Flight-app/flight-finder/src/app/api/deals/test/route.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
+
+__turbopack_context__.s([
+    "GET",
+    ()=>GET
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/server.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$hubs$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/src/lib/hubs.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$deals$2f$fetchFares$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/src/lib/deals/fetchFares.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$deals$2f$scoreAndFilter$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/src/lib/deals/scoreAndFilter.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$deals$2f$deduplicate$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/src/lib/deals/deduplicate.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$deals$2f$validateWithRSS$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/src/lib/deals/validateWithRSS.ts [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$deals$2f$sendDigest$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/src/lib/deals/sendDigest.ts [app-route] (ecmascript)");
+var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
+    __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$deals$2f$sendDigest$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__
+]);
+[__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$deals$2f$sendDigest$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__] = __turbopack_async_dependencies__.then ? (await __turbopack_async_dependencies__)() : __turbopack_async_dependencies__;
+;
+;
+;
+;
+;
+;
+;
+async function GET() {
+    const today = new Date();
+    const hubs = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$hubs$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getHubs"])();
+    const hubFares = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$deals$2f$fetchFares$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["fetchDealSurfFaresForHubs"])(hubs, today);
+    const deals = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$deals$2f$scoreAndFilter$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["scoreAndFilter"])(hubFares);
+    let deduplicatedDeals = deals;
+    try {
+        deduplicatedDeals = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$deals$2f$deduplicate$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["deduplicateDeals"])(deals);
+    } catch (error) {
+        console.error("[test] Failed to deduplicate deals:", error);
+    }
+    let rssValidatedDeals = deduplicatedDeals;
+    try {
+        rssValidatedDeals = await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$deals$2f$validateWithRSS$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["validateWithRSS"])(deduplicatedDeals);
+    } catch (error) {
+        console.error("[test] Failed to validate deals with RSS:", error);
+    }
+    console.log("[test] Calling sendDigest with deals:" + JSON.stringify(rssValidatedDeals));
+    await (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$src$2f$lib$2f$deals$2f$sendDigest$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["sendDigest"])(rssValidatedDeals);
+    return __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+        hubs,
+        fares: hubFares,
+        deals: rssValidatedDeals
+    });
+}
+__turbopack_async_result__();
+} catch(e) { __turbopack_async_result__(e); } }, false);}),
+];
+
+//# sourceMappingURL=%5Broot-of-the-server%5D__0~d3efa._.js.map

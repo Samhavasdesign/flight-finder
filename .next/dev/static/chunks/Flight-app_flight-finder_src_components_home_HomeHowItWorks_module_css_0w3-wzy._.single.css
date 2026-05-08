@@ -1,0 +1,100 @@
+/* [project]/Flight-app/flight-finder/src/components/home/HomeHowItWorks.module.css [app-client] (css) */
+.HomeHowItWorks-module__XRU0ga__section {
+  padding: 56px var(--layout-gutter, 40px) 88px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.HomeHowItWorks-module__XRU0ga__intro {
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 36px;
+  display: flex;
+}
+
+.HomeHowItWorks-module__XRU0ga__eyebrow {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-default-secondary, #757575);
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-size: .75rem;
+  font-weight: 500;
+}
+
+.HomeHowItWorks-module__XRU0ga__title {
+  font-family: var(--font-family-sans);
+  letter-spacing: -.02em;
+  color: var(--color-text-default-default, #1e1e1e);
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.HomeHowItWorks-module__XRU0ga__lede {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-default-secondary, #757575);
+  max-width: 560px;
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.HomeHowItWorks-module__XRU0ga__grid {
+  grid-template-columns: 1fr;
+  gap: 20px;
+  display: grid;
+}
+
+@media (min-width: 900px) {
+  .HomeHowItWorks-module__XRU0ga__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.HomeHowItWorks-module__XRU0ga__step {
+  background: var(--color-background-default-default, #fff);
+  border-radius: var(--radius-400, 16px);
+  border: 1px solid var(--color-border-default-default, #d9d9d9);
+  flex-direction: column;
+  gap: 14px;
+  padding: 28px;
+  display: flex;
+}
+
+.HomeHowItWorks-module__XRU0ga__badge {
+  border-radius: var(--radius-full, 9999px);
+  background: var(--color-text-default-default, #1e1e1e);
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  font-family: var(--font-family-sans);
+  justify-content: center;
+  align-items: center;
+  font-size: 1.125rem;
+  font-weight: 700;
+  display: inline-flex;
+}
+
+.HomeHowItWorks-module__XRU0ga__stepTitle {
+  font-family: var(--font-family-sans);
+  letter-spacing: -.01em;
+  color: var(--color-text-default-default, #1e1e1e);
+  margin-bottom: 8px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.HomeHowItWorks-module__XRU0ga__stepBody {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-default-secondary, #757575);
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/*# sourceMappingURL=Flight-app_flight-finder_src_components_home_HomeHowItWorks_module_css_0w3-wzy._.single.css.map*/

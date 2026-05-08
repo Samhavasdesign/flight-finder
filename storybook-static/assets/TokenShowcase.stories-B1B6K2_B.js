@@ -1,0 +1,114 @@
+import{n as e}from"./chunk-vNrZSFDR.js";import{t}from"./jsx-runtime-1mKRgjuZ.js";var n,r,i,a,o,s,c,l,u=e((()=>{n={primitive:{slate:{100:{value:`#f3f3f3`,type:`color`},200:{value:`#e3e3e3`,type:`color`},300:{value:`#cdcdcd`,type:`color`},400:{value:`#b2b2b2`,type:`color`},500:{value:`#949494`,type:`color`},600:{value:`#767676`,type:`color`},700:{value:`#5a5a5a`,type:`color`},800:{value:`#434343`,type:`color`},900:{value:`#303030`,type:`color`},1e3:{value:`#242424`,type:`color`}},white:{100:{value:`#ffffff0d`,type:`color`},200:{value:`#ffffff1a`,type:`color`},300:{value:`#ffffff33`,type:`color`},400:{value:`#ffffff66`,type:`color`},500:{value:`#ffffffb2`,type:`color`},600:{value:`#ffffffcc`,type:`color`},700:{value:`#ffffffd9`,type:`color`},800:{value:`#ffffffe5`,type:`color`},900:{value:`#fffffff2`,type:`color`},1e3:{value:`#ffffff`,type:`color`}},black:{100:{value:`#0c0c0d0d`,type:`color`},200:{value:`#0c0c0d1a`,type:`color`},300:{value:`#0c0c0d33`,type:`color`},400:{value:`#0c0c0d66`,type:`color`},500:{value:`#0c0c0db2`,type:`color`},600:{value:`#0c0c0dcc`,type:`color`},700:{value:`#0c0c0dd9`,type:`color`},800:{value:`#0c0c0de5`,type:`color`},900:{value:`#0c0c0df2`,type:`color`},1e3:{value:`#0c0c0d`,type:`color`}},brand:{100:{value:`#f5f5f5`,type:`color`},200:{value:`#e6e6e6`,type:`color`},300:{value:`#d9d9d9`,type:`color`},400:{value:`#b3b3b3`,type:`color`},500:{value:`#757575`,type:`color`},600:{value:`#444444`,type:`color`},700:{value:`#383838`,type:`color`},800:{value:`#2c2c2c`,type:`color`},900:{value:`#1e1e1e`,type:`color`},1e3:{value:`#111111`,type:`color`}},red:{100:{value:`#fee9e7`,type:`color`},200:{value:`#fdd3d0`,type:`color`},300:{value:`#fcb3ad`,type:`color`},400:{value:`#f4776a`,type:`color`},500:{value:`#ec221f`,type:`color`},600:{value:`#c00f0c`,type:`color`},700:{value:`#900b09`,type:`color`},800:{value:`#690807`,type:`color`},900:{value:`#4d0b0a`,type:`color`},1e3:{value:`#300603`,type:`color`}},yellow:{100:{value:`#fffbeb`,type:`color`},200:{value:`#fff1c2`,type:`color`},300:{value:`#ffe8a3`,type:`color`},400:{value:`#e8b931`,type:`color`},500:{value:`#e5a000`,type:`color`},600:{value:`#bf6a02`,type:`color`},700:{value:`#975102`,type:`color`},800:{value:`#682d03`,type:`color`},900:{value:`#522504`,type:`color`},1e3:{value:`#401b01`,type:`color`}},green:{100:{value:`#ebffee`,type:`color`},200:{value:`#cff7d3`,type:`color`},300:{value:`#aff4c6`,type:`color`},400:{value:`#85e0a3`,type:`color`},500:{value:`#14ae5c`,type:`color`},600:{value:`#009951`,type:`color`},700:{value:`#008043`,type:`color`},800:{value:`#02542d`,type:`color`},900:{value:`#024023`,type:`color`},1e3:{value:`#062d1b`,type:`color`}},blue:{100:{value:`#f1f6fd`,type:`color`},200:{value:`#e1ebfa`,type:`color`},300:{value:`#c0d4f5`,type:`color`},400:{value:`#9ebef1`,type:`color`},500:{value:`#3f81ea`,type:`color`},600:{value:`#3271d7`,type:`color`},700:{value:`#2a61ba`,type:`color`},800:{value:`#224a8a`,type:`color`},900:{value:`#183057`,type:`color`},1e3:{value:`#15253f`,type:`color`}},pink:{100:{value:`#fcf1fd`,type:`color`},200:{value:`#fae1fa`,type:`color`},300:{value:`#f5c0ef`,type:`color`},400:{value:`#f19edc`,type:`color`},500:{value:`#ea3fb8`,type:`color`},600:{value:`#d732a8`,type:`color`},700:{value:`#ba2a92`,type:`color`},800:{value:`#8a226f`,type:`color`},900:{value:`#57184a`,type:`color`},1e3:{value:`#3f1536`,type:`color`}}},semantic:{light:{background:{default:{default:{value:`#ffffff`,type:`color`},secondary:{value:`#f5f5f5`,type:`color`},tertiary:{value:`#d9d9d9`,type:`color`},"default-hover":{value:`#f5f5f5`,type:`color`},"secondary-hover":{value:`#e6e6e6`,type:`color`},"tertiary-hover":{value:`#b3b3b3`,type:`color`}},brand:{default:{value:`#2c2c2c`,type:`color`},secondary:{value:`#e6e6e6`,type:`color`},tertiary:{value:`#f5f5f5`,type:`color`},hover:{value:`#1e1e1e`,type:`color`},"secondary-hover":{value:`#d9d9d9`,type:`color`},"tertiary-hover":{value:`#e6e6e6`,type:`color`}},positive:{default:{value:`#14ae5c`,type:`color`},secondary:{value:`#cff7d3`,type:`color`},tertiary:{value:`#ebffee`,type:`color`},hover:{value:`#009951`,type:`color`},"secondary-hover":{value:`#aff4c6`,type:`color`},"tertiary-hover":{value:`#cff7d3`,type:`color`}},warning:{default:{value:`#e8b931`,type:`color`},secondary:{value:`#fff1c2`,type:`color`},tertiary:{value:`#fffbeb`,type:`color`},hover:{value:`#e5a000`,type:`color`},"secondary-hover":{value:`#ffe8a3`,type:`color`},"tertiary-hover":{value:`#fff1c2`,type:`color`}},danger:{default:{value:`#ec221f`,type:`color`},secondary:{value:`#fdd3d0`,type:`color`},tertiary:{value:`#fee9e7`,type:`color`},hover:{value:`#c00f0c`,type:`color`},"secondary-hover":{value:`#fcb3ad`,type:`color`},"tertiary-hover":{value:`#fdd3d0`,type:`color`}},neutral:{default:{value:`#5a5a5a`,type:`color`},secondary:{value:`#cdcdcd`,type:`color`},tertiary:{value:`#e3e3e3`,type:`color`},hover:{value:`#434343`,type:`color`},"secondary-hover":{value:`#b2b2b2`,type:`color`},"tertiary-hover":{value:`#cdcdcd`,type:`color`}},disabled:{default:{value:`#d9d9d9`,type:`color`}},utilities:{scrim:{value:`#ffffffcc`,type:`color`},overlay:{value:`#00000080`,type:`color`},blanket:{value:`#000000b2`,type:`color`},measurement:{value:`#fae1fa`,type:`color`}}},text:{default:{default:{value:`#1e1e1e`,type:`color`},secondary:{value:`#757575`,type:`color`},tertiary:{value:`#b3b3b3`,type:`color`}},brand:{default:{value:`#2c2c2c`,type:`color`},secondary:{value:`#444444`,type:`color`},tertiary:{value:`#757575`,type:`color`},"on-brand":{value:`#f5f5f5`,type:`color`},"on-brand-secondary":{value:`#1e1e1e`,type:`color`},"on-brand-tertiary":{value:`#2c2c2c`,type:`color`}},positive:{default:{value:`#02542d`,type:`color`},secondary:{value:`#009951`,type:`color`},tertiary:{value:`#14ae5c`,type:`color`},"on-positive":{value:`#ebffee`,type:`color`}},warning:{default:{value:`#522504`,type:`color`},secondary:{value:`#975102`,type:`color`},tertiary:{value:`#bf6a02`,type:`color`},"on-warning":{value:`#401b01`,type:`color`}},danger:{default:{value:`#900b09`,type:`color`},secondary:{value:`#c00f0c`,type:`color`},tertiary:{value:`#ec221f`,type:`color`},"on-danger":{value:`#fee9e7`,type:`color`}},neutral:{default:{value:`#303030`,type:`color`},secondary:{value:`#5a5a5a`,type:`color`},tertiary:{value:`#767676`,type:`color`},"on-neutral":{value:`#f3f3f3`,type:`color`}},disabled:{default:{value:`#b3b3b3`,type:`color`},"on-disabled":{value:`#b3b3b3`,type:`color`}},utilities:{"on-overlay":{value:`#0c0c0d`,type:`color`},"on-measurement":{value:`#8a226f`,type:`color`}}},border:{default:{default:{value:`#d9d9d9`,type:`color`},secondary:{value:`#757575`,type:`color`},tertiary:{value:`#383838`,type:`color`}},brand:{default:{value:`#2c2c2c`,type:`color`},secondary:{value:`#444444`,type:`color`},tertiary:{value:`#757575`,type:`color`}},positive:{default:{value:`#02542d`,type:`color`},secondary:{value:`#009951`,type:`color`},tertiary:{value:`#14ae5c`,type:`color`}},warning:{default:{value:`#522504`,type:`color`},secondary:{value:`#975102`,type:`color`},tertiary:{value:`#bf6a02`,type:`color`}},danger:{default:{value:`#900b09`,type:`color`},secondary:{value:`#c00f0c`,type:`color`},tertiary:{value:`#ec221f`,type:`color`}},neutral:{default:{value:`#303030`,type:`color`},secondary:{value:`#767676`,type:`color`},tertiary:{value:`#b2b2b2`,type:`color`}},disabled:{default:{value:`#b3b3b3`,type:`color`}},utilities:{swatch:{value:`#0000003d`,type:`color`},measurement:{value:`#f19edc`,type:`color`}}}}}},r={0:{value:`0px`,type:`spacing`},"050":{value:`2px`,type:`spacing`},100:{value:`4px`,type:`spacing`},150:{value:`6px`,type:`spacing`},200:{value:`8px`,type:`spacing`},300:{value:`12px`,type:`spacing`},400:{value:`16px`,type:`spacing`},600:{value:`24px`,type:`spacing`},800:{value:`32px`,type:`spacing`},1200:{value:`48px`,type:`spacing`},1600:{value:`64px`,type:`spacing`},2400:{value:`96px`,type:`spacing`},4e3:{value:`160px`,type:`spacing`}},i={100:{value:`4px`,type:`borderRadius`},200:{value:`8px`,type:`borderRadius`},400:{value:`16px`,type:`borderRadius`},full:{value:`9999px`,type:`borderRadius`}},a={border:{value:`1px`,type:`borderWidth`},"focus-ring":{value:`2px`,type:`borderWidth`}},o={100:{value:`4px`,type:`other`}},s={small:{value:`24px`,type:`sizing`},medium:{value:`32px`,type:`sizing`},large:{value:`40px`,type:`sizing`}},c={family:{sans:{value:`Inter, sans-serif`,type:`fontFamilies`},serif:{value:`Noto Serif, serif`,type:`fontFamilies`},mono:{value:`Roboto Mono, monospace`,type:`fontFamilies`}},weight:{thin:{value:100,type:`fontWeights`},"extra-light":{value:200,type:`fontWeights`},light:{value:300,type:`fontWeights`},regular:{value:400,type:`fontWeights`},medium:{value:500,type:`fontWeights`},semibold:{value:600,type:`fontWeights`},bold:{value:700,type:`fontWeights`},"extra-bold":{value:800,type:`fontWeights`},black:{value:900,type:`fontWeights`}},scale:{"01":{value:`12px`,type:`fontSizes`},"02":{value:`14px`,type:`fontSizes`},"03":{value:`16px`,type:`fontSizes`},"04":{value:`20px`,type:`fontSizes`},"05":{value:`24px`,type:`fontSizes`},"06":{value:`32px`,type:`fontSizes`},"07":{value:`40px`,type:`fontSizes`},"08":{value:`48px`,type:`fontSizes`},"09":{value:`64px`,type:`fontSizes`},10:{value:`72px`,type:`fontSizes`}}},l={color:n,space:r,radius:i,stroke:a,blur:o,icon:s,font:c}}));function d(e,t=[]){let n=[];for(let[r,i]of Object.entries(e)){if(i&&typeof i==`object`&&`value`in i&&`type`in i){n.push({name:[...t,r].join(`-`),leaf:i});continue}i&&typeof i==`object`&&n.push(...d(i,[...t,r]))}return n}function f(){return{margin:0,fontFamily:`var(--font-family-sans)`,fontSize:`var(--font-scale-04)`,color:`var(--color-text-default-default)`}}function p(){return{margin:0,fontFamily:`var(--font-family-mono, monospace)`,fontSize:`12px`,color:`var(--color-text-default-default)`}}var m,h,g,_,v,y,b;e((()=>{m=t(),u(),h=d(l.color),g=d(l.space),_=d(l.radius),v={title:`Design System/TokenShowcase`,parameters:{layout:`fullscreen`}},y={render:()=>(0,m.jsxs)(`div`,{style:{minHeight:`100vh`,padding:`24px`,background:`var(--color-background-default-secondary)`,color:`var(--color-text-default-default)`,display:`grid`,gap:`32px`},children:[(0,m.jsxs)(`section`,{style:{display:`grid`,gap:`16px`},children:[(0,m.jsx)(`h2`,{style:f(),children:`Color Tokens`}),(0,m.jsx)(`div`,{style:{display:`grid`,gap:`12px`,gridTemplateColumns:`repeat(auto-fill, minmax(220px, 1fr))`},children:h.map(({name:e,leaf:t})=>(0,m.jsxs)(`div`,{style:{border:`1px solid var(--color-border-default-default)`,background:`var(--color-background-default-default)`,padding:`12px`,display:`grid`,gap:`8px`},children:[(0,m.jsx)(`div`,{style:{height:`48px`,border:`1px solid var(--color-border-default-default)`,background:`var(--color-${e}, ${String(t.value)})`}}),(0,m.jsx)(`p`,{style:p(),children:`--color-${e}`}),(0,m.jsx)(`p`,{style:{...p(),opacity:.7},children:String(t.value)})]},e))})]}),(0,m.jsxs)(`section`,{style:{display:`grid`,gap:`16px`},children:[(0,m.jsx)(`h2`,{style:f(),children:`Spacing Tokens`}),(0,m.jsx)(`div`,{style:{display:`grid`,gap:`10px`},children:g.map(({name:e,leaf:t})=>(0,m.jsxs)(`div`,{style:{display:`flex`,alignItems:`center`,gap:`12px`,padding:`8px 0`},children:[(0,m.jsx)(`p`,{style:{...p(),minWidth:`120px`},children:`--space-${e}`}),(0,m.jsx)(`div`,{style:{height:`12px`,width:`var(--space-${e}, ${String(t.value)})`,background:`var(--color-background-brand-default)`}}),(0,m.jsx)(`p`,{style:{...p(),opacity:.7},children:String(t.value)})]},e))})]}),(0,m.jsxs)(`section`,{style:{display:`grid`,gap:`16px`},children:[(0,m.jsx)(`h2`,{style:f(),children:`Radius Tokens`}),(0,m.jsx)(`div`,{style:{display:`grid`,gap:`12px`,gridTemplateColumns:`repeat(auto-fill, minmax(220px, 1fr))`},children:_.map(({name:e,leaf:t})=>(0,m.jsxs)(`div`,{style:{border:`1px solid var(--color-border-default-default)`,background:`var(--color-background-default-default)`,padding:`12px`,display:`grid`,gap:`8px`},children:[(0,m.jsx)(`div`,{style:{width:`96px`,height:`48px`,borderRadius:`var(--radius-${e}, ${String(t.value)})`,background:`var(--color-background-brand-default)`}}),(0,m.jsx)(`p`,{style:p(),children:`--radius-${e}`}),(0,m.jsx)(`p`,{style:{...p(),opacity:.7},children:String(t.value)})]},e))})]})]})},y.parameters={...y.parameters,docs:{...y.parameters?.docs,source:{originalSource:`{
+  render: () => <div style={{
+    minHeight: "100vh",
+    padding: "24px",
+    background: "var(--color-background-default-secondary)",
+    color: "var(--color-text-default-default)",
+    display: "grid",
+    gap: "32px"
+  }}>
+      <section style={{
+      display: "grid",
+      gap: "16px"
+    }}>
+        <h2 style={sectionTitleStyles()}>Color Tokens</h2>
+        <div style={{
+        display: "grid",
+        gap: "12px",
+        gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))"
+      }}>
+          {colorTokens.map(({
+          name,
+          leaf
+        }) => <div key={name} style={{
+          border: "1px solid var(--color-border-default-default)",
+          background: "var(--color-background-default-default)",
+          padding: "12px",
+          display: "grid",
+          gap: "8px"
+        }}>
+              <div style={{
+            height: "48px",
+            border: "1px solid var(--color-border-default-default)",
+            background: \`var(--color-\${name}, \${String(leaf.value)})\`
+          }} />
+              <p style={labelStyles()}>{\`--color-\${name}\`}</p>
+              <p style={{
+            ...labelStyles(),
+            opacity: 0.7
+          }}>{String(leaf.value)}</p>
+            </div>)}
+        </div>
+      </section>
+
+      <section style={{
+      display: "grid",
+      gap: "16px"
+    }}>
+        <h2 style={sectionTitleStyles()}>Spacing Tokens</h2>
+        <div style={{
+        display: "grid",
+        gap: "10px"
+      }}>
+          {spacingTokens.map(({
+          name,
+          leaf
+        }) => <div key={name} style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "12px",
+          padding: "8px 0"
+        }}>
+              <p style={{
+            ...labelStyles(),
+            minWidth: "120px"
+          }}>{\`--space-\${name}\`}</p>
+              <div style={{
+            height: "12px",
+            width: \`var(--space-\${name}, \${String(leaf.value)})\`,
+            background: "var(--color-background-brand-default)"
+          }} />
+              <p style={{
+            ...labelStyles(),
+            opacity: 0.7
+          }}>{String(leaf.value)}</p>
+            </div>)}
+        </div>
+      </section>
+
+      <section style={{
+      display: "grid",
+      gap: "16px"
+    }}>
+        <h2 style={sectionTitleStyles()}>Radius Tokens</h2>
+        <div style={{
+        display: "grid",
+        gap: "12px",
+        gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))"
+      }}>
+          {radiusTokens.map(({
+          name,
+          leaf
+        }) => <div key={name} style={{
+          border: "1px solid var(--color-border-default-default)",
+          background: "var(--color-background-default-default)",
+          padding: "12px",
+          display: "grid",
+          gap: "8px"
+        }}>
+              <div style={{
+            width: "96px",
+            height: "48px",
+            borderRadius: \`var(--radius-\${name}, \${String(leaf.value)})\`,
+            background: "var(--color-background-brand-default)"
+          }} />
+              <p style={labelStyles()}>{\`--radius-\${name}\`}</p>
+              <p style={{
+            ...labelStyles(),
+            opacity: 0.7
+          }}>{String(leaf.value)}</p>
+            </div>)}
+        </div>
+      </section>
+    </div>
+}`,...y.parameters?.docs?.source}}},b=[`Default`]}))();export{y as Default,b as __namedExportsOrder,v as default};

@@ -1,0 +1,114 @@
+/* [project]/Flight-app/flight-finder/src/components/SelectionControl/SelectionControl.module.css [app-client] (css) */
+.SelectionControl-module__t2tOYa__control {
+  cursor: pointer;
+  align-items: center;
+  gap: var(--space-400);
+  -webkit-user-select: none;
+  user-select: none;
+  display: inline-flex;
+}
+
+.SelectionControl-module__t2tOYa__control--disabled {
+  opacity: .4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.SelectionControl-module__t2tOYa__hiddenInput {
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border-width: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  position: absolute;
+  overflow: hidden;
+}
+
+.SelectionControl-module__t2tOYa__controlLabel {
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--color-text-default-default);
+  line-height: 1.43;
+}
+
+.SelectionControl-module__t2tOYa__controlLabel--italic {
+  font-style: italic;
+}
+
+.SelectionControl-module__t2tOYa__checkbox {
+  border: 1px solid var(--color-border-default-default);
+  background-color: #fff;
+  border-radius: 0;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+  transition: background-color, border-color;
+  display: flex;
+}
+
+.SelectionControl-module__t2tOYa__checkmark {
+  opacity: 0;
+  width: 10px;
+  height: 8px;
+  transition: opacity;
+}
+
+.SelectionControl-module__t2tOYa__hiddenInput:checked + .SelectionControl-module__t2tOYa__checkbox {
+  background-color: var(--color-text-default-default);
+  border-color: var(--color-text-default-default);
+}
+
+.SelectionControl-module__t2tOYa__hiddenInput:checked + .SelectionControl-module__t2tOYa__checkbox .SelectionControl-module__t2tOYa__checkmark {
+  opacity: 1;
+}
+
+.SelectionControl-module__t2tOYa__hiddenInput:focus-visible + .SelectionControl-module__t2tOYa__checkbox {
+  outline: 2px solid var(--color-text-default-default);
+  outline-offset: 2px;
+}
+
+.SelectionControl-module__t2tOYa__radio {
+  border: 1px solid var(--color-border-default-default);
+  background-color: #fff;
+  border-radius: 50%;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  transition: background-color, border-color;
+  position: relative;
+}
+
+.SelectionControl-module__t2tOYa__radio:after {
+  content: "";
+  inset: calc(var(--spacing, .25rem) * 0);
+  background-color: var(--color-text-default-default);
+  opacity: 0;
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  margin: auto;
+  transition: opacity;
+  position: absolute;
+}
+
+.SelectionControl-module__t2tOYa__hiddenInput:checked + .SelectionControl-module__t2tOYa__radio {
+  border-color: var(--color-text-default-default);
+}
+
+.SelectionControl-module__t2tOYa__hiddenInput:checked + .SelectionControl-module__t2tOYa__radio:after {
+  opacity: 1;
+}
+
+.SelectionControl-module__t2tOYa__hiddenInput:focus-visible + .SelectionControl-module__t2tOYa__radio {
+  outline: 2px solid var(--color-text-default-default);
+  outline-offset: 2px;
+}
+
+/*# sourceMappingURL=0.-j_src_components_SelectionControl_SelectionControl_module_css_0w3-wzy._.single.css.map*/

@@ -1,0 +1,113 @@
+/* [project]/Flight-app/flight-finder/src/components/Select/Select.module.css [app-client] (css) */
+.Select-module__eEfiAa__root {
+  gap: var(--space-200);
+  flex-direction: column;
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+
+.Select-module__eEfiAa__root--disabled {
+  opacity: .4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.Select-module__eEfiAa__label {
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--color-text-default-secondary);
+  line-height: 1.5;
+}
+
+.Select-module__eEfiAa__trigger {
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #c6c6c64d;
+  border-radius: 0;
+  outline: none;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 17px;
+  transition: border-color;
+  display: flex;
+}
+
+.Select-module__eEfiAa__trigger:focus-visible {
+  outline: 2px solid var(--color-text-default-default);
+  outline-offset: 0;
+}
+
+.Select-module__eEfiAa__trigger--open {
+  border-color: var(--color-text-default-default);
+}
+
+.Select-module__eEfiAa__triggerText {
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-02);
+  color: var(--color-text-default-default);
+  line-height: 1.43;
+}
+
+.Select-module__eEfiAa__triggerText--placeholder {
+  color: var(--color-text-default-secondary);
+}
+
+.Select-module__eEfiAa__chevron {
+  flex-shrink: 0;
+  transition: transform;
+}
+
+.Select-module__eEfiAa__chevron--open {
+  transform: rotate(180deg);
+}
+
+.Select-module__eEfiAa__dropdown {
+  z-index: 50;
+  margin: calc(var(--spacing, .25rem) * 0);
+  width: 100%;
+  padding: calc(var(--spacing, .25rem) * 0);
+  border-left: 1px solid var(--color-text-default-default);
+  border-right: 1px solid var(--color-text-default-default);
+  border-bottom: 1px solid var(--color-text-default-default);
+  background-color: #fff;
+  border-top: none;
+  border-radius: 0;
+  list-style-type: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+.Select-module__eEfiAa__option {
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-02);
+  color: var(--color-text-default-default);
+  padding: var(--space-400);
+  cursor: pointer;
+  line-height: 1.43;
+  transition: background-color;
+}
+
+.Select-module__eEfiAa__option:hover:not(.Select-module__eEfiAa__option--selected):not(.Select-module__eEfiAa__option--disabled) {
+  background-color: var(--color-background-default-secondary-hover);
+}
+
+.Select-module__eEfiAa__option--selected {
+  background-color: var(--color-text-default-default);
+  color: var(--color-background-neutral-tertiary);
+}
+
+.Select-module__eEfiAa__option--disabled {
+  opacity: .3;
+  cursor: not-allowed;
+  font-style: italic;
+}
+
+/*# sourceMappingURL=Flight-app_flight-finder_src_components_Select_Select_module_css_0w3-wzy._.single.css.map*/

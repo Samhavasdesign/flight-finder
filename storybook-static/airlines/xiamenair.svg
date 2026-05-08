@@ -1,0 +1,5 @@
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="XiamenAir">
+  <rect width="120" height="40" rx="6" fill="#0B66B3"/>
+  <path d="M12 27C18 22 22 17 25 12C26 17 28 22 33 27" stroke="#FFFFFF" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+  <text x="40" y="25" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="12" font-weight="700">XIAMENAIR</text>
+</svg>

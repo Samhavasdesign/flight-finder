@@ -1,0 +1,229 @@
+/* ==========================================================================
+   Button.module.css — The Sommelier Editorial System
+   Tonal layering via background-color shift. No box-shadows. No border-radius.
+   States: default → hover (tonal shift) → active (scale 0.98) → disabled
+   ========================================================================== */
+
+@reference "tailwindcss";
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+
+.button {
+  @apply inline-flex items-center justify-center;
+  @apply cursor-pointer select-none;
+  @apply border-0 outline-none;
+
+  font-family: var(--font-family-sans);
+  font-weight: 700;
+  letter-spacing: 0.1375rem; /* 2.2px */
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.5;
+
+  /* Sharp-cut architecture — 0px radius, always */
+  border-radius: 0;
+
+  /* Mechanical switch — instantaneous state cuts, no easing */
+  transition:
+    background-color 0ms,
+    color 0ms,
+    border-color 0ms,
+    transform 0ms;
+
+  position: relative;
+  gap: var(--space-200);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-text-default-default);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Variants
+   -------------------------------------------------------------------------- */
+
+/* 01. Primary — Solid black ink */
+.variant--primary {
+  background-color: var(--color-text-default-default);
+  color: var(--color-background-neutral-tertiary); /* #e3e3e3 on dark */
+  border: none;
+}
+
+.variant--primary:hover:not(:disabled) {
+  background-color: var(--color-background-neutral-default); /* PRIMARY-FIXED hover state from Figma */
+}
+
+.variant--primary:active:not(:disabled) {
+  transform: scale(0.98); /* Mechanical click — scale transform */
+}
+
+.variant--primary:disabled {
+  background-color: var(--color-background-default-secondary);
+  color: var(--color-text-default-secondary);
+  cursor: not-allowed;
+}
+
+/* 02. Secondary — Ghost / 1px outline */
+.variant--secondary {
+  background-color: transparent;
+  color: var(--color-text-default-default);
+  border: 1px solid var(--color-text-default-default);
+}
+
+.variant--secondary:hover:not(:disabled) {
+  background-color: var(--color-background-neutral-tertiary); /* Tonal shift on hover */
+}
+
+.variant--secondary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.variant--secondary:disabled {
+  color: var(--color-text-default-secondary);
+  border-color: var(--color-background-default-secondary);
+  cursor: not-allowed;
+}
+
+/* 03. Tertiary — Text only / inline indicator */
+.variant--tertiary {
+  background-color: transparent;
+  color: var(--color-text-default-default);
+  border: none;
+  padding-left: 0;
+  padding-right: 0;
+  gap: var(--space-200);
+}
+
+.variant--tertiary:hover:not(:disabled) {
+  color: var(--color-text-default-secondary);
+}
+
+.variant--tertiary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.variant--tertiary:disabled {
+  color: var(--color-text-default-secondary);
+  cursor: not-allowed;
+}
+
+/* 04. Tonal — Surface-3 fill / high contrast on muted bg */
+.variant--tonal {
+  background-color: var(--color-background-neutral-tertiary); /* #e3e3e3 */
+  color: var(--color-text-default-default);
+  border: none;
+}
+
+.variant--tonal:hover:not(:disabled) {
+  background-color: var(--color-background-default-secondary-hover); /* Step up */
+}
+
+.variant--tonal:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.variant--tonal:disabled {
+  background-color: var(--color-background-default-secondary);
+  color: var(--color-text-default-secondary);
+  cursor: not-allowed;
+}
+
+/* --------------------------------------------------------------------------
+   Sizes
+   sm  → 32px tall / 10pt / px-24 py-8
+   md  → 48px tall / 11pt / px-32 py-16  (default)
+   lg  → 64px tall / 14pt / px-40 py-24
+   -------------------------------------------------------------------------- */
+
+.size--sm {
+  padding: var(--space-200) var(--space-600);
+  font-size: var(--font-scale-01);
+  letter-spacing: 1px;
+  min-height: 32px;
+}
+
+.size--md {
+  padding: var(--space-400) var(--space-800);
+  font-size: 0.6875rem;             /* 11px — Figma spec */
+  letter-spacing: 1.1px;
+  min-height: 48px;
+}
+
+.size--lg {
+  padding: var(--space-600) 40px;
+  font-size: var(--font-scale-02);
+  letter-spacing: 1.4px;
+  min-height: 64px;
+}
+
+/* --------------------------------------------------------------------------
+   Modifiers
+   -------------------------------------------------------------------------- */
+
+.full-width {
+  @apply w-full;
+}
+
+/* Icon-only → square proportions */
+.icon-only {
+  padding: var(--space-400);
+  aspect-ratio: 1;
+}
+
+.icon-only.size--sm {
+  padding: var(--space-200);
+  min-height: 32px;
+  min-width: 32px;
+}
+
+.icon-only.size--lg {
+  padding: var(--space-600);
+  min-height: 64px;
+  min-width: 64px;
+}
+
+/* --------------------------------------------------------------------------
+   Icon & label internals
+   -------------------------------------------------------------------------- */
+
+.label {
+  @apply leading-none;
+}
+
+.iconWrap {
+  @apply flex items-center justify-center flex-shrink-0;
+  /* Whisper-thin icons — 1px stroke, never dominate the label */
+  width: 12px;
+  height: 12px;
+}
+
+.iconWrap img,
+.iconWrap svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.iconLeft {
+  margin-right: calc(var(--space-200) * -0.5);
+}
+
+.iconRight {
+  margin-left: calc(var(--space-200) * -0.5);
+}
+
+/* Tertiary inline arrow */
+.tertiaryArrow {
+  @apply inline-flex items-center;
+  font-family: var(--font-family-sans);
+  font-size: 0.625rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1;
+  margin-left: var(--space-100);
+  /* Not uppercase — it's a glyph, not text */
+  text-transform: none;
+}

@@ -1,0 +1,730 @@
+{
+  "Albania": {
+    "continent": "Europe",
+    "region": "Balkans"
+  },
+  "Algeria": {
+    "continent": "Africa",
+    "region": "North Africa"
+  },
+  "American Samoa": {
+    "continent": "Oceania",
+    "region": "Oceania"
+  },
+  "Angola": {
+    "continent": "Africa",
+    "region": "Central Africa"
+  },
+  "Antigua and Barbuda": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Argentina": {
+    "continent": "South America",
+    "region": "Southern Cone"
+  },
+  "Armenia": {
+    "continent": "Asia",
+    "region": "West Asia"
+  },
+  "Australia": {
+    "continent": "Oceania",
+    "region": "Oceania"
+  },
+  "Austria": {
+    "continent": "Europe",
+    "region": "Central Europe"
+  },
+  "Azerbaijan": {
+    "continent": "Asia",
+    "region": "West Asia"
+  },
+  "Bahamas": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Bahrain": {
+    "continent": "Asia",
+    "region": "Middle East"
+  },
+  "Bangladesh": {
+    "continent": "Asia",
+    "region": "South Asia"
+  },
+  "Barbados": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Belgium": {
+    "continent": "Europe",
+    "region": "Western Europe"
+  },
+  "Belize": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Benin": {
+    "continent": "Africa",
+    "region": "West Africa"
+  },
+  "Bhutan": {
+    "continent": "Asia",
+    "region": "South Asia"
+  },
+  "Bolivia": {
+    "continent": "South America",
+    "region": "Andean"
+  },
+  "Bosnia and Herzegovina": {
+    "continent": "Europe",
+    "region": "Balkans"
+  },
+  "Botswana": {
+    "continent": "Africa",
+    "region": "Southern Africa"
+  },
+  "Brazil": {
+    "continent": "South America",
+    "region": "Southern Cone"
+  },
+  "Brunei": {
+    "continent": "Asia",
+    "region": "Southeast Asia"
+  },
+  "Bulgaria": {
+    "continent": "Europe",
+    "region": "Eastern Europe"
+  },
+  "Burkina Faso": {
+    "continent": "Africa",
+    "region": "West Africa"
+  },
+  "Burundi": {
+    "continent": "Africa",
+    "region": "East Africa"
+  },
+  "Cambodia": {
+    "continent": "Asia",
+    "region": "Southeast Asia"
+  },
+  "Cameroon": {
+    "continent": "Africa",
+    "region": "Central Africa"
+  },
+  "Canada": {
+    "continent": "North America",
+    "region": "North America"
+  },
+  "Cape Verde": {
+    "continent": "Africa",
+    "region": "West Africa"
+  },
+  "Cayman Islands": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Chad": {
+    "continent": "Africa",
+    "region": "Africa (other)"
+  },
+  "Chile": {
+    "continent": "South America",
+    "region": "Southern Cone"
+  },
+  "China": {
+    "continent": "Asia",
+    "region": "East Asia"
+  },
+  "Colombia": {
+    "continent": "South America",
+    "region": "Andean"
+  },
+  "Costa Rica": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Croatia": {
+    "continent": "Europe",
+    "region": "Balkans"
+  },
+  "Cuba": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Cyprus": {
+    "continent": "Europe",
+    "region": "Southern Europe"
+  },
+  "Czech Republic": {
+    "continent": "Europe",
+    "region": "Eastern Europe"
+  },
+  "Côte d'Ivoire": {
+    "continent": "Africa",
+    "region": "West Africa"
+  },
+  "DR Congo": {
+    "continent": "Africa",
+    "region": "Central Africa"
+  },
+  "Denmark": {
+    "continent": "Europe",
+    "region": "Northern Europe"
+  },
+  "Djibouti": {
+    "continent": "Africa",
+    "region": "East Africa"
+  },
+  "Dominican Republic": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Ecuador": {
+    "continent": "South America",
+    "region": "Andean"
+  },
+  "Egypt": {
+    "continent": "Africa",
+    "region": "North Africa"
+  },
+  "El Salvador": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Equatorial Guinea": {
+    "continent": "Africa",
+    "region": "Central Africa"
+  },
+  "Eritrea": {
+    "continent": "Africa",
+    "region": "East Africa"
+  },
+  "Estonia": {
+    "continent": "Europe",
+    "region": "Baltics"
+  },
+  "Eswatini": {
+    "continent": "Africa",
+    "region": "Southern Africa"
+  },
+  "Ethiopia": {
+    "continent": "Africa",
+    "region": "East Africa"
+  },
+  "Fiji": {
+    "continent": "Oceania",
+    "region": "Oceania"
+  },
+  "Finland": {
+    "continent": "Europe",
+    "region": "Northern Europe"
+  },
+  "France": {
+    "continent": "Europe",
+    "region": "Western Europe"
+  },
+  "French Guiana": {
+    "continent": "South America",
+    "region": "South America (other)"
+  },
+  "French Polynesia": {
+    "continent": "Oceania",
+    "region": "Oceania"
+  },
+  "Gabon": {
+    "continent": "Africa",
+    "region": "Central Africa"
+  },
+  "Gambia": {
+    "continent": "Africa",
+    "region": "West Africa"
+  },
+  "Georgia": {
+    "continent": "Asia",
+    "region": "West Asia"
+  },
+  "Germany": {
+    "continent": "Europe",
+    "region": "Central Europe"
+  },
+  "Ghana": {
+    "continent": "Africa",
+    "region": "West Africa"
+  },
+  "Greece": {
+    "continent": "Europe",
+    "region": "Southern Europe"
+  },
+  "Guam": {
+    "continent": "Oceania",
+    "region": "Oceania"
+  },
+  "Guatemala": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Guinea": {
+    "continent": "Africa",
+    "region": "West Africa"
+  },
+  "Guinea-Bissau": {
+    "continent": "Africa",
+    "region": "West Africa"
+  },
+  "Guyana": {
+    "continent": "South America",
+    "region": "South America (other)"
+  },
+  "Honduras": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Hong Kong": {
+    "continent": "Asia",
+    "region": "East Asia"
+  },
+  "Hungary": {
+    "continent": "Europe",
+    "region": "Eastern Europe"
+  },
+  "India": {
+    "continent": "Asia",
+    "region": "South Asia"
+  },
+  "Indonesia": {
+    "continent": "Asia",
+    "region": "Southeast Asia"
+  },
+  "Iran": {
+    "continent": "Asia",
+    "region": "Middle East"
+  },
+  "Iraq": {
+    "continent": "Asia",
+    "region": "Middle East"
+  },
+  "Ireland": {
+    "continent": "Europe",
+    "region": "Western Europe"
+  },
+  "Israel": {
+    "continent": "Asia",
+    "region": "Middle East"
+  },
+  "Italy": {
+    "continent": "Europe",
+    "region": "Southern Europe"
+  },
+  "Jamaica": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Japan": {
+    "continent": "Asia",
+    "region": "East Asia"
+  },
+  "Jordan": {
+    "continent": "Asia",
+    "region": "Middle East"
+  },
+  "Kazakhstan": {
+    "continent": "Asia",
+    "region": "Central Asia"
+  },
+  "Kenya": {
+    "continent": "Africa",
+    "region": "East Africa"
+  },
+  "Kiribati": {
+    "continent": "Oceania",
+    "region": "Oceania"
+  },
+  "Kuwait": {
+    "continent": "Asia",
+    "region": "Middle East"
+  },
+  "Kyrgyzstan": {
+    "continent": "Asia",
+    "region": "Central Asia"
+  },
+  "Laos": {
+    "continent": "Asia",
+    "region": "Southeast Asia"
+  },
+  "Latvia": {
+    "continent": "Europe",
+    "region": "Baltics"
+  },
+  "Lebanon": {
+    "continent": "Asia",
+    "region": "Middle East"
+  },
+  "Lesotho": {
+    "continent": "Africa",
+    "region": "Southern Africa"
+  },
+  "Liberia": {
+    "continent": "Africa",
+    "region": "West Africa"
+  },
+  "Libya": {
+    "continent": "Africa",
+    "region": "North Africa"
+  },
+  "Lithuania": {
+    "continent": "Europe",
+    "region": "Baltics"
+  },
+  "Luxembourg": {
+    "continent": "Europe",
+    "region": "Western Europe"
+  },
+  "Macau": {
+    "continent": "Asia",
+    "region": "East Asia"
+  },
+  "Madagascar": {
+    "continent": "Africa",
+    "region": "Southern Africa"
+  },
+  "Malawi": {
+    "continent": "Africa",
+    "region": "Southern Africa"
+  },
+  "Malaysia": {
+    "continent": "Asia",
+    "region": "Southeast Asia"
+  },
+  "Maldives": {
+    "continent": "Asia",
+    "region": "South Asia"
+  },
+  "Mali": {
+    "continent": "Africa",
+    "region": "West Africa"
+  },
+  "Malta": {
+    "continent": "Europe",
+    "region": "Southern Europe"
+  },
+  "Mauritania": {
+    "continent": "Africa",
+    "region": "Africa (other)"
+  },
+  "Mauritius": {
+    "continent": "Africa",
+    "region": "Southern Africa"
+  },
+  "Mayotte": {
+    "continent": "Africa",
+    "region": "Southern Africa"
+  },
+  "Mexico": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Mongolia": {
+    "continent": "Asia",
+    "region": "East Asia"
+  },
+  "Montenegro": {
+    "continent": "Europe",
+    "region": "Balkans"
+  },
+  "Morocco": {
+    "continent": "Africa",
+    "region": "North Africa"
+  },
+  "Mozambique": {
+    "continent": "Africa",
+    "region": "Southern Africa"
+  },
+  "Myanmar": {
+    "continent": "Asia",
+    "region": "Southeast Asia"
+  },
+  "Namibia": {
+    "continent": "Africa",
+    "region": "Southern Africa"
+  },
+  "Nauru": {
+    "continent": "Oceania",
+    "region": "Oceania"
+  },
+  "Nepal": {
+    "continent": "Asia",
+    "region": "South Asia"
+  },
+  "Netherlands": {
+    "continent": "Europe",
+    "region": "Western Europe"
+  },
+  "New Zealand": {
+    "continent": "Oceania",
+    "region": "Oceania"
+  },
+  "Nicaragua": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Niger": {
+    "continent": "Africa",
+    "region": "West Africa"
+  },
+  "Nigeria": {
+    "continent": "Africa",
+    "region": "West Africa"
+  },
+  "North Macedonia": {
+    "continent": "Europe",
+    "region": "Balkans"
+  },
+  "Norway": {
+    "continent": "Europe",
+    "region": "Northern Europe"
+  },
+  "Oman": {
+    "continent": "Asia",
+    "region": "Middle East"
+  },
+  "Pakistan": {
+    "continent": "Asia",
+    "region": "South Asia"
+  },
+  "Panama": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Papua New Guinea": {
+    "continent": "Oceania",
+    "region": "Oceania"
+  },
+  "Paraguay": {
+    "continent": "South America",
+    "region": "Southern Cone"
+  },
+  "Peru": {
+    "continent": "South America",
+    "region": "Andean"
+  },
+  "Philippines": {
+    "continent": "Asia",
+    "region": "Southeast Asia"
+  },
+  "Poland": {
+    "continent": "Europe",
+    "region": "Eastern Europe"
+  },
+  "Portugal": {
+    "continent": "Europe",
+    "region": "Southern Europe"
+  },
+  "Puerto Rico": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Qatar": {
+    "continent": "Asia",
+    "region": "Middle East"
+  },
+  "Republic of Congo": {
+    "continent": "Africa",
+    "region": "Central Africa"
+  },
+  "Romania": {
+    "continent": "Europe",
+    "region": "Eastern Europe"
+  },
+  "Russia": {
+    "continent": "Europe",
+    "region": "Eastern Europe"
+  },
+  "Rwanda": {
+    "continent": "Africa",
+    "region": "East Africa"
+  },
+  "Réunion": {
+    "continent": "Africa",
+    "region": "Southern Africa"
+  },
+  "Saint Lucia": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Samoa": {
+    "continent": "Oceania",
+    "region": "Oceania"
+  },
+  "Saudi Arabia": {
+    "continent": "Asia",
+    "region": "Middle East"
+  },
+  "Senegal": {
+    "continent": "Africa",
+    "region": "West Africa"
+  },
+  "Serbia": {
+    "continent": "Europe",
+    "region": "Balkans"
+  },
+  "Seychelles": {
+    "continent": "Africa",
+    "region": "Africa (other)"
+  },
+  "Sierra Leone": {
+    "continent": "Africa",
+    "region": "West Africa"
+  },
+  "Singapore": {
+    "continent": "Asia",
+    "region": "Southeast Asia"
+  },
+  "Slovenia": {
+    "continent": "Europe",
+    "region": "Balkans"
+  },
+  "Solomon Islands": {
+    "continent": "Oceania",
+    "region": "Oceania"
+  },
+  "Somalia": {
+    "continent": "Africa",
+    "region": "East Africa"
+  },
+  "South Africa": {
+    "continent": "Africa",
+    "region": "Southern Africa"
+  },
+  "South Korea": {
+    "continent": "Asia",
+    "region": "East Asia"
+  },
+  "Spain": {
+    "continent": "Europe",
+    "region": "Southern Europe"
+  },
+  "Sri Lanka": {
+    "continent": "Asia",
+    "region": "South Asia"
+  },
+  "Sudan": {
+    "continent": "Africa",
+    "region": "East Africa"
+  },
+  "Suriname": {
+    "continent": "South America",
+    "region": "South America (other)"
+  },
+  "Sweden": {
+    "continent": "Europe",
+    "region": "Northern Europe"
+  },
+  "Switzerland": {
+    "continent": "Europe",
+    "region": "Central Europe"
+  },
+  "Syria": {
+    "continent": "Asia",
+    "region": "Middle East"
+  },
+  "São Tomé and Príncipe": {
+    "continent": "Africa",
+    "region": "Central Africa"
+  },
+  "Taiwan": {
+    "continent": "Asia",
+    "region": "East Asia"
+  },
+  "Tajikistan": {
+    "continent": "Asia",
+    "region": "Central Asia"
+  },
+  "Tanzania": {
+    "continent": "Africa",
+    "region": "East Africa"
+  },
+  "Thailand": {
+    "continent": "Asia",
+    "region": "Southeast Asia"
+  },
+  "Timor-Leste": {
+    "continent": "Asia",
+    "region": "Southeast Asia"
+  },
+  "Togo": {
+    "continent": "Africa",
+    "region": "West Africa"
+  },
+  "Tonga": {
+    "continent": "Oceania",
+    "region": "Oceania"
+  },
+  "Trinidad and Tobago": {
+    "continent": "North America",
+    "region": "Mexico & Central America"
+  },
+  "Tunisia": {
+    "continent": "Africa",
+    "region": "North Africa"
+  },
+  "Turkey": {
+    "continent": "Asia",
+    "region": "West Asia"
+  },
+  "Turkmenistan": {
+    "continent": "Asia",
+    "region": "Central Asia"
+  },
+  "Uganda": {
+    "continent": "Africa",
+    "region": "East Africa"
+  },
+  "Ukraine": {
+    "continent": "Europe",
+    "region": "Eastern Europe"
+  },
+  "United Arab Emirates": {
+    "continent": "Asia",
+    "region": "Middle East"
+  },
+  "United Kingdom": {
+    "continent": "Europe",
+    "region": "Western Europe"
+  },
+  "United States": {
+    "continent": "North America",
+    "region": "North America"
+  },
+  "Uruguay": {
+    "continent": "South America",
+    "region": "Southern Cone"
+  },
+  "Uzbekistan": {
+    "continent": "Asia",
+    "region": "Central Asia"
+  },
+  "Vanuatu": {
+    "continent": "Oceania",
+    "region": "Oceania"
+  },
+  "Venezuela": {
+    "continent": "South America",
+    "region": "Andean"
+  },
+  "Vietnam": {
+    "continent": "Asia",
+    "region": "Southeast Asia"
+  },
+  "Yemen": {
+    "continent": "Asia",
+    "region": "Middle East"
+  },
+  "Zambia": {
+    "continent": "Africa",
+    "region": "Southern Africa"
+  },
+  "Zimbabwe": {
+    "continent": "Africa",
+    "region": "Southern Africa"
+  }
+}

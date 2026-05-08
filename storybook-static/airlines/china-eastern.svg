@@ -1,0 +1,5 @@
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="China Eastern">
+  <rect width="120" height="40" rx="6" fill="#1E56A8"/>
+  <path d="M10 26L20 12L30 26H24L20 20L16 26H10Z" fill="#FFFFFF" opacity="0.95"/>
+  <text x="36" y="25" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="11" font-weight="700">CHINA EASTERN</text>
+</svg>

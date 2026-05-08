@@ -1,0 +1,101 @@
+/* [project]/Flight-app/flight-finder/src/components/home/HomeFooter.module.css [app-client] (css) */
+.HomeFooter-module__HVmILq__footer {
+  background: var(--color-text-default-default, #1e1e1e);
+  color: var(--color-background-default-secondary, #f5f5f5);
+  padding: 64px var(--layout-gutter, 40px) 32px;
+}
+
+.HomeFooter-module__HVmILq__inner {
+  grid-template-columns: 1fr;
+  gap: 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+}
+
+@media (min-width: 900px) {
+  .HomeFooter-module__HVmILq__inner {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+  }
+}
+
+.HomeFooter-module__HVmILq__brandBlock {
+  flex-direction: column;
+  gap: 18px;
+  display: flex;
+}
+
+.HomeFooter-module__HVmILq__logo {
+  color: #fff;
+  font-family: var(--font-family-sans);
+  letter-spacing: -.01em;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.125rem;
+  font-weight: 700;
+  display: flex;
+}
+
+.HomeFooter-module__HVmILq__blurb {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-default-tertiary, #b3b3b3);
+  max-width: 360px;
+  margin: 0;
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.HomeFooter-module__HVmILq__col {
+  flex-direction: column;
+  gap: 10px;
+  display: flex;
+}
+
+.HomeFooter-module__HVmILq__colTitle {
+  font-family: var(--font-family-sans);
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: 4px;
+  font-size: .8125rem;
+  font-weight: 600;
+}
+
+.HomeFooter-module__HVmILq__link {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-default-tertiary, #b3b3b3);
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.HomeFooter-module__HVmILq__link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.HomeFooter-module__HVmILq__bottom {
+  max-width: 1280px;
+  font-family: var(--font-family-sans);
+  color: var(--color-text-default-secondary, #757575);
+  border-top: 1px solid #303030;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 48px auto 0;
+  padding-top: 24px;
+  font-size: .75rem;
+  display: flex;
+}
+
+@media (min-width: 640px) {
+  .HomeFooter-module__HVmILq__bottom {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+/*# sourceMappingURL=Flight-app_flight-finder_src_components_home_HomeFooter_module_css_0w3-wzy._.single.css.map*/

@@ -1,0 +1,126 @@
+/* [project]/Flight-app/flight-finder/src/components/TextInput/TextInput.module.css [app-client] (css) */
+.TextInput-module__qxkv-a__root {
+  gap: var(--space-200);
+  flex-direction: column;
+  width: 100%;
+  display: flex;
+}
+
+.TextInput-module__qxkv-a__label {
+  font-family: var(--font-family-sans);
+  font-weight: 700;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--color-text-default-secondary);
+  line-height: 1.5;
+}
+
+.TextInput-module__qxkv-a__label--error {
+  color: var(--color-text-danger-default);
+}
+
+.TextInput-module__qxkv-a__wrapper {
+  border-bottom: 1px solid var(--color-border-default-secondary);
+  background-color: #0000;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  align-items: center;
+  width: 100%;
+  transition: border-color, outline;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+}
+
+.TextInput-module__qxkv-a__wrapper:focus-within {
+  border-bottom-color: var(--color-text-default-default);
+  outline: 1px solid var(--color-text-default-default);
+  outline-offset: 0;
+}
+
+.TextInput-module__qxkv-a__wrapper--error {
+  border-bottom-color: var(--color-text-danger-default);
+}
+
+.TextInput-module__qxkv-a__wrapper--error:focus-within {
+  border-bottom-color: var(--color-text-danger-default);
+  outline-color: var(--color-text-danger-default);
+}
+
+.TextInput-module__qxkv-a__wrapper--filled {
+  background-color: var(--color-background-default-secondary);
+  border-bottom: none;
+}
+
+.TextInput-module__qxkv-a__wrapper--filled:focus-within {
+  outline: 1px solid var(--color-text-default-default);
+}
+
+.TextInput-module__qxkv-a__wrapper--disabled {
+  opacity: .4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.TextInput-module__qxkv-a__field {
+  width: 100%;
+  min-width: calc(var(--spacing, .25rem) * 0);
+  --tw-border-style: none;
+  --tw-outline-style: none;
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-02);
+  color: var(--color-text-default-default);
+  padding: var(--space-300);
+  resize: vertical;
+  background-color: #0000;
+  border-style: none;
+  border-radius: 0;
+  outline-style: none;
+  flex: 1;
+  line-height: 1.43;
+}
+
+.TextInput-module__qxkv-a__field::placeholder {
+  color: var(--color-background-neutral-secondary);
+}
+
+.TextInput-module__qxkv-a__field:disabled {
+  cursor: not-allowed;
+}
+
+.TextInput-module__qxkv-a__wrapper--error .TextInput-module__qxkv-a__field {
+  color: var(--color-text-danger-default);
+}
+
+.TextInput-module__qxkv-a__trailing {
+  padding-right: var(--space-300);
+  color: var(--color-text-default-secondary);
+  flex-shrink: 0;
+  align-items: center;
+  display: flex;
+}
+
+.TextInput-module__qxkv-a__errorMessage {
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--color-text-danger-default);
+  line-height: 1.5;
+}
+
+.TextInput-module__qxkv-a__hint {
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  color: var(--color-text-default-secondary);
+  line-height: 1.5;
+}
+
+/*# sourceMappingURL=Flight-app_flight-finder_src_components_TextInput_TextInput_module_css_0w3-wzy._.single.css.map*/

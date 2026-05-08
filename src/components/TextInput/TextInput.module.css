@@ -1,0 +1,142 @@
+/* ==========================================================================
+   TextInput.module.css — The Sommelier Editorial System
+   Default: bottom border only. Focus: full outline. Error: red. Filled: surface-1.
+   Zero border radius throughout. Instantaneous state transitions.
+   ========================================================================== */
+
+@reference "tailwindcss";
+
+.root {
+  @apply flex flex-col w-full;
+  gap: var(--space-200);
+}
+
+/* --------------------------------------------------------------------------
+   Label
+   -------------------------------------------------------------------------- */
+
+.label {
+  font-family: var(--font-family-sans);
+  font-weight: 700;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--color-text-default-secondary);
+  line-height: 1.5;
+}
+
+.label--error {
+  color: var(--color-text-danger-default);
+}
+
+/* --------------------------------------------------------------------------
+   Input wrapper
+   -------------------------------------------------------------------------- */
+
+.wrapper {
+  @apply flex items-center w-full relative;
+  background-color: transparent;
+  border-bottom: 1px solid var(--color-border-default-secondary);
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  transition: border-color 0ms, outline 0ms;
+  overflow: hidden;
+}
+
+/* Focus state — instantaneous cut to full black outline */
+.wrapper:focus-within {
+  border-bottom-color: var(--color-text-default-default);
+  outline: 1px solid var(--color-text-default-default);
+  outline-offset: 0;
+}
+
+/* Error state */
+.wrapper--error {
+  border-bottom-color: var(--color-text-danger-default);
+}
+
+.wrapper--error:focus-within {
+  border-bottom-color: var(--color-text-danger-default);
+  outline-color: var(--color-text-danger-default);
+}
+
+/* Filled (surface-container bg — textarea style) */
+.wrapper--filled {
+  background-color: var(--color-background-default-secondary);
+  border-bottom: none;
+}
+
+.wrapper--filled:focus-within {
+  outline: 1px solid var(--color-text-default-default);
+}
+
+/* Disabled */
+.wrapper--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   The actual input / textarea
+   -------------------------------------------------------------------------- */
+
+.field {
+  @apply flex-1 min-w-0 w-full bg-transparent border-none outline-none;
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-02);
+  color: var(--color-text-default-default);
+  line-height: 1.43; /* ~20px at 14px */
+  padding: var(--space-300);
+  border-radius: 0;
+  resize: vertical; /* textarea only */
+}
+
+.field::placeholder {
+  color: var(--color-background-neutral-secondary);
+}
+
+.field:disabled {
+  cursor: not-allowed;
+}
+
+/* Error text color */
+.wrapper--error .field {
+  color: var(--color-text-danger-default);
+}
+
+/* --------------------------------------------------------------------------
+   Trailing element (e.g. show/hide password icon)
+   -------------------------------------------------------------------------- */
+
+.trailing {
+  @apply flex items-center flex-shrink-0;
+  padding-right: var(--space-300);
+  color: var(--color-text-default-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   Helper / error messages below the field
+   -------------------------------------------------------------------------- */
+
+.errorMessage {
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--color-text-danger-default);
+  line-height: 1.5;
+}
+
+.hint {
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  color: var(--color-text-default-secondary);
+  line-height: 1.5;
+}

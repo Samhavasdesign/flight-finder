@@ -1,0 +1,6 @@
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Shenzhen Airlines">
+  <rect width="120" height="40" rx="6" fill="#C11D2A"/>
+  <path d="M14 15H30V25H14Z" fill="#FFFFFF" opacity="0.18"/>
+  <path d="M14 20H30" stroke="#FFFFFF" stroke-width="2"/>
+  <text x="37" y="25" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="10.5" font-weight="700">SHENZHEN</text>
+</svg>

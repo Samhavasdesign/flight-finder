@@ -1,0 +1,5 @@
+<svg width="120" height="40" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cathay Pacific">
+  <rect width="120" height="40" rx="6" fill="#0B5A3C"/>
+  <path d="M12 28L22 12L32 28H26L22 20L18 28H12Z" fill="#FFFFFF" opacity="0.95"/>
+  <text x="38" y="25" fill="#FFFFFF" font-family="Arial, sans-serif" font-size="10" font-weight="700">CATHAY</text>
+</svg>

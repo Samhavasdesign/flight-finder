@@ -1,0 +1,125 @@
+/* ==========================================================================
+   SelectionControl.module.css — The Sommelier Editorial System
+   Checkbox: square, 20×20, black fill when checked.
+   Radio: circle (one of the only circular elements in the system).
+   Both: instantaneous state cuts, no transition.
+   ========================================================================== */
+
+@reference "tailwindcss";
+
+/* --------------------------------------------------------------------------
+   Shared wrapper
+   -------------------------------------------------------------------------- */
+
+.control {
+  @apply inline-flex items-center cursor-pointer;
+  gap: var(--space-400);
+  user-select: none;
+}
+
+.control--disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Hide the native input visually but keep it accessible */
+.hiddenInput {
+  @apply sr-only;
+}
+
+/* --------------------------------------------------------------------------
+   Label text
+   -------------------------------------------------------------------------- */
+
+.controlLabel {
+  font-family: var(--font-family-sans);
+  font-weight: 400;
+  font-size: var(--font-scale-01);
+  letter-spacing: 1.1px;
+  text-transform: uppercase;
+  color: var(--color-text-default-default);
+  line-height: 1.43;
+}
+
+.controlLabel--italic {
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   Checkbox
+   -------------------------------------------------------------------------- */
+
+.checkbox {
+  @apply flex-shrink-0 flex items-center justify-center;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 1px solid var(--color-border-default-default);
+  border-radius: 0; /* Sharp-cut */
+  transition: background-color 0ms, border-color 0ms;
+}
+
+.checkmark {
+  width: 10px;
+  height: 8px;
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0ms;
+}
+
+/* Checked state — black fill, white checkmark */
+.hiddenInput:checked + .checkbox {
+  background-color: var(--color-text-default-default);
+  border-color: var(--color-text-default-default);
+}
+
+.hiddenInput:checked + .checkbox .checkmark {
+  opacity: 1;
+}
+
+/* Focus-visible ring */
+.hiddenInput:focus-visible + .checkbox {
+  outline: 2px solid var(--color-text-default-default);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Radio
+   -------------------------------------------------------------------------- */
+
+.radio {
+  @apply flex-shrink-0 relative;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 1px solid var(--color-border-default-default);
+  border-radius: 50%; /* Circular — explicit Figma spec, one of few in the system */
+  transition: background-color 0ms, border-color 0ms;
+}
+
+/* Inner dot — shown when selected */
+.radio::after {
+  content: '';
+  @apply absolute inset-0 m-auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-text-default-default);
+  opacity: 0;
+  transition: opacity 0ms;
+}
+
+/* Selected state */
+.hiddenInput:checked + .radio {
+  border-color: var(--color-text-default-default);
+}
+
+.hiddenInput:checked + .radio::after {
+  opacity: 1;
+}
+
+/* Focus-visible ring */
+.hiddenInput:focus-visible + .radio {
+  outline: 2px solid var(--color-text-default-default);
+  outline-offset: 2px;
+}

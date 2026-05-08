@@ -1,0 +1,21820 @@
+module.exports = [
+"[project]/Flight-app/flight-finder/node_modules/@supabase/functions-js/dist/module/types.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * Base error for Supabase Edge Function invocations.
+ *
+ * @example
+ * ```ts
+ * import { FunctionsError } from '@supabase/functions-js'
+ *
+ * throw new FunctionsError('Unexpected error invoking function', 'FunctionsError', {
+ *   requestId: 'abc123',
+ * })
+ * ```
+ */ __turbopack_context__.s([
+    "FunctionRegion",
+    ()=>FunctionRegion,
+    "FunctionsError",
+    ()=>FunctionsError,
+    "FunctionsFetchError",
+    ()=>FunctionsFetchError,
+    "FunctionsHttpError",
+    ()=>FunctionsHttpError,
+    "FunctionsRelayError",
+    ()=>FunctionsRelayError
+]);
+class FunctionsError extends Error {
+    constructor(message, name = 'FunctionsError', context){
+        super(message);
+        this.name = name;
+        this.context = context;
+    }
+    toJSON() {
+        return {
+            name: this.name,
+            message: this.message,
+            context: this.context
+        };
+    }
+}
+class FunctionsFetchError extends FunctionsError {
+    constructor(context){
+        super('Failed to send a request to the Edge Function', 'FunctionsFetchError', context);
+    }
+}
+class FunctionsRelayError extends FunctionsError {
+    constructor(context){
+        super('Relay Error invoking the Edge Function', 'FunctionsRelayError', context);
+    }
+}
+class FunctionsHttpError extends FunctionsError {
+    constructor(context){
+        super('Edge Function returned a non-2xx status code', 'FunctionsHttpError', context);
+    }
+}
+var FunctionRegion;
+(function(FunctionRegion) {
+    FunctionRegion["Any"] = "any";
+    FunctionRegion["ApNortheast1"] = "ap-northeast-1";
+    FunctionRegion["ApNortheast2"] = "ap-northeast-2";
+    FunctionRegion["ApSouth1"] = "ap-south-1";
+    FunctionRegion["ApSoutheast1"] = "ap-southeast-1";
+    FunctionRegion["ApSoutheast2"] = "ap-southeast-2";
+    FunctionRegion["CaCentral1"] = "ca-central-1";
+    FunctionRegion["EuCentral1"] = "eu-central-1";
+    FunctionRegion["EuWest1"] = "eu-west-1";
+    FunctionRegion["EuWest2"] = "eu-west-2";
+    FunctionRegion["EuWest3"] = "eu-west-3";
+    FunctionRegion["SaEast1"] = "sa-east-1";
+    FunctionRegion["UsEast1"] = "us-east-1";
+    FunctionRegion["UsWest1"] = "us-west-1";
+    FunctionRegion["UsWest2"] = "us-west-2";
+})(FunctionRegion || (FunctionRegion = {}));
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/functions-js/dist/module/helper.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "resolveFetch",
+    ()=>resolveFetch
+]);
+const resolveFetch = (customFetch)=>{
+    if (customFetch) {
+        return (...args)=>customFetch(...args);
+    }
+    return (...args)=>fetch(...args);
+};
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/functions-js/dist/module/FunctionsClient.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "FunctionsClient",
+    ()=>FunctionsClient
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$tslib$2f$tslib$2e$es6$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/tslib/tslib.es6.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$functions$2d$js$2f$dist$2f$module$2f$helper$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/functions-js/dist/module/helper.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$functions$2d$js$2f$dist$2f$module$2f$types$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/functions-js/dist/module/types.js [app-route] (ecmascript)");
+;
+;
+;
+class FunctionsClient {
+    /**
+     * Creates a new Functions client bound to an Edge Functions URL.
+     *
+     * @example Using supabase-js (recommended)
+     * ```ts
+     * import { createClient } from '@supabase/supabase-js'
+     *
+     * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+     * const { data, error } = await supabase.functions.invoke('hello-world')
+     * ```
+     *
+     * @category Edge Functions
+     *
+     * @example Standalone import for bundle-sensitive environments
+     * ```ts
+     * import { FunctionsClient, FunctionRegion } from '@supabase/functions-js'
+     *
+     * const functions = new FunctionsClient('https://xyzcompany.supabase.co/functions/v1', {
+     *   headers: { apikey: 'your-publishable-key' },
+     *   region: FunctionRegion.UsEast1,
+     * })
+     * ```
+     */ constructor(url, { headers = {}, customFetch, region = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$functions$2d$js$2f$dist$2f$module$2f$types$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["FunctionRegion"].Any } = {}){
+        this.url = url;
+        this.headers = headers;
+        this.region = region;
+        this.fetch = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$functions$2d$js$2f$dist$2f$module$2f$helper$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["resolveFetch"])(customFetch);
+    }
+    /**
+     * Updates the authorization header
+     * @param token - the new jwt token sent in the authorisation header
+     *
+     * @category Edge Functions
+     *
+     * @example Setting the authorization header
+     * ```ts
+     * functions.setAuth(session.access_token)
+     * ```
+     */ setAuth(token) {
+        this.headers.Authorization = `Bearer ${token}`;
+    }
+    /**
+     * Invokes a function
+     * @param functionName - The name of the Function to invoke.
+     * @param options - Options for invoking the Function.
+     * @example
+     * ```ts
+     * const { data, error } = await functions.invoke('hello-world', {
+     *   body: { name: 'Ada' },
+     * })
+     * ```
+     *
+     * @category Edge Functions
+     *
+     * @remarks
+     * - Requires an Authorization header.
+     * - Invoke params generally match the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) spec.
+     * - When you pass in a body to your function, we automatically attach the Content-Type header for `Blob`, `ArrayBuffer`, `File`, `FormData` and `String`. If it doesn't match any of these types we assume the payload is `json`, serialize it and attach the `Content-Type` header as `application/json`. You can override this behavior by passing in a `Content-Type` header of your own.
+     * - Responses are automatically parsed as `json`, `blob` and `form-data` depending on the `Content-Type` header sent by your function. Responses are parsed as `text` by default.
+     *
+     * @example Basic invocation
+     * ```js
+     * const { data, error } = await supabase.functions.invoke('hello', {
+     *   body: { foo: 'bar' }
+     * })
+     * ```
+     *
+     * @exampleDescription Error handling
+     * A `FunctionsHttpError` error is returned if your function throws an error, `FunctionsRelayError` if the Supabase Relay has an error processing your function and `FunctionsFetchError` if there is a network error in calling your function.
+     *
+     * @example Error handling
+     * ```js
+     * import { FunctionsHttpError, FunctionsRelayError, FunctionsFetchError } from "@supabase/supabase-js";
+     *
+     * const { data, error } = await supabase.functions.invoke('hello', {
+     *   headers: {
+     *     "my-custom-header": 'my-custom-header-value'
+     *   },
+     *   body: { foo: 'bar' }
+     * })
+     *
+     * if (error instanceof FunctionsHttpError) {
+     *   const errorMessage = await error.context.json()
+     *   console.log('Function returned an error', errorMessage)
+     * } else if (error instanceof FunctionsRelayError) {
+     *   console.log('Relay error:', error.message)
+     * } else if (error instanceof FunctionsFetchError) {
+     *   console.log('Fetch error:', error.message)
+     * }
+     * ```
+     *
+     * @exampleDescription Passing custom headers
+     * You can pass custom headers to your function. Note: supabase-js automatically passes the `Authorization` header with the signed in user's JWT.
+     *
+     * @example Passing custom headers
+     * ```js
+     * const { data, error } = await supabase.functions.invoke('hello', {
+     *   headers: {
+     *     "my-custom-header": 'my-custom-header-value'
+     *   },
+     *   body: { foo: 'bar' }
+     * })
+     * ```
+     *
+     * @exampleDescription Calling with DELETE HTTP verb
+     * You can also set the HTTP verb to `DELETE` when calling your Edge Function.
+     *
+     * @example Calling with DELETE HTTP verb
+     * ```js
+     * const { data, error } = await supabase.functions.invoke('hello', {
+     *   headers: {
+     *     "my-custom-header": 'my-custom-header-value'
+     *   },
+     *   body: { foo: 'bar' },
+     *   method: 'DELETE'
+     * })
+     * ```
+     *
+     * @exampleDescription Invoking a Function in the UsEast1 region
+     * Here are the available regions:
+     * - `FunctionRegion.Any`
+     * - `FunctionRegion.ApNortheast1`
+     * - `FunctionRegion.ApNortheast2`
+     * - `FunctionRegion.ApSouth1`
+     * - `FunctionRegion.ApSoutheast1`
+     * - `FunctionRegion.ApSoutheast2`
+     * - `FunctionRegion.CaCentral1`
+     * - `FunctionRegion.EuCentral1`
+     * - `FunctionRegion.EuWest1`
+     * - `FunctionRegion.EuWest2`
+     * - `FunctionRegion.EuWest3`
+     * - `FunctionRegion.SaEast1`
+     * - `FunctionRegion.UsEast1`
+     * - `FunctionRegion.UsWest1`
+     * - `FunctionRegion.UsWest2`
+     *
+     * @example Invoking a Function in the UsEast1 region
+     * ```js
+     * import { createClient, FunctionRegion } from '@supabase/supabase-js'
+     *
+     * const { data, error } = await supabase.functions.invoke('hello', {
+     *   body: { foo: 'bar' },
+     *   region: FunctionRegion.UsEast1
+     * })
+     * ```
+     *
+     * @exampleDescription Calling with GET HTTP verb
+     * You can also set the HTTP verb to `GET` when calling your Edge Function.
+     *
+     * @example Calling with GET HTTP verb
+     * ```js
+     * const { data, error } = await supabase.functions.invoke('hello', {
+     *   headers: {
+     *     "my-custom-header": 'my-custom-header-value'
+     *   },
+     *   method: 'GET'
+     * })
+     * ```
+     *
+     * @example Standalone client invoke
+     * ```ts
+     * const { data, error } = await functions.invoke('hello-world', {
+     *   body: { name: 'Ada' },
+     * })
+     * ```
+     */ invoke(functionName_1) {
+        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$tslib$2f$tslib$2e$es6$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["__awaiter"])(this, arguments, void 0, function*(functionName, options = {}) {
+            var _a;
+            let timeoutId;
+            let timeoutController;
+            try {
+                const { headers, method, body: functionArgs, signal, timeout } = options;
+                let _headers = {};
+                let { region } = options;
+                if (!region) {
+                    region = this.region;
+                }
+                // Add region as query parameter using URL API
+                const url = new URL(`${this.url}/${functionName}`);
+                if (region && region !== 'any') {
+                    _headers['x-region'] = region;
+                    url.searchParams.set('forceFunctionRegion', region);
+                }
+                let body;
+                if (functionArgs && (headers && !Object.prototype.hasOwnProperty.call(headers, 'Content-Type') || !headers)) {
+                    if (typeof Blob !== 'undefined' && functionArgs instanceof Blob || functionArgs instanceof ArrayBuffer) {
+                        // will work for File as File inherits Blob
+                        // also works for ArrayBuffer as it is the same underlying structure as a Blob
+                        _headers['Content-Type'] = 'application/octet-stream';
+                        body = functionArgs;
+                    } else if (typeof functionArgs === 'string') {
+                        // plain string
+                        _headers['Content-Type'] = 'text/plain';
+                        body = functionArgs;
+                    } else if (typeof FormData !== 'undefined' && functionArgs instanceof FormData) {
+                        // don't set content-type headers
+                        // Request will automatically add the right boundary value
+                        body = functionArgs;
+                    } else {
+                        // default, assume this is JSON
+                        _headers['Content-Type'] = 'application/json';
+                        body = JSON.stringify(functionArgs);
+                    }
+                } else {
+                    if (functionArgs && typeof functionArgs !== 'string' && !(typeof Blob !== 'undefined' && functionArgs instanceof Blob) && !(functionArgs instanceof ArrayBuffer) && !(typeof FormData !== 'undefined' && functionArgs instanceof FormData)) {
+                        body = JSON.stringify(functionArgs);
+                    } else {
+                        body = functionArgs;
+                    }
+                }
+                // Handle timeout by creating an AbortController
+                let effectiveSignal = signal;
+                if (timeout) {
+                    timeoutController = new AbortController();
+                    timeoutId = setTimeout(()=>timeoutController.abort(), timeout);
+                    // If user provided their own signal, we need to respect both
+                    if (signal) {
+                        effectiveSignal = timeoutController.signal;
+                        // If the user's signal is aborted, abort our timeout controller too
+                        signal.addEventListener('abort', ()=>timeoutController.abort());
+                    } else {
+                        effectiveSignal = timeoutController.signal;
+                    }
+                }
+                const response = yield this.fetch(url.toString(), {
+                    method: method || 'POST',
+                    // headers priority is (high to low):
+                    // 1. invoke-level headers
+                    // 2. client-level headers
+                    // 3. default Content-Type header
+                    headers: Object.assign(Object.assign(Object.assign({}, _headers), this.headers), headers),
+                    body,
+                    signal: effectiveSignal
+                }).catch((fetchError)=>{
+                    throw new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$functions$2d$js$2f$dist$2f$module$2f$types$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["FunctionsFetchError"](fetchError);
+                });
+                const isRelayError = response.headers.get('x-relay-error');
+                if (isRelayError && isRelayError === 'true') {
+                    throw new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$functions$2d$js$2f$dist$2f$module$2f$types$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["FunctionsRelayError"](response);
+                }
+                if (!response.ok) {
+                    throw new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$functions$2d$js$2f$dist$2f$module$2f$types$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["FunctionsHttpError"](response);
+                }
+                let responseType = ((_a = response.headers.get('Content-Type')) !== null && _a !== void 0 ? _a : 'text/plain').split(';')[0].trim();
+                let data;
+                if (responseType === 'application/json') {
+                    data = yield response.json();
+                } else if (responseType === 'application/octet-stream' || responseType === 'application/pdf') {
+                    data = yield response.blob();
+                } else if (responseType === 'text/event-stream') {
+                    data = response;
+                } else if (responseType === 'multipart/form-data') {
+                    data = yield response.formData();
+                } else {
+                    // default to text
+                    data = yield response.text();
+                }
+                return {
+                    data,
+                    error: null,
+                    response
+                };
+            } catch (error) {
+                return {
+                    data: null,
+                    error,
+                    response: error instanceof __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$functions$2d$js$2f$dist$2f$module$2f$types$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["FunctionsHttpError"] || error instanceof __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$functions$2d$js$2f$dist$2f$module$2f$types$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["FunctionsRelayError"] ? error.context : undefined
+                };
+            } finally{
+                // Clear the timeout if it was set
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+            }
+        });
+    }
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/tslib/tslib.es6.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "__addDisposableResource",
+    ()=>__addDisposableResource,
+    "__assign",
+    ()=>__assign,
+    "__asyncDelegator",
+    ()=>__asyncDelegator,
+    "__asyncGenerator",
+    ()=>__asyncGenerator,
+    "__asyncValues",
+    ()=>__asyncValues,
+    "__await",
+    ()=>__await,
+    "__awaiter",
+    ()=>__awaiter,
+    "__classPrivateFieldGet",
+    ()=>__classPrivateFieldGet,
+    "__classPrivateFieldIn",
+    ()=>__classPrivateFieldIn,
+    "__classPrivateFieldSet",
+    ()=>__classPrivateFieldSet,
+    "__createBinding",
+    ()=>__createBinding,
+    "__decorate",
+    ()=>__decorate,
+    "__disposeResources",
+    ()=>__disposeResources,
+    "__esDecorate",
+    ()=>__esDecorate,
+    "__exportStar",
+    ()=>__exportStar,
+    "__extends",
+    ()=>__extends,
+    "__generator",
+    ()=>__generator,
+    "__importDefault",
+    ()=>__importDefault,
+    "__importStar",
+    ()=>__importStar,
+    "__makeTemplateObject",
+    ()=>__makeTemplateObject,
+    "__metadata",
+    ()=>__metadata,
+    "__param",
+    ()=>__param,
+    "__propKey",
+    ()=>__propKey,
+    "__read",
+    ()=>__read,
+    "__rest",
+    ()=>__rest,
+    "__rewriteRelativeImportExtension",
+    ()=>__rewriteRelativeImportExtension,
+    "__runInitializers",
+    ()=>__runInitializers,
+    "__setFunctionName",
+    ()=>__setFunctionName,
+    "__spread",
+    ()=>__spread,
+    "__spreadArray",
+    ()=>__spreadArray,
+    "__spreadArrays",
+    ()=>__spreadArrays,
+    "__values",
+    ()=>__values,
+    "default",
+    ()=>__TURBOPACK__default__export__
+]);
+/******************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */ /* global Reflect, Promise, SuppressedError, Symbol, Iterator */ var extendStatics = function(d, b) {
+    extendStatics = Object.setPrototypeOf || ({
+        __proto__: []
+    }) instanceof Array && function(d, b) {
+        d.__proto__ = b;
+    } || function(d, b) {
+        for(var p in b)if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p];
+    };
+    return extendStatics(d, b);
+};
+function __extends(d, b) {
+    if (typeof b !== "function" && b !== null) throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
+    extendStatics(d, b);
+    function __() {
+        this.constructor = d;
+    }
+    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for(var s, i = 1, n = arguments.length; i < n; i++){
+            s = arguments[i];
+            for(var p in s)if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+function __rest(s, e) {
+    var t = {};
+    for(var p in s)if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function") for(var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++){
+        if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+    }
+    return t;
+}
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+function __param(paramIndex, decorator) {
+    return function(target, key) {
+        decorator(target, key, paramIndex);
+    };
+}
+function __esDecorate(ctor, descriptorIn, decorators, contextIn, initializers, extraInitializers) {
+    function accept(f) {
+        if (f !== void 0 && typeof f !== "function") throw new TypeError("Function expected");
+        return f;
+    }
+    var kind = contextIn.kind, key = kind === "getter" ? "get" : kind === "setter" ? "set" : "value";
+    var target = !descriptorIn && ctor ? contextIn["static"] ? ctor : ctor.prototype : null;
+    var descriptor = descriptorIn || (target ? Object.getOwnPropertyDescriptor(target, contextIn.name) : {});
+    var _, done = false;
+    for(var i = decorators.length - 1; i >= 0; i--){
+        var context = {};
+        for(var p in contextIn)context[p] = p === "access" ? {} : contextIn[p];
+        for(var p in contextIn.access)context.access[p] = contextIn.access[p];
+        context.addInitializer = function(f) {
+            if (done) throw new TypeError("Cannot add initializers after decoration has completed");
+            extraInitializers.push(accept(f || null));
+        };
+        var result = (0, decorators[i])(kind === "accessor" ? {
+            get: descriptor.get,
+            set: descriptor.set
+        } : descriptor[key], context);
+        if (kind === "accessor") {
+            if (result === void 0) continue;
+            if (result === null || typeof result !== "object") throw new TypeError("Object expected");
+            if (_ = accept(result.get)) descriptor.get = _;
+            if (_ = accept(result.set)) descriptor.set = _;
+            if (_ = accept(result.init)) initializers.unshift(_);
+        } else if (_ = accept(result)) {
+            if (kind === "field") initializers.unshift(_);
+            else descriptor[key] = _;
+        }
+    }
+    if (target) Object.defineProperty(target, contextIn.name, descriptor);
+    done = true;
+}
+;
+function __runInitializers(thisArg, initializers, value) {
+    var useValue = arguments.length > 2;
+    for(var i = 0; i < initializers.length; i++){
+        value = useValue ? initializers[i].call(thisArg, value) : initializers[i].call(thisArg);
+    }
+    return useValue ? value : void 0;
+}
+;
+function __propKey(x) {
+    return typeof x === "symbol" ? x : "".concat(x);
+}
+;
+function __setFunctionName(f, name, prefix) {
+    if (typeof name === "symbol") name = name.description ? "[".concat(name.description, "]") : "";
+    return Object.defineProperty(f, "name", {
+        configurable: true,
+        value: prefix ? "".concat(prefix, " ", name) : name
+    });
+}
+;
+function __metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
+function __awaiter(thisArg, _arguments, P, generator) {
+    function adopt(value) {
+        return value instanceof P ? value : new P(function(resolve) {
+            resolve(value);
+        });
+    }
+    return new (P || (P = Promise))(function(resolve, reject) {
+        function fulfilled(value) {
+            try {
+                step(generator.next(value));
+            } catch (e) {
+                reject(e);
+            }
+        }
+        function rejected(value) {
+            try {
+                step(generator["throw"](value));
+            } catch (e) {
+                reject(e);
+            }
+        }
+        function step(result) {
+            result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+        }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+}
+function __generator(thisArg, body) {
+    var _ = {
+        label: 0,
+        sent: function() {
+            if (t[0] & 1) throw t[1];
+            return t[1];
+        },
+        trys: [],
+        ops: []
+    }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() {
+        return this;
+    }), g;
+    //TURBOPACK unreachable
+    ;
+    function verb(n) {
+        return function(v) {
+            return step([
+                n,
+                v
+            ]);
+        };
+    }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while(g && (g = 0, op[0] && (_ = 0)), _)try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [
+                op[0] & 2,
+                t.value
+            ];
+            switch(op[0]){
+                case 0:
+                case 1:
+                    t = op;
+                    break;
+                case 4:
+                    _.label++;
+                    return {
+                        value: op[1],
+                        done: false
+                    };
+                case 5:
+                    _.label++;
+                    y = op[1];
+                    op = [
+                        0
+                    ];
+                    continue;
+                case 7:
+                    op = _.ops.pop();
+                    _.trys.pop();
+                    continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+                        _ = 0;
+                        continue;
+                    }
+                    if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+                        _.label = op[1];
+                        break;
+                    }
+                    if (op[0] === 6 && _.label < t[1]) {
+                        _.label = t[1];
+                        t = op;
+                        break;
+                    }
+                    if (t && _.label < t[2]) {
+                        _.label = t[2];
+                        _.ops.push(op);
+                        break;
+                    }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop();
+                    continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) {
+            op = [
+                6,
+                e
+            ];
+            y = 0;
+        } finally{
+            f = t = 0;
+        }
+        if (op[0] & 5) throw op[1];
+        return {
+            value: op[0] ? op[1] : void 0,
+            done: true
+        };
+    }
+}
+var __createBinding = Object.create ? function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+        desc = {
+            enumerable: true,
+            get: function() {
+                return m[k];
+            }
+        };
+    }
+    Object.defineProperty(o, k2, desc);
+} : function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+};
+function __exportStar(m, o) {
+    for(var p in m)if (p !== "default" && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
+}
+function __values(o) {
+    var s = typeof Symbol === "function" && Symbol.iterator, m = s && o[s], i = 0;
+    if (m) return m.call(o);
+    if (o && typeof o.length === "number") return {
+        next: function() {
+            if (o && i >= o.length) o = void 0;
+            return {
+                value: o && o[i++],
+                done: !o
+            };
+        }
+    };
+    throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
+}
+function __read(o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while((n === void 0 || n-- > 0) && !(r = i.next()).done)ar.push(r.value);
+    } catch (error) {
+        e = {
+            error: error
+        };
+    } finally{
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        } finally{
+            if (e) throw e.error;
+        }
+    }
+    return ar;
+}
+function __spread() {
+    for(var ar = [], i = 0; i < arguments.length; i++)ar = ar.concat(__read(arguments[i]));
+    return ar;
+}
+function __spreadArrays() {
+    for(var s = 0, i = 0, il = arguments.length; i < il; i++)s += arguments[i].length;
+    for(var r = Array(s), k = 0, i = 0; i < il; i++)for(var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)r[k] = a[j];
+    return r;
+}
+function __spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2) for(var i = 0, l = from.length, ar; i < l; i++){
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+}
+function __await(v) {
+    return this instanceof __await ? (this.v = v, this) : new __await(v);
+}
+function __asyncGenerator(thisArg, _arguments, generator) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var g = generator.apply(thisArg, _arguments || []), i, q = [];
+    return i = Object.create((typeof AsyncIterator === "function" ? AsyncIterator : Object).prototype), verb("next"), verb("throw"), verb("return", awaitReturn), i[Symbol.asyncIterator] = function() {
+        return this;
+    }, i;
+    //TURBOPACK unreachable
+    ;
+    function awaitReturn(f) {
+        return function(v) {
+            return Promise.resolve(v).then(f, reject);
+        };
+    }
+    function verb(n, f) {
+        if (g[n]) {
+            i[n] = function(v) {
+                return new Promise(function(a, b) {
+                    q.push([
+                        n,
+                        v,
+                        a,
+                        b
+                    ]) > 1 || resume(n, v);
+                });
+            };
+            if (f) i[n] = f(i[n]);
+        }
+    }
+    function resume(n, v) {
+        try {
+            step(g[n](v));
+        } catch (e) {
+            settle(q[0][3], e);
+        }
+    }
+    function step(r) {
+        r.value instanceof __await ? Promise.resolve(r.value.v).then(fulfill, reject) : settle(q[0][2], r);
+    }
+    function fulfill(value) {
+        resume("next", value);
+    }
+    function reject(value) {
+        resume("throw", value);
+    }
+    function settle(f, v) {
+        if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]);
+    }
+}
+function __asyncDelegator(o) {
+    var i, p;
+    return i = {}, verb("next"), verb("throw", function(e) {
+        throw e;
+    }), verb("return"), i[Symbol.iterator] = function() {
+        return this;
+    }, i;
+    //TURBOPACK unreachable
+    ;
+    function verb(n, f) {
+        i[n] = o[n] ? function(v) {
+            return (p = !p) ? {
+                value: __await(o[n](v)),
+                done: false
+            } : f ? f(v) : v;
+        } : f;
+    }
+}
+function __asyncValues(o) {
+    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+    var m = o[Symbol.asyncIterator], i;
+    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
+        return this;
+    }, i);
+    //TURBOPACK unreachable
+    ;
+    function verb(n) {
+        i[n] = o[n] && function(v) {
+            return new Promise(function(resolve, reject) {
+                v = o[n](v), settle(resolve, reject, v.done, v.value);
+            });
+        };
+    }
+    function settle(resolve, reject, d, v) {
+        Promise.resolve(v).then(function(v) {
+            resolve({
+                value: v,
+                done: d
+            });
+        }, reject);
+    }
+}
+function __makeTemplateObject(cooked, raw) {
+    if (Object.defineProperty) {
+        Object.defineProperty(cooked, "raw", {
+            value: raw
+        });
+    } else {
+        cooked.raw = raw;
+    }
+    return cooked;
+}
+;
+var __setModuleDefault = Object.create ? function(o, v) {
+    Object.defineProperty(o, "default", {
+        enumerable: true,
+        value: v
+    });
+} : function(o, v) {
+    o["default"] = v;
+};
+var ownKeys = function(o) {
+    ownKeys = Object.getOwnPropertyNames || function(o) {
+        var ar = [];
+        for(var k in o)if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+        return ar;
+    };
+    return ownKeys(o);
+};
+function __importStar(mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) {
+        for(var k = ownKeys(mod), i = 0; i < k.length; i++)if (k[i] !== "default") __createBinding(result, mod, k[i]);
+    }
+    __setModuleDefault(result, mod);
+    return result;
+}
+function __importDefault(mod) {
+    return mod && mod.__esModule ? mod : {
+        default: mod
+    };
+}
+function __classPrivateFieldGet(receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+}
+function __classPrivateFieldSet(receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value), value;
+}
+function __classPrivateFieldIn(state, receiver) {
+    if (receiver === null || typeof receiver !== "object" && typeof receiver !== "function") throw new TypeError("Cannot use 'in' operator on non-object");
+    return typeof state === "function" ? receiver === state : state.has(receiver);
+}
+function __addDisposableResource(env, value, async) {
+    if (value !== null && value !== void 0) {
+        if (typeof value !== "object" && typeof value !== "function") throw new TypeError("Object expected.");
+        var dispose, inner;
+        if (async) {
+            if (!Symbol.asyncDispose) throw new TypeError("Symbol.asyncDispose is not defined.");
+            dispose = value[Symbol.asyncDispose];
+        }
+        if (dispose === void 0) {
+            if (!Symbol.dispose) throw new TypeError("Symbol.dispose is not defined.");
+            dispose = value[Symbol.dispose];
+            if (async) inner = dispose;
+        }
+        if (typeof dispose !== "function") throw new TypeError("Object not disposable.");
+        if (inner) dispose = function() {
+            try {
+                inner.call(this);
+            } catch (e) {
+                return Promise.reject(e);
+            }
+        };
+        env.stack.push({
+            value: value,
+            dispose: dispose,
+            async: async
+        });
+    } else if (async) {
+        env.stack.push({
+            async: true
+        });
+    }
+    return value;
+}
+var _SuppressedError = typeof SuppressedError === "function" ? SuppressedError : function(error, suppressed, message) {
+    var e = new Error(message);
+    return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
+};
+function __disposeResources(env) {
+    function fail(e) {
+        env.error = env.hasError ? new _SuppressedError(e, env.error, "An error was suppressed during disposal.") : e;
+        env.hasError = true;
+    }
+    var r, s = 0;
+    function next() {
+        while(r = env.stack.pop()){
+            try {
+                if (!r.async && s === 1) return s = 0, env.stack.push(r), Promise.resolve().then(next);
+                if (r.dispose) {
+                    var result = r.dispose.call(r.value);
+                    if (r.async) return s |= 2, Promise.resolve(result).then(next, function(e) {
+                        fail(e);
+                        return next();
+                    });
+                } else s |= 1;
+            } catch (e) {
+                fail(e);
+            }
+        }
+        if (s === 1) return env.hasError ? Promise.reject(env.error) : Promise.resolve();
+        if (env.hasError) throw env.error;
+    }
+    return next();
+}
+function __rewriteRelativeImportExtension(path, preserveJsx) {
+    if (typeof path === "string" && /^\.\.?\//.test(path)) {
+        return path.replace(/\.(tsx)$|((?:\.d)?)((?:\.[^./]+?)?)\.([cm]?)ts$/i, function(m, tsx, d, ext, cm) {
+            return tsx ? preserveJsx ? ".jsx" : ".js" : d && (!ext || !cm) ? m : d + ext + "." + cm.toLowerCase() + "js";
+        });
+    }
+    return path;
+}
+const __TURBOPACK__default__export__ = {
+    __extends,
+    __assign,
+    __rest,
+    __decorate,
+    __param,
+    __esDecorate,
+    __runInitializers,
+    __propKey,
+    __setFunctionName,
+    __metadata,
+    __awaiter,
+    __generator,
+    __createBinding,
+    __exportStar,
+    __values,
+    __read,
+    __spread,
+    __spreadArrays,
+    __spreadArray,
+    __await,
+    __asyncGenerator,
+    __asyncDelegator,
+    __asyncValues,
+    __makeTemplateObject,
+    __importStar,
+    __importDefault,
+    __classPrivateFieldGet,
+    __classPrivateFieldSet,
+    __classPrivateFieldIn,
+    __addDisposableResource,
+    __disposeResources,
+    __rewriteRelativeImportExtension
+};
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * Utilities for creating WebSocket instances across runtimes.
+ */ __turbopack_context__.s([
+    "WebSocketFactory",
+    ()=>WebSocketFactory,
+    "default",
+    ()=>__TURBOPACK__default__export__
+]);
+class WebSocketFactory {
+    /**
+     * Static-only utility – prevent instantiation.
+     */ constructor(){}
+    static detectEnvironment() {
+        var _a;
+        if (typeof WebSocket !== 'undefined') {
+            return {
+                type: 'native',
+                wsConstructor: WebSocket
+            };
+        }
+        const gt = globalThis;
+        if (typeof globalThis !== 'undefined' && typeof gt.WebSocket !== 'undefined') {
+            return {
+                type: 'native',
+                wsConstructor: gt.WebSocket
+            };
+        }
+        const gl = ("TURBOPACK compile-time truthy", 1) ? /*TURBOPACK member replacement*/ __turbopack_context__.g : "TURBOPACK unreachable";
+        if (gl && typeof gl.WebSocket !== 'undefined') {
+            return {
+                type: 'native',
+                wsConstructor: gl.WebSocket
+            };
+        }
+        if (typeof globalThis !== 'undefined' && typeof gt.WebSocketPair !== 'undefined' && typeof globalThis.WebSocket === 'undefined') {
+            return {
+                type: 'cloudflare',
+                error: 'Cloudflare Workers detected. WebSocket clients are not supported in Cloudflare Workers.',
+                workaround: 'Use Cloudflare Workers WebSocket API for server-side WebSocket handling, or deploy to a different runtime.'
+            };
+        }
+        if (typeof globalThis !== 'undefined' && gt.EdgeRuntime || typeof navigator !== 'undefined' && ((_a = navigator.userAgent) === null || _a === void 0 ? void 0 : _a.includes('Vercel-Edge'))) {
+            return {
+                type: 'unsupported',
+                error: 'Edge runtime detected (Vercel Edge/Netlify Edge). WebSockets are not supported in edge functions.',
+                workaround: 'Use serverless functions or a different deployment target for WebSocket functionality.'
+            };
+        }
+        // Use dynamic property access to avoid Next.js Edge Runtime static analysis warnings
+        const _process = globalThis['process'];
+        if (_process) {
+            const processVersions = _process['versions'];
+            if (processVersions && processVersions['node']) {
+                // Remove 'v' prefix if present and parse the major version
+                const versionString = processVersions['node'];
+                const nodeVersion = parseInt(versionString.replace(/^v/, '').split('.')[0]);
+                // Node.js 22+ should have native WebSocket
+                if (nodeVersion >= 22) {
+                    // Check if native WebSocket is available (should be in Node.js 22+)
+                    if (typeof globalThis.WebSocket !== 'undefined') {
+                        return {
+                            type: 'native',
+                            wsConstructor: globalThis.WebSocket
+                        };
+                    }
+                    // If not available, user needs to provide it
+                    return {
+                        type: 'unsupported',
+                        error: `Node.js ${nodeVersion} detected but native WebSocket not found.`,
+                        workaround: 'Provide a WebSocket implementation via the transport option.'
+                    };
+                }
+                // Node.js < 22 doesn't have native WebSocket
+                return {
+                    type: 'unsupported',
+                    error: `Node.js ${nodeVersion} detected without native WebSocket support.`,
+                    workaround: 'For Node.js < 22, install "ws" package and provide it via the transport option:\n' + 'import ws from "ws"\n' + 'new RealtimeClient(url, { transport: ws })'
+                };
+            }
+        }
+        return {
+            type: 'unsupported',
+            error: 'Unknown JavaScript runtime without WebSocket support.',
+            workaround: "Ensure you're running in a supported environment (browser, Node.js, Deno) or provide a custom WebSocket implementation."
+        };
+    }
+    /**
+     * Returns the best available WebSocket constructor for the current runtime.
+     *
+     * @category Realtime
+     *
+     * @example Example with error handling
+     * ```ts
+     * try {
+     *   const WS = WebSocketFactory.getWebSocketConstructor()
+     *   const socket = new WS('wss://example.com/socket')
+     * } catch (error) {
+     *   console.error('WebSocket not available in this environment.', error)
+     * }
+     * ```
+     */ static getWebSocketConstructor() {
+        const env = this.detectEnvironment();
+        if (env.wsConstructor) {
+            return env.wsConstructor;
+        }
+        let errorMessage = env.error || 'WebSocket not supported in this environment.';
+        if (env.workaround) {
+            errorMessage += `\n\nSuggested solution: ${env.workaround}`;
+        }
+        throw new Error(errorMessage);
+    }
+    /**
+     * Detects whether the runtime can establish WebSocket connections.
+     *
+     * @category Realtime
+     *
+     * @example Example in a Node.js script
+     * ```ts
+     * if (!WebSocketFactory.isWebSocketSupported()) {
+     *   console.error('WebSockets are required for this script.')
+     *   process.exitCode = 1
+     * }
+     * ```
+     */ static isWebSocketSupported() {
+        try {
+            const env = this.detectEnvironment();
+            return env.type === 'native' || env.type === 'ws';
+        } catch (_a) {
+            return false;
+        }
+    }
+}
+const __TURBOPACK__default__export__ = WebSocketFactory;
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/version.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+// Generated automatically during releases by scripts/update-version-files.ts
+// This file provides runtime access to the package version for:
+// - HTTP request headers (e.g., X-Client-Info header for API requests)
+// - Debugging and support (identifying which version is running)
+// - Telemetry and logging (version reporting in errors/analytics)
+// - Ensuring build artifacts match the published package version
+__turbopack_context__.s([
+    "version",
+    ()=>version
+]);
+const version = '2.105.3';
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/constants.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "CHANNEL_EVENTS",
+    ()=>CHANNEL_EVENTS,
+    "CHANNEL_STATES",
+    ()=>CHANNEL_STATES,
+    "CONNECTION_STATE",
+    ()=>CONNECTION_STATE,
+    "DEFAULT_TIMEOUT",
+    ()=>DEFAULT_TIMEOUT,
+    "DEFAULT_VERSION",
+    ()=>DEFAULT_VERSION,
+    "DEFAULT_VSN",
+    ()=>DEFAULT_VSN,
+    "MAX_PUSH_BUFFER_SIZE",
+    ()=>MAX_PUSH_BUFFER_SIZE,
+    "SOCKET_STATES",
+    ()=>SOCKET_STATES,
+    "TRANSPORTS",
+    ()=>TRANSPORTS,
+    "VERSION",
+    ()=>VERSION,
+    "VSN_1_0_0",
+    ()=>VSN_1_0_0,
+    "VSN_2_0_0",
+    ()=>VSN_2_0_0,
+    "WS_CLOSE_NORMAL",
+    ()=>WS_CLOSE_NORMAL
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$version$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/version.js [app-route] (ecmascript)");
+;
+const DEFAULT_VERSION = `realtime-js/${__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$version$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["version"]}`;
+const VSN_1_0_0 = '1.0.0';
+const VSN_2_0_0 = '2.0.0';
+const DEFAULT_VSN = VSN_2_0_0;
+const VERSION = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$version$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["version"];
+const DEFAULT_TIMEOUT = 10000;
+const WS_CLOSE_NORMAL = 1000;
+const MAX_PUSH_BUFFER_SIZE = 100;
+const SOCKET_STATES = {
+    connecting: 0,
+    open: 1,
+    closing: 2,
+    closed: 3
+};
+const CHANNEL_STATES = {
+    closed: 'closed',
+    errored: 'errored',
+    joined: 'joined',
+    joining: 'joining',
+    leaving: 'leaving'
+};
+const CHANNEL_EVENTS = {
+    close: 'phx_close',
+    error: 'phx_error',
+    join: 'phx_join',
+    reply: 'phx_reply',
+    leave: 'phx_leave',
+    access_token: 'access_token'
+};
+const TRANSPORTS = {
+    websocket: 'websocket'
+};
+const CONNECTION_STATE = {
+    connecting: 'connecting',
+    open: 'open',
+    closing: 'closing',
+    closed: 'closed'
+};
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/serializer.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>Serializer
+]);
+class Serializer {
+    constructor(allowedMetadataKeys){
+        this.HEADER_LENGTH = 1;
+        this.USER_BROADCAST_PUSH_META_LENGTH = 6;
+        this.KINDS = {
+            userBroadcastPush: 3,
+            userBroadcast: 4
+        };
+        this.BINARY_ENCODING = 0;
+        this.JSON_ENCODING = 1;
+        this.BROADCAST_EVENT = 'broadcast';
+        this.allowedMetadataKeys = [];
+        this.allowedMetadataKeys = allowedMetadataKeys !== null && allowedMetadataKeys !== void 0 ? allowedMetadataKeys : [];
+    }
+    encode(msg, callback) {
+        if (msg.event === this.BROADCAST_EVENT && !(msg.payload instanceof ArrayBuffer) && typeof msg.payload.event === 'string') {
+            return callback(this._binaryEncodeUserBroadcastPush(msg));
+        }
+        let payload = [
+            msg.join_ref,
+            msg.ref,
+            msg.topic,
+            msg.event,
+            msg.payload
+        ];
+        return callback(JSON.stringify(payload));
+    }
+    _binaryEncodeUserBroadcastPush(message) {
+        var _a;
+        if (this._isArrayBuffer((_a = message.payload) === null || _a === void 0 ? void 0 : _a.payload)) {
+            return this._encodeBinaryUserBroadcastPush(message);
+        } else {
+            return this._encodeJsonUserBroadcastPush(message);
+        }
+    }
+    _encodeBinaryUserBroadcastPush(message) {
+        var _a, _b;
+        const userPayload = (_b = (_a = message.payload) === null || _a === void 0 ? void 0 : _a.payload) !== null && _b !== void 0 ? _b : new ArrayBuffer(0);
+        return this._encodeUserBroadcastPush(message, this.BINARY_ENCODING, userPayload);
+    }
+    _encodeJsonUserBroadcastPush(message) {
+        var _a, _b;
+        const userPayload = (_b = (_a = message.payload) === null || _a === void 0 ? void 0 : _a.payload) !== null && _b !== void 0 ? _b : {};
+        const encoder = new TextEncoder();
+        const encodedUserPayload = encoder.encode(JSON.stringify(userPayload)).buffer;
+        return this._encodeUserBroadcastPush(message, this.JSON_ENCODING, encodedUserPayload);
+    }
+    _encodeUserBroadcastPush(message, encodingType, encodedPayload) {
+        var _a, _b;
+        const topic = message.topic;
+        const ref = (_a = message.ref) !== null && _a !== void 0 ? _a : '';
+        const joinRef = (_b = message.join_ref) !== null && _b !== void 0 ? _b : '';
+        const userEvent = message.payload.event;
+        // Filter metadata based on allowed keys
+        const rest = this.allowedMetadataKeys ? this._pick(message.payload, this.allowedMetadataKeys) : {};
+        const metadata = Object.keys(rest).length === 0 ? '' : JSON.stringify(rest);
+        // Validate lengths don't exceed uint8 max value (255)
+        if (joinRef.length > 255) {
+            throw new Error(`joinRef length ${joinRef.length} exceeds maximum of 255`);
+        }
+        if (ref.length > 255) {
+            throw new Error(`ref length ${ref.length} exceeds maximum of 255`);
+        }
+        if (topic.length > 255) {
+            throw new Error(`topic length ${topic.length} exceeds maximum of 255`);
+        }
+        if (userEvent.length > 255) {
+            throw new Error(`userEvent length ${userEvent.length} exceeds maximum of 255`);
+        }
+        if (metadata.length > 255) {
+            throw new Error(`metadata length ${metadata.length} exceeds maximum of 255`);
+        }
+        const metaLength = this.USER_BROADCAST_PUSH_META_LENGTH + joinRef.length + ref.length + topic.length + userEvent.length + metadata.length;
+        const header = new ArrayBuffer(this.HEADER_LENGTH + metaLength);
+        let view = new DataView(header);
+        let offset = 0;
+        view.setUint8(offset++, this.KINDS.userBroadcastPush); // kind
+        view.setUint8(offset++, joinRef.length);
+        view.setUint8(offset++, ref.length);
+        view.setUint8(offset++, topic.length);
+        view.setUint8(offset++, userEvent.length);
+        view.setUint8(offset++, metadata.length);
+        view.setUint8(offset++, encodingType);
+        Array.from(joinRef, (char)=>view.setUint8(offset++, char.charCodeAt(0)));
+        Array.from(ref, (char)=>view.setUint8(offset++, char.charCodeAt(0)));
+        Array.from(topic, (char)=>view.setUint8(offset++, char.charCodeAt(0)));
+        Array.from(userEvent, (char)=>view.setUint8(offset++, char.charCodeAt(0)));
+        Array.from(metadata, (char)=>view.setUint8(offset++, char.charCodeAt(0)));
+        var combined = new Uint8Array(header.byteLength + encodedPayload.byteLength);
+        combined.set(new Uint8Array(header), 0);
+        combined.set(new Uint8Array(encodedPayload), header.byteLength);
+        return combined.buffer;
+    }
+    decode(rawPayload, callback) {
+        if (this._isArrayBuffer(rawPayload)) {
+            let result = this._binaryDecode(rawPayload);
+            return callback(result);
+        }
+        if (typeof rawPayload === 'string') {
+            const jsonPayload = JSON.parse(rawPayload);
+            const [join_ref, ref, topic, event, payload] = jsonPayload;
+            return callback({
+                join_ref,
+                ref,
+                topic,
+                event,
+                payload
+            });
+        }
+        return callback({});
+    }
+    _binaryDecode(buffer) {
+        const view = new DataView(buffer);
+        const kind = view.getUint8(0);
+        const decoder = new TextDecoder();
+        switch(kind){
+            case this.KINDS.userBroadcast:
+                return this._decodeUserBroadcast(buffer, view, decoder);
+        }
+    }
+    _decodeUserBroadcast(buffer, view, decoder) {
+        const topicSize = view.getUint8(1);
+        const userEventSize = view.getUint8(2);
+        const metadataSize = view.getUint8(3);
+        const payloadEncoding = view.getUint8(4);
+        let offset = this.HEADER_LENGTH + 4;
+        const topic = decoder.decode(buffer.slice(offset, offset + topicSize));
+        offset = offset + topicSize;
+        const userEvent = decoder.decode(buffer.slice(offset, offset + userEventSize));
+        offset = offset + userEventSize;
+        const metadata = decoder.decode(buffer.slice(offset, offset + metadataSize));
+        offset = offset + metadataSize;
+        const payload = buffer.slice(offset, buffer.byteLength);
+        const parsedPayload = payloadEncoding === this.JSON_ENCODING ? JSON.parse(decoder.decode(payload)) : payload;
+        const data = {
+            type: this.BROADCAST_EVENT,
+            event: userEvent,
+            payload: parsedPayload
+        };
+        // Metadata is optional and always JSON encoded
+        if (metadataSize > 0) {
+            data['meta'] = JSON.parse(metadata);
+        }
+        return {
+            join_ref: null,
+            ref: null,
+            topic: topic,
+            event: this.BROADCAST_EVENT,
+            payload: data
+        };
+    }
+    _isArrayBuffer(buffer) {
+        var _a;
+        return buffer instanceof ArrayBuffer || ((_a = buffer === null || buffer === void 0 ? void 0 : buffer.constructor) === null || _a === void 0 ? void 0 : _a.name) === 'ArrayBuffer';
+    }
+    _pick(obj, keys) {
+        if (!obj || typeof obj !== 'object') {
+            return {};
+        }
+        return Object.fromEntries(Object.entries(obj).filter(([key])=>keys.includes(key)));
+    }
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/transformers.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * Helpers to convert the change Payload into native JS types.
+ */ // Adapted from epgsql (src/epgsql_binary.erl), this module licensed under
+// 3-clause BSD found here: https://raw.githubusercontent.com/epgsql/epgsql/devel/LICENSE
+__turbopack_context__.s([
+    "PostgresTypes",
+    ()=>PostgresTypes,
+    "convertCell",
+    ()=>convertCell,
+    "convertChangeData",
+    ()=>convertChangeData,
+    "convertColumn",
+    ()=>convertColumn,
+    "httpEndpointURL",
+    ()=>httpEndpointURL,
+    "toArray",
+    ()=>toArray,
+    "toBoolean",
+    ()=>toBoolean,
+    "toJson",
+    ()=>toJson,
+    "toNumber",
+    ()=>toNumber,
+    "toTimestampString",
+    ()=>toTimestampString
+]);
+var PostgresTypes;
+(function(PostgresTypes) {
+    PostgresTypes["abstime"] = "abstime";
+    PostgresTypes["bool"] = "bool";
+    PostgresTypes["date"] = "date";
+    PostgresTypes["daterange"] = "daterange";
+    PostgresTypes["float4"] = "float4";
+    PostgresTypes["float8"] = "float8";
+    PostgresTypes["int2"] = "int2";
+    PostgresTypes["int4"] = "int4";
+    PostgresTypes["int4range"] = "int4range";
+    PostgresTypes["int8"] = "int8";
+    PostgresTypes["int8range"] = "int8range";
+    PostgresTypes["json"] = "json";
+    PostgresTypes["jsonb"] = "jsonb";
+    PostgresTypes["money"] = "money";
+    PostgresTypes["numeric"] = "numeric";
+    PostgresTypes["oid"] = "oid";
+    PostgresTypes["reltime"] = "reltime";
+    PostgresTypes["text"] = "text";
+    PostgresTypes["time"] = "time";
+    PostgresTypes["timestamp"] = "timestamp";
+    PostgresTypes["timestamptz"] = "timestamptz";
+    PostgresTypes["timetz"] = "timetz";
+    PostgresTypes["tsrange"] = "tsrange";
+    PostgresTypes["tstzrange"] = "tstzrange";
+})(PostgresTypes || (PostgresTypes = {}));
+const convertChangeData = (columns, record, options = {})=>{
+    var _a;
+    const skipTypes = (_a = options.skipTypes) !== null && _a !== void 0 ? _a : [];
+    if (!record) {
+        return {};
+    }
+    return Object.keys(record).reduce((acc, rec_key)=>{
+        acc[rec_key] = convertColumn(rec_key, columns, record, skipTypes);
+        return acc;
+    }, {});
+};
+const convertColumn = (columnName, columns, record, skipTypes)=>{
+    const column = columns.find((x)=>x.name === columnName);
+    const colType = column === null || column === void 0 ? void 0 : column.type;
+    const value = record[columnName];
+    if (colType && !skipTypes.includes(colType)) {
+        return convertCell(colType, value);
+    }
+    return noop(value);
+};
+const convertCell = (type, value)=>{
+    // if data type is an array
+    if (type.charAt(0) === '_') {
+        const dataType = type.slice(1, type.length);
+        return toArray(value, dataType);
+    }
+    // If not null, convert to correct type.
+    switch(type){
+        case PostgresTypes.bool:
+            return toBoolean(value);
+        case PostgresTypes.float4:
+        case PostgresTypes.float8:
+        case PostgresTypes.int2:
+        case PostgresTypes.int4:
+        case PostgresTypes.int8:
+        case PostgresTypes.numeric:
+        case PostgresTypes.oid:
+            return toNumber(value);
+        case PostgresTypes.json:
+        case PostgresTypes.jsonb:
+            return toJson(value);
+        case PostgresTypes.timestamp:
+            return toTimestampString(value); // Format to be consistent with PostgREST
+        case PostgresTypes.abstime:
+        case PostgresTypes.date:
+        case PostgresTypes.daterange:
+        case PostgresTypes.int4range:
+        case PostgresTypes.int8range:
+        case PostgresTypes.money:
+        case PostgresTypes.reltime:
+        case PostgresTypes.text:
+        case PostgresTypes.time:
+        case PostgresTypes.timestamptz:
+        case PostgresTypes.timetz:
+        case PostgresTypes.tsrange:
+        case PostgresTypes.tstzrange:
+            return noop(value);
+        default:
+            // Return the value for remaining types
+            return noop(value);
+    }
+};
+const noop = (value)=>{
+    return value;
+};
+const toBoolean = (value)=>{
+    switch(value){
+        case 't':
+            return true;
+        case 'f':
+            return false;
+        default:
+            return value;
+    }
+};
+const toNumber = (value)=>{
+    if (typeof value === 'string') {
+        const parsedValue = parseFloat(value);
+        if (!Number.isNaN(parsedValue)) {
+            return parsedValue;
+        }
+    }
+    return value;
+};
+const toJson = (value)=>{
+    if (typeof value === 'string') {
+        try {
+            return JSON.parse(value);
+        } catch (_a) {
+            return value;
+        }
+    }
+    return value;
+};
+const toArray = (value, type)=>{
+    if (typeof value !== 'string') {
+        return value;
+    }
+    const lastIdx = value.length - 1;
+    const closeBrace = value[lastIdx];
+    const openBrace = value[0];
+    // Confirm value is a Postgres array by checking curly brackets
+    if (openBrace === '{' && closeBrace === '}') {
+        let arr;
+        const valTrim = value.slice(1, lastIdx);
+        // TODO: find a better solution to separate Postgres array data
+        try {
+            arr = JSON.parse('[' + valTrim + ']');
+        } catch (_) {
+            // WARNING: splitting on comma does not cover all edge cases
+            arr = valTrim ? valTrim.split(',') : [];
+        }
+        return arr.map((val)=>convertCell(type, val));
+    }
+    return value;
+};
+const toTimestampString = (value)=>{
+    if (typeof value === 'string') {
+        return value.replace(' ', 'T');
+    }
+    return value;
+};
+const httpEndpointURL = (socketUrl)=>{
+    const wsUrl = new URL(socketUrl);
+    wsUrl.protocol = wsUrl.protocol.replace(/^ws/i, 'http');
+    wsUrl.pathname = wsUrl.pathname.replace(/\/+$/, '') // remove all trailing slashes
+    .replace(/\/socket\/websocket$/i, '') // remove the socket/websocket path
+    .replace(/\/socket$/i, '') // remove the socket path
+    .replace(/\/websocket$/i, ''); // remove the websocket path
+    if (wsUrl.pathname === '' || wsUrl.pathname === '/') {
+        wsUrl.pathname = '/api/broadcast';
+    } else {
+        wsUrl.pathname = wsUrl.pathname + '/api/broadcast';
+    }
+    return wsUrl.href;
+};
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/phoenix/presenceAdapter.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>PresenceAdapter
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$phoenix$2f$priv$2f$static$2f$phoenix$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/phoenix/priv/static/phoenix.mjs [app-route] (ecmascript)");
+;
+class PresenceAdapter {
+    constructor(channel, opts){
+        const phoenixOptions = phoenixPresenceOptions(opts);
+        this.presence = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$phoenix$2f$priv$2f$static$2f$phoenix$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Presence"](channel.getChannel(), phoenixOptions);
+        this.presence.onJoin((key, currentPresence, newPresence)=>{
+            const onJoinPayload = PresenceAdapter.onJoinPayload(key, currentPresence, newPresence);
+            channel.getChannel().trigger('presence', onJoinPayload);
+        });
+        this.presence.onLeave((key, currentPresence, leftPresence)=>{
+            const onLeavePayload = PresenceAdapter.onLeavePayload(key, currentPresence, leftPresence);
+            channel.getChannel().trigger('presence', onLeavePayload);
+        });
+        this.presence.onSync(()=>{
+            channel.getChannel().trigger('presence', {
+                event: 'sync'
+            });
+        });
+    }
+    get state() {
+        return PresenceAdapter.transformState(this.presence.state);
+    }
+    /**
+     * @private
+     * Remove 'metas' key
+     * Change 'phx_ref' to 'presence_ref'
+     * Remove 'phx_ref' and 'phx_ref_prev'
+     *
+     * @example Transform state
+     * // returns {
+     *  abc123: [
+     *    { presence_ref: '2', user_id: 1 },
+     *    { presence_ref: '3', user_id: 2 }
+     *  ]
+     * }
+     * RealtimePresence.transformState({
+     *  abc123: {
+     *    metas: [
+     *      { phx_ref: '2', phx_ref_prev: '1' user_id: 1 },
+     *      { phx_ref: '3', user_id: 2 }
+     *    ]
+     *  }
+     * })
+     *
+     */ static transformState(state) {
+        state = cloneState(state);
+        return Object.getOwnPropertyNames(state).reduce((newState, key)=>{
+            const presences = state[key];
+            newState[key] = transformState(presences);
+            return newState;
+        }, {});
+    }
+    static onJoinPayload(key, currentPresence, newPresence) {
+        const currentPresences = parseCurrentPresences(currentPresence);
+        const newPresences = transformState(newPresence);
+        return {
+            event: 'join',
+            key,
+            currentPresences,
+            newPresences
+        };
+    }
+    static onLeavePayload(key, currentPresence, leftPresence) {
+        const currentPresences = parseCurrentPresences(currentPresence);
+        const leftPresences = transformState(leftPresence);
+        return {
+            event: 'leave',
+            key,
+            currentPresences,
+            leftPresences
+        };
+    }
+}
+function transformState(presences) {
+    return presences.metas.map((presence)=>{
+        presence['presence_ref'] = presence['phx_ref'];
+        delete presence['phx_ref'];
+        delete presence['phx_ref_prev'];
+        return presence;
+    });
+}
+function cloneState(state) {
+    return JSON.parse(JSON.stringify(state));
+}
+function phoenixPresenceOptions(opts) {
+    return (opts === null || opts === void 0 ? void 0 : opts.events) && {
+        events: opts.events
+    };
+}
+function parseCurrentPresences(currentPresences) {
+    return (currentPresences === null || currentPresences === void 0 ? void 0 : currentPresences.metas) ? transformState(currentPresences) : [];
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/RealtimePresence.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "REALTIME_PRESENCE_LISTEN_EVENTS",
+    ()=>REALTIME_PRESENCE_LISTEN_EVENTS,
+    "default",
+    ()=>RealtimePresence
+]);
+/*
+  This file draws heavily from https://github.com/phoenixframework/phoenix/blob/d344ec0a732ab4ee204215b31de69cf4be72e3bf/assets/js/phoenix/presence.js
+  License: https://github.com/phoenixframework/phoenix/blob/d344ec0a732ab4ee204215b31de69cf4be72e3bf/LICENSE.md
+*/ var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$phoenix$2f$presenceAdapter$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/phoenix/presenceAdapter.js [app-route] (ecmascript)");
+;
+var REALTIME_PRESENCE_LISTEN_EVENTS;
+(function(REALTIME_PRESENCE_LISTEN_EVENTS) {
+    REALTIME_PRESENCE_LISTEN_EVENTS["SYNC"] = "sync";
+    REALTIME_PRESENCE_LISTEN_EVENTS["JOIN"] = "join";
+    REALTIME_PRESENCE_LISTEN_EVENTS["LEAVE"] = "leave";
+})(REALTIME_PRESENCE_LISTEN_EVENTS || (REALTIME_PRESENCE_LISTEN_EVENTS = {}));
+class RealtimePresence {
+    get state() {
+        return this.presenceAdapter.state;
+    }
+    /**
+     * Creates a Presence helper that keeps the local presence state in sync with the server.
+     *
+     * @param channel - The realtime channel to bind to.
+     * @param opts - Optional custom event names, e.g. `{ events: { state: 'state', diff: 'diff' } }`.
+     *
+     * @category Realtime
+     *
+     * @example Example for a presence channel
+     * ```ts
+     * const presence = new RealtimePresence(channel)
+     *
+     * channel.on('presence', ({ event, key }) => {
+     *   console.log(`Presence ${event} on ${key}`)
+     * })
+     * ```
+     */ constructor(channel, opts){
+        this.channel = channel;
+        this.presenceAdapter = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$phoenix$2f$presenceAdapter$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"](this.channel.channelAdapter, opts);
+    }
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/normalizeChannelError.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/**
+ * Normalize the various shapes a channel error reason can take into a real `Error`.
+ *
+ * Transport-level channel errors arrive as a `CloseEvent`, a transport `Event`, an `Error`,
+ * a string, or `undefined` depending on which path in the underlying socket fired. Server-reply
+ * errors arrive as a payload object. This helper produces a consistent `Error` for every case
+ * and preserves the original via `cause` so callers can still inspect the raw event.
+ */ __turbopack_context__.s([
+    "normalizeChannelError",
+    ()=>normalizeChannelError
+]);
+function normalizeChannelError(reason) {
+    if (reason instanceof Error) {
+        return reason;
+    }
+    if (typeof reason === 'string') {
+        return new Error(reason);
+    }
+    if (reason && typeof reason === 'object') {
+        const obj = reason;
+        if (typeof obj.code === 'number') {
+            const detail = typeof obj.reason === 'string' && obj.reason ? ` (${obj.reason})` : '';
+            return new Error(`socket closed: ${obj.code}${detail}`, {
+                cause: reason
+            });
+        }
+        return new Error('channel error: transport failure', {
+            cause: reason
+        });
+    }
+    return new Error('channel error: connection lost');
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/phoenix/channelAdapter.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>ChannelAdapter
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/constants.js [app-route] (ecmascript)");
+;
+class ChannelAdapter {
+    constructor(socket, topic, params){
+        const phoenixParams = phoenixChannelParams(params);
+        this.channel = socket.getSocket().channel(topic, phoenixParams);
+        this.socket = socket;
+    }
+    get state() {
+        return this.channel.state;
+    }
+    set state(state) {
+        this.channel.state = state;
+    }
+    get joinedOnce() {
+        return this.channel.joinedOnce;
+    }
+    get joinPush() {
+        return this.channel.joinPush;
+    }
+    get rejoinTimer() {
+        return this.channel.rejoinTimer;
+    }
+    on(event, callback) {
+        return this.channel.on(event, callback);
+    }
+    off(event, refNumber) {
+        this.channel.off(event, refNumber);
+    }
+    subscribe(timeout) {
+        return this.channel.join(timeout);
+    }
+    unsubscribe(timeout) {
+        return this.channel.leave(timeout);
+    }
+    teardown() {
+        this.channel.teardown();
+    }
+    onClose(callback) {
+        this.channel.onClose(callback);
+    }
+    onError(callback) {
+        return this.channel.onError(callback);
+    }
+    push(event, payload, timeout) {
+        let push;
+        try {
+            push = this.channel.push(event, payload, timeout);
+        } catch (error) {
+            throw new Error(`tried to push '${event}' to '${this.channel.topic}' before joining. Use channel.subscribe() before pushing events`);
+        }
+        if (this.channel.pushBuffer.length > __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["MAX_PUSH_BUFFER_SIZE"]) {
+            const removedPush = this.channel.pushBuffer.shift();
+            removedPush.cancelTimeout();
+            this.socket.log('channel', `discarded push due to buffer overflow: ${removedPush.event}`, removedPush.payload());
+        }
+        return push;
+    }
+    updateJoinPayload(payload) {
+        const oldPayload = this.channel.joinPush.payload();
+        this.channel.joinPush.payload = ()=>Object.assign(Object.assign({}, oldPayload), payload);
+    }
+    canPush() {
+        return this.socket.isConnected() && this.state === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CHANNEL_STATES"].joined;
+    }
+    isJoined() {
+        return this.state === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CHANNEL_STATES"].joined;
+    }
+    isJoining() {
+        return this.state === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CHANNEL_STATES"].joining;
+    }
+    isClosed() {
+        return this.state === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CHANNEL_STATES"].closed;
+    }
+    isLeaving() {
+        return this.state === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CHANNEL_STATES"].leaving;
+    }
+    updateFilterBindings(filterBindings) {
+        this.channel.filterBindings = filterBindings;
+    }
+    updatePayloadTransform(callback) {
+        this.channel.onMessage = callback;
+    }
+    /**
+     * @internal
+     */ getChannel() {
+        return this.channel;
+    }
+}
+function phoenixChannelParams(options) {
+    return {
+        config: Object.assign({
+            broadcast: {
+                ack: false,
+                self: false
+            },
+            presence: {
+                key: '',
+                enabled: false
+            },
+            private: false
+        }, options.config)
+    };
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/RealtimeChannel.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "REALTIME_CHANNEL_STATES",
+    ()=>REALTIME_CHANNEL_STATES,
+    "REALTIME_LISTEN_TYPES",
+    ()=>REALTIME_LISTEN_TYPES,
+    "REALTIME_POSTGRES_CHANGES_LISTEN_EVENT",
+    ()=>REALTIME_POSTGRES_CHANGES_LISTEN_EVENT,
+    "REALTIME_SUBSCRIBE_STATES",
+    ()=>REALTIME_SUBSCRIBE_STATES,
+    "default",
+    ()=>RealtimeChannel
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/constants.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$RealtimePresence$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/RealtimePresence.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$transformers$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/transformers.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$normalizeChannelError$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/normalizeChannelError.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$phoenix$2f$channelAdapter$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/phoenix/channelAdapter.js [app-route] (ecmascript)");
+;
+;
+;
+;
+;
+;
+var REALTIME_POSTGRES_CHANGES_LISTEN_EVENT;
+(function(REALTIME_POSTGRES_CHANGES_LISTEN_EVENT) {
+    REALTIME_POSTGRES_CHANGES_LISTEN_EVENT["ALL"] = "*";
+    REALTIME_POSTGRES_CHANGES_LISTEN_EVENT["INSERT"] = "INSERT";
+    REALTIME_POSTGRES_CHANGES_LISTEN_EVENT["UPDATE"] = "UPDATE";
+    REALTIME_POSTGRES_CHANGES_LISTEN_EVENT["DELETE"] = "DELETE";
+})(REALTIME_POSTGRES_CHANGES_LISTEN_EVENT || (REALTIME_POSTGRES_CHANGES_LISTEN_EVENT = {}));
+var REALTIME_LISTEN_TYPES;
+(function(REALTIME_LISTEN_TYPES) {
+    REALTIME_LISTEN_TYPES["BROADCAST"] = "broadcast";
+    REALTIME_LISTEN_TYPES["PRESENCE"] = "presence";
+    REALTIME_LISTEN_TYPES["POSTGRES_CHANGES"] = "postgres_changes";
+    REALTIME_LISTEN_TYPES["SYSTEM"] = "system";
+})(REALTIME_LISTEN_TYPES || (REALTIME_LISTEN_TYPES = {}));
+var REALTIME_SUBSCRIBE_STATES;
+(function(REALTIME_SUBSCRIBE_STATES) {
+    REALTIME_SUBSCRIBE_STATES["SUBSCRIBED"] = "SUBSCRIBED";
+    REALTIME_SUBSCRIBE_STATES["TIMED_OUT"] = "TIMED_OUT";
+    REALTIME_SUBSCRIBE_STATES["CLOSED"] = "CLOSED";
+    REALTIME_SUBSCRIBE_STATES["CHANNEL_ERROR"] = "CHANNEL_ERROR";
+})(REALTIME_SUBSCRIBE_STATES || (REALTIME_SUBSCRIBE_STATES = {}));
+const REALTIME_CHANNEL_STATES = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CHANNEL_STATES"];
+class RealtimeChannel {
+    get state() {
+        return this.channelAdapter.state;
+    }
+    set state(state) {
+        this.channelAdapter.state = state;
+    }
+    get joinedOnce() {
+        return this.channelAdapter.joinedOnce;
+    }
+    get timeout() {
+        return this.socket.timeout;
+    }
+    get joinPush() {
+        return this.channelAdapter.joinPush;
+    }
+    get rejoinTimer() {
+        return this.channelAdapter.rejoinTimer;
+    }
+    /**
+     * Creates a channel that can broadcast messages, sync presence, and listen to Postgres changes.
+     *
+     * The topic determines which realtime stream you are subscribing to. Config options let you
+     * enable acknowledgement for broadcasts, presence tracking, or private channels.
+     *
+     * @category Realtime
+     *
+     * @example Using supabase-js (recommended)
+     * ```ts
+     * import { createClient } from '@supabase/supabase-js'
+     *
+     * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+     * const channel = supabase.channel('room1')
+     * channel
+     *   .on('broadcast', { event: 'cursor-pos' }, (payload) => console.log(payload))
+     *   .subscribe()
+     * ```
+     *
+     * @example Standalone import for bundle-sensitive environments
+     * ```ts
+     * import RealtimeClient from '@supabase/realtime-js'
+     *
+     * const client = new RealtimeClient('https://xyzcompany.supabase.co/realtime/v1', {
+     *   params: { apikey: 'your-publishable-key' },
+     * })
+     * const channel = new RealtimeChannel('realtime:public:messages', { config: {} }, client)
+     * ```
+     */ constructor(/** Topic name can be any string. */ topic, params = {
+        config: {}
+    }, socket){
+        var _a, _b;
+        this.topic = topic;
+        this.params = params;
+        this.socket = socket;
+        this.bindings = {};
+        this.subTopic = topic.replace(/^realtime:/i, '');
+        this.params.config = Object.assign({
+            broadcast: {
+                ack: false,
+                self: false
+            },
+            presence: {
+                key: '',
+                enabled: false
+            },
+            private: false
+        }, params.config);
+        this.channelAdapter = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$phoenix$2f$channelAdapter$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"](this.socket.socketAdapter, topic, this.params);
+        this.presence = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$RealtimePresence$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"](this);
+        this._onClose(()=>{
+            this.socket._remove(this);
+        });
+        this._updateFilterTransform();
+        this.broadcastEndpointURL = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$transformers$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["httpEndpointURL"])(this.socket.socketAdapter.endPointURL());
+        this.private = this.params.config.private || false;
+        if (!this.private && ((_b = (_a = this.params.config) === null || _a === void 0 ? void 0 : _a.broadcast) === null || _b === void 0 ? void 0 : _b.replay)) {
+            throw new Error(`tried to use replay on public channel '${this.topic}'. It must be a private channel.`);
+        }
+    }
+    /**
+     * Subscribe registers your client with the server
+     * @category Realtime
+     */ subscribe(callback, timeout = this.timeout) {
+        var _a, _b, _c;
+        if (!this.socket.isConnected()) {
+            this.socket.connect();
+        }
+        if (this.channelAdapter.isClosed()) {
+            const { config: { broadcast, presence, private: isPrivate } } = this.params;
+            const postgres_changes = (_b = (_a = this.bindings.postgres_changes) === null || _a === void 0 ? void 0 : _a.map((r)=>r.filter)) !== null && _b !== void 0 ? _b : [];
+            const presence_enabled = !!this.bindings[REALTIME_LISTEN_TYPES.PRESENCE] && this.bindings[REALTIME_LISTEN_TYPES.PRESENCE].length > 0 || ((_c = this.params.config.presence) === null || _c === void 0 ? void 0 : _c.enabled) === true;
+            const accessTokenPayload = {};
+            const config = {
+                broadcast,
+                presence: Object.assign(Object.assign({}, presence), {
+                    enabled: presence_enabled
+                }),
+                postgres_changes,
+                private: isPrivate
+            };
+            if (this.socket.accessTokenValue) {
+                accessTokenPayload.access_token = this.socket.accessTokenValue;
+            }
+            this._onError((reason)=>{
+                callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.CHANNEL_ERROR, (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$normalizeChannelError$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["normalizeChannelError"])(reason));
+            });
+            this._onClose(()=>callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.CLOSED));
+            this.updateJoinPayload(Object.assign({
+                config
+            }, accessTokenPayload));
+            this._updateFilterMessage();
+            this.channelAdapter.subscribe(timeout).receive('ok', async ({ postgres_changes })=>{
+                // Only refresh auth if using callback-based tokens
+                if (!this.socket._isManualToken()) {
+                    this.socket.setAuth();
+                }
+                if (postgres_changes === undefined) {
+                    callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.SUBSCRIBED);
+                    return;
+                }
+                this._updatePostgresBindings(postgres_changes, callback);
+            }).receive('error', (error)=>{
+                this.state = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CHANNEL_STATES"].errored;
+                const message = Object.values(error).join(', ') || 'error';
+                callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.CHANNEL_ERROR, new Error(message, {
+                    cause: error
+                }));
+            }).receive('timeout', ()=>{
+                callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.TIMED_OUT);
+            });
+        }
+        return this;
+    }
+    _updatePostgresBindings(postgres_changes, callback) {
+        var _a;
+        const clientPostgresBindings = this.bindings.postgres_changes;
+        const bindingsLen = (_a = clientPostgresBindings === null || clientPostgresBindings === void 0 ? void 0 : clientPostgresBindings.length) !== null && _a !== void 0 ? _a : 0;
+        const newPostgresBindings = [];
+        for(let i = 0; i < bindingsLen; i++){
+            const clientPostgresBinding = clientPostgresBindings[i];
+            const { filter: { event, schema, table, filter } } = clientPostgresBinding;
+            const serverPostgresFilter = postgres_changes && postgres_changes[i];
+            if (serverPostgresFilter && serverPostgresFilter.event === event && RealtimeChannel.isFilterValueEqual(serverPostgresFilter.schema, schema) && RealtimeChannel.isFilterValueEqual(serverPostgresFilter.table, table) && RealtimeChannel.isFilterValueEqual(serverPostgresFilter.filter, filter)) {
+                newPostgresBindings.push(Object.assign(Object.assign({}, clientPostgresBinding), {
+                    id: serverPostgresFilter.id
+                }));
+            } else {
+                this.unsubscribe();
+                this.state = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CHANNEL_STATES"].errored;
+                callback === null || callback === void 0 ? void 0 : callback(REALTIME_SUBSCRIBE_STATES.CHANNEL_ERROR, new Error('mismatch between server and client bindings for postgres changes'));
+                return;
+            }
+        }
+        this.bindings.postgres_changes = newPostgresBindings;
+        if (this.state != __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CHANNEL_STATES"].errored && callback) {
+            callback(REALTIME_SUBSCRIBE_STATES.SUBSCRIBED);
+        }
+    }
+    /**
+     * Returns the current presence state for this channel.
+     *
+     * The shape is a map keyed by presence key (for example a user id) where each entry contains the
+     * tracked metadata for that user.
+     *
+     * @category Realtime
+     */ presenceState() {
+        return this.presence.state;
+    }
+    /**
+     * Sends the supplied payload to the presence tracker so other subscribers can see that this
+     * client is online. Use `untrack` to stop broadcasting presence for the same key.
+     *
+     * @category Realtime
+     */ async track(payload, opts = {}) {
+        return await this.send({
+            type: 'presence',
+            event: 'track',
+            payload
+        }, opts.timeout || this.timeout);
+    }
+    /**
+     * Removes the current presence state for this client.
+     *
+     * @category Realtime
+     */ async untrack(opts = {}) {
+        return await this.send({
+            type: 'presence',
+            event: 'untrack'
+        }, opts);
+    }
+    /**
+     * Listen to realtime events on this channel.
+     * @category Realtime
+     *
+     * @remarks
+     * - By default, Broadcast and Presence are enabled for all projects.
+     * - By default, listening to database changes is disabled for new projects due to database performance and security concerns. You can turn it on by managing Realtime's [replication](/docs/guides/api#realtime-api-overview).
+     * - You can receive the "previous" data for updates and deletes by setting the table's `REPLICA IDENTITY` to `FULL` (e.g., `ALTER TABLE your_table REPLICA IDENTITY FULL;`).
+     * - Row level security is not applied to delete statements. When RLS is enabled and replica identity is set to full, only the primary key is sent to clients.
+     *
+     * @example Listen to broadcast messages
+     * ```js
+     * const channel = supabase.channel("room1")
+     *
+     * channel.on("broadcast", { event: "cursor-pos" }, (payload) => {
+     *   console.log("Cursor position received!", payload);
+     * }).subscribe((status) => {
+     *   if (status === "SUBSCRIBED") {
+     *     channel.send({
+     *       type: "broadcast",
+     *       event: "cursor-pos",
+     *       payload: { x: Math.random(), y: Math.random() },
+     *     });
+     *   }
+     * });
+     * ```
+     *
+     * @example Listen to presence sync
+     * ```js
+     * const channel = supabase.channel('room1')
+     * channel
+     *   .on('presence', { event: 'sync' }, () => {
+     *     console.log('Synced presence state: ', channel.presenceState())
+     *   })
+     *   .subscribe(async (status) => {
+     *     if (status === 'SUBSCRIBED') {
+     *       await channel.track({ online_at: new Date().toISOString() })
+     *     }
+     *   })
+     * ```
+     *
+     * @example Listen to presence join
+     * ```js
+     * const channel = supabase.channel('room1')
+     * channel
+     *   .on('presence', { event: 'join' }, ({ newPresences }) => {
+     *     console.log('Newly joined presences: ', newPresences)
+     *   })
+     *   .subscribe(async (status) => {
+     *     if (status === 'SUBSCRIBED') {
+     *       await channel.track({ online_at: new Date().toISOString() })
+     *     }
+     *   })
+     * ```
+     *
+     * @example Listen to presence leave
+     * ```js
+     * const channel = supabase.channel('room1')
+     * channel
+     *   .on('presence', { event: 'leave' }, ({ leftPresences }) => {
+     *     console.log('Newly left presences: ', leftPresences)
+     *   })
+     *   .subscribe(async (status) => {
+     *     if (status === 'SUBSCRIBED') {
+     *       await channel.track({ online_at: new Date().toISOString() })
+     *       await channel.untrack()
+     *     }
+     *   })
+     * ```
+     *
+     * @example Listen to all database changes
+     * ```js
+     * supabase
+     *   .channel('room1')
+     *   .on('postgres_changes', { event: '*', schema: '*' }, payload => {
+     *     console.log('Change received!', payload)
+     *   })
+     *   .subscribe()
+     * ```
+     *
+     * @example Listen to a specific table
+     * ```js
+     * supabase
+     *   .channel('room1')
+     *   .on('postgres_changes', { event: '*', schema: 'public', table: 'countries' }, payload => {
+     *     console.log('Change received!', payload)
+     *   })
+     *   .subscribe()
+     * ```
+     *
+     * @example Listen to inserts
+     * ```js
+     * supabase
+     *   .channel('room1')
+     *   .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'countries' }, payload => {
+     *     console.log('Change received!', payload)
+     *   })
+     *   .subscribe()
+     * ```
+     *
+     * @exampleDescription Listen to updates
+     * By default, Supabase will send only the updated record. If you want to receive the previous values as well you can
+     * enable full replication for the table you are listening to:
+     *
+     * ```sql
+     * alter table "your_table" replica identity full;
+     * ```
+     *
+     * @example Listen to updates
+     * ```js
+     * supabase
+     *   .channel('room1')
+     *   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'countries' }, payload => {
+     *     console.log('Change received!', payload)
+     *   })
+     *   .subscribe()
+     * ```
+     *
+     * @exampleDescription Listen to deletes
+     * By default, Supabase does not send deleted records. If you want to receive the deleted record you can
+     * enable full replication for the table you are listening to:
+     *
+     * ```sql
+     * alter table "your_table" replica identity full;
+     * ```
+     *
+     * @example Listen to deletes
+     * ```js
+     * supabase
+     *   .channel('room1')
+     *   .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'countries' }, payload => {
+     *     console.log('Change received!', payload)
+     *   })
+     *   .subscribe()
+     * ```
+     *
+     * @exampleDescription Listen to multiple events
+     * You can chain listeners if you want to listen to multiple events for each table.
+     *
+     * @example Listen to multiple events
+     * ```js
+     * supabase
+     *   .channel('room1')
+     *   .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'countries' }, handleRecordInserted)
+     *   .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'countries' }, handleRecordDeleted)
+     *   .subscribe()
+     * ```
+     *
+     * @exampleDescription Listen to row level changes
+     * You can listen to individual rows using the format `{table}:{col}=eq.{val}` - where `{col}` is the column name, and `{val}` is the value which you want to match.
+     *
+     * @example Listen to row level changes
+     * ```js
+     * supabase
+     *   .channel('room1')
+     *   .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'countries', filter: 'id=eq.200' }, handleRecordUpdated)
+     *   .subscribe()
+     * ```
+     */ on(type, filter, callback) {
+        const stateCheck = this.channelAdapter.isJoined() || this.channelAdapter.isJoining();
+        const typeCheck = type === REALTIME_LISTEN_TYPES.PRESENCE || type === REALTIME_LISTEN_TYPES.POSTGRES_CHANGES;
+        if (stateCheck && typeCheck) {
+            this.socket.log('channel', `cannot add \`${type}\` callbacks for ${this.topic} after \`subscribe()\`.`);
+            throw new Error(`cannot add \`${type}\` callbacks for ${this.topic} after \`subscribe()\`.`);
+        }
+        return this._on(type, filter, callback);
+    }
+    /**
+     * Sends a broadcast message explicitly via REST API.
+     *
+     * This method always uses the REST API endpoint regardless of WebSocket connection state.
+     * Useful when you want to guarantee REST delivery or when gradually migrating from implicit REST fallback.
+     *
+     * @param event The name of the broadcast event
+     * @param payload Payload to be sent (required)
+     * @param opts Options including timeout
+     * @returns Promise resolving to object with success status, and error details if failed
+     *
+     * @category Realtime
+     */ async httpSend(event, payload, opts = {}) {
+        var _a;
+        if (payload === undefined || payload === null) {
+            return Promise.reject(new Error('Payload is required for httpSend()'));
+        }
+        const headers = {
+            apikey: this.socket.apiKey ? this.socket.apiKey : '',
+            'Content-Type': 'application/json'
+        };
+        if (this.socket.accessTokenValue) {
+            headers['Authorization'] = `Bearer ${this.socket.accessTokenValue}`;
+        }
+        const options = {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({
+                messages: [
+                    {
+                        topic: this.subTopic,
+                        event,
+                        payload: payload,
+                        private: this.private
+                    }
+                ]
+            })
+        };
+        const response = await this._fetchWithTimeout(this.broadcastEndpointURL, options, (_a = opts.timeout) !== null && _a !== void 0 ? _a : this.timeout);
+        if (response.status === 202) {
+            return {
+                success: true
+            };
+        }
+        let errorMessage = response.statusText;
+        try {
+            const errorBody = await response.json();
+            errorMessage = errorBody.error || errorBody.message || errorMessage;
+        } catch (_b) {}
+        return Promise.reject(new Error(errorMessage));
+    }
+    /**
+     * Sends a message into the channel.
+     *
+     * @param args Arguments to send to channel
+     * @param args.type The type of event to send
+     * @param args.event The name of the event being sent
+     * @param args.payload Payload to be sent
+     * @param opts Options to be used during the send process
+     *
+     * @category Realtime
+     *
+     * @remarks
+     * - When using REST you don't need to subscribe to the channel
+     * - REST calls are only available from 2.37.0 onwards
+     *
+     * @example Send a message via websocket
+     * ```js
+     * const channel = supabase.channel('room1')
+     *
+     * channel.subscribe((status) => {
+     *   if (status === 'SUBSCRIBED') {
+     *     channel.send({
+     *       type: 'broadcast',
+     *       event: 'cursor-pos',
+     *       payload: { x: Math.random(), y: Math.random() },
+     *     })
+     *   }
+     * })
+     * ```
+     *
+     * @exampleResponse Send a message via websocket
+     * ```js
+     * ok | timed out | error
+     * ```
+     *
+     * @example Send a message via REST
+     * ```js
+     * supabase
+     *   .channel('room1')
+     *   .httpSend('cursor-pos', { x: Math.random(), y: Math.random() })
+     * ```
+     */ async send(args, opts = {}) {
+        var _a, _b;
+        if (!this.channelAdapter.canPush() && args.type === 'broadcast') {
+            console.warn('Realtime send() is automatically falling back to REST API. ' + 'This behavior will be deprecated in the future. ' + 'Please use httpSend() explicitly for REST delivery.');
+            const { event, payload: endpoint_payload } = args;
+            const headers = {
+                apikey: this.socket.apiKey ? this.socket.apiKey : '',
+                'Content-Type': 'application/json'
+            };
+            if (this.socket.accessTokenValue) {
+                headers['Authorization'] = `Bearer ${this.socket.accessTokenValue}`;
+            }
+            const options = {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({
+                    messages: [
+                        {
+                            topic: this.subTopic,
+                            event,
+                            payload: endpoint_payload,
+                            private: this.private
+                        }
+                    ]
+                })
+            };
+            try {
+                const response = await this._fetchWithTimeout(this.broadcastEndpointURL, options, (_a = opts.timeout) !== null && _a !== void 0 ? _a : this.timeout);
+                await ((_b = response.body) === null || _b === void 0 ? void 0 : _b.cancel());
+                return response.ok ? 'ok' : 'error';
+            } catch (error) {
+                if (error instanceof Error && error.name === 'AbortError') {
+                    return 'timed out';
+                } else {
+                    return 'error';
+                }
+            }
+        } else {
+            return new Promise((resolve)=>{
+                var _a, _b, _c;
+                const push = this.channelAdapter.push(args.type, args, opts.timeout || this.timeout);
+                if (args.type === 'broadcast' && !((_c = (_b = (_a = this.params) === null || _a === void 0 ? void 0 : _a.config) === null || _b === void 0 ? void 0 : _b.broadcast) === null || _c === void 0 ? void 0 : _c.ack)) {
+                    resolve('ok');
+                }
+                push.receive('ok', ()=>resolve('ok'));
+                push.receive('error', ()=>resolve('error'));
+                push.receive('timeout', ()=>resolve('timed out'));
+            });
+        }
+    }
+    /**
+     * Updates the payload that will be sent the next time the channel joins (reconnects).
+     * Useful for rotating access tokens or updating config without re-creating the channel.
+     *
+     * @category Realtime
+     */ updateJoinPayload(payload) {
+        this.channelAdapter.updateJoinPayload(payload);
+    }
+    /**
+     * Leaves the channel.
+     *
+     * Unsubscribes from server events, and instructs channel to terminate on server.
+     * Triggers onClose() hooks.
+     *
+     * To receive leave acknowledgements, use the a `receive` hook to bind to the server ack, ie:
+     * channel.unsubscribe().receive("ok", () => alert("left!") )
+     *
+     * @category Realtime
+     */ async unsubscribe(timeout = this.timeout) {
+        return new Promise((resolve)=>{
+            this.channelAdapter.unsubscribe(timeout).receive('ok', ()=>resolve('ok')).receive('timeout', ()=>resolve('timed out')).receive('error', ()=>resolve('error'));
+        });
+    }
+    /**
+     * Destroys and stops related timers.
+     *
+     * @category Realtime
+     */ teardown() {
+        this.channelAdapter.teardown();
+    }
+    /** @internal */ async _fetchWithTimeout(url, options, timeout) {
+        const controller = new AbortController();
+        const id = setTimeout(()=>controller.abort(), timeout);
+        const response = await this.socket.fetch(url, Object.assign(Object.assign({}, options), {
+            signal: controller.signal
+        }));
+        clearTimeout(id);
+        return response;
+    }
+    /** @internal */ _on(type, filter, callback) {
+        const typeLower = type.toLocaleLowerCase();
+        const ref = this.channelAdapter.on(type, callback);
+        const binding = {
+            type: typeLower,
+            filter: filter,
+            callback: callback,
+            ref: ref
+        };
+        if (this.bindings[typeLower]) {
+            this.bindings[typeLower].push(binding);
+        } else {
+            this.bindings[typeLower] = [
+                binding
+            ];
+        }
+        this._updateFilterMessage();
+        return this;
+    }
+    /**
+     * Registers a callback that will be executed when the channel closes.
+     *
+     * @internal
+     */ _onClose(callback) {
+        this.channelAdapter.onClose(callback);
+    }
+    /**
+     * Registers a callback that will be executed when the channel encounteres an error.
+     *
+     * @internal
+     */ _onError(callback) {
+        this.channelAdapter.onError(callback);
+    }
+    /** @internal */ _updateFilterMessage() {
+        this.channelAdapter.updateFilterBindings((binding, payload, ref)=>{
+            var _a, _b, _c, _d, _e, _f, _g;
+            const typeLower = binding.event.toLocaleLowerCase();
+            if (this._notThisChannelEvent(typeLower, ref)) {
+                return false;
+            }
+            const bind = (_a = this.bindings[typeLower]) === null || _a === void 0 ? void 0 : _a.find((bind)=>bind.ref === binding.ref);
+            if (!bind) {
+                return true;
+            }
+            if ([
+                'broadcast',
+                'presence',
+                'postgres_changes'
+            ].includes(typeLower)) {
+                if ('id' in bind) {
+                    const bindId = bind.id;
+                    const bindEvent = (_b = bind.filter) === null || _b === void 0 ? void 0 : _b.event;
+                    return bindId && ((_c = payload.ids) === null || _c === void 0 ? void 0 : _c.includes(bindId)) && (bindEvent === '*' || (bindEvent === null || bindEvent === void 0 ? void 0 : bindEvent.toLocaleLowerCase()) === ((_d = payload.data) === null || _d === void 0 ? void 0 : _d.type.toLocaleLowerCase()));
+                } else {
+                    const bindEvent = (_f = (_e = bind === null || bind === void 0 ? void 0 : bind.filter) === null || _e === void 0 ? void 0 : _e.event) === null || _f === void 0 ? void 0 : _f.toLocaleLowerCase();
+                    return bindEvent === '*' || bindEvent === ((_g = payload === null || payload === void 0 ? void 0 : payload.event) === null || _g === void 0 ? void 0 : _g.toLocaleLowerCase());
+                }
+            } else {
+                return bind.type.toLocaleLowerCase() === typeLower;
+            }
+        });
+    }
+    /** @internal */ _notThisChannelEvent(event, ref) {
+        const { close, error, leave, join } = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CHANNEL_EVENTS"];
+        const events = [
+            close,
+            error,
+            leave,
+            join
+        ];
+        return ref && events.includes(event) && ref !== this.joinPush.ref;
+    }
+    /** @internal */ _updateFilterTransform() {
+        this.channelAdapter.updatePayloadTransform((event, payload, ref)=>{
+            if (typeof payload === 'object' && 'ids' in payload) {
+                const postgresChanges = payload.data;
+                const { schema, table, commit_timestamp, type, errors } = postgresChanges;
+                const enrichedPayload = {
+                    schema: schema,
+                    table: table,
+                    commit_timestamp: commit_timestamp,
+                    eventType: type,
+                    new: {},
+                    old: {},
+                    errors: errors
+                };
+                return Object.assign(Object.assign({}, enrichedPayload), this._getPayloadRecords(postgresChanges));
+            }
+            return payload;
+        });
+    }
+    copyBindings(other) {
+        if (this.joinedOnce) {
+            throw new Error('cannot copy bindings into joined channel');
+        }
+        for(const kind in other.bindings){
+            for (const binding of other.bindings[kind]){
+                this._on(binding.type, binding.filter, binding.callback);
+            }
+        }
+    }
+    /**
+     * Compares two optional filter values for equality.
+     * Treats undefined, null, and empty string as equivalent empty values.
+     * @internal
+     */ static isFilterValueEqual(serverValue, clientValue) {
+        const normalizedServer = serverValue !== null && serverValue !== void 0 ? serverValue : undefined;
+        const normalizedClient = clientValue !== null && clientValue !== void 0 ? clientValue : undefined;
+        return normalizedServer === normalizedClient;
+    }
+    /** @internal */ _getPayloadRecords(payload) {
+        const records = {
+            new: {},
+            old: {}
+        };
+        if (payload.type === 'INSERT' || payload.type === 'UPDATE') {
+            records.new = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$transformers$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["convertChangeData"](payload.columns, payload.record);
+        }
+        if (payload.type === 'UPDATE' || payload.type === 'DELETE') {
+            records.old = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$transformers$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["convertChangeData"](payload.columns, payload.old_record);
+        }
+        return records;
+    }
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/phoenix/socketAdapter.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>SocketAdapter
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$phoenix$2f$priv$2f$static$2f$phoenix$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/phoenix/priv/static/phoenix.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/constants.js [app-route] (ecmascript)");
+;
+;
+class SocketAdapter {
+    constructor(endPoint, options){
+        this.socket = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$phoenix$2f$priv$2f$static$2f$phoenix$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Socket"](endPoint, options);
+    }
+    get timeout() {
+        return this.socket.timeout;
+    }
+    get endPoint() {
+        return this.socket.endPoint;
+    }
+    get transport() {
+        return this.socket.transport;
+    }
+    get heartbeatIntervalMs() {
+        return this.socket.heartbeatIntervalMs;
+    }
+    get heartbeatCallback() {
+        return this.socket.heartbeatCallback;
+    }
+    set heartbeatCallback(callback) {
+        this.socket.heartbeatCallback = callback;
+    }
+    get heartbeatTimer() {
+        return this.socket.heartbeatTimer;
+    }
+    get pendingHeartbeatRef() {
+        return this.socket.pendingHeartbeatRef;
+    }
+    get reconnectTimer() {
+        return this.socket.reconnectTimer;
+    }
+    get vsn() {
+        return this.socket.vsn;
+    }
+    get encode() {
+        return this.socket.encode;
+    }
+    get decode() {
+        return this.socket.decode;
+    }
+    get reconnectAfterMs() {
+        return this.socket.reconnectAfterMs;
+    }
+    get sendBuffer() {
+        return this.socket.sendBuffer;
+    }
+    get stateChangeCallbacks() {
+        return this.socket.stateChangeCallbacks;
+    }
+    connect() {
+        this.socket.connect();
+    }
+    disconnect(callback, code, reason, timeout = 10000) {
+        return new Promise((resolve)=>{
+            setTimeout(()=>resolve('timeout'), timeout);
+            this.socket.disconnect(()=>{
+                callback();
+                resolve('ok');
+            }, code, reason);
+        });
+    }
+    push(data) {
+        this.socket.push(data);
+    }
+    log(kind, msg, data) {
+        this.socket.log(kind, msg, data);
+    }
+    makeRef() {
+        return this.socket.makeRef();
+    }
+    onOpen(callback) {
+        this.socket.onOpen(callback);
+    }
+    onClose(callback) {
+        this.socket.onClose(callback);
+    }
+    onError(callback) {
+        this.socket.onError(callback);
+    }
+    onMessage(callback) {
+        this.socket.onMessage(callback);
+    }
+    isConnected() {
+        return this.socket.isConnected();
+    }
+    isConnecting() {
+        return this.socket.connectionState() == __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CONNECTION_STATE"].connecting;
+    }
+    isDisconnecting() {
+        return this.socket.connectionState() == __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CONNECTION_STATE"].closing;
+    }
+    connectionState() {
+        // @ts-ignore - requires better typing and exposing type in phoenix
+        return this.socket.connectionState();
+    }
+    endPointURL() {
+        return this.socket.endPointURL();
+    }
+    sendHeartbeat() {
+        this.socket.sendHeartbeat();
+    }
+    /**
+     * @internal
+     */ getSocket() {
+        return this.socket;
+    }
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/RealtimeClient.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>RealtimeClient
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$websocket$2d$factory$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/constants.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$serializer$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/serializer.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$transformers$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/transformers.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$RealtimeChannel$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/RealtimeChannel.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$phoenix$2f$socketAdapter$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/phoenix/socketAdapter.js [app-route] (ecmascript)");
+;
+;
+;
+;
+;
+;
+// Connection-related constants
+const CONNECTION_TIMEOUTS = {
+    HEARTBEAT_INTERVAL: 25000,
+    RECONNECT_DELAY: 10,
+    HEARTBEAT_TIMEOUT_FALLBACK: 100
+};
+const RECONNECT_INTERVALS = [
+    1000,
+    2000,
+    5000,
+    10000
+];
+const DEFAULT_RECONNECT_FALLBACK = 10000;
+const WORKER_SCRIPT = `
+  addEventListener("message", (e) => {
+    if (e.data.event === "start") {
+      setInterval(() => postMessage({ event: "keepAlive" }), e.data.interval);
+    }
+  });`;
+class RealtimeClient {
+    get endPoint() {
+        return this.socketAdapter.endPoint;
+    }
+    get timeout() {
+        return this.socketAdapter.timeout;
+    }
+    get transport() {
+        return this.socketAdapter.transport;
+    }
+    get heartbeatCallback() {
+        return this.socketAdapter.heartbeatCallback;
+    }
+    get heartbeatIntervalMs() {
+        return this.socketAdapter.heartbeatIntervalMs;
+    }
+    get heartbeatTimer() {
+        if (this.worker) {
+            return this._workerHeartbeatTimer;
+        }
+        return this.socketAdapter.heartbeatTimer;
+    }
+    get pendingHeartbeatRef() {
+        if (this.worker) {
+            return this._pendingWorkerHeartbeatRef;
+        }
+        return this.socketAdapter.pendingHeartbeatRef;
+    }
+    get reconnectTimer() {
+        return this.socketAdapter.reconnectTimer;
+    }
+    get vsn() {
+        return this.socketAdapter.vsn;
+    }
+    get encode() {
+        return this.socketAdapter.encode;
+    }
+    get decode() {
+        return this.socketAdapter.decode;
+    }
+    get reconnectAfterMs() {
+        return this.socketAdapter.reconnectAfterMs;
+    }
+    get sendBuffer() {
+        return this.socketAdapter.sendBuffer;
+    }
+    get stateChangeCallbacks() {
+        return this.socketAdapter.stateChangeCallbacks;
+    }
+    /**
+     * Initializes the Socket.
+     *
+     * @param endPoint The string WebSocket endpoint, ie, "ws://example.com/socket", "wss://example.com", "/socket" (inherited host & protocol)
+     * @param httpEndpoint The string HTTP endpoint, ie, "https://example.com", "/" (inherited host & protocol)
+     * @param options.transport The Websocket Transport, for example WebSocket. This can be a custom implementation
+     * @param options.timeout The default timeout in milliseconds to trigger push timeouts.
+     * @param options.params The optional params to pass when connecting.
+     * @param options.headers Deprecated: headers cannot be set on websocket connections and this option will be removed in the future.
+     * @param options.heartbeatIntervalMs The millisec interval to send a heartbeat message.
+     * @param options.heartbeatCallback The optional function to handle heartbeat status and latency.
+     * @param options.logger The optional function for specialized logging, ie: logger: (kind, msg, data) => { console.log(`${kind}: ${msg}`, data) }
+     * @param options.logLevel Sets the log level for Realtime
+     * @param options.encode The function to encode outgoing messages. Defaults to JSON: (payload, callback) => callback(JSON.stringify(payload))
+     * @param options.decode The function to decode incoming messages. Defaults to Serializer's decode.
+     * @param options.reconnectAfterMs he optional function that returns the millsec reconnect interval. Defaults to stepped backoff off.
+     * @param options.worker Use Web Worker to set a side flow. Defaults to false.
+     * @param options.workerUrl The URL of the worker script. Defaults to https://realtime.supabase.com/worker.js that includes a heartbeat event call to keep the connection alive.
+     * @param options.vsn The protocol version to use when connecting. Supported versions are "1.0.0" and "2.0.0". Defaults to "2.0.0".
+     *
+     * @category Realtime
+     *
+     * @example Using supabase-js (recommended)
+     * ```ts
+     * import { createClient } from '@supabase/supabase-js'
+     *
+     * const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+     * const channel = supabase.channel('room1')
+     * channel
+     *   .on('broadcast', { event: 'cursor-pos' }, (payload) => console.log(payload))
+     *   .subscribe()
+     * ```
+     *
+     * @example Standalone import for bundle-sensitive environments
+     * ```ts
+     * import RealtimeClient from '@supabase/realtime-js'
+     *
+     * const client = new RealtimeClient('https://xyzcompany.supabase.co/realtime/v1', {
+     *   params: { apikey: 'your-publishable-key' },
+     * })
+     * client.connect()
+     * ```
+     */ constructor(endPoint, options){
+        var _a;
+        this.channels = new Array();
+        this.accessTokenValue = null;
+        this.accessToken = null;
+        this.apiKey = null;
+        this.httpEndpoint = '';
+        /** @deprecated headers cannot be set on websocket connections */ this.headers = {};
+        this.params = {};
+        this.ref = 0;
+        this.serializer = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$serializer$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"]();
+        this._manuallySetToken = false;
+        this._authPromise = null;
+        this._workerHeartbeatTimer = undefined;
+        this._pendingWorkerHeartbeatRef = null;
+        this._pendingDisconnectTimer = null;
+        this._disconnectOnEmptyChannelsAfterMs = 0;
+        /**
+         * Use either custom fetch, if provided, or default fetch to make HTTP requests
+         *
+         * @internal
+         */ this._resolveFetch = (customFetch)=>{
+            if (customFetch) {
+                return (...args)=>customFetch(...args);
+            }
+            return (...args)=>fetch(...args);
+        };
+        // Validate required parameters
+        if (!((_a = options === null || options === void 0 ? void 0 : options.params) === null || _a === void 0 ? void 0 : _a.apikey)) {
+            throw new Error('API key is required to connect to Realtime');
+        }
+        this.apiKey = options.params.apikey;
+        const socketAdapterOptions = this._initializeOptions(options);
+        this.socketAdapter = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$phoenix$2f$socketAdapter$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"](endPoint, socketAdapterOptions);
+        this.httpEndpoint = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$transformers$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["httpEndpointURL"])(endPoint);
+        this.fetch = this._resolveFetch(options === null || options === void 0 ? void 0 : options.fetch);
+    }
+    /**
+     * Connects the socket, unless already connected.
+     *
+     * @category Realtime
+     */ connect() {
+        // Skip if already connecting, disconnecting, or connected
+        if (this.isConnecting() || this.isDisconnecting() || this.isConnected()) {
+            return;
+        }
+        // Trigger auth if needed and not already in progress
+        // This ensures auth is called for standalone RealtimeClient usage
+        // while avoiding race conditions with SupabaseClient's immediate setAuth call
+        if (this.accessToken && !this._authPromise) {
+            this._setAuthSafely('connect');
+        }
+        this._setupConnectionHandlers();
+        try {
+            this.socketAdapter.connect();
+        } catch (error) {
+            const errorMessage = error.message;
+            // Provide helpful error message based on environment
+            if (errorMessage.includes('Node.js')) {
+                throw new Error(`${errorMessage}\n\n` + 'To use Realtime in Node.js, you need to provide a WebSocket implementation:\n\n' + 'Option 1: Use Node.js 22+ which has native WebSocket support\n' + 'Option 2: Install and provide the "ws" package:\n\n' + '  npm install ws\n\n' + '  import ws from "ws"\n' + '  const client = new RealtimeClient(url, {\n' + '    ...options,\n' + '    transport: ws\n' + '  })');
+            }
+            throw new Error(`WebSocket not available: ${errorMessage}`);
+        }
+        this._handleNodeJsRaceCondition();
+    }
+    /**
+     * Returns the URL of the websocket.
+     * @returns string The URL of the websocket.
+     *
+     * @category Realtime
+     */ endpointURL() {
+        return this.socketAdapter.endPointURL();
+    }
+    /**
+     * Disconnects the socket.
+     *
+     * @param code A numeric status code to send on disconnect.
+     * @param reason A custom reason for the disconnect.
+     *
+     * @category Realtime
+     */ async disconnect(code, reason) {
+        this._cancelPendingDisconnect();
+        if (this.isDisconnecting()) {
+            return 'ok';
+        }
+        return await this.socketAdapter.disconnect(()=>{
+            clearInterval(this._workerHeartbeatTimer);
+            this._terminateWorker();
+        }, code, reason);
+    }
+    /**
+     * Returns all created channels
+     *
+     * @category Realtime
+     */ getChannels() {
+        return this.channels;
+    }
+    /**
+     * Unsubscribes, removes and tears down a single channel
+     * @param channel A RealtimeChannel instance
+     *
+     * @category Realtime
+     */ async removeChannel(channel) {
+        const status = await channel.unsubscribe();
+        if (status === 'ok') {
+            channel.teardown();
+        }
+        return status;
+    }
+    /**
+     * Unsubscribes, removes and tears down all channels
+     *
+     * @category Realtime
+     */ async removeAllChannels() {
+        const promises = this.channels.map(async (channel)=>{
+            const result = await channel.unsubscribe();
+            channel.teardown();
+            return result;
+        });
+        const result = await Promise.all(promises);
+        await this.disconnect();
+        return result;
+    }
+    /**
+     * Logs the message.
+     *
+     * For customized logging, `this.logger` can be overridden in Client constructor.
+     *
+     * @category Realtime
+     */ log(kind, msg, data) {
+        this.socketAdapter.log(kind, msg, data);
+    }
+    /**
+     * Returns the current state of the socket.
+     *
+     * @category Realtime
+     */ connectionState() {
+        return this.socketAdapter.connectionState() || __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CONNECTION_STATE"].closed;
+    }
+    /**
+     * Returns `true` is the connection is open.
+     *
+     * @category Realtime
+     */ isConnected() {
+        return this.socketAdapter.isConnected();
+    }
+    /**
+     * Returns `true` if the connection is currently connecting.
+     *
+     * @category Realtime
+     */ isConnecting() {
+        return this.socketAdapter.isConnecting();
+    }
+    /**
+     * Returns `true` if the connection is currently disconnecting.
+     *
+     * @category Realtime
+     */ isDisconnecting() {
+        return this.socketAdapter.isDisconnecting();
+    }
+    /**
+     * Creates (or reuses) a {@link RealtimeChannel} for the provided topic.
+     *
+     * Topics are automatically prefixed with `realtime:` to match the Realtime service.
+     * If a channel with the same topic already exists it will be returned instead of creating
+     * a duplicate connection.
+     *
+     * @category Realtime
+     */ channel(topic, params = {
+        config: {}
+    }) {
+        const realtimeTopic = `realtime:${topic}`;
+        const exists = this.getChannels().find((c)=>c.topic === realtimeTopic);
+        if (!exists) {
+            const chan = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$RealtimeChannel$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"](`realtime:${topic}`, params, this);
+            this._cancelPendingDisconnect();
+            this.channels.push(chan);
+            return chan;
+        } else {
+            return exists;
+        }
+    }
+    /**
+     * Push out a message if the socket is connected.
+     *
+     * If the socket is not connected, the message gets enqueued within a local buffer, and sent out when a connection is next established.
+     *
+     * @category Realtime
+     */ push(data) {
+        this.socketAdapter.push(data);
+    }
+    /**
+     * Sets the JWT access token used for channel subscription authorization and Realtime RLS.
+     *
+     * If param is null it will use the `accessToken` callback function or the token set on the client.
+     *
+     * On callback used, it will set the value of the token internal to the client.
+     *
+     * When a token is explicitly provided, it will be preserved across channel operations
+     * (including removeChannel and resubscribe). The `accessToken` callback will not be
+     * invoked until `setAuth()` is called without arguments.
+     *
+     * @param token A JWT string to override the token set on the client.
+     *
+     * @example Setting the authorization header
+     * // Use a manual token (preserved across resubscribes, ignores accessToken callback)
+     * client.realtime.setAuth('my-custom-jwt')
+     *
+     * // Switch back to using the accessToken callback
+     * client.realtime.setAuth()
+     *
+     * @category Realtime
+     */ async setAuth(token = null) {
+        this._authPromise = this._performAuth(token);
+        try {
+            await this._authPromise;
+        } finally{
+            this._authPromise = null;
+        }
+    }
+    /**
+     * Returns true if the current access token was explicitly set via setAuth(token),
+     * false if it was obtained via the accessToken callback.
+     * @internal
+     */ _isManualToken() {
+        return this._manuallySetToken;
+    }
+    /**
+     * Sends a heartbeat message if the socket is connected.
+     *
+     * @category Realtime
+     */ async sendHeartbeat() {
+        this.socketAdapter.sendHeartbeat();
+    }
+    /**
+     * Sets a callback that receives lifecycle events for internal heartbeat messages.
+     * Useful for instrumenting connection health (e.g. sent/ok/timeout/disconnected).
+     *
+     * @category Realtime
+     */ onHeartbeat(callback) {
+        this.socketAdapter.heartbeatCallback = this._wrapHeartbeatCallback(callback);
+    }
+    /**
+     * Return the next message ref, accounting for overflows
+     *
+     * @internal
+     */ _makeRef() {
+        return this.socketAdapter.makeRef();
+    }
+    /**
+     * Removes a channel from RealtimeClient
+     *
+     * @param channel An open subscription.
+     *
+     * @internal
+     */ _remove(channel) {
+        this.channels = this.channels.filter((c)=>c.topic !== channel.topic);
+        if (this.channels.length === 0) {
+            this.log('transport', 'no channels remaining, scheduling disconnect');
+            this._schedulePendingDisconnect();
+        }
+    }
+    /** @internal */ _schedulePendingDisconnect() {
+        this._cancelPendingDisconnect();
+        if (this._disconnectOnEmptyChannelsAfterMs === 0) {
+            this.log('transport', 'disconnecting immediately - no channels');
+            this.disconnect();
+            return;
+        }
+        this._pendingDisconnectTimer = setTimeout(()=>{
+            this._pendingDisconnectTimer = null;
+            if (this.channels.length === 0) {
+                this.log('transport', 'deferred disconnect fired - no channels, disconnecting');
+                this.disconnect();
+            }
+        }, this._disconnectOnEmptyChannelsAfterMs);
+        this.log('transport', `deferred disconnect scheduled in ${this._disconnectOnEmptyChannelsAfterMs}ms`);
+    }
+    /** @internal */ _cancelPendingDisconnect() {
+        if (this._pendingDisconnectTimer !== null) {
+            this.log('transport', 'pending disconnect cancelled - channel activity detected');
+            clearTimeout(this._pendingDisconnectTimer);
+            this._pendingDisconnectTimer = null;
+        }
+    }
+    /**
+     * Perform the actual auth operation
+     * @internal
+     */ async _performAuth(token = null) {
+        let tokenToSend;
+        let isManualToken = false;
+        if (token) {
+            tokenToSend = token;
+            // Track if this is a manually-provided token
+            isManualToken = true;
+        } else if (this.accessToken) {
+            // Call the accessToken callback to get fresh token
+            try {
+                tokenToSend = await this.accessToken();
+            } catch (e) {
+                this.log('error', 'Error fetching access token from callback', e);
+                // Fall back to cached value if callback fails
+                tokenToSend = this.accessTokenValue;
+            }
+        } else {
+            tokenToSend = this.accessTokenValue;
+        }
+        // Track whether this token was manually set or fetched via callback
+        if (isManualToken) {
+            this._manuallySetToken = true;
+        } else if (this.accessToken) {
+            // If we used the callback, clear the manual flag
+            this._manuallySetToken = false;
+        }
+        if (this.accessTokenValue != tokenToSend) {
+            this.accessTokenValue = tokenToSend;
+            this.channels.forEach((channel)=>{
+                const payload = {
+                    access_token: tokenToSend,
+                    version: __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["DEFAULT_VERSION"]
+                };
+                tokenToSend && channel.updateJoinPayload(payload);
+                if (channel.joinedOnce && channel.channelAdapter.isJoined()) {
+                    channel.channelAdapter.push(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CHANNEL_EVENTS"].access_token, {
+                        access_token: tokenToSend
+                    });
+                }
+            });
+        }
+    }
+    /**
+     * Wait for any in-flight auth operations to complete
+     * @internal
+     */ async _waitForAuthIfNeeded() {
+        if (this._authPromise) {
+            await this._authPromise;
+        }
+    }
+    /**
+     * Safely call setAuth with standardized error handling
+     * @internal
+     */ _setAuthSafely(context = 'general') {
+        // Only refresh auth if using callback-based tokens
+        if (!this._isManualToken()) {
+            this.setAuth().catch((e)=>{
+                this.log('error', `Error setting auth in ${context}`, e);
+            });
+        }
+    }
+    /** @internal */ _setupConnectionHandlers() {
+        this.socketAdapter.onOpen(()=>{
+            const authPromise = this._authPromise || (this.accessToken && !this.accessTokenValue ? this.setAuth() : Promise.resolve());
+            authPromise.catch((e)=>{
+                this.log('error', 'error waiting for auth on connect', e);
+            });
+            if (this.worker && !this.workerRef) {
+                this._startWorkerHeartbeat();
+            }
+        });
+        this.socketAdapter.onClose(()=>{
+            if (this.worker && this.workerRef) {
+                this._terminateWorker();
+            }
+        });
+        this.socketAdapter.onMessage((message)=>{
+            if (message.ref && message.ref === this._pendingWorkerHeartbeatRef) {
+                this._pendingWorkerHeartbeatRef = null;
+            }
+        });
+    }
+    /** @internal */ _handleNodeJsRaceCondition() {
+        if (this.socketAdapter.isConnected()) {
+            // hack: ensure onConnOpen is called
+            this.socketAdapter.getSocket().onConnOpen();
+        }
+    }
+    /** @internal */ _wrapHeartbeatCallback(heartbeatCallback) {
+        return (status, latency)=>{
+            if (status == 'sent') this._setAuthSafely();
+            if (heartbeatCallback) heartbeatCallback(status, latency);
+        };
+    }
+    /** @internal */ _startWorkerHeartbeat() {
+        if (this.workerUrl) {
+            this.log('worker', `starting worker for from ${this.workerUrl}`);
+        } else {
+            this.log('worker', `starting default worker`);
+        }
+        const objectUrl = this._workerObjectUrl(this.workerUrl);
+        this.workerRef = new Worker(objectUrl);
+        this.workerRef.onerror = (error)=>{
+            this.log('worker', 'worker error', error.message);
+            this._terminateWorker();
+            this.disconnect();
+        };
+        this.workerRef.onmessage = (event)=>{
+            if (event.data.event === 'keepAlive') {
+                this.sendHeartbeat();
+            }
+        };
+        this.workerRef.postMessage({
+            event: 'start',
+            interval: this.heartbeatIntervalMs
+        });
+    }
+    /**
+     * Terminate the Web Worker and clear the reference
+     * @internal
+     */ _terminateWorker() {
+        if (this.workerRef) {
+            this.log('worker', 'terminating worker');
+            this.workerRef.terminate();
+            this.workerRef = undefined;
+        }
+    }
+    /** @internal */ _workerObjectUrl(url) {
+        let result_url;
+        if (url) {
+            result_url = url;
+        } else {
+            const blob = new Blob([
+                WORKER_SCRIPT
+            ], {
+                type: 'application/javascript'
+            });
+            result_url = URL.createObjectURL(blob);
+        }
+        return result_url;
+    }
+    /**
+     * Initialize socket options with defaults
+     * @internal
+     */ _initializeOptions(options) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+        this.worker = (_a = options === null || options === void 0 ? void 0 : options.worker) !== null && _a !== void 0 ? _a : false;
+        this.accessToken = (_b = options === null || options === void 0 ? void 0 : options.accessToken) !== null && _b !== void 0 ? _b : null;
+        const result = {};
+        result.timeout = (_c = options === null || options === void 0 ? void 0 : options.timeout) !== null && _c !== void 0 ? _c : __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["DEFAULT_TIMEOUT"];
+        result.heartbeatIntervalMs = (_d = options === null || options === void 0 ? void 0 : options.heartbeatIntervalMs) !== null && _d !== void 0 ? _d : CONNECTION_TIMEOUTS.HEARTBEAT_INTERVAL;
+        this._disconnectOnEmptyChannelsAfterMs = (_e = options === null || options === void 0 ? void 0 : options.disconnectOnEmptyChannelsAfterMs) !== null && _e !== void 0 ? _e : 2 * ((_f = options === null || options === void 0 ? void 0 : options.heartbeatIntervalMs) !== null && _f !== void 0 ? _f : CONNECTION_TIMEOUTS.HEARTBEAT_INTERVAL);
+        // @ts-ignore - mismatch between phoenix and supabase
+        result.transport = (_g = options === null || options === void 0 ? void 0 : options.transport) !== null && _g !== void 0 ? _g : __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$websocket$2d$factory$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].getWebSocketConstructor();
+        result.params = options === null || options === void 0 ? void 0 : options.params;
+        result.logger = options === null || options === void 0 ? void 0 : options.logger;
+        result.heartbeatCallback = this._wrapHeartbeatCallback(options === null || options === void 0 ? void 0 : options.heartbeatCallback);
+        result.reconnectAfterMs = (_h = options === null || options === void 0 ? void 0 : options.reconnectAfterMs) !== null && _h !== void 0 ? _h : (tries)=>{
+            return RECONNECT_INTERVALS[tries - 1] || DEFAULT_RECONNECT_FALLBACK;
+        };
+        let defaultEncode;
+        let defaultDecode;
+        const vsn = (_j = options === null || options === void 0 ? void 0 : options.vsn) !== null && _j !== void 0 ? _j : __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["DEFAULT_VSN"];
+        switch(vsn){
+            case __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["VSN_1_0_0"]:
+                defaultEncode = (payload, callback)=>{
+                    return callback(JSON.stringify(payload));
+                };
+                defaultDecode = (payload, callback)=>{
+                    return callback(JSON.parse(payload));
+                };
+                break;
+            case __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$constants$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["VSN_2_0_0"]:
+                defaultEncode = this.serializer.encode.bind(this.serializer);
+                defaultDecode = this.serializer.decode.bind(this.serializer);
+                break;
+            default:
+                throw new Error(`Unsupported serializer version: ${result.vsn}`);
+        }
+        result.vsn = vsn;
+        result.encode = (_k = options === null || options === void 0 ? void 0 : options.encode) !== null && _k !== void 0 ? _k : defaultEncode;
+        result.decode = (_l = options === null || options === void 0 ? void 0 : options.decode) !== null && _l !== void 0 ? _l : defaultDecode;
+        result.beforeReconnect = this._reconnectAuth.bind(this);
+        if ((options === null || options === void 0 ? void 0 : options.logLevel) || (options === null || options === void 0 ? void 0 : options.log_level)) {
+            this.logLevel = options.logLevel || options.log_level;
+            result.params = Object.assign(Object.assign({}, result.params), {
+                log_level: this.logLevel
+            });
+        }
+        // Handle worker setup
+        if (this.worker) {
+            if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+            ;
+            this.workerUrl = options === null || options === void 0 ? void 0 : options.workerUrl;
+            result.autoSendHeartbeat = !this.worker;
+        }
+        return result;
+    }
+    /** @internal */ async _reconnectAuth() {
+        await this._waitForAuthIfNeeded();
+        if (!this.isConnected()) {
+            this.connect();
+        }
+    }
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/index.js [app-route] (ecmascript) <locals>", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$RealtimeClient$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/RealtimeClient.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$RealtimeChannel$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/RealtimeChannel.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$RealtimePresence$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/RealtimePresence.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$lib$2f$websocket$2d$factory$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/lib/websocket-factory.js [app-route] (ecmascript)");
+;
+;
+;
+;
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/RealtimeClient.js [app-route] (ecmascript) <export default as RealtimeClient>", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "RealtimeClient",
+    ()=>__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$RealtimeClient$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"]
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$RealtimeClient$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/RealtimeClient.js [app-route] (ecmascript)");
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/phoenix/priv/static/phoenix.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Channel",
+    ()=>Channel,
+    "LongPoll",
+    ()=>LongPoll,
+    "Presence",
+    ()=>Presence,
+    "Push",
+    ()=>Push,
+    "Serializer",
+    ()=>serializer_default,
+    "Socket",
+    ()=>Socket,
+    "Timer",
+    ()=>Timer
+]);
+// js/phoenix/utils.js
+var closure = (value)=>{
+    if (typeof value === "function") {
+        return /** @type {() => T} */ value;
+    } else {
+        let closure2 = function() {
+            return value;
+        };
+        return closure2;
+    }
+};
+// js/phoenix/constants.js
+var globalSelf = typeof self !== "undefined" ? self : null;
+var phxWindow = ("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : null;
+var global = globalSelf || phxWindow || globalThis;
+var DEFAULT_VSN = "2.0.0";
+var DEFAULT_TIMEOUT = 1e4;
+var WS_CLOSE_NORMAL = 1e3;
+var SOCKET_STATES = /** @type {const} */ {
+    connecting: 0,
+    open: 1,
+    closing: 2,
+    closed: 3
+};
+var CHANNEL_STATES = /** @type {const} */ {
+    closed: "closed",
+    errored: "errored",
+    joined: "joined",
+    joining: "joining",
+    leaving: "leaving"
+};
+var CHANNEL_EVENTS = /** @type {const} */ {
+    close: "phx_close",
+    error: "phx_error",
+    join: "phx_join",
+    reply: "phx_reply",
+    leave: "phx_leave"
+};
+var TRANSPORTS = /** @type {const} */ {
+    longpoll: "longpoll",
+    websocket: "websocket"
+};
+var XHR_STATES = /** @type {const} */ {
+    complete: 4
+};
+var AUTH_TOKEN_PREFIX = "base64url.bearer.phx.";
+// js/phoenix/push.js
+var Push = class {
+    /**
+   * Initializes the Push
+   * @param {Channel} channel - The Channel
+   * @param {ChannelEvent} event - The event, for example `"phx_join"`
+   * @param {() => Record<string, unknown>} payload - The payload, for example `{user_id: 123}`
+   * @param {number} timeout - The push timeout in milliseconds
+   */ constructor(channel, event, payload, timeout){
+        this.channel = channel;
+        this.event = event;
+        this.payload = payload || function() {
+            return {};
+        };
+        this.receivedResp = null;
+        this.timeout = timeout;
+        this.timeoutTimer = null;
+        this.recHooks = [];
+        this.sent = false;
+        this.ref = void 0;
+    }
+    /**
+   *
+   * @param {number} timeout
+   */ resend(timeout) {
+        this.timeout = timeout;
+        this.reset();
+        this.send();
+    }
+    /**
+   *
+   */ send() {
+        if (this.hasReceived("timeout")) {
+            return;
+        }
+        this.startTimeout();
+        this.sent = true;
+        this.channel.socket.push({
+            topic: this.channel.topic,
+            event: this.event,
+            payload: this.payload(),
+            ref: this.ref,
+            join_ref: this.channel.joinRef()
+        });
+    }
+    /**
+   *
+   * @param {string} status
+   * @param {(response: any) => void} callback
+   */ receive(status, callback) {
+        if (this.hasReceived(status)) {
+            callback(this.receivedResp.response);
+        }
+        this.recHooks.push({
+            status,
+            callback
+        });
+        return this;
+    }
+    reset() {
+        this.cancelRefEvent();
+        this.ref = null;
+        this.refEvent = null;
+        this.receivedResp = null;
+        this.sent = false;
+    }
+    destroy() {
+        this.cancelRefEvent();
+        this.cancelTimeout();
+    }
+    /**
+   * @private
+   */ matchReceive({ status, response, _ref }) {
+        this.recHooks.filter((h)=>h.status === status).forEach((h)=>h.callback(response));
+    }
+    /**
+   * @private
+   */ cancelRefEvent() {
+        if (!this.refEvent) {
+            return;
+        }
+        this.channel.off(this.refEvent);
+    }
+    cancelTimeout() {
+        clearTimeout(this.timeoutTimer);
+        this.timeoutTimer = null;
+    }
+    startTimeout() {
+        if (this.timeoutTimer) {
+            this.cancelTimeout();
+        }
+        this.ref = this.channel.socket.makeRef();
+        this.refEvent = this.channel.replyEventName(this.ref);
+        this.channel.on(this.refEvent, (payload)=>{
+            this.cancelRefEvent();
+            this.cancelTimeout();
+            this.receivedResp = payload;
+            this.matchReceive(payload);
+        });
+        this.timeoutTimer = setTimeout(()=>{
+            this.trigger("timeout", {});
+        }, this.timeout);
+    }
+    /**
+   * @private
+   */ hasReceived(status) {
+        return this.receivedResp && this.receivedResp.status === status;
+    }
+    trigger(status, response) {
+        this.channel.trigger(this.refEvent, {
+            status,
+            response
+        });
+    }
+};
+// js/phoenix/timer.js
+var Timer = class {
+    /**
+  * @param {() => void} callback
+  * @param {(tries: number) => number} timerCalc
+  */ constructor(callback, timerCalc){
+        this.callback = callback;
+        this.timerCalc = timerCalc;
+        this.timer = void 0;
+        this.tries = 0;
+    }
+    reset() {
+        this.tries = 0;
+        clearTimeout(this.timer);
+    }
+    /**
+   * Cancels any previous scheduleTimeout and schedules callback
+   */ scheduleTimeout() {
+        clearTimeout(this.timer);
+        this.timer = setTimeout(()=>{
+            this.tries = this.tries + 1;
+            this.callback();
+        }, this.timerCalc(this.tries + 1));
+    }
+};
+// js/phoenix/channel.js
+var Channel = class {
+    /**
+   * @param {string} topic
+   * @param {Params | (() => Params)} params
+   * @param {Socket} socket
+   */ constructor(topic, params, socket){
+        this.state = CHANNEL_STATES.closed;
+        this.topic = topic;
+        this.params = closure(params || {});
+        this.socket = socket;
+        this.bindings = [];
+        this.bindingRef = 0;
+        this.timeout = this.socket.timeout;
+        this.joinedOnce = false;
+        this.joinPush = new Push(this, CHANNEL_EVENTS.join, this.params, this.timeout);
+        this.pushBuffer = [];
+        this.stateChangeRefs = [];
+        this.rejoinTimer = new Timer(()=>{
+            if (this.socket.isConnected()) {
+                this.rejoin();
+            }
+        }, this.socket.rejoinAfterMs);
+        this.stateChangeRefs.push(this.socket.onError(()=>this.rejoinTimer.reset()));
+        this.stateChangeRefs.push(this.socket.onOpen(()=>{
+            this.rejoinTimer.reset();
+            if (this.isErrored()) {
+                this.rejoin();
+            }
+        }));
+        this.joinPush.receive("ok", ()=>{
+            this.state = CHANNEL_STATES.joined;
+            this.rejoinTimer.reset();
+            this.pushBuffer.forEach((pushEvent)=>pushEvent.send());
+            this.pushBuffer = [];
+        });
+        this.joinPush.receive("error", (reason)=>{
+            this.state = CHANNEL_STATES.errored;
+            if (this.socket.hasLogger()) this.socket.log("channel", `error ${this.topic}`, reason);
+            if (this.socket.isConnected()) {
+                this.rejoinTimer.scheduleTimeout();
+            }
+        });
+        this.onClose(()=>{
+            this.rejoinTimer.reset();
+            if (this.socket.hasLogger()) this.socket.log("channel", `close ${this.topic}`);
+            this.state = CHANNEL_STATES.closed;
+            this.socket.remove(this);
+        });
+        this.onError((reason)=>{
+            if (this.socket.hasLogger()) this.socket.log("channel", `error ${this.topic}`, reason);
+            if (this.isJoining()) {
+                this.joinPush.reset();
+            }
+            this.state = CHANNEL_STATES.errored;
+            if (this.socket.isConnected()) {
+                this.rejoinTimer.scheduleTimeout();
+            }
+        });
+        this.joinPush.receive("timeout", ()=>{
+            if (this.socket.hasLogger()) this.socket.log("channel", `timeout ${this.topic}`, this.joinPush.timeout);
+            let leavePush = new Push(this, CHANNEL_EVENTS.leave, closure({}), this.timeout);
+            leavePush.send();
+            this.state = CHANNEL_STATES.errored;
+            this.joinPush.reset();
+            if (this.socket.isConnected()) {
+                this.rejoinTimer.scheduleTimeout();
+            }
+        });
+        this.on(CHANNEL_EVENTS.reply, (payload, ref)=>{
+            this.trigger(this.replyEventName(ref), payload);
+        });
+    }
+    /**
+   * Join the channel
+   * @param {number} timeout
+   * @returns {Push}
+   */ join(timeout = this.timeout) {
+        if (this.joinedOnce) {
+            throw new Error("tried to join multiple times. 'join' can only be called a single time per channel instance");
+        } else {
+            this.timeout = timeout;
+            this.joinedOnce = true;
+            this.rejoin();
+            return this.joinPush;
+        }
+    }
+    /**
+   * Teardown the channel.
+   *
+   * Destroys and stops related timers.
+   */ teardown() {
+        this.pushBuffer.forEach((push)=>push.destroy());
+        this.pushBuffer = [];
+        this.rejoinTimer.reset();
+        this.joinPush.destroy();
+        this.state = CHANNEL_STATES.closed;
+        this.bindings = [];
+    }
+    /**
+   * Hook into channel close
+   * @param {ChannelBindingCallback} callback
+   */ onClose(callback) {
+        this.on(CHANNEL_EVENTS.close, callback);
+    }
+    /**
+   * Hook into channel errors
+   * @param {ChannelOnErrorCallback} callback
+   * @return {number}
+   */ onError(callback) {
+        return this.on(CHANNEL_EVENTS.error, (reason)=>callback(reason));
+    }
+    /**
+   * Subscribes on channel events
+   *
+   * Subscription returns a ref counter, which can be used later to
+   * unsubscribe the exact event listener
+   *
+   * @example
+   * const ref1 = channel.on("event", do_stuff)
+   * const ref2 = channel.on("event", do_other_stuff)
+   * channel.off("event", ref1)
+   * // Since unsubscription, do_stuff won't fire,
+   * // while do_other_stuff will keep firing on the "event"
+   *
+   * @param {string} event
+   * @param {ChannelBindingCallback} callback
+   * @returns {number} ref
+   */ on(event, callback) {
+        let ref = this.bindingRef++;
+        this.bindings.push({
+            event,
+            ref,
+            callback
+        });
+        return ref;
+    }
+    /**
+   * Unsubscribes off of channel events
+   *
+   * Use the ref returned from a channel.on() to unsubscribe one
+   * handler, or pass nothing for the ref to unsubscribe all
+   * handlers for the given event.
+   *
+   * @example
+   * // Unsubscribe the do_stuff handler
+   * const ref1 = channel.on("event", do_stuff)
+   * channel.off("event", ref1)
+   *
+   * // Unsubscribe all handlers from event
+   * channel.off("event")
+   *
+   * @param {string} event
+   * @param {number} [ref]
+   */ off(event, ref) {
+        this.bindings = this.bindings.filter((bind)=>{
+            return !(bind.event === event && (typeof ref === "undefined" || ref === bind.ref));
+        });
+    }
+    /**
+   * @private
+   */ canPush() {
+        return this.socket.isConnected() && this.isJoined();
+    }
+    /**
+   * Sends a message `event` to phoenix with the payload `payload`.
+   * Phoenix receives this in the `handle_in(event, payload, socket)`
+   * function. if phoenix replies or it times out (default 10000ms),
+   * then optionally the reply can be received.
+   *
+   * @example
+   * channel.push("event")
+   *   .receive("ok", payload => console.log("phoenix replied:", payload))
+   *   .receive("error", err => console.log("phoenix errored", err))
+   *   .receive("timeout", () => console.log("timed out pushing"))
+   * @param {string} event
+   * @param {Object} payload
+   * @param {number} [timeout]
+   * @returns {Push}
+   */ push(event, payload, timeout = this.timeout) {
+        payload = payload || {};
+        if (!this.joinedOnce) {
+            throw new Error(`tried to push '${event}' to '${this.topic}' before joining. Use channel.join() before pushing events`);
+        }
+        let pushEvent = new Push(this, event, function() {
+            return payload;
+        }, timeout);
+        if (this.canPush()) {
+            pushEvent.send();
+        } else {
+            pushEvent.startTimeout();
+            this.pushBuffer.push(pushEvent);
+        }
+        return pushEvent;
+    }
+    /** Leaves the channel
+   *
+   * Unsubscribes from server events, and
+   * instructs channel to terminate on server
+   *
+   * Triggers onClose() hooks
+   *
+   * To receive leave acknowledgements, use the `receive`
+   * hook to bind to the server ack, ie:
+   *
+   * @example
+   * channel.leave().receive("ok", () => alert("left!") )
+   *
+   * @param {number} timeout
+   * @returns {Push}
+   */ leave(timeout = this.timeout) {
+        this.rejoinTimer.reset();
+        this.joinPush.cancelTimeout();
+        this.state = CHANNEL_STATES.leaving;
+        let onClose = ()=>{
+            if (this.socket.hasLogger()) this.socket.log("channel", `leave ${this.topic}`);
+            this.trigger(CHANNEL_EVENTS.close, "leave");
+        };
+        let leavePush = new Push(this, CHANNEL_EVENTS.leave, closure({}), timeout);
+        leavePush.receive("ok", ()=>onClose()).receive("timeout", ()=>onClose());
+        leavePush.send();
+        if (!this.canPush()) {
+            leavePush.trigger("ok", {});
+        }
+        return leavePush;
+    }
+    /**
+   * Overridable message hook
+   *
+   * Receives all events for specialized message handling
+   * before dispatching to the channel callbacks.
+   *
+   * Must return the payload, modified or unmodified
+   * @type{ChannelOnMessage}
+   */ onMessage(_event, payload, _ref) {
+        return payload;
+    }
+    /**
+   * Overridable filter hook
+   *
+   * If this function returns `true`, `binding`'s callback will be called.
+   *
+   * @type{ChannelFilterBindings}
+   */ filterBindings(_binding, _payload, _ref) {
+        return true;
+    }
+    isMember(topic, event, payload, joinRef) {
+        if (this.topic !== topic) {
+            return false;
+        }
+        if (joinRef && joinRef !== this.joinRef()) {
+            if (this.socket.hasLogger()) this.socket.log("channel", "dropping outdated message", {
+                topic,
+                event,
+                payload,
+                joinRef
+            });
+            return false;
+        } else {
+            return true;
+        }
+    }
+    joinRef() {
+        return this.joinPush.ref;
+    }
+    /**
+   * @private
+   */ rejoin(timeout = this.timeout) {
+        if (this.isLeaving()) {
+            return;
+        }
+        this.socket.leaveOpenTopic(this.topic);
+        this.state = CHANNEL_STATES.joining;
+        this.joinPush.resend(timeout);
+    }
+    /**
+   * @param {string} event
+   * @param {unknown} [payload]
+   * @param {?string} [ref]
+   * @param {?string} [joinRef]
+   */ trigger(event, payload, ref, joinRef) {
+        let handledPayload = this.onMessage(event, payload, ref, joinRef);
+        if (payload && !handledPayload) {
+            throw new Error("channel onMessage callbacks must return the payload, modified or unmodified");
+        }
+        let eventBindings = this.bindings.filter((bind)=>bind.event === event && this.filterBindings(bind, payload, ref));
+        for(let i = 0; i < eventBindings.length; i++){
+            let bind = eventBindings[i];
+            bind.callback(handledPayload, ref, joinRef || this.joinRef());
+        }
+    }
+    /**
+  * @param {string} ref
+  */ replyEventName(ref) {
+        return `chan_reply_${ref}`;
+    }
+    isClosed() {
+        return this.state === CHANNEL_STATES.closed;
+    }
+    isErrored() {
+        return this.state === CHANNEL_STATES.errored;
+    }
+    isJoined() {
+        return this.state === CHANNEL_STATES.joined;
+    }
+    isJoining() {
+        return this.state === CHANNEL_STATES.joining;
+    }
+    isLeaving() {
+        return this.state === CHANNEL_STATES.leaving;
+    }
+};
+// js/phoenix/ajax.js
+var Ajax = class {
+    static request(method, endPoint, headers, body, timeout, ontimeout, callback) {
+        if (global.XDomainRequest) {
+            let req = new global.XDomainRequest();
+            return this.xdomainRequest(req, method, endPoint, body, timeout, ontimeout, callback);
+        } else if (global.XMLHttpRequest) {
+            let req = new global.XMLHttpRequest();
+            return this.xhrRequest(req, method, endPoint, headers, body, timeout, ontimeout, callback);
+        } else if (global.fetch && global.AbortController) {
+            return this.fetchRequest(method, endPoint, headers, body, timeout, ontimeout, callback);
+        } else {
+            throw new Error("No suitable XMLHttpRequest implementation found");
+        }
+    }
+    static fetchRequest(method, endPoint, headers, body, timeout, ontimeout, callback) {
+        let options = {
+            method,
+            headers,
+            body
+        };
+        let controller = null;
+        if (timeout) {
+            controller = new AbortController();
+            const _timeoutId = setTimeout(()=>controller.abort(), timeout);
+            options.signal = controller.signal;
+        }
+        global.fetch(endPoint, options).then((response)=>response.text()).then((data)=>this.parseJSON(data)).then((data)=>callback && callback(data)).catch((err)=>{
+            if (err.name === "AbortError" && ontimeout) {
+                ontimeout();
+            } else {
+                callback && callback(null);
+            }
+        });
+        return controller;
+    }
+    static xdomainRequest(req, method, endPoint, body, timeout, ontimeout, callback) {
+        req.timeout = timeout;
+        req.open(method, endPoint);
+        req.onload = ()=>{
+            let response = this.parseJSON(req.responseText);
+            callback && callback(response);
+        };
+        if (ontimeout) {
+            req.ontimeout = ontimeout;
+        }
+        req.onprogress = ()=>{};
+        req.send(body);
+        return req;
+    }
+    static xhrRequest(req, method, endPoint, headers, body, timeout, ontimeout, callback) {
+        req.open(method, endPoint, true);
+        req.timeout = timeout;
+        for (let [key, value] of Object.entries(headers)){
+            req.setRequestHeader(key, value);
+        }
+        req.onerror = ()=>callback && callback(null);
+        req.onreadystatechange = ()=>{
+            if (req.readyState === XHR_STATES.complete && callback) {
+                let response = this.parseJSON(req.responseText);
+                callback(response);
+            }
+        };
+        if (ontimeout) {
+            req.ontimeout = ontimeout;
+        }
+        req.send(body);
+        return req;
+    }
+    static parseJSON(resp) {
+        if (!resp || resp === "") {
+            return null;
+        }
+        try {
+            return JSON.parse(resp);
+        } catch  {
+            console && console.log("failed to parse JSON response", resp);
+            return null;
+        }
+    }
+    static serialize(obj, parentKey) {
+        let queryStr = [];
+        for(var key in obj){
+            if (!Object.prototype.hasOwnProperty.call(obj, key)) {
+                continue;
+            }
+            let paramKey = parentKey ? `${parentKey}[${key}]` : key;
+            let paramVal = obj[key];
+            if (typeof paramVal === "object") {
+                queryStr.push(this.serialize(paramVal, paramKey));
+            } else {
+                queryStr.push(encodeURIComponent(paramKey) + "=" + encodeURIComponent(paramVal));
+            }
+        }
+        return queryStr.join("&");
+    }
+    static appendParams(url, params) {
+        if (Object.keys(params).length === 0) {
+            return url;
+        }
+        let prefix = url.match(/\?/) ? "&" : "?";
+        return `${url}${prefix}${this.serialize(params)}`;
+    }
+};
+// js/phoenix/longpoll.js
+var arrayBufferToBase64 = (buffer)=>{
+    let binary = "";
+    let bytes = new Uint8Array(buffer);
+    let len = bytes.byteLength;
+    for(let i = 0; i < len; i++){
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
+};
+var LongPoll = class {
+    constructor(endPoint, protocols){
+        if (protocols && protocols.length === 2 && protocols[1].startsWith(AUTH_TOKEN_PREFIX)) {
+            this.authToken = atob(protocols[1].slice(AUTH_TOKEN_PREFIX.length));
+        }
+        this.endPoint = null;
+        this.token = null;
+        this.skipHeartbeat = true;
+        this.reqs = /* @__PURE__ */ new Set();
+        this.awaitingBatchAck = false;
+        this.currentBatch = null;
+        this.currentBatchTimer = null;
+        this.batchBuffer = [];
+        this.onopen = function() {};
+        this.onerror = function() {};
+        this.onmessage = function() {};
+        this.onclose = function() {};
+        this.pollEndpoint = this.normalizeEndpoint(endPoint);
+        this.readyState = SOCKET_STATES.connecting;
+        setTimeout(()=>this.poll(), 0);
+    }
+    normalizeEndpoint(endPoint) {
+        return endPoint.replace("ws://", "http://").replace("wss://", "https://").replace(new RegExp("(.*)/" + TRANSPORTS.websocket), "$1/" + TRANSPORTS.longpoll);
+    }
+    endpointURL() {
+        return Ajax.appendParams(this.pollEndpoint, {
+            token: this.token
+        });
+    }
+    closeAndRetry(code, reason, wasClean) {
+        this.close(code, reason, wasClean);
+        this.readyState = SOCKET_STATES.connecting;
+    }
+    ontimeout() {
+        this.onerror("timeout");
+        this.closeAndRetry(1005, "timeout", false);
+    }
+    isActive() {
+        return this.readyState === SOCKET_STATES.open || this.readyState === SOCKET_STATES.connecting;
+    }
+    poll() {
+        const headers = {
+            "Accept": "application/json"
+        };
+        if (this.authToken) {
+            headers["X-Phoenix-AuthToken"] = this.authToken;
+        }
+        this.ajax("GET", headers, null, ()=>this.ontimeout(), (resp)=>{
+            if (resp) {
+                var { status, token, messages } = resp;
+                if (status === 410 && this.token !== null) {
+                    this.onerror(410);
+                    this.closeAndRetry(3410, "session_gone", false);
+                    return;
+                }
+                this.token = token;
+            } else {
+                status = 0;
+            }
+            switch(status){
+                case 200:
+                    messages.forEach((msg)=>{
+                        setTimeout(()=>this.onmessage({
+                                data: msg
+                            }), 0);
+                    });
+                    this.poll();
+                    break;
+                case 204:
+                    this.poll();
+                    break;
+                case 410:
+                    this.readyState = SOCKET_STATES.open;
+                    this.onopen({});
+                    this.poll();
+                    break;
+                case 403:
+                    this.onerror(403);
+                    this.close(1008, "forbidden", false);
+                    break;
+                case 0:
+                case 500:
+                    this.onerror(500);
+                    this.closeAndRetry(1011, "internal server error", 500);
+                    break;
+                default:
+                    throw new Error(`unhandled poll status ${status}`);
+            }
+        });
+    }
+    // we collect all pushes within the current event loop by
+    // setTimeout 0, which optimizes back-to-back procedural
+    // pushes against an empty buffer
+    send(body) {
+        if (typeof body !== "string") {
+            body = arrayBufferToBase64(body);
+        }
+        if (this.currentBatch) {
+            this.currentBatch.push(body);
+        } else if (this.awaitingBatchAck) {
+            this.batchBuffer.push(body);
+        } else {
+            this.currentBatch = [
+                body
+            ];
+            this.currentBatchTimer = setTimeout(()=>{
+                this.batchSend(this.currentBatch);
+                this.currentBatch = null;
+            }, 0);
+        }
+    }
+    batchSend(messages) {
+        this.awaitingBatchAck = true;
+        this.ajax("POST", {
+            "Content-Type": "application/x-ndjson"
+        }, messages.join("\n"), ()=>this.onerror("timeout"), (resp)=>{
+            this.awaitingBatchAck = false;
+            if (!resp || resp.status !== 200) {
+                this.onerror(resp && resp.status);
+                this.closeAndRetry(1011, "internal server error", false);
+            } else if (this.batchBuffer.length > 0) {
+                this.batchSend(this.batchBuffer);
+                this.batchBuffer = [];
+            }
+        });
+    }
+    close(code, reason, wasClean) {
+        for (let req of this.reqs){
+            req.abort();
+        }
+        this.readyState = SOCKET_STATES.closed;
+        let opts = Object.assign({
+            code: 1e3,
+            reason: void 0,
+            wasClean: true
+        }, {
+            code,
+            reason,
+            wasClean
+        });
+        this.batchBuffer = [];
+        clearTimeout(this.currentBatchTimer);
+        this.currentBatchTimer = null;
+        if (typeof CloseEvent !== "undefined") {
+            this.onclose(new CloseEvent("close", opts));
+        } else {
+            this.onclose(opts);
+        }
+    }
+    ajax(method, headers, body, onCallerTimeout, callback) {
+        let req;
+        let ontimeout = ()=>{
+            this.reqs.delete(req);
+            onCallerTimeout();
+        };
+        req = Ajax.request(method, this.endpointURL(), headers, body, this.timeout, ontimeout, (resp)=>{
+            this.reqs.delete(req);
+            if (this.isActive()) {
+                callback(resp);
+            }
+        });
+        this.reqs.add(req);
+    }
+};
+// js/phoenix/presence.js
+var Presence = class _Presence {
+    /**
+   * Initializes the Presence
+   * @param {Channel} channel - The Channel
+   * @param {PresenceOptions} [opts] - The options, for example `{events: {state: "state", diff: "diff"}}`
+   */ constructor(channel, opts = {}){
+        let events = opts.events || /** @type {PresenceEvents} */ {
+            state: "presence_state",
+            diff: "presence_diff"
+        };
+        this.state = {};
+        this.pendingDiffs = [];
+        this.channel = channel;
+        this.joinRef = null;
+        this.caller = {
+            onJoin: function() {},
+            onLeave: function() {},
+            onSync: function() {}
+        };
+        this.channel.on(events.state, (newState)=>{
+            let { onJoin, onLeave, onSync } = this.caller;
+            this.joinRef = this.channel.joinRef();
+            this.state = _Presence.syncState(this.state, newState, onJoin, onLeave);
+            this.pendingDiffs.forEach((diff)=>{
+                this.state = _Presence.syncDiff(this.state, diff, onJoin, onLeave);
+            });
+            this.pendingDiffs = [];
+            onSync();
+        });
+        this.channel.on(events.diff, (diff)=>{
+            let { onJoin, onLeave, onSync } = this.caller;
+            if (this.inPendingSyncState()) {
+                this.pendingDiffs.push(diff);
+            } else {
+                this.state = _Presence.syncDiff(this.state, diff, onJoin, onLeave);
+                onSync();
+            }
+        });
+    }
+    /**
+   * @param {PresenceOnJoin} callback
+   */ onJoin(callback) {
+        this.caller.onJoin = callback;
+    }
+    /**
+   * @param {PresenceOnLeave} callback
+   */ onLeave(callback) {
+        this.caller.onLeave = callback;
+    }
+    /**
+   * @param {PresenceOnSync} callback
+   */ onSync(callback) {
+        this.caller.onSync = callback;
+    }
+    /**
+   * Returns the array of presences, with selected metadata.
+   *
+   * @template [T=PresenceState]
+   * @param {((key: string, obj: PresenceState) => T)} [by]
+   *
+   * @returns {T[]}
+   */ list(by) {
+        return _Presence.list(this.state, by);
+    }
+    inPendingSyncState() {
+        return !this.joinRef || this.joinRef !== this.channel.joinRef();
+    }
+    // lower-level public static API
+    /**
+   * Used to sync the list of presences on the server
+   * with the client's state. An optional `onJoin` and `onLeave` callback can
+   * be provided to react to changes in the client's local presences across
+   * disconnects and reconnects with the server.
+   *
+   * @param {Record<string, PresenceState>} currentState
+   * @param {Record<string, PresenceState>} newState
+   * @param {PresenceOnJoin} onJoin
+   * @param {PresenceOnLeave} onLeave
+   *
+   * @returns {Record<string, PresenceState>}
+   */ static syncState(currentState, newState, onJoin, onLeave) {
+        let state = this.clone(currentState);
+        let joins = {};
+        let leaves = {};
+        this.map(state, (key, presence)=>{
+            if (!newState[key]) {
+                leaves[key] = presence;
+            }
+        });
+        this.map(newState, (key, newPresence)=>{
+            let currentPresence = state[key];
+            if (currentPresence) {
+                let newRefs = newPresence.metas.map((m)=>m.phx_ref);
+                let curRefs = currentPresence.metas.map((m)=>m.phx_ref);
+                let joinedMetas = newPresence.metas.filter((m)=>curRefs.indexOf(m.phx_ref) < 0);
+                let leftMetas = currentPresence.metas.filter((m)=>newRefs.indexOf(m.phx_ref) < 0);
+                if (joinedMetas.length > 0) {
+                    joins[key] = newPresence;
+                    joins[key].metas = joinedMetas;
+                }
+                if (leftMetas.length > 0) {
+                    leaves[key] = this.clone(currentPresence);
+                    leaves[key].metas = leftMetas;
+                }
+            } else {
+                joins[key] = newPresence;
+            }
+        });
+        return this.syncDiff(state, {
+            joins,
+            leaves
+        }, onJoin, onLeave);
+    }
+    /**
+   *
+   * Used to sync a diff of presence join and leave
+   * events from the server, as they happen. Like `syncState`, `syncDiff`
+   * accepts optional `onJoin` and `onLeave` callbacks to react to a user
+   * joining or leaving from a device.
+   *
+   * @param {Record<string, PresenceState>} state
+   * @param {PresenceDiff} diff
+   * @param {PresenceOnJoin} onJoin
+   * @param {PresenceOnLeave} onLeave
+   *
+   * @returns {Record<string, PresenceState>}
+   */ static syncDiff(state, diff, onJoin, onLeave) {
+        let { joins, leaves } = this.clone(diff);
+        if (!onJoin) {
+            onJoin = function() {};
+        }
+        if (!onLeave) {
+            onLeave = function() {};
+        }
+        this.map(joins, (key, newPresence)=>{
+            let currentPresence = state[key];
+            state[key] = this.clone(newPresence);
+            if (currentPresence) {
+                let joinedRefs = state[key].metas.map((m)=>m.phx_ref);
+                let curMetas = currentPresence.metas.filter((m)=>joinedRefs.indexOf(m.phx_ref) < 0);
+                state[key].metas.unshift(...curMetas);
+            }
+            onJoin(key, currentPresence, newPresence);
+        });
+        this.map(leaves, (key, leftPresence)=>{
+            let currentPresence = state[key];
+            if (!currentPresence) {
+                return;
+            }
+            let refsToRemove = leftPresence.metas.map((m)=>m.phx_ref);
+            currentPresence.metas = currentPresence.metas.filter((p)=>{
+                return refsToRemove.indexOf(p.phx_ref) < 0;
+            });
+            onLeave(key, currentPresence, leftPresence);
+            if (currentPresence.metas.length === 0) {
+                delete state[key];
+            }
+        });
+        return state;
+    }
+    /**
+   * Returns the array of presences, with selected metadata.
+   *
+   * @template [T=PresenceState]
+   * @param {Record<string, PresenceState>} presences
+   * @param {((key: string, obj: PresenceState) => T)} [chooser]
+   *
+   * @returns {T[]}
+   */ static list(presences, chooser) {
+        if (!chooser) {
+            chooser = function(key, pres) {
+                return pres;
+            };
+        }
+        return this.map(presences, (key, presence)=>{
+            return chooser(key, presence);
+        });
+    }
+    // private
+    /**
+  * @template T
+  * @param {Record<string, PresenceState>} obj
+  * @param {(key: string, obj: PresenceState) => T} func
+  */ static map(obj, func) {
+        return Object.getOwnPropertyNames(obj).map((key)=>func(key, obj[key]));
+    }
+    /**
+  * @template T
+  * @param {T} obj
+  * @returns {T}
+  */ static clone(obj) {
+        return JSON.parse(JSON.stringify(obj));
+    }
+};
+// js/phoenix/serializer.js
+var serializer_default = {
+    HEADER_LENGTH: 1,
+    META_LENGTH: 4,
+    KINDS: {
+        push: 0,
+        reply: 1,
+        broadcast: 2
+    },
+    /**
+  * @template T
+  * @param {Message<Record<string, any>>} msg
+  * @param {(msg: ArrayBuffer | string) => T} callback
+  * @returns {T}
+  */ encode (msg, callback) {
+        if (msg.payload.constructor === ArrayBuffer) {
+            return callback(this.binaryEncode(msg));
+        } else {
+            let payload = [
+                msg.join_ref,
+                msg.ref,
+                msg.topic,
+                msg.event,
+                msg.payload
+            ];
+            return callback(JSON.stringify(payload));
+        }
+    },
+    /**
+  * @template T
+  * @param {ArrayBuffer | string} rawPayload
+  * @param {(msg: Message<unknown>) => T} callback
+  * @returns {T}
+  */ decode (rawPayload, callback) {
+        if (rawPayload.constructor === ArrayBuffer) {
+            return callback(this.binaryDecode(rawPayload));
+        } else {
+            let [join_ref, ref, topic, event, payload] = JSON.parse(rawPayload);
+            return callback({
+                join_ref,
+                ref,
+                topic,
+                event,
+                payload
+            });
+        }
+    },
+    /** @private */ binaryEncode (message) {
+        let { join_ref, ref, event, topic, payload } = message;
+        let metaLength = this.META_LENGTH + join_ref.length + ref.length + topic.length + event.length;
+        let header = new ArrayBuffer(this.HEADER_LENGTH + metaLength);
+        let view = new DataView(header);
+        let offset = 0;
+        view.setUint8(offset++, this.KINDS.push);
+        view.setUint8(offset++, join_ref.length);
+        view.setUint8(offset++, ref.length);
+        view.setUint8(offset++, topic.length);
+        view.setUint8(offset++, event.length);
+        Array.from(join_ref, (char)=>view.setUint8(offset++, char.charCodeAt(0)));
+        Array.from(ref, (char)=>view.setUint8(offset++, char.charCodeAt(0)));
+        Array.from(topic, (char)=>view.setUint8(offset++, char.charCodeAt(0)));
+        Array.from(event, (char)=>view.setUint8(offset++, char.charCodeAt(0)));
+        var combined = new Uint8Array(header.byteLength + payload.byteLength);
+        combined.set(new Uint8Array(header), 0);
+        combined.set(new Uint8Array(payload), header.byteLength);
+        return combined.buffer;
+    },
+    /**
+  * @private
+  */ binaryDecode (buffer) {
+        let view = new DataView(buffer);
+        let kind = view.getUint8(0);
+        let decoder = new TextDecoder();
+        switch(kind){
+            case this.KINDS.push:
+                return this.decodePush(buffer, view, decoder);
+            case this.KINDS.reply:
+                return this.decodeReply(buffer, view, decoder);
+            case this.KINDS.broadcast:
+                return this.decodeBroadcast(buffer, view, decoder);
+        }
+    },
+    /** @private */ decodePush (buffer, view, decoder) {
+        let joinRefSize = view.getUint8(1);
+        let topicSize = view.getUint8(2);
+        let eventSize = view.getUint8(3);
+        let offset = this.HEADER_LENGTH + this.META_LENGTH - 1;
+        let joinRef = decoder.decode(buffer.slice(offset, offset + joinRefSize));
+        offset = offset + joinRefSize;
+        let topic = decoder.decode(buffer.slice(offset, offset + topicSize));
+        offset = offset + topicSize;
+        let event = decoder.decode(buffer.slice(offset, offset + eventSize));
+        offset = offset + eventSize;
+        let data = buffer.slice(offset, buffer.byteLength);
+        return {
+            join_ref: joinRef,
+            ref: null,
+            topic,
+            event,
+            payload: data
+        };
+    },
+    /** @private */ decodeReply (buffer, view, decoder) {
+        let joinRefSize = view.getUint8(1);
+        let refSize = view.getUint8(2);
+        let topicSize = view.getUint8(3);
+        let eventSize = view.getUint8(4);
+        let offset = this.HEADER_LENGTH + this.META_LENGTH;
+        let joinRef = decoder.decode(buffer.slice(offset, offset + joinRefSize));
+        offset = offset + joinRefSize;
+        let ref = decoder.decode(buffer.slice(offset, offset + refSize));
+        offset = offset + refSize;
+        let topic = decoder.decode(buffer.slice(offset, offset + topicSize));
+        offset = offset + topicSize;
+        let event = decoder.decode(buffer.slice(offset, offset + eventSize));
+        offset = offset + eventSize;
+        let data = buffer.slice(offset, buffer.byteLength);
+        let payload = {
+            status: event,
+            response: data
+        };
+        return {
+            join_ref: joinRef,
+            ref,
+            topic,
+            event: CHANNEL_EVENTS.reply,
+            payload
+        };
+    },
+    /** @private */ decodeBroadcast (buffer, view, decoder) {
+        let topicSize = view.getUint8(1);
+        let eventSize = view.getUint8(2);
+        let offset = this.HEADER_LENGTH + 2;
+        let topic = decoder.decode(buffer.slice(offset, offset + topicSize));
+        offset = offset + topicSize;
+        let event = decoder.decode(buffer.slice(offset, offset + eventSize));
+        offset = offset + eventSize;
+        let data = buffer.slice(offset, buffer.byteLength);
+        return {
+            join_ref: null,
+            ref: null,
+            topic,
+            event,
+            payload: data
+        };
+    }
+};
+// js/phoenix/socket.js
+var Socket = class {
+    /** Initializes the Socket *
+   *
+   * For IE8 support use an ES5-shim (https://github.com/es-shims/es5-shim)
+   *
+   * @constructor
+   * @param {string} endPoint - The string WebSocket endpoint, ie, `"ws://example.com/socket"`,
+   *                                               `"wss://example.com"`
+   *                                               `"/socket"` (inherited host & protocol)
+   * @param {SocketOptions} [opts] - Optional configuration
+   */ constructor(endPoint, opts = {}){
+        this.stateChangeCallbacks = {
+            open: [],
+            close: [],
+            error: [],
+            message: []
+        };
+        this.channels = [];
+        this.sendBuffer = [];
+        this.ref = 0;
+        this.fallbackRef = null;
+        this.timeout = opts.timeout || DEFAULT_TIMEOUT;
+        this.transport = opts.transport || global.WebSocket || LongPoll;
+        this.conn = void 0;
+        this.primaryPassedHealthCheck = false;
+        this.longPollFallbackMs = opts.longPollFallbackMs;
+        this.fallbackTimer = null;
+        this.sessionStore = opts.sessionStorage || global && global.sessionStorage;
+        this.establishedConnections = 0;
+        this.defaultEncoder = serializer_default.encode.bind(serializer_default);
+        this.defaultDecoder = serializer_default.decode.bind(serializer_default);
+        this.closeWasClean = true;
+        this.disconnecting = false;
+        this.binaryType = opts.binaryType || "arraybuffer";
+        this.connectClock = 1;
+        this.pageHidden = false;
+        this.encode = void 0;
+        this.decode = void 0;
+        if (this.transport !== LongPoll) {
+            this.encode = opts.encode || this.defaultEncoder;
+            this.decode = opts.decode || this.defaultDecoder;
+        } else {
+            this.encode = this.defaultEncoder;
+            this.decode = this.defaultDecoder;
+        }
+        let awaitingConnectionOnPageShow = null;
+        if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+        ;
+        this.heartbeatIntervalMs = opts.heartbeatIntervalMs || 3e4;
+        this.autoSendHeartbeat = opts.autoSendHeartbeat ?? true;
+        this.heartbeatCallback = opts.heartbeatCallback ?? (()=>{});
+        this.rejoinAfterMs = (tries)=>{
+            if (opts.rejoinAfterMs) {
+                return opts.rejoinAfterMs(tries);
+            } else {
+                return [
+                    1e3,
+                    2e3,
+                    5e3
+                ][tries - 1] || 1e4;
+            }
+        };
+        this.reconnectAfterMs = (tries)=>{
+            if (opts.reconnectAfterMs) {
+                return opts.reconnectAfterMs(tries);
+            } else {
+                return [
+                    10,
+                    50,
+                    100,
+                    150,
+                    200,
+                    250,
+                    500,
+                    1e3,
+                    2e3
+                ][tries - 1] || 5e3;
+            }
+        };
+        this.logger = opts.logger || null;
+        if (!this.logger && opts.debug) {
+            this.logger = (kind, msg, data)=>{
+                console.log(`${kind}: ${msg}`, data);
+            };
+        }
+        this.longpollerTimeout = opts.longpollerTimeout || 2e4;
+        this.params = closure(opts.params || {});
+        this.endPoint = `${endPoint}/${TRANSPORTS.websocket}`;
+        this.vsn = opts.vsn || DEFAULT_VSN;
+        this.heartbeatTimeoutTimer = null;
+        this.heartbeatTimer = null;
+        this.heartbeatSentAt = null;
+        this.pendingHeartbeatRef = null;
+        this.reconnectTimer = new Timer(()=>{
+            if (this.pageHidden) {
+                this.log("Not reconnecting as page is hidden!");
+                this.teardown();
+                return;
+            }
+            this.teardown(async ()=>{
+                if (opts.beforeReconnect) await opts.beforeReconnect();
+                this.connect();
+            });
+        }, this.reconnectAfterMs);
+        this.authToken = opts.authToken;
+    }
+    /**
+   * Returns the LongPoll transport reference
+   */ getLongPollTransport() {
+        return LongPoll;
+    }
+    /**
+   * Disconnects and replaces the active transport
+   *
+   * @param {SocketTransport} newTransport - The new transport class to instantiate
+   *
+   */ replaceTransport(newTransport) {
+        this.connectClock++;
+        this.closeWasClean = true;
+        clearTimeout(this.fallbackTimer);
+        this.reconnectTimer.reset();
+        if (this.conn) {
+            this.conn.close();
+            this.conn = null;
+        }
+        this.transport = newTransport;
+    }
+    /**
+   * Returns the socket protocol
+   *
+   * @returns {"wss" | "ws"}
+   */ protocol() {
+        return location.protocol.match(/^https/) ? "wss" : "ws";
+    }
+    /**
+   * The fully qualified socket url
+   *
+   * @returns {string}
+   */ endPointURL() {
+        let uri = Ajax.appendParams(Ajax.appendParams(this.endPoint, this.params()), {
+            vsn: this.vsn
+        });
+        if (uri.charAt(0) !== "/") {
+            return uri;
+        }
+        if (uri.charAt(1) === "/") {
+            return `${this.protocol()}:${uri}`;
+        }
+        return `${this.protocol()}://${location.host}${uri}`;
+    }
+    /**
+   * Disconnects the socket
+   *
+   * See https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent#Status_codes for valid status codes.
+   *
+   * @param {() => void} [callback] - Optional callback which is called after socket is disconnected.
+   * @param {number} [code] - A status code for disconnection (Optional).
+   * @param {string} [reason] - A textual description of the reason to disconnect. (Optional)
+   */ disconnect(callback, code, reason) {
+        this.connectClock++;
+        this.disconnecting = true;
+        this.closeWasClean = true;
+        clearTimeout(this.fallbackTimer);
+        this.reconnectTimer.reset();
+        this.teardown(()=>{
+            this.disconnecting = false;
+            callback && callback();
+        }, code, reason);
+    }
+    /**
+   * @param {Params} [params] - [DEPRECATED] The params to send when connecting, for example `{user_id: userToken}`
+   *
+   * Passing params to connect is deprecated; pass them in the Socket constructor instead:
+   * `new Socket("/socket", {params: {user_id: userToken}})`.
+   */ connect(params) {
+        if (params) {
+            console && console.log("passing params to connect is deprecated. Instead pass :params to the Socket constructor");
+            this.params = closure(params);
+        }
+        if (this.conn && !this.disconnecting) {
+            return;
+        }
+        if (this.longPollFallbackMs && this.transport !== LongPoll) {
+            this.connectWithFallback(LongPoll, this.longPollFallbackMs);
+        } else {
+            this.transportConnect();
+        }
+    }
+    /**
+   * Logs the message. Override `this.logger` for specialized logging. noops by default
+   * @param {string} kind
+   * @param {string} msg
+   * @param {Object} data
+   */ log(kind, msg, data) {
+        this.logger && this.logger(kind, msg, data);
+    }
+    /**
+   * Returns true if a logger has been set on this socket.
+   */ hasLogger() {
+        return this.logger !== null;
+    }
+    /**
+   * Registers callbacks for connection open events
+   *
+   * @example socket.onOpen(function(){ console.info("the socket was opened") })
+   *
+   * @param {SocketOnOpen} callback
+   */ onOpen(callback) {
+        let ref = this.makeRef();
+        this.stateChangeCallbacks.open.push([
+            ref,
+            callback
+        ]);
+        return ref;
+    }
+    /**
+   * Registers callbacks for connection close events
+   * @param {SocketOnClose} callback
+   * @returns {string}
+   */ onClose(callback) {
+        let ref = this.makeRef();
+        this.stateChangeCallbacks.close.push([
+            ref,
+            callback
+        ]);
+        return ref;
+    }
+    /**
+   * Registers callbacks for connection error events
+   *
+   * @example socket.onError(function(error){ alert("An error occurred") })
+   *
+   * @param {SocketOnError} callback
+   * @returns {string}
+   */ onError(callback) {
+        let ref = this.makeRef();
+        this.stateChangeCallbacks.error.push([
+            ref,
+            callback
+        ]);
+        return ref;
+    }
+    /**
+   * Registers callbacks for connection message events
+   * @param {SocketOnMessage} callback
+   * @returns {string}
+   */ onMessage(callback) {
+        let ref = this.makeRef();
+        this.stateChangeCallbacks.message.push([
+            ref,
+            callback
+        ]);
+        return ref;
+    }
+    /**
+   * Sets a callback that receives lifecycle events for internal heartbeat messages.
+   * Useful for instrumenting connection health (e.g. sent/ok/timeout/disconnected).
+   * @param {HeartbeatCallback} callback
+   */ onHeartbeat(callback) {
+        this.heartbeatCallback = callback;
+    }
+    /**
+   * Pings the server and invokes the callback with the RTT in milliseconds
+   * @param {(timeDelta: number) => void} callback
+   *
+   * Returns true if the ping was pushed or false if unable to be pushed.
+   */ ping(callback) {
+        if (!this.isConnected()) {
+            return false;
+        }
+        let ref = this.makeRef();
+        let startTime = Date.now();
+        this.push({
+            topic: "phoenix",
+            event: "heartbeat",
+            payload: {},
+            ref
+        });
+        let onMsgRef = this.onMessage((msg)=>{
+            if (msg.ref === ref) {
+                this.off([
+                    onMsgRef
+                ]);
+                callback(Date.now() - startTime);
+            }
+        });
+        return true;
+    }
+    /**
+   * @private
+   *
+   * @param {Function}
+   */ transportName(transport) {
+        switch(transport){
+            case LongPoll:
+                return "LongPoll";
+            default:
+                return transport.name;
+        }
+    }
+    /**
+   * @private
+   */ transportConnect() {
+        this.connectClock++;
+        this.closeWasClean = false;
+        let protocols = void 0;
+        if (this.authToken) {
+            protocols = [
+                "phoenix",
+                `${AUTH_TOKEN_PREFIX}${btoa(this.authToken).replace(/=/g, "")}`
+            ];
+        }
+        this.conn = new this.transport(this.endPointURL(), protocols);
+        this.conn.binaryType = this.binaryType;
+        this.conn.timeout = this.longpollerTimeout;
+        this.conn.onopen = ()=>this.onConnOpen();
+        this.conn.onerror = (error)=>this.onConnError(error);
+        this.conn.onmessage = (event)=>this.onConnMessage(event);
+        this.conn.onclose = (event)=>this.onConnClose(event);
+    }
+    getSession(key) {
+        return this.sessionStore && this.sessionStore.getItem(key);
+    }
+    storeSession(key, val) {
+        this.sessionStore && this.sessionStore.setItem(key, val);
+    }
+    connectWithFallback(fallbackTransport, fallbackThreshold = 2500) {
+        clearTimeout(this.fallbackTimer);
+        let established = false;
+        let primaryTransport = true;
+        let openRef, errorRef;
+        let fallbackTransportName = this.transportName(fallbackTransport);
+        let fallback = (reason)=>{
+            this.log("transport", `falling back to ${fallbackTransportName}...`, reason);
+            this.off([
+                openRef,
+                errorRef
+            ]);
+            primaryTransport = false;
+            this.replaceTransport(fallbackTransport);
+            this.transportConnect();
+        };
+        if (this.getSession(`phx:fallback:${fallbackTransportName}`)) {
+            return fallback("memorized");
+        }
+        this.fallbackTimer = setTimeout(fallback, fallbackThreshold);
+        errorRef = this.onError((reason)=>{
+            this.log("transport", "error", reason);
+            if (primaryTransport && !established) {
+                clearTimeout(this.fallbackTimer);
+                fallback(reason);
+            }
+        });
+        if (this.fallbackRef) {
+            this.off([
+                this.fallbackRef
+            ]);
+        }
+        this.fallbackRef = this.onOpen(()=>{
+            established = true;
+            if (!primaryTransport) {
+                let fallbackTransportName2 = this.transportName(fallbackTransport);
+                if (!this.primaryPassedHealthCheck) {
+                    this.storeSession(`phx:fallback:${fallbackTransportName2}`, "true");
+                }
+                return this.log("transport", `established ${fallbackTransportName2} fallback`);
+            }
+            clearTimeout(this.fallbackTimer);
+            this.fallbackTimer = setTimeout(fallback, fallbackThreshold);
+            this.ping((rtt)=>{
+                this.log("transport", "connected to primary after", rtt);
+                this.primaryPassedHealthCheck = true;
+                clearTimeout(this.fallbackTimer);
+            });
+        });
+        this.transportConnect();
+    }
+    clearHeartbeats() {
+        clearTimeout(this.heartbeatTimer);
+        clearTimeout(this.heartbeatTimeoutTimer);
+    }
+    onConnOpen() {
+        if (this.hasLogger()) this.log("transport", `connected to ${this.endPointURL()}`);
+        this.closeWasClean = false;
+        this.disconnecting = false;
+        this.establishedConnections++;
+        this.flushSendBuffer();
+        this.reconnectTimer.reset();
+        if (this.autoSendHeartbeat) {
+            this.resetHeartbeat();
+        }
+        this.triggerStateCallbacks("open");
+    }
+    /**
+   * @private
+   */ heartbeatTimeout() {
+        if (this.pendingHeartbeatRef) {
+            this.pendingHeartbeatRef = null;
+            this.heartbeatSentAt = null;
+            if (this.hasLogger()) {
+                this.log("transport", "heartbeat timeout. Attempting to re-establish connection");
+            }
+            try {
+                this.heartbeatCallback("timeout");
+            } catch (e) {
+                this.log("error", "error in heartbeat callback", e);
+            }
+            this.triggerChanError(new Error("heartbeat timeout"));
+            this.closeWasClean = false;
+            this.teardown(()=>this.reconnectTimer.scheduleTimeout(), WS_CLOSE_NORMAL, "heartbeat timeout");
+        }
+    }
+    resetHeartbeat() {
+        if (this.conn && this.conn.skipHeartbeat) {
+            return;
+        }
+        this.pendingHeartbeatRef = null;
+        this.clearHeartbeats();
+        this.heartbeatTimer = setTimeout(()=>this.sendHeartbeat(), this.heartbeatIntervalMs);
+    }
+    teardown(callback, code, reason) {
+        if (!this.conn) {
+            return callback && callback();
+        }
+        const connToClose = this.conn;
+        this.waitForBufferDone(connToClose, ()=>{
+            if (code) {
+                connToClose.close(code, reason || "");
+            } else {
+                connToClose.close();
+            }
+            this.waitForSocketClosed(connToClose, ()=>{
+                if (this.conn === connToClose) {
+                    this.conn.onopen = function() {};
+                    this.conn.onerror = function() {};
+                    this.conn.onmessage = function() {};
+                    this.conn.onclose = function() {};
+                    this.conn = null;
+                }
+                callback && callback();
+            });
+        });
+    }
+    waitForBufferDone(conn, callback, tries = 1) {
+        if (tries === 5 || !conn.bufferedAmount) {
+            callback();
+            return;
+        }
+        setTimeout(()=>{
+            this.waitForBufferDone(conn, callback, tries + 1);
+        }, 150 * tries);
+    }
+    waitForSocketClosed(conn, callback, tries = 1) {
+        if (tries === 5 || conn.readyState === SOCKET_STATES.closed) {
+            callback();
+            return;
+        }
+        setTimeout(()=>{
+            this.waitForSocketClosed(conn, callback, tries + 1);
+        }, 150 * tries);
+    }
+    /**
+  * @param {CloseEvent} event
+  */ onConnClose(event) {
+        if (this.conn) this.conn.onclose = ()=>{};
+        if (this.hasLogger()) this.log("transport", "close", event);
+        this.triggerChanError(event);
+        this.clearHeartbeats();
+        if (!this.closeWasClean) {
+            this.reconnectTimer.scheduleTimeout();
+        }
+        this.triggerStateCallbacks("close", event);
+    }
+    /**
+   * @private
+   * @param {Event} error
+   */ onConnError(error) {
+        if (this.hasLogger()) this.log("transport", "error", error);
+        let transportBefore = this.transport;
+        let establishedBefore = this.establishedConnections;
+        this.triggerStateCallbacks("error", error, transportBefore, establishedBefore);
+        if (transportBefore === this.transport || establishedBefore > 0) {
+            this.triggerChanError(error);
+        }
+    }
+    /**
+   * @private
+   * @param {unknown} [reason] underlying close/error event forwarded to channel error listeners
+   */ triggerChanError(reason) {
+        this.channels.forEach((channel)=>{
+            if (!(channel.isErrored() || channel.isLeaving() || channel.isClosed())) {
+                channel.trigger(CHANNEL_EVENTS.error, reason);
+            }
+        });
+    }
+    /**
+   * @returns {string}
+   */ connectionState() {
+        switch(this.conn && this.conn.readyState){
+            case SOCKET_STATES.connecting:
+                return "connecting";
+            case SOCKET_STATES.open:
+                return "open";
+            case SOCKET_STATES.closing:
+                return "closing";
+            default:
+                return "closed";
+        }
+    }
+    /**
+   * @returns {boolean}
+   */ isConnected() {
+        return this.connectionState() === "open";
+    }
+    /**
+   *
+   * @param {Channel} channel
+   */ remove(channel) {
+        this.off(channel.stateChangeRefs);
+        this.channels = this.channels.filter((c)=>c !== channel);
+    }
+    /**
+   * Removes `onOpen`, `onClose`, `onError,` and `onMessage` registrations.
+   *
+   * @param {string[]} refs - list of refs returned by calls to
+   *                 `onOpen`, `onClose`, `onError,` and `onMessage`
+   */ off(refs) {
+        for(let key in this.stateChangeCallbacks){
+            this.stateChangeCallbacks[key] = this.stateChangeCallbacks[key].filter(([ref])=>{
+                return refs.indexOf(ref) === -1;
+            });
+        }
+    }
+    /**
+   * Initiates a new channel for the given topic
+   *
+   * @param {string} topic
+   * @param {Params | (() => Params)} [chanParams]- Parameters for the channel
+   * @returns {Channel}
+   */ channel(topic, chanParams = {}) {
+        let chan = new Channel(topic, chanParams, this);
+        this.channels.push(chan);
+        return chan;
+    }
+    /**
+   * @param {Message<Record<string, any>>} data
+   */ push(data) {
+        if (this.hasLogger()) {
+            let { topic, event, payload, ref, join_ref } = data;
+            this.log("push", `${topic} ${event} (${join_ref}, ${ref})`, payload);
+        }
+        if (this.isConnected()) {
+            this.encode(data, (result)=>this.conn.send(result));
+        } else {
+            this.sendBuffer.push(()=>this.encode(data, (result)=>this.conn.send(result)));
+        }
+    }
+    /**
+   * Return the next message ref, accounting for overflows
+   * @returns {string}
+   */ makeRef() {
+        let newRef = this.ref + 1;
+        if (newRef === this.ref) {
+            this.ref = 0;
+        } else {
+            this.ref = newRef;
+        }
+        return this.ref.toString();
+    }
+    sendHeartbeat() {
+        if (!this.isConnected()) {
+            try {
+                this.heartbeatCallback("disconnected");
+            } catch (e) {
+                this.log("error", "error in heartbeat callback", e);
+            }
+            return;
+        }
+        if (this.pendingHeartbeatRef) {
+            this.heartbeatTimeout();
+            return;
+        }
+        this.pendingHeartbeatRef = this.makeRef();
+        this.heartbeatSentAt = Date.now();
+        this.push({
+            topic: "phoenix",
+            event: "heartbeat",
+            payload: {},
+            ref: this.pendingHeartbeatRef
+        });
+        try {
+            this.heartbeatCallback("sent");
+        } catch (e) {
+            this.log("error", "error in heartbeat callback", e);
+        }
+        this.heartbeatTimeoutTimer = setTimeout(()=>this.heartbeatTimeout(), this.heartbeatIntervalMs);
+    }
+    flushSendBuffer() {
+        if (this.isConnected() && this.sendBuffer.length > 0) {
+            this.sendBuffer.forEach((callback)=>callback());
+            this.sendBuffer = [];
+        }
+    }
+    /**
+  * @param {MessageEvent<any>} rawMessage
+  */ onConnMessage(rawMessage) {
+        this.decode(rawMessage.data, (msg)=>{
+            let { topic, event, payload, ref, join_ref } = msg;
+            if (ref && ref === this.pendingHeartbeatRef) {
+                const latency = this.heartbeatSentAt ? Date.now() - this.heartbeatSentAt : void 0;
+                this.clearHeartbeats();
+                try {
+                    this.heartbeatCallback(payload.status === "ok" ? "ok" : "error", latency);
+                } catch (e) {
+                    this.log("error", "error in heartbeat callback", e);
+                }
+                this.pendingHeartbeatRef = null;
+                this.heartbeatSentAt = null;
+                if (this.autoSendHeartbeat) {
+                    this.heartbeatTimer = setTimeout(()=>this.sendHeartbeat(), this.heartbeatIntervalMs);
+                }
+            }
+            if (this.hasLogger()) this.log("receive", `${payload.status || ""} ${topic} ${event} ${ref && "(" + ref + ")" || ""}`.trim(), payload);
+            for(let i = 0; i < this.channels.length; i++){
+                const channel = this.channels[i];
+                if (!channel.isMember(topic, event, payload, join_ref)) {
+                    continue;
+                }
+                channel.trigger(event, payload, ref, join_ref);
+            }
+            this.triggerStateCallbacks("message", msg);
+        });
+    }
+    /**
+   * @private
+   * @template {keyof SocketStateChangeCallbacks} K
+   * @param {K} event
+   * @param {...Parameters<SocketStateChangeCallbacks[K][number][1]>} args
+   * @returns {void}
+   */ triggerStateCallbacks(event, ...args) {
+        try {
+            this.stateChangeCallbacks[event].forEach(([_, callback])=>{
+                try {
+                    callback(...args);
+                } catch (e) {
+                    this.log("error", `error in ${event} callback`, e);
+                }
+            });
+        } catch (e) {
+            this.log("error", `error triggering ${event} callbacks`, e);
+        }
+    }
+    leaveOpenTopic(topic) {
+        let dupChannel = this.channels.find((c)=>c.topic === topic && (c.isJoined() || c.isJoining()));
+        if (dupChannel) {
+            if (this.hasLogger()) this.log("transport", `leaving duplicate topic "${topic}"`);
+            dupChannel.leave();
+        }
+    }
+};
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/iceberg-js/dist/index.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "IcebergError",
+    ()=>IcebergError,
+    "IcebergRestCatalog",
+    ()=>IcebergRestCatalog,
+    "getCurrentSchema",
+    ()=>getCurrentSchema,
+    "isDecimalType",
+    ()=>isDecimalType,
+    "isFixedType",
+    ()=>isFixedType,
+    "parseDecimalType",
+    ()=>parseDecimalType,
+    "parseFixedType",
+    ()=>parseFixedType,
+    "typesEqual",
+    ()=>typesEqual
+]);
+// src/errors/IcebergError.ts
+var IcebergError = class extends Error {
+    constructor(message, opts){
+        super(message);
+        this.name = "IcebergError";
+        this.status = opts.status;
+        this.icebergType = opts.icebergType;
+        this.icebergCode = opts.icebergCode;
+        this.details = opts.details;
+        this.isCommitStateUnknown = opts.icebergType === "CommitStateUnknownException" || [
+            500,
+            502,
+            504
+        ].includes(opts.status) && opts.icebergType?.includes("CommitState") === true;
+    }
+    /**
+   * Returns true if the error is a 404 Not Found error.
+   */ isNotFound() {
+        return this.status === 404;
+    }
+    /**
+   * Returns true if the error is a 409 Conflict error.
+   */ isConflict() {
+        return this.status === 409;
+    }
+    /**
+   * Returns true if the error is a 419 Authentication Timeout error.
+   */ isAuthenticationTimeout() {
+        return this.status === 419;
+    }
+};
+// src/utils/url.ts
+function buildUrl(baseUrl, path, query) {
+    const url = new URL(path, baseUrl);
+    if (query) {
+        for (const [key, value] of Object.entries(query)){
+            if (value !== void 0) {
+                url.searchParams.set(key, value);
+            }
+        }
+    }
+    return url.toString();
+}
+// src/http/createFetchClient.ts
+async function buildAuthHeaders(auth) {
+    if (!auth || auth.type === "none") {
+        return {};
+    }
+    if (auth.type === "bearer") {
+        return {
+            Authorization: `Bearer ${auth.token}`
+        };
+    }
+    if (auth.type === "header") {
+        return {
+            [auth.name]: auth.value
+        };
+    }
+    if (auth.type === "custom") {
+        return await auth.getHeaders();
+    }
+    return {};
+}
+function createFetchClient(options) {
+    const fetchFn = options.fetchImpl ?? globalThis.fetch;
+    return {
+        async request ({ method, path, query, body, headers }) {
+            const url = buildUrl(options.baseUrl, path, query);
+            const authHeaders = await buildAuthHeaders(options.auth);
+            const res = await fetchFn(url, {
+                method,
+                headers: {
+                    ...body ? {
+                        "Content-Type": "application/json"
+                    } : {},
+                    ...authHeaders,
+                    ...headers
+                },
+                body: body ? JSON.stringify(body) : void 0
+            });
+            const text = await res.text();
+            const isJson = (res.headers.get("content-type") || "").includes("application/json");
+            const data = isJson && text ? JSON.parse(text) : text;
+            if (!res.ok) {
+                const errBody = isJson ? data : void 0;
+                const errorDetail = errBody?.error;
+                throw new IcebergError(errorDetail?.message ?? `Request failed with status ${res.status}`, {
+                    status: res.status,
+                    icebergType: errorDetail?.type,
+                    icebergCode: errorDetail?.code,
+                    details: errBody
+                });
+            }
+            return {
+                status: res.status,
+                headers: res.headers,
+                data
+            };
+        }
+    };
+}
+// src/catalog/namespaces.ts
+function namespaceToPath(namespace) {
+    return namespace.join("");
+}
+var NamespaceOperations = class {
+    constructor(client, prefix = ""){
+        this.client = client;
+        this.prefix = prefix;
+    }
+    async listNamespaces(parent) {
+        const query = parent ? {
+            parent: namespaceToPath(parent.namespace)
+        } : void 0;
+        const response = await this.client.request({
+            method: "GET",
+            path: `${this.prefix}/namespaces`,
+            query
+        });
+        return response.data.namespaces.map((ns)=>({
+                namespace: ns
+            }));
+    }
+    async createNamespace(id, metadata) {
+        const request = {
+            namespace: id.namespace,
+            properties: metadata?.properties
+        };
+        const response = await this.client.request({
+            method: "POST",
+            path: `${this.prefix}/namespaces`,
+            body: request
+        });
+        return response.data;
+    }
+    async dropNamespace(id) {
+        await this.client.request({
+            method: "DELETE",
+            path: `${this.prefix}/namespaces/${namespaceToPath(id.namespace)}`
+        });
+    }
+    async loadNamespaceMetadata(id) {
+        const response = await this.client.request({
+            method: "GET",
+            path: `${this.prefix}/namespaces/${namespaceToPath(id.namespace)}`
+        });
+        return {
+            properties: response.data.properties
+        };
+    }
+    async namespaceExists(id) {
+        try {
+            await this.client.request({
+                method: "HEAD",
+                path: `${this.prefix}/namespaces/${namespaceToPath(id.namespace)}`
+            });
+            return true;
+        } catch (error) {
+            if (error instanceof IcebergError && error.status === 404) {
+                return false;
+            }
+            throw error;
+        }
+    }
+    async createNamespaceIfNotExists(id, metadata) {
+        try {
+            return await this.createNamespace(id, metadata);
+        } catch (error) {
+            if (error instanceof IcebergError && error.status === 409) {
+                return;
+            }
+            throw error;
+        }
+    }
+};
+// src/catalog/tables.ts
+function namespaceToPath2(namespace) {
+    return namespace.join("");
+}
+var TableOperations = class {
+    constructor(client, prefix = "", accessDelegation){
+        this.client = client;
+        this.prefix = prefix;
+        this.accessDelegation = accessDelegation;
+    }
+    async listTables(namespace) {
+        const response = await this.client.request({
+            method: "GET",
+            path: `${this.prefix}/namespaces/${namespaceToPath2(namespace.namespace)}/tables`
+        });
+        return response.data.identifiers;
+    }
+    async createTable(namespace, request) {
+        const headers = {};
+        if (this.accessDelegation) {
+            headers["X-Iceberg-Access-Delegation"] = this.accessDelegation;
+        }
+        const response = await this.client.request({
+            method: "POST",
+            path: `${this.prefix}/namespaces/${namespaceToPath2(namespace.namespace)}/tables`,
+            body: request,
+            headers
+        });
+        return response.data.metadata;
+    }
+    async updateTable(id, request) {
+        const response = await this.client.request({
+            method: "POST",
+            path: `${this.prefix}/namespaces/${namespaceToPath2(id.namespace)}/tables/${id.name}`,
+            body: request
+        });
+        return {
+            "metadata-location": response.data["metadata-location"],
+            metadata: response.data.metadata
+        };
+    }
+    async dropTable(id, options) {
+        await this.client.request({
+            method: "DELETE",
+            path: `${this.prefix}/namespaces/${namespaceToPath2(id.namespace)}/tables/${id.name}`,
+            query: {
+                purgeRequested: String(options?.purge ?? false)
+            }
+        });
+    }
+    async loadTable(id) {
+        const headers = {};
+        if (this.accessDelegation) {
+            headers["X-Iceberg-Access-Delegation"] = this.accessDelegation;
+        }
+        const response = await this.client.request({
+            method: "GET",
+            path: `${this.prefix}/namespaces/${namespaceToPath2(id.namespace)}/tables/${id.name}`,
+            headers
+        });
+        return response.data.metadata;
+    }
+    async tableExists(id) {
+        const headers = {};
+        if (this.accessDelegation) {
+            headers["X-Iceberg-Access-Delegation"] = this.accessDelegation;
+        }
+        try {
+            await this.client.request({
+                method: "HEAD",
+                path: `${this.prefix}/namespaces/${namespaceToPath2(id.namespace)}/tables/${id.name}`,
+                headers
+            });
+            return true;
+        } catch (error) {
+            if (error instanceof IcebergError && error.status === 404) {
+                return false;
+            }
+            throw error;
+        }
+    }
+    async createTableIfNotExists(namespace, request) {
+        try {
+            return await this.createTable(namespace, request);
+        } catch (error) {
+            if (error instanceof IcebergError && error.status === 409) {
+                return await this.loadTable({
+                    namespace: namespace.namespace,
+                    name: request.name
+                });
+            }
+            throw error;
+        }
+    }
+};
+// src/catalog/IcebergRestCatalog.ts
+var IcebergRestCatalog = class {
+    /**
+   * Creates a new Iceberg REST Catalog client.
+   *
+   * @param options - Configuration options for the catalog client
+   */ constructor(options){
+        let prefix = "v1";
+        if (options.catalogName) {
+            prefix += `/${options.catalogName}`;
+        }
+        const baseUrl = options.baseUrl.endsWith("/") ? options.baseUrl : `${options.baseUrl}/`;
+        this.client = createFetchClient({
+            baseUrl,
+            auth: options.auth,
+            fetchImpl: options.fetch
+        });
+        this.accessDelegation = options.accessDelegation?.join(",");
+        this.namespaceOps = new NamespaceOperations(this.client, prefix);
+        this.tableOps = new TableOperations(this.client, prefix, this.accessDelegation);
+    }
+    /**
+   * Lists all namespaces in the catalog.
+   *
+   * @param parent - Optional parent namespace to list children under
+   * @returns Array of namespace identifiers
+   *
+   * @example
+   * ```typescript
+   * // List all top-level namespaces
+   * const namespaces = await catalog.listNamespaces();
+   *
+   * // List namespaces under a parent
+   * const children = await catalog.listNamespaces({ namespace: ['analytics'] });
+   * ```
+   */ async listNamespaces(parent) {
+        return this.namespaceOps.listNamespaces(parent);
+    }
+    /**
+   * Creates a new namespace in the catalog.
+   *
+   * @param id - Namespace identifier to create
+   * @param metadata - Optional metadata properties for the namespace
+   * @returns Response containing the created namespace and its properties
+   *
+   * @example
+   * ```typescript
+   * const response = await catalog.createNamespace(
+   *   { namespace: ['analytics'] },
+   *   { properties: { owner: 'data-team' } }
+   * );
+   * console.log(response.namespace); // ['analytics']
+   * console.log(response.properties); // { owner: 'data-team', ... }
+   * ```
+   */ async createNamespace(id, metadata) {
+        return this.namespaceOps.createNamespace(id, metadata);
+    }
+    /**
+   * Drops a namespace from the catalog.
+   *
+   * The namespace must be empty (contain no tables) before it can be dropped.
+   *
+   * @param id - Namespace identifier to drop
+   *
+   * @example
+   * ```typescript
+   * await catalog.dropNamespace({ namespace: ['analytics'] });
+   * ```
+   */ async dropNamespace(id) {
+        await this.namespaceOps.dropNamespace(id);
+    }
+    /**
+   * Loads metadata for a namespace.
+   *
+   * @param id - Namespace identifier to load
+   * @returns Namespace metadata including properties
+   *
+   * @example
+   * ```typescript
+   * const metadata = await catalog.loadNamespaceMetadata({ namespace: ['analytics'] });
+   * console.log(metadata.properties);
+   * ```
+   */ async loadNamespaceMetadata(id) {
+        return this.namespaceOps.loadNamespaceMetadata(id);
+    }
+    /**
+   * Lists all tables in a namespace.
+   *
+   * @param namespace - Namespace identifier to list tables from
+   * @returns Array of table identifiers
+   *
+   * @example
+   * ```typescript
+   * const tables = await catalog.listTables({ namespace: ['analytics'] });
+   * console.log(tables); // [{ namespace: ['analytics'], name: 'events' }, ...]
+   * ```
+   */ async listTables(namespace) {
+        return this.tableOps.listTables(namespace);
+    }
+    /**
+   * Creates a new table in the catalog.
+   *
+   * @param namespace - Namespace to create the table in
+   * @param request - Table creation request including name, schema, partition spec, etc.
+   * @returns Table metadata for the created table
+   *
+   * @example
+   * ```typescript
+   * const metadata = await catalog.createTable(
+   *   { namespace: ['analytics'] },
+   *   {
+   *     name: 'events',
+   *     schema: {
+   *       type: 'struct',
+   *       fields: [
+   *         { id: 1, name: 'id', type: 'long', required: true },
+   *         { id: 2, name: 'timestamp', type: 'timestamp', required: true }
+   *       ],
+   *       'schema-id': 0
+   *     },
+   *     'partition-spec': {
+   *       'spec-id': 0,
+   *       fields: [
+   *         { source_id: 2, field_id: 1000, name: 'ts_day', transform: 'day' }
+   *       ]
+   *     }
+   *   }
+   * );
+   * ```
+   */ async createTable(namespace, request) {
+        return this.tableOps.createTable(namespace, request);
+    }
+    /**
+   * Updates an existing table's metadata.
+   *
+   * Can update the schema, partition spec, or properties of a table.
+   *
+   * @param id - Table identifier to update
+   * @param request - Update request with fields to modify
+   * @returns Response containing the metadata location and updated table metadata
+   *
+   * @example
+   * ```typescript
+   * const response = await catalog.updateTable(
+   *   { namespace: ['analytics'], name: 'events' },
+   *   {
+   *     properties: { 'read.split.target-size': '134217728' }
+   *   }
+   * );
+   * console.log(response['metadata-location']); // s3://...
+   * console.log(response.metadata); // TableMetadata object
+   * ```
+   */ async updateTable(id, request) {
+        return this.tableOps.updateTable(id, request);
+    }
+    /**
+   * Drops a table from the catalog.
+   *
+   * @param id - Table identifier to drop
+   *
+   * @example
+   * ```typescript
+   * await catalog.dropTable({ namespace: ['analytics'], name: 'events' });
+   * ```
+   */ async dropTable(id, options) {
+        await this.tableOps.dropTable(id, options);
+    }
+    /**
+   * Loads metadata for a table.
+   *
+   * @param id - Table identifier to load
+   * @returns Table metadata including schema, partition spec, location, etc.
+   *
+   * @example
+   * ```typescript
+   * const metadata = await catalog.loadTable({ namespace: ['analytics'], name: 'events' });
+   * console.log(metadata.schema);
+   * console.log(metadata.location);
+   * ```
+   */ async loadTable(id) {
+        return this.tableOps.loadTable(id);
+    }
+    /**
+   * Checks if a namespace exists in the catalog.
+   *
+   * @param id - Namespace identifier to check
+   * @returns True if the namespace exists, false otherwise
+   *
+   * @example
+   * ```typescript
+   * const exists = await catalog.namespaceExists({ namespace: ['analytics'] });
+   * console.log(exists); // true or false
+   * ```
+   */ async namespaceExists(id) {
+        return this.namespaceOps.namespaceExists(id);
+    }
+    /**
+   * Checks if a table exists in the catalog.
+   *
+   * @param id - Table identifier to check
+   * @returns True if the table exists, false otherwise
+   *
+   * @example
+   * ```typescript
+   * const exists = await catalog.tableExists({ namespace: ['analytics'], name: 'events' });
+   * console.log(exists); // true or false
+   * ```
+   */ async tableExists(id) {
+        return this.tableOps.tableExists(id);
+    }
+    /**
+   * Creates a namespace if it does not exist.
+   *
+   * If the namespace already exists, returns void. If created, returns the response.
+   *
+   * @param id - Namespace identifier to create
+   * @param metadata - Optional metadata properties for the namespace
+   * @returns Response containing the created namespace and its properties, or void if it already exists
+   *
+   * @example
+   * ```typescript
+   * const response = await catalog.createNamespaceIfNotExists(
+   *   { namespace: ['analytics'] },
+   *   { properties: { owner: 'data-team' } }
+   * );
+   * if (response) {
+   *   console.log('Created:', response.namespace);
+   * } else {
+   *   console.log('Already exists');
+   * }
+   * ```
+   */ async createNamespaceIfNotExists(id, metadata) {
+        return this.namespaceOps.createNamespaceIfNotExists(id, metadata);
+    }
+    /**
+   * Creates a table if it does not exist.
+   *
+   * If the table already exists, returns its metadata instead.
+   *
+   * @param namespace - Namespace to create the table in
+   * @param request - Table creation request including name, schema, partition spec, etc.
+   * @returns Table metadata for the created or existing table
+   *
+   * @example
+   * ```typescript
+   * const metadata = await catalog.createTableIfNotExists(
+   *   { namespace: ['analytics'] },
+   *   {
+   *     name: 'events',
+   *     schema: {
+   *       type: 'struct',
+   *       fields: [
+   *         { id: 1, name: 'id', type: 'long', required: true },
+   *         { id: 2, name: 'timestamp', type: 'timestamp', required: true }
+   *       ],
+   *       'schema-id': 0
+   *     }
+   *   }
+   * );
+   * ```
+   */ async createTableIfNotExists(namespace, request) {
+        return this.tableOps.createTableIfNotExists(namespace, request);
+    }
+};
+// src/catalog/types.ts
+var DECIMAL_REGEX = /^decimal\s*\(\s*(\d+)\s*,\s*(\d+)\s*\)$/;
+var FIXED_REGEX = /^fixed\s*\[\s*(\d+)\s*\]$/;
+function parseDecimalType(type) {
+    const match = type.match(DECIMAL_REGEX);
+    if (!match) return null;
+    return {
+        precision: parseInt(match[1], 10),
+        scale: parseInt(match[2], 10)
+    };
+}
+function parseFixedType(type) {
+    const match = type.match(FIXED_REGEX);
+    if (!match) return null;
+    return {
+        length: parseInt(match[1], 10)
+    };
+}
+function isDecimalType(type) {
+    return DECIMAL_REGEX.test(type);
+}
+function isFixedType(type) {
+    return FIXED_REGEX.test(type);
+}
+function typesEqual(a, b) {
+    const decimalA = parseDecimalType(a);
+    const decimalB = parseDecimalType(b);
+    if (decimalA && decimalB) {
+        return decimalA.precision === decimalB.precision && decimalA.scale === decimalB.scale;
+    }
+    const fixedA = parseFixedType(a);
+    const fixedB = parseFixedType(b);
+    if (fixedA && fixedB) {
+        return fixedA.length === fixedB.length;
+    }
+    return a === b;
+}
+function getCurrentSchema(metadata) {
+    return metadata.schemas.find((s)=>s["schema-id"] === metadata["current-schema-id"]);
+}
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/storage-js/dist/index.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "StorageAnalyticsClient",
+    ()=>StorageAnalyticsClient,
+    "StorageApiError",
+    ()=>StorageApiError,
+    "StorageClient",
+    ()=>StorageClient,
+    "StorageError",
+    ()=>StorageError,
+    "StorageUnknownError",
+    ()=>StorageUnknownError,
+    "StorageVectorsApiError",
+    ()=>StorageVectorsApiError,
+    "StorageVectorsClient",
+    ()=>StorageVectorsClient,
+    "StorageVectorsError",
+    ()=>StorageVectorsError,
+    "StorageVectorsErrorCode",
+    ()=>StorageVectorsErrorCode,
+    "StorageVectorsUnknownError",
+    ()=>StorageVectorsUnknownError,
+    "VectorBucketApi",
+    ()=>VectorBucketApi,
+    "VectorBucketScope",
+    ()=>VectorBucketScope,
+    "VectorDataApi",
+    ()=>VectorDataApi,
+    "VectorIndexApi",
+    ()=>VectorIndexApi,
+    "VectorIndexScope",
+    ()=>VectorIndexScope,
+    "isStorageError",
+    ()=>isStorageError,
+    "isStorageVectorsError",
+    ()=>isStorageVectorsError
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$iceberg$2d$js$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/iceberg-js/dist/index.mjs [app-route] (ecmascript)");
+;
+//#region \0@oxc-project+runtime@0.101.0/helpers/typeof.js
+function _typeof(o) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o$1) {
+        return typeof o$1;
+    } : function(o$1) {
+        return o$1 && "function" == typeof Symbol && o$1.constructor === Symbol && o$1 !== Symbol.prototype ? "symbol" : typeof o$1;
+    }, _typeof(o);
+}
+//#endregion
+//#region \0@oxc-project+runtime@0.101.0/helpers/toPrimitive.js
+function toPrimitive(t, r) {
+    if ("object" != _typeof(t) || !t) return t;
+    var e = t[Symbol.toPrimitive];
+    if (void 0 !== e) {
+        var i = e.call(t, r || "default");
+        if ("object" != _typeof(i)) return i;
+        throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return ("string" === r ? String : Number)(t);
+}
+//#endregion
+//#region \0@oxc-project+runtime@0.101.0/helpers/toPropertyKey.js
+function toPropertyKey(t) {
+    var i = toPrimitive(t, "string");
+    return "symbol" == _typeof(i) ? i : i + "";
+}
+//#endregion
+//#region \0@oxc-project+runtime@0.101.0/helpers/defineProperty.js
+function _defineProperty(e, r, t) {
+    return (r = toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
+        value: t,
+        enumerable: !0,
+        configurable: !0,
+        writable: !0
+    }) : e[r] = t, e;
+}
+//#endregion
+//#region \0@oxc-project+runtime@0.101.0/helpers/objectSpread2.js
+function ownKeys(e, r) {
+    var t = Object.keys(e);
+    if (Object.getOwnPropertySymbols) {
+        var o = Object.getOwnPropertySymbols(e);
+        r && (o = o.filter(function(r$1) {
+            return Object.getOwnPropertyDescriptor(e, r$1).enumerable;
+        })), t.push.apply(t, o);
+    }
+    return t;
+}
+function _objectSpread2(e) {
+    for(var r = 1; r < arguments.length; r++){
+        var t = null != arguments[r] ? arguments[r] : {};
+        r % 2 ? ownKeys(Object(t), !0).forEach(function(r$1) {
+            _defineProperty(e, r$1, t[r$1]);
+        }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function(r$1) {
+            Object.defineProperty(e, r$1, Object.getOwnPropertyDescriptor(t, r$1));
+        });
+    }
+    return e;
+}
+//#endregion
+//#region src/lib/common/errors.ts
+/**
+* Base error class for all Storage errors
+* Supports both 'storage' and 'vectors' namespaces
+*/ var StorageError = class extends Error {
+    constructor(message, namespace = "storage", status, statusCode){
+        super(message);
+        this.__isStorageError = true;
+        this.namespace = namespace;
+        this.name = namespace === "vectors" ? "StorageVectorsError" : "StorageError";
+        this.status = status;
+        this.statusCode = statusCode;
+    }
+    toJSON() {
+        return {
+            name: this.name,
+            message: this.message,
+            status: this.status,
+            statusCode: this.statusCode
+        };
+    }
+};
+/**
+* Type guard to check if an error is a StorageError
+* @param error - The error to check
+* @returns True if the error is a StorageError
+*/ function isStorageError(error) {
+    return typeof error === "object" && error !== null && "__isStorageError" in error;
+}
+/**
+* API error returned from Storage service
+* Includes HTTP status code and service-specific error code
+*/ var StorageApiError = class extends StorageError {
+    constructor(message, status, statusCode, namespace = "storage"){
+        super(message, namespace, status, statusCode);
+        this.name = namespace === "vectors" ? "StorageVectorsApiError" : "StorageApiError";
+        this.status = status;
+        this.statusCode = statusCode;
+    }
+    toJSON() {
+        return _objectSpread2({}, super.toJSON());
+    }
+};
+/**
+* Unknown error that doesn't match expected error patterns
+* Wraps the original error for debugging
+*/ var StorageUnknownError = class extends StorageError {
+    constructor(message, originalError, namespace = "storage"){
+        super(message, namespace);
+        this.name = namespace === "vectors" ? "StorageVectorsUnknownError" : "StorageUnknownError";
+        this.originalError = originalError;
+    }
+};
+/**
+* @deprecated Use StorageError with namespace='vectors' instead
+* Alias for backward compatibility with existing vector storage code
+*/ var StorageVectorsError = class extends StorageError {
+    constructor(message){
+        super(message, "vectors");
+    }
+};
+/**
+* Type guard to check if an error is a StorageVectorsError
+* @param error - The error to check
+* @returns True if the error is a StorageVectorsError
+*/ function isStorageVectorsError(error) {
+    return isStorageError(error) && error["namespace"] === "vectors";
+}
+/**
+* @deprecated Use StorageApiError with namespace='vectors' instead
+* Alias for backward compatibility with existing vector storage code
+*/ var StorageVectorsApiError = class extends StorageApiError {
+    constructor(message, status, statusCode){
+        super(message, status, statusCode, "vectors");
+    }
+};
+/**
+* @deprecated Use StorageUnknownError with namespace='vectors' instead
+* Alias for backward compatibility with existing vector storage code
+*/ var StorageVectorsUnknownError = class extends StorageUnknownError {
+    constructor(message, originalError){
+        super(message, originalError, "vectors");
+    }
+};
+/**
+* Error codes specific to S3 Vectors API
+* Maps AWS service errors to application-friendly error codes
+*/ let StorageVectorsErrorCode = /* @__PURE__ */ function(StorageVectorsErrorCode$1) {
+    /** Internal server fault (HTTP 500) */ StorageVectorsErrorCode$1["InternalError"] = "InternalError";
+    /** Resource already exists / conflict (HTTP 409) */ StorageVectorsErrorCode$1["S3VectorConflictException"] = "S3VectorConflictException";
+    /** Resource not found (HTTP 404) */ StorageVectorsErrorCode$1["S3VectorNotFoundException"] = "S3VectorNotFoundException";
+    /** Delete bucket while not empty (HTTP 400) */ StorageVectorsErrorCode$1["S3VectorBucketNotEmpty"] = "S3VectorBucketNotEmpty";
+    /** Exceeds bucket quota/limit (HTTP 400) */ StorageVectorsErrorCode$1["S3VectorMaxBucketsExceeded"] = "S3VectorMaxBucketsExceeded";
+    /** Exceeds index quota/limit (HTTP 400) */ StorageVectorsErrorCode$1["S3VectorMaxIndexesExceeded"] = "S3VectorMaxIndexesExceeded";
+    return StorageVectorsErrorCode$1;
+}({});
+//#endregion
+//#region src/lib/common/headers.ts
+/**
+* Sets a header with case-insensitive deduplication.
+* Removes any existing headers whose name matches (case-insensitive),
+* then sets the value under the lowercase key. Does not mutate the input object.
+*
+* @param headers - Existing headers object
+* @param name - Header name to set (stored as lowercase)
+* @param value - Header value
+* @returns New headers object with the header set
+*/ function setHeader(headers, name, value) {
+    const result = _objectSpread2({}, headers);
+    const nameLower = name.toLowerCase();
+    for (const key of Object.keys(result))if (key.toLowerCase() === nameLower) delete result[key];
+    result[nameLower] = value;
+    return result;
+}
+/**
+* Normalizes all header keys to lowercase with case-insensitive deduplication.
+* When duplicate keys exist (differing only in case), the last value wins.
+* Does not mutate the input object.
+*
+* @param headers - Headers object to normalize
+* @returns New headers object with all keys lowercased
+*/ function normalizeHeaders(headers) {
+    const result = {};
+    for (const [key, value] of Object.entries(headers))result[key.toLowerCase()] = value;
+    return result;
+}
+//#endregion
+//#region src/lib/common/helpers.ts
+/**
+* Resolves the fetch implementation to use
+* Uses custom fetch if provided, otherwise uses native fetch
+*
+* @param customFetch - Optional custom fetch implementation
+* @returns Resolved fetch function
+*/ const resolveFetch = (customFetch)=>{
+    if (customFetch) return (...args)=>customFetch(...args);
+    return (...args)=>fetch(...args);
+};
+/**
+* Determine if input is a plain object
+* An object is plain if it's created by either {}, new Object(), or Object.create(null)
+*
+* @param value - Value to check
+* @returns True if value is a plain object
+* @source https://github.com/sindresorhus/is-plain-obj
+*/ const isPlainObject = (value)=>{
+    if (typeof value !== "object" || value === null) return false;
+    const prototype = Object.getPrototypeOf(value);
+    return (prototype === null || prototype === Object.prototype || Object.getPrototypeOf(prototype) === null) && !(Symbol.toStringTag in value) && !(Symbol.iterator in value);
+};
+/**
+* Recursively converts object keys from snake_case to camelCase
+* Used for normalizing API responses
+*
+* @param item - Object to convert
+* @returns Converted object with camelCase keys
+*/ const recursiveToCamel = (item)=>{
+    if (Array.isArray(item)) return item.map((el)=>recursiveToCamel(el));
+    else if (typeof item === "function" || item !== Object(item)) return item;
+    const result = {};
+    Object.entries(item).forEach(([key, value])=>{
+        const newKey = key.replace(/([-_][a-z])/gi, (c)=>c.toUpperCase().replace(/[-_]/g, ""));
+        result[newKey] = recursiveToCamel(value);
+    });
+    return result;
+};
+/**
+* Validates if a given bucket name is valid according to Supabase Storage API rules
+* Mirrors backend validation from: storage/src/storage/limits.ts:isValidBucketName()
+*
+* Rules:
+* - Length: 1-100 characters
+* - Allowed characters: alphanumeric (a-z, A-Z, 0-9), underscore (_), and safe special characters
+* - Safe special characters: ! - . * ' ( ) space & $ @ = ; : + , ?
+* - Forbidden: path separators (/, \), path traversal (..), leading/trailing whitespace
+*
+* AWS S3 Reference: https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-keys.html
+*
+* @param bucketName - The bucket name to validate
+* @returns true if valid, false otherwise
+*/ const isValidBucketName = (bucketName)=>{
+    if (!bucketName || typeof bucketName !== "string") return false;
+    if (bucketName.length === 0 || bucketName.length > 100) return false;
+    if (bucketName.trim() !== bucketName) return false;
+    if (bucketName.includes("/") || bucketName.includes("\\")) return false;
+    return /^[\w!.\*'() &$@=;:+,?-]+$/.test(bucketName);
+};
+//#endregion
+//#region src/lib/common/fetch.ts
+/**
+* Extracts error message from various error response formats
+* @param err - Error object from API
+* @returns Human-readable error message
+*/ const _getErrorMessage = (err)=>{
+    if (typeof err === "object" && err !== null) {
+        const e = err;
+        if (typeof e.msg === "string") return e.msg;
+        if (typeof e.message === "string") return e.message;
+        if (typeof e.error_description === "string") return e.error_description;
+        if (typeof e.error === "string") return e.error;
+        if (typeof e.error === "object" && e.error !== null) {
+            const nested = e.error;
+            if (typeof nested.message === "string") return nested.message;
+        }
+    }
+    return JSON.stringify(err);
+};
+/**
+* Handles fetch errors and converts them to Storage error types
+* @param error - The error caught from fetch
+* @param reject - Promise rejection function
+* @param options - Fetch options that may affect error handling
+* @param namespace - Error namespace ('storage' or 'vectors')
+*/ const handleError = async (error, reject, options, namespace)=>{
+    if (error !== null && typeof error === "object" && "json" in error && typeof error.json === "function") {
+        const responseError = error;
+        let status = parseInt(String(responseError.status), 10);
+        if (!Number.isFinite(status)) status = 500;
+        responseError.json().then((err)=>{
+            const statusCode = (err === null || err === void 0 ? void 0 : err.statusCode) || (err === null || err === void 0 ? void 0 : err.code) || status + "";
+            reject(new StorageApiError(_getErrorMessage(err), status, statusCode, namespace));
+        }).catch(()=>{
+            const statusCode = status + "";
+            reject(new StorageApiError(responseError.statusText || `HTTP ${status} error`, status, statusCode, namespace));
+        });
+    } else reject(new StorageUnknownError(_getErrorMessage(error), error, namespace));
+};
+/**
+* Builds request parameters for fetch calls
+* @param method - HTTP method
+* @param options - Custom fetch options
+* @param parameters - Additional fetch parameters like AbortSignal
+* @param body - Request body (will be JSON stringified if plain object)
+* @returns Complete fetch request parameters
+*/ const _getRequestParams = (method, options, parameters, body)=>{
+    const params = {
+        method,
+        headers: (options === null || options === void 0 ? void 0 : options.headers) || {}
+    };
+    if (method === "GET" || method === "HEAD" || !body) return _objectSpread2(_objectSpread2({}, params), parameters);
+    if (isPlainObject(body)) {
+        var _contentType;
+        const headers = (options === null || options === void 0 ? void 0 : options.headers) || {};
+        let contentType;
+        for (const [key, value] of Object.entries(headers))if (key.toLowerCase() === "content-type") contentType = value;
+        params.headers = setHeader(headers, "Content-Type", (_contentType = contentType) !== null && _contentType !== void 0 ? _contentType : "application/json");
+        params.body = JSON.stringify(body);
+    } else params.body = body;
+    if (options === null || options === void 0 ? void 0 : options.duplex) params.duplex = options.duplex;
+    return _objectSpread2(_objectSpread2({}, params), parameters);
+};
+/**
+* Internal request handler that wraps fetch with error handling
+* @param fetcher - Fetch function to use
+* @param method - HTTP method
+* @param url - Request URL
+* @param options - Custom fetch options
+* @param parameters - Additional fetch parameters
+* @param body - Request body
+* @param namespace - Error namespace ('storage' or 'vectors')
+* @returns Promise with parsed response or error
+*/ async function _handleRequest(fetcher, method, url, options, parameters, body, namespace) {
+    return new Promise((resolve, reject)=>{
+        fetcher(url, _getRequestParams(method, options, parameters, body)).then((result)=>{
+            if (!result.ok) throw result;
+            if (options === null || options === void 0 ? void 0 : options.noResolveJson) return result;
+            if (namespace === "vectors") {
+                const contentType = result.headers.get("content-type");
+                if (result.headers.get("content-length") === "0" || result.status === 204) return {};
+                if (!contentType || !contentType.includes("application/json")) return {};
+            }
+            return result.json();
+        }).then((data)=>resolve(data)).catch((error)=>handleError(error, reject, options, namespace));
+    });
+}
+/**
+* Creates a fetch API with the specified namespace
+* @param namespace - Error namespace ('storage' or 'vectors')
+* @returns Object with HTTP method functions
+*/ function createFetchApi(namespace = "storage") {
+    return {
+        get: async (fetcher, url, options, parameters)=>{
+            return _handleRequest(fetcher, "GET", url, options, parameters, void 0, namespace);
+        },
+        post: async (fetcher, url, body, options, parameters)=>{
+            return _handleRequest(fetcher, "POST", url, options, parameters, body, namespace);
+        },
+        put: async (fetcher, url, body, options, parameters)=>{
+            return _handleRequest(fetcher, "PUT", url, options, parameters, body, namespace);
+        },
+        head: async (fetcher, url, options, parameters)=>{
+            return _handleRequest(fetcher, "HEAD", url, _objectSpread2(_objectSpread2({}, options), {}, {
+                noResolveJson: true
+            }), parameters, void 0, namespace);
+        },
+        remove: async (fetcher, url, body, options, parameters)=>{
+            return _handleRequest(fetcher, "DELETE", url, options, parameters, body, namespace);
+        }
+    };
+}
+const defaultApi = createFetchApi("storage");
+const { get, post, put, head, remove } = defaultApi;
+const vectorsApi = createFetchApi("vectors");
+//#endregion
+//#region src/lib/common/BaseApiClient.ts
+/**
+* @ignore
+* Base API client class for all Storage API classes
+* Provides common infrastructure for error handling and configuration
+*
+* @typeParam TError - The error type (StorageError or subclass)
+*/ var BaseApiClient = class {
+    /**
+	* Creates a new BaseApiClient instance
+	* @param url - Base URL for API requests
+	* @param headers - Default headers for API requests
+	* @param fetch - Optional custom fetch implementation
+	* @param namespace - Error namespace ('storage' or 'vectors')
+	*/ constructor(url, headers = {}, fetch$1, namespace = "storage"){
+        this.shouldThrowOnError = false;
+        this.url = url;
+        this.headers = normalizeHeaders(headers);
+        this.fetch = resolveFetch(fetch$1);
+        this.namespace = namespace;
+    }
+    /**
+	* Enable throwing errors instead of returning them.
+	* When enabled, errors are thrown instead of returned in { data, error } format.
+	*
+	* @returns this - For method chaining
+	*/ throwOnError() {
+        this.shouldThrowOnError = true;
+        return this;
+    }
+    /**
+	* Set an HTTP header for the request.
+	* Creates a shallow copy of headers to avoid mutating shared state.
+	*
+	* @param name - Header name
+	* @param value - Header value
+	* @returns this - For method chaining
+	*/ setHeader(name, value) {
+        this.headers = setHeader(this.headers, name, value);
+        return this;
+    }
+    /**
+	* Handles API operation with standardized error handling
+	* Eliminates repetitive try-catch blocks across all API methods
+	*
+	* This wrapper:
+	* 1. Executes the operation
+	* 2. Returns { data, error: null } on success
+	* 3. Returns { data: null, error } on failure (if shouldThrowOnError is false)
+	* 4. Throws error on failure (if shouldThrowOnError is true)
+	*
+	* @typeParam T - The expected data type from the operation
+	* @param operation - Async function that performs the API call
+	* @returns Promise with { data, error } tuple
+	*
+	* @example Handling an operation
+	* ```typescript
+	* async listBuckets() {
+	*   return this.handleOperation(async () => {
+	*     return await get(this.fetch, `${this.url}/bucket`, {
+	*       headers: this.headers,
+	*     })
+	*   })
+	* }
+	* ```
+	*/ async handleOperation(operation) {
+        var _this = this;
+        try {
+            return {
+                data: await operation(),
+                error: null
+            };
+        } catch (error) {
+            if (_this.shouldThrowOnError) throw error;
+            if (isStorageError(error)) return {
+                data: null,
+                error
+            };
+            throw error;
+        }
+    }
+};
+//#endregion
+//#region src/packages/StreamDownloadBuilder.ts
+var StreamDownloadBuilder = class {
+    constructor(downloadFn, shouldThrowOnError){
+        this.downloadFn = downloadFn;
+        this.shouldThrowOnError = shouldThrowOnError;
+    }
+    then(onfulfilled, onrejected) {
+        return this.execute().then(onfulfilled, onrejected);
+    }
+    async execute() {
+        var _this = this;
+        try {
+            return {
+                data: (await _this.downloadFn()).body,
+                error: null
+            };
+        } catch (error) {
+            if (_this.shouldThrowOnError) throw error;
+            if (isStorageError(error)) return {
+                data: null,
+                error
+            };
+            throw error;
+        }
+    }
+};
+//#endregion
+//#region src/packages/BlobDownloadBuilder.ts
+let _Symbol$toStringTag;
+_Symbol$toStringTag = Symbol.toStringTag;
+var BlobDownloadBuilder = class {
+    constructor(downloadFn, shouldThrowOnError){
+        this.downloadFn = downloadFn;
+        this.shouldThrowOnError = shouldThrowOnError;
+        this[_Symbol$toStringTag] = "BlobDownloadBuilder";
+        this.promise = null;
+    }
+    asStream() {
+        return new StreamDownloadBuilder(this.downloadFn, this.shouldThrowOnError);
+    }
+    then(onfulfilled, onrejected) {
+        return this.getPromise().then(onfulfilled, onrejected);
+    }
+    catch(onrejected) {
+        return this.getPromise().catch(onrejected);
+    }
+    finally(onfinally) {
+        return this.getPromise().finally(onfinally);
+    }
+    getPromise() {
+        if (!this.promise) this.promise = this.execute();
+        return this.promise;
+    }
+    async execute() {
+        var _this = this;
+        try {
+            return {
+                data: await (await _this.downloadFn()).blob(),
+                error: null
+            };
+        } catch (error) {
+            if (_this.shouldThrowOnError) throw error;
+            if (isStorageError(error)) return {
+                data: null,
+                error
+            };
+            throw error;
+        }
+    }
+};
+//#endregion
+//#region src/packages/StorageFileApi.ts
+const DEFAULT_SEARCH_OPTIONS = {
+    limit: 100,
+    offset: 0,
+    sortBy: {
+        column: "name",
+        order: "asc"
+    }
+};
+const DEFAULT_FILE_OPTIONS = {
+    cacheControl: "3600",
+    contentType: "text/plain;charset=UTF-8",
+    upsert: false
+};
+var StorageFileApi = class extends BaseApiClient {
+    constructor(url, headers = {}, bucketId, fetch$1){
+        super(url, headers, fetch$1, "storage");
+        this.bucketId = bucketId;
+    }
+    /**
+	* Uploads a file to an existing bucket or replaces an existing file at the specified path with a new one.
+	*
+	* @param method HTTP method.
+	* @param path The relative file path. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload.
+	* @param fileBody The body of the file to be stored in the bucket.
+	*/ async uploadOrUpdate(method, path, fileBody, fileOptions) {
+        var _this = this;
+        return _this.handleOperation(async ()=>{
+            let body;
+            const options = _objectSpread2(_objectSpread2({}, DEFAULT_FILE_OPTIONS), fileOptions);
+            let headers = _objectSpread2(_objectSpread2({}, _this.headers), method === "POST" && {
+                "x-upsert": String(options.upsert)
+            });
+            const metadata = options.metadata;
+            if (typeof Blob !== "undefined" && fileBody instanceof Blob) {
+                body = new FormData();
+                body.append("cacheControl", options.cacheControl);
+                if (metadata) body.append("metadata", _this.encodeMetadata(metadata));
+                body.append("", fileBody);
+            } else if (typeof FormData !== "undefined" && fileBody instanceof FormData) {
+                body = fileBody;
+                if (!body.has("cacheControl")) body.append("cacheControl", options.cacheControl);
+                if (metadata && !body.has("metadata")) body.append("metadata", _this.encodeMetadata(metadata));
+            } else {
+                body = fileBody;
+                headers["cache-control"] = `max-age=${options.cacheControl}`;
+                headers["content-type"] = options.contentType;
+                if (metadata) headers["x-metadata"] = _this.toBase64(_this.encodeMetadata(metadata));
+                if ((typeof ReadableStream !== "undefined" && body instanceof ReadableStream || body && typeof body === "object" && "pipe" in body && typeof body.pipe === "function") && !options.duplex) options.duplex = "half";
+            }
+            if (fileOptions === null || fileOptions === void 0 ? void 0 : fileOptions.headers) for (const [key, value] of Object.entries(fileOptions.headers))headers = setHeader(headers, key, value);
+            const cleanPath = _this._removeEmptyFolders(path);
+            const _path = _this._getFinalPath(cleanPath);
+            const data = await (method == "PUT" ? put : post)(_this.fetch, `${_this.url}/object/${_path}`, body, _objectSpread2({
+                headers
+            }, (options === null || options === void 0 ? void 0 : options.duplex) ? {
+                duplex: options.duplex
+            } : {}));
+            return {
+                path: cleanPath,
+                id: data.Id,
+                fullPath: data.Key
+            };
+        });
+    }
+    /**
+	* Uploads a file to an existing bucket.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param path The file path, including the file name. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload.
+	* @param fileBody The body of the file to be stored in the bucket.
+	* @param fileOptions Optional file upload options including cacheControl, contentType, upsert, and metadata.
+	* @returns Promise with response containing file path, id, and fullPath or error
+	*
+	* @example Upload file
+	* ```js
+	* const avatarFile = event.target.files[0]
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .upload('public/avatar1.png', avatarFile, {
+	*     cacheControl: '3600',
+	*     upsert: false
+	*   })
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": {
+	*     "path": "public/avatar1.png",
+	*     "fullPath": "avatars/public/avatar1.png"
+	*   },
+	*   "error": null
+	* }
+	* ```
+	*
+	* @example Upload file using `ArrayBuffer` from base64 file data
+	* ```js
+	* import { decode } from 'base64-arraybuffer'
+	*
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .upload('public/avatar1.png', decode('base64FileData'), {
+	*     contentType: 'image/png'
+	*   })
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: none
+	*   - `objects` table permissions: only `insert` when you are uploading new files and `select`, `insert` and `update` when you are upserting files
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	* - For React Native, using either `Blob`, `File` or `FormData` does not work as intended. Upload file using `ArrayBuffer` from base64 file data instead, see example below.
+	*/ async upload(path, fileBody, fileOptions) {
+        return this.uploadOrUpdate("POST", path, fileBody, fileOptions);
+    }
+    /**
+	* Upload a file with a token generated from `createSignedUploadUrl`.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param path The file path, including the file name. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to upload.
+	* @param token The token generated from `createSignedUploadUrl`
+	* @param fileBody The body of the file to be stored in the bucket.
+	* @param fileOptions HTTP headers (cacheControl, contentType, etc.).
+	* **Note:** The `upsert` option has no effect here. To enable upsert behavior,
+	* pass `{ upsert: true }` when calling `createSignedUploadUrl()` instead.
+	* @returns Promise with response containing file path and fullPath or error
+	*
+	* @example Upload to a signed URL
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .uploadToSignedUrl('folder/cat.jpg', 'token-from-createSignedUploadUrl', file)
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": {
+	*     "path": "folder/cat.jpg",
+	*     "fullPath": "avatars/folder/cat.jpg"
+	*   },
+	*   "error": null
+	* }
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: none
+	*   - `objects` table permissions: none
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ async uploadToSignedUrl(path, token, fileBody, fileOptions) {
+        var _this3 = this;
+        const cleanPath = _this3._removeEmptyFolders(path);
+        const _path = _this3._getFinalPath(cleanPath);
+        const url = new URL(_this3.url + `/object/upload/sign/${_path}`);
+        url.searchParams.set("token", token);
+        return _this3.handleOperation(async ()=>{
+            let body;
+            const options = _objectSpread2(_objectSpread2({}, DEFAULT_FILE_OPTIONS), fileOptions);
+            let headers = _objectSpread2(_objectSpread2({}, _this3.headers), {
+                "x-upsert": String(options.upsert)
+            });
+            const metadata = options.metadata;
+            if (typeof Blob !== "undefined" && fileBody instanceof Blob) {
+                body = new FormData();
+                body.append("cacheControl", options.cacheControl);
+                if (metadata) body.append("metadata", _this3.encodeMetadata(metadata));
+                body.append("", fileBody);
+            } else if (typeof FormData !== "undefined" && fileBody instanceof FormData) {
+                body = fileBody;
+                if (!body.has("cacheControl")) body.append("cacheControl", options.cacheControl);
+                if (metadata && !body.has("metadata")) body.append("metadata", _this3.encodeMetadata(metadata));
+            } else {
+                body = fileBody;
+                headers["cache-control"] = `max-age=${options.cacheControl}`;
+                headers["content-type"] = options.contentType;
+                if (metadata) headers["x-metadata"] = _this3.toBase64(_this3.encodeMetadata(metadata));
+                if ((typeof ReadableStream !== "undefined" && body instanceof ReadableStream || body && typeof body === "object" && "pipe" in body && typeof body.pipe === "function") && !options.duplex) options.duplex = "half";
+            }
+            if (fileOptions === null || fileOptions === void 0 ? void 0 : fileOptions.headers) for (const [key, value] of Object.entries(fileOptions.headers))headers = setHeader(headers, key, value);
+            return {
+                path: cleanPath,
+                fullPath: (await put(_this3.fetch, url.toString(), body, _objectSpread2({
+                    headers
+                }, (options === null || options === void 0 ? void 0 : options.duplex) ? {
+                    duplex: options.duplex
+                } : {}))).Key
+            };
+        });
+    }
+    /**
+	* Creates a signed upload URL.
+	* Signed upload URLs can be used to upload files to the bucket without further authentication.
+	* They are valid for 2 hours.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param path The file path, including the current file name. For example `folder/image.png`.
+	* @param options.upsert If set to true, allows the file to be overwritten if it already exists.
+	* @returns Promise with response containing signed upload URL, token, and path or error
+	*
+	* @example Create Signed Upload URL
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .createSignedUploadUrl('folder/cat.jpg')
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": {
+	*     "signedUrl": "https://example.supabase.co/storage/v1/object/upload/sign/avatars/folder/cat.jpg?token=<TOKEN>",
+	*     "path": "folder/cat.jpg",
+	*     "token": "<TOKEN>"
+	*   },
+	*   "error": null
+	* }
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: none
+	*   - `objects` table permissions: `insert`
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ async createSignedUploadUrl(path, options) {
+        var _this4 = this;
+        return _this4.handleOperation(async ()=>{
+            let _path = _this4._getFinalPath(path);
+            const headers = _objectSpread2({}, _this4.headers);
+            if (options === null || options === void 0 ? void 0 : options.upsert) headers["x-upsert"] = "true";
+            const data = await post(_this4.fetch, `${_this4.url}/object/upload/sign/${_path}`, {}, {
+                headers
+            });
+            const url = new URL(_this4.url + data.url);
+            const token = url.searchParams.get("token");
+            if (!token) throw new StorageError("No token returned by API");
+            return {
+                signedUrl: url.toString(),
+                path,
+                token
+            };
+        });
+    }
+    /**
+	* Replaces an existing file at the specified path with a new one.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param path The relative file path. Should be of the format `folder/subfolder/filename.png`. The bucket must already exist before attempting to update.
+	* @param fileBody The body of the file to be stored in the bucket.
+	* @param fileOptions Optional file upload options including cacheControl, contentType, and metadata.
+	* **Note:** The `upsert` option has no effect here. `update()` always replaces the
+	* file at the given path, so the `x-upsert` header is not sent. To control upsert
+	* behavior, use `upload()` instead.
+	* @returns Promise with response containing file path, id, and fullPath or error
+	*
+	* @example Update file
+	* ```js
+	* const avatarFile = event.target.files[0]
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .update('public/avatar1.png', avatarFile, {
+	*     cacheControl: '3600'
+	*   })
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": {
+	*     "path": "public/avatar1.png",
+	*     "fullPath": "avatars/public/avatar1.png"
+	*   },
+	*   "error": null
+	* }
+	* ```
+	*
+	* @example Update file using `ArrayBuffer` from base64 file data
+	* ```js
+	* import {decode} from 'base64-arraybuffer'
+	*
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .update('public/avatar1.png', decode('base64FileData'), {
+	*     contentType: 'image/png'
+	*   })
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: none
+	*   - `objects` table permissions: `update` and `select`
+	* - `update()` always replaces the file at the given path regardless of the `upsert` option.
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	* - For React Native, using either `Blob`, `File` or `FormData` does not work as intended. Update file using `ArrayBuffer` from base64 file data instead, see example below.
+	*/ async update(path, fileBody, fileOptions) {
+        return this.uploadOrUpdate("PUT", path, fileBody, fileOptions);
+    }
+    /**
+	* Moves an existing file to a new path in the same bucket.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param fromPath The original file path, including the current file name. For example `folder/image.png`.
+	* @param toPath The new file path, including the new file name. For example `folder/image-new.png`.
+	* @param options The destination options.
+	* @returns Promise with response containing success message or error
+	*
+	* @example Move file
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .move('public/avatar1.png', 'private/avatar2.png')
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": {
+	*     "message": "Successfully moved"
+	*   },
+	*   "error": null
+	* }
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: none
+	*   - `objects` table permissions: `update` and `select`
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ async move(fromPath, toPath, options) {
+        var _this6 = this;
+        return _this6.handleOperation(async ()=>{
+            return await post(_this6.fetch, `${_this6.url}/object/move`, {
+                bucketId: _this6.bucketId,
+                sourceKey: fromPath,
+                destinationKey: toPath,
+                destinationBucket: options === null || options === void 0 ? void 0 : options.destinationBucket
+            }, {
+                headers: _this6.headers
+            });
+        });
+    }
+    /**
+	* Copies an existing file to a new path in the same bucket.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param fromPath The original file path, including the current file name. For example `folder/image.png`.
+	* @param toPath The new file path, including the new file name. For example `folder/image-copy.png`.
+	* @param options The destination options.
+	* @returns Promise with response containing copied file path or error
+	*
+	* @example Copy file
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .copy('public/avatar1.png', 'private/avatar2.png')
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": {
+	*     "path": "avatars/private/avatar2.png"
+	*   },
+	*   "error": null
+	* }
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: none
+	*   - `objects` table permissions: `insert` and `select`
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ async copy(fromPath, toPath, options) {
+        var _this7 = this;
+        return _this7.handleOperation(async ()=>{
+            return {
+                path: (await post(_this7.fetch, `${_this7.url}/object/copy`, {
+                    bucketId: _this7.bucketId,
+                    sourceKey: fromPath,
+                    destinationKey: toPath,
+                    destinationBucket: options === null || options === void 0 ? void 0 : options.destinationBucket
+                }, {
+                    headers: _this7.headers
+                })).Key
+            };
+        });
+    }
+    /**
+	* Creates a signed URL. Use a signed URL to share a file for a fixed amount of time.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param path The file path, including the current file name. For example `folder/image.png`.
+	* @param expiresIn The number of seconds until the signed URL expires. For example, `60` for a URL which is valid for one minute.
+	* @param options.download triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
+	* @param options.transform Transform the asset before serving it to the client.
+	* @param options.cacheNonce Append a cache nonce parameter to the URL to invalidate the cache.
+	* @returns Promise with response containing signed URL or error
+	*
+	* @example Create Signed URL
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .createSignedUrl('folder/avatar1.png', 60)
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": {
+	*     "signedUrl": "https://example.supabase.co/storage/v1/object/sign/avatars/folder/avatar1.png?token=<TOKEN>"
+	*   },
+	*   "error": null
+	* }
+	* ```
+	*
+	* @example Create a signed URL for an asset with transformations
+	* ```js
+	* const { data } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .createSignedUrl('folder/avatar1.png', 60, {
+	*     transform: {
+	*       width: 100,
+	*       height: 100,
+	*     }
+	*   })
+	* ```
+	*
+	* @example Create a signed URL which triggers the download of the asset
+	* ```js
+	* const { data } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .createSignedUrl('folder/avatar1.png', 60, {
+	*     download: true,
+	*   })
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: none
+	*   - `objects` table permissions: `select`
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ async createSignedUrl(path, expiresIn, options) {
+        var _this8 = this;
+        return _this8.handleOperation(async ()=>{
+            let _path = _this8._getFinalPath(path);
+            const hasTransform = typeof (options === null || options === void 0 ? void 0 : options.transform) === "object" && options.transform !== null && Object.keys(options.transform).length > 0;
+            let data = await post(_this8.fetch, `${_this8.url}/object/sign/${_path}`, _objectSpread2({
+                expiresIn
+            }, hasTransform ? {
+                transform: options.transform
+            } : {}), {
+                headers: _this8.headers
+            });
+            const query = new URLSearchParams();
+            if (options === null || options === void 0 ? void 0 : options.download) query.set("download", options.download === true ? "" : options.download);
+            if ((options === null || options === void 0 ? void 0 : options.cacheNonce) != null) query.set("cacheNonce", String(options.cacheNonce));
+            const queryString = query.toString();
+            return {
+                signedUrl: encodeURI(`${_this8.url}${data.signedURL}${queryString ? `&${queryString}` : ""}`)
+            };
+        });
+    }
+    /**
+	* Creates multiple signed URLs. Use a signed URL to share a file for a fixed amount of time.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param paths The file paths to be downloaded, including the current file names. For example `['folder/image.png', 'folder2/image2.png']`.
+	* @param expiresIn The number of seconds until the signed URLs expire. For example, `60` for URLs which are valid for one minute.
+	* @param options.download triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
+	* @param options.cacheNonce Append a cache nonce parameter to the URL to invalidate the cache.
+	* @returns Promise with response containing array of objects with signedUrl, path, and error or error
+	*
+	* @example Create Signed URLs
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .createSignedUrls(['folder/avatar1.png', 'folder/avatar2.png'], 60)
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": [
+	*     {
+	*       "error": null,
+	*       "path": "folder/avatar1.png",
+	*       "signedURL": "/object/sign/avatars/folder/avatar1.png?token=<TOKEN>",
+	*       "signedUrl": "https://example.supabase.co/storage/v1/object/sign/avatars/folder/avatar1.png?token=<TOKEN>"
+	*     },
+	*     {
+	*       "error": null,
+	*       "path": "folder/avatar2.png",
+	*       "signedURL": "/object/sign/avatars/folder/avatar2.png?token=<TOKEN>",
+	*       "signedUrl": "https://example.supabase.co/storage/v1/object/sign/avatars/folder/avatar2.png?token=<TOKEN>"
+	*     }
+	*   ],
+	*   "error": null
+	* }
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: none
+	*   - `objects` table permissions: `select`
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ async createSignedUrls(paths, expiresIn, options) {
+        var _this9 = this;
+        return _this9.handleOperation(async ()=>{
+            const data = await post(_this9.fetch, `${_this9.url}/object/sign/${_this9.bucketId}`, {
+                expiresIn,
+                paths
+            }, {
+                headers: _this9.headers
+            });
+            const query = new URLSearchParams();
+            if (options === null || options === void 0 ? void 0 : options.download) query.set("download", options.download === true ? "" : options.download);
+            if ((options === null || options === void 0 ? void 0 : options.cacheNonce) != null) query.set("cacheNonce", String(options.cacheNonce));
+            const queryString = query.toString();
+            return data.map((datum)=>_objectSpread2(_objectSpread2({}, datum), {}, {
+                    signedUrl: datum.signedURL ? encodeURI(`${_this9.url}${datum.signedURL}${queryString ? `&${queryString}` : ""}`) : null
+                }));
+        });
+    }
+    /**
+	* Downloads a file from a private bucket. For public buckets, make a request to the URL returned from `getPublicUrl` instead.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param path The full path and file name of the file to be downloaded. For example `folder/image.png`.
+	* @param options.transform Transform the asset before serving it to the client.
+	* @param options.cacheNonce Append a cache nonce parameter to the URL to invalidate the cache.
+	* @param parameters Additional fetch parameters like signal for cancellation. Supports standard fetch options including cache control.
+	* @returns BlobDownloadBuilder instance for downloading the file
+	*
+	* @example Download file
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .download('folder/avatar1.png')
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": <BLOB>,
+	*   "error": null
+	* }
+	* ```
+	*
+	* @example Download file with transformations
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .download('folder/avatar1.png', {
+	*     transform: {
+	*       width: 100,
+	*       height: 100,
+	*       quality: 80
+	*     }
+	*   })
+	* ```
+	*
+	* @example Download with cache control (useful in Edge Functions)
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .download('folder/avatar1.png', {}, { cache: 'no-store' })
+	* ```
+	*
+	* @example Download with abort signal
+	* ```js
+	* const controller = new AbortController()
+	* setTimeout(() => controller.abort(), 5000)
+	*
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .download('folder/avatar1.png', {}, { signal: controller.signal })
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: none
+	*   - `objects` table permissions: `select`
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ download(path, options, parameters) {
+        const renderPath = typeof (options === null || options === void 0 ? void 0 : options.transform) === "object" && options.transform !== null && Object.keys(options.transform).length > 0 ? "render/image/authenticated" : "object";
+        const query = new URLSearchParams();
+        if (options === null || options === void 0 ? void 0 : options.transform) this.applyTransformOptsToQuery(query, options.transform);
+        if ((options === null || options === void 0 ? void 0 : options.cacheNonce) != null) query.set("cacheNonce", String(options.cacheNonce));
+        const queryString = query.toString();
+        const _path = this._getFinalPath(path);
+        const downloadFn = ()=>get(this.fetch, `${this.url}/${renderPath}/${_path}${queryString ? `?${queryString}` : ""}`, {
+                headers: this.headers,
+                noResolveJson: true
+            }, parameters);
+        return new BlobDownloadBuilder(downloadFn, this.shouldThrowOnError);
+    }
+    /**
+	* Retrieves the details of an existing file.
+	*
+	* Returns detailed file metadata including size, content type, and timestamps.
+	* Note: The API returns `last_modified` field, not `updated_at`.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param path The file path, including the file name. For example `folder/image.png`.
+	* @returns Promise with response containing file metadata or error
+	*
+	* @example Get file info
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .info('folder/avatar1.png')
+	*
+	* if (data) {
+	*   console.log('Last modified:', data.lastModified)
+	*   console.log('Size:', data.size)
+	* }
+	* ```
+	*/ async info(path) {
+        var _this10 = this;
+        const _path = _this10._getFinalPath(path);
+        return _this10.handleOperation(async ()=>{
+            return recursiveToCamel(await get(_this10.fetch, `${_this10.url}/object/info/${_path}`, {
+                headers: _this10.headers
+            }));
+        });
+    }
+    /**
+	* Checks the existence of a file.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param path The file path, including the file name. For example `folder/image.png`.
+	* @returns Promise with response containing boolean indicating file existence or error
+	*
+	* @example Check file existence
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .exists('folder/avatar1.png')
+	* ```
+	*/ async exists(path) {
+        var _this11 = this;
+        const _path = _this11._getFinalPath(path);
+        try {
+            await head(_this11.fetch, `${_this11.url}/object/${_path}`, {
+                headers: _this11.headers
+            });
+            return {
+                data: true,
+                error: null
+            };
+        } catch (error) {
+            if (_this11.shouldThrowOnError) throw error;
+            if (isStorageError(error)) {
+                var _error$originalError;
+                const status = error instanceof StorageApiError ? error.status : error instanceof StorageUnknownError ? (_error$originalError = error.originalError) === null || _error$originalError === void 0 ? void 0 : _error$originalError.status : void 0;
+                if (status !== void 0 && [
+                    400,
+                    404
+                ].includes(status)) return {
+                    data: false,
+                    error
+                };
+            }
+            throw error;
+        }
+    }
+    /**
+	* A simple convenience function to get the URL for an asset in a public bucket. If you do not want to use this function, you can construct the public URL by concatenating the bucket URL with the path to the asset.
+	* This function does not verify if the bucket is public. If a public URL is created for a bucket which is not public, you will not be able to download the asset.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param path The path and name of the file to generate the public URL for. For example `folder/image.png`.
+	* @param options.download Triggers the file as a download if set to true. Set this parameter as the name of the file if you want to trigger the download with a different filename.
+	* @param options.transform Transform the asset before serving it to the client.
+	* @param options.cacheNonce Append a cache nonce parameter to the URL to invalidate the cache.
+	* @returns Object with public URL
+	*
+	* @example Returns the URL for an asset in a public bucket
+	* ```js
+	* const { data } = supabase
+	*   .storage
+	*   .from('public-bucket')
+	*   .getPublicUrl('folder/avatar1.png')
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": {
+	*     "publicUrl": "https://example.supabase.co/storage/v1/object/public/public-bucket/folder/avatar1.png"
+	*   }
+	* }
+	* ```
+	*
+	* @example Returns the URL for an asset in a public bucket with transformations
+	* ```js
+	* const { data } = supabase
+	*   .storage
+	*   .from('public-bucket')
+	*   .getPublicUrl('folder/avatar1.png', {
+	*     transform: {
+	*       width: 100,
+	*       height: 100,
+	*     }
+	*   })
+	* ```
+	*
+	* @example Returns the URL which triggers the download of an asset in a public bucket
+	* ```js
+	* const { data } = supabase
+	*   .storage
+	*   .from('public-bucket')
+	*   .getPublicUrl('folder/avatar1.png', {
+	*     download: true,
+	*   })
+	* ```
+	*
+	* @remarks
+	* - The bucket needs to be set to public, either via [updateBucket()](/docs/reference/javascript/storage-updatebucket) or by going to Storage on [supabase.com/dashboard](https://supabase.com/dashboard), clicking the overflow menu on a bucket and choosing "Make public"
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: none
+	*   - `objects` table permissions: none
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ getPublicUrl(path, options) {
+        const _path = this._getFinalPath(path);
+        const query = new URLSearchParams();
+        if (options === null || options === void 0 ? void 0 : options.download) query.set("download", options.download === true ? "" : options.download);
+        if (options === null || options === void 0 ? void 0 : options.transform) this.applyTransformOptsToQuery(query, options.transform);
+        if ((options === null || options === void 0 ? void 0 : options.cacheNonce) != null) query.set("cacheNonce", String(options.cacheNonce));
+        const queryString = query.toString();
+        const renderPath = typeof (options === null || options === void 0 ? void 0 : options.transform) === "object" && options.transform !== null && Object.keys(options.transform).length > 0 ? "render/image" : "object";
+        return {
+            data: {
+                publicUrl: encodeURI(`${this.url}/${renderPath}/public/${_path}`) + (queryString ? `?${queryString}` : "")
+            }
+        };
+    }
+    /**
+	* Deletes files within the same bucket
+	*
+	* Returns an array of FileObject entries for the deleted files. Note that deprecated
+	* fields like `bucket_id` may or may not be present in the response - do not rely on them.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param paths An array of files to delete, including the path and file name. For example [`'folder/image.png'`].
+	* @returns Promise with response containing array of deleted file objects or error
+	*
+	* @example Delete file
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .remove(['folder/avatar1.png'])
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": [],
+	*   "error": null
+	* }
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: none
+	*   - `objects` table permissions: `delete` and `select`
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ async remove(paths) {
+        var _this12 = this;
+        return _this12.handleOperation(async ()=>{
+            return await remove(_this12.fetch, `${_this12.url}/object/${_this12.bucketId}`, {
+                prefixes: paths
+            }, {
+                headers: _this12.headers
+            });
+        });
+    }
+    /**
+	* Get file metadata
+	* @param id the file id to retrieve metadata
+	*/ /**
+	* Update file metadata
+	* @param id the file id to update metadata
+	* @param meta the new file metadata
+	*/ /**
+	* Lists all the files and folders within a path of the bucket.
+	*
+	* **Important:** For folder entries, fields like `id`, `updated_at`, `created_at`,
+	* `last_accessed_at`, and `metadata` will be `null`. Only files have these fields populated.
+	* Additionally, deprecated fields like `bucket_id`, `owner`, and `buckets` are NOT returned
+	* by this method.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param path The folder path.
+	* @param options Search options including limit (defaults to 100), offset, sortBy, and search
+	* @param parameters Optional fetch parameters including signal for cancellation
+	* @returns Promise with response containing array of files/folders or error
+	*
+	* @example List files in a bucket
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .list('folder', {
+	*     limit: 100,
+	*     offset: 0,
+	*     sortBy: { column: 'name', order: 'asc' },
+	*   })
+	*
+	* // Handle files vs folders
+	* data?.forEach(item => {
+	*   if (item.id !== null) {
+	*     // It's a file
+	*     console.log('File:', item.name, 'Size:', item.metadata?.size)
+	*   } else {
+	*     // It's a folder
+	*     console.log('Folder:', item.name)
+	*   }
+	* })
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": [
+	*     {
+	*       "name": "avatar1.png",
+	*       "id": "e668cf7f-821b-4a2f-9dce-7dfa5dd1cfd2",
+	*       "updated_at": "2024-05-22T23:06:05.580Z",
+	*       "created_at": "2024-05-22T23:04:34.443Z",
+	*       "last_accessed_at": "2024-05-22T23:04:34.443Z",
+	*       "metadata": {
+	*         "eTag": "\"c5e8c553235d9af30ef4f6e280790b92\"",
+	*         "size": 32175,
+	*         "mimetype": "image/png",
+	*         "cacheControl": "max-age=3600",
+	*         "lastModified": "2024-05-22T23:06:05.574Z",
+	*         "contentLength": 32175,
+	*         "httpStatusCode": 200
+	*       }
+	*     }
+	*   ],
+	*   "error": null
+	* }
+	* ```
+	*
+	* @example Search files in a bucket
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .list('folder', {
+	*     limit: 100,
+	*     offset: 0,
+	*     sortBy: { column: 'name', order: 'asc' },
+	*     search: 'jon'
+	*   })
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: none
+	*   - `objects` table permissions: `select`
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ async list(path, options, parameters) {
+        var _this13 = this;
+        return _this13.handleOperation(async ()=>{
+            const body = _objectSpread2(_objectSpread2(_objectSpread2({}, DEFAULT_SEARCH_OPTIONS), options), {}, {
+                prefix: path || ""
+            });
+            return await post(_this13.fetch, `${_this13.url}/object/list/${_this13.bucketId}`, body, {
+                headers: _this13.headers
+            }, parameters);
+        });
+    }
+    /**
+	* Lists all the files and folders within a bucket using the V2 API with pagination support.
+	*
+	* **Important:** Folder entries in the `folders` array only contain `name` and optionally `key` —
+	* they have no `id`, timestamps, or `metadata` fields. Full file metadata is only available
+	* on entries in the `objects` array.
+	*
+	* @experimental this method signature might change in the future
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param options Search options including prefix, cursor for pagination, limit, with_delimiter
+	* @param parameters Optional fetch parameters including signal for cancellation
+	* @returns Promise with response containing folders/objects arrays with pagination info or error
+	*
+	* @example List files with pagination
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .from('avatars')
+	*   .listV2({
+	*     prefix: 'folder/',
+	*     limit: 100,
+	*   })
+	*
+	* // Handle pagination
+	* if (data?.hasNext) {
+	*   const nextPage = await supabase
+	*     .storage
+	*     .from('avatars')
+	*     .listV2({
+	*       prefix: 'folder/',
+	*       cursor: data.nextCursor,
+	*     })
+	* }
+	*
+	* // Handle files vs folders
+	* data?.objects.forEach(file => {
+	*   if (file.id !== null) {
+	*     console.log('File:', file.name, 'Size:', file.metadata?.size)
+	*   }
+	* })
+	* data?.folders.forEach(folder => {
+	*   console.log('Folder:', folder.name)
+	* })
+	* ```
+	*/ async listV2(options, parameters) {
+        var _this14 = this;
+        return _this14.handleOperation(async ()=>{
+            const body = _objectSpread2({}, options);
+            return await post(_this14.fetch, `${_this14.url}/object/list-v2/${_this14.bucketId}`, body, {
+                headers: _this14.headers
+            }, parameters);
+        });
+    }
+    encodeMetadata(metadata) {
+        return JSON.stringify(metadata);
+    }
+    toBase64(data) {
+        if (typeof Buffer !== "undefined") return Buffer.from(data).toString("base64");
+        return btoa(data);
+    }
+    _getFinalPath(path) {
+        return `${this.bucketId}/${path.replace(/^\/+/, "")}`;
+    }
+    _removeEmptyFolders(path) {
+        return path.replace(/^\/|\/$/g, "").replace(/\/+/g, "/");
+    }
+    /** Modifies the `query`, appending values the from `transform` */ applyTransformOptsToQuery(query, transform) {
+        if (transform.width) query.set("width", transform.width.toString());
+        if (transform.height) query.set("height", transform.height.toString());
+        if (transform.resize) query.set("resize", transform.resize);
+        if (transform.format) query.set("format", transform.format);
+        if (transform.quality) query.set("quality", transform.quality.toString());
+        return query;
+    }
+};
+//#endregion
+//#region src/lib/version.ts
+const version = "2.105.3";
+//#endregion
+//#region src/lib/constants.ts
+const DEFAULT_HEADERS = {
+    "X-Client-Info": `storage-js/${version}`
+};
+//#endregion
+//#region src/packages/StorageBucketApi.ts
+var StorageBucketApi = class extends BaseApiClient {
+    constructor(url, headers = {}, fetch$1, opts){
+        const baseUrl = new URL(url);
+        if (opts === null || opts === void 0 ? void 0 : opts.useNewHostname) {
+            if (/supabase\.(co|in|red)$/.test(baseUrl.hostname) && !baseUrl.hostname.includes("storage.supabase.")) baseUrl.hostname = baseUrl.hostname.replace("supabase.", "storage.supabase.");
+        }
+        const finalUrl = baseUrl.href.replace(/\/$/, "");
+        const finalHeaders = _objectSpread2(_objectSpread2({}, DEFAULT_HEADERS), headers);
+        super(finalUrl, finalHeaders, fetch$1, "storage");
+    }
+    /**
+	* Retrieves the details of all Storage buckets within an existing project.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param options Query parameters for listing buckets
+	* @param options.limit Maximum number of buckets to return
+	* @param options.offset Number of buckets to skip
+	* @param options.sortColumn Column to sort by ('id', 'name', 'created_at', 'updated_at')
+	* @param options.sortOrder Sort order ('asc' or 'desc')
+	* @param options.search Search term to filter bucket names
+	* @returns Promise with response containing array of buckets or error
+	*
+	* @example List buckets
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .listBuckets()
+	* ```
+	*
+	* @example List buckets with options
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .listBuckets({
+	*     limit: 10,
+	*     offset: 0,
+	*     sortColumn: 'created_at',
+	*     sortOrder: 'desc',
+	*     search: 'prod'
+	*   })
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: `select`
+	*   - `objects` table permissions: none
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ async listBuckets(options) {
+        var _this = this;
+        return _this.handleOperation(async ()=>{
+            const queryString = _this.listBucketOptionsToQueryString(options);
+            return await get(_this.fetch, `${_this.url}/bucket${queryString}`, {
+                headers: _this.headers
+            });
+        });
+    }
+    /**
+	* Retrieves the details of an existing Storage bucket.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param id The unique identifier of the bucket you would like to retrieve.
+	* @returns Promise with response containing bucket details or error
+	*
+	* @example Get bucket
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .getBucket('avatars')
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": {
+	*     "id": "avatars",
+	*     "name": "avatars",
+	*     "owner": "",
+	*     "public": false,
+	*     "file_size_limit": 1024,
+	*     "allowed_mime_types": [
+	*       "image/png"
+	*     ],
+	*     "created_at": "2024-05-22T22:26:05.100Z",
+	*     "updated_at": "2024-05-22T22:26:05.100Z"
+	*   },
+	*   "error": null
+	* }
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: `select`
+	*   - `objects` table permissions: none
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ async getBucket(id) {
+        var _this2 = this;
+        return _this2.handleOperation(async ()=>{
+            return await get(_this2.fetch, `${_this2.url}/bucket/${id}`, {
+                headers: _this2.headers
+            });
+        });
+    }
+    /**
+	* Creates a new Storage bucket
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param id A unique identifier for the bucket you are creating.
+	* @param options.public The visibility of the bucket. Public buckets don't require an authorization token to download objects, but still require a valid token for all other operations. By default, buckets are private.
+	* @param options.fileSizeLimit specifies the max file size in bytes that can be uploaded to this bucket.
+	* The global file size limit takes precedence over this value.
+	* The default value is null, which doesn't set a per bucket file size limit.
+	* @param options.allowedMimeTypes specifies the allowed mime types that this bucket can accept during upload.
+	* The default value is null, which allows files with all mime types to be uploaded.
+	* Each mime type specified can be a wildcard, e.g. image/*, or a specific mime type, e.g. image/png.
+	* @param options.type (private-beta) specifies the bucket type. see `BucketType` for more details.
+	*   - default bucket type is `STANDARD`
+	* @returns Promise with response containing newly created bucket name or error
+	*
+	* @example Create bucket
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .createBucket('avatars', {
+	*     public: false,
+	*     allowedMimeTypes: ['image/png'],
+	*     fileSizeLimit: 1024
+	*   })
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": {
+	*     "name": "avatars"
+	*   },
+	*   "error": null
+	* }
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: `insert`
+	*   - `objects` table permissions: none
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ async createBucket(id, options = {
+        public: false
+    }) {
+        var _this3 = this;
+        return _this3.handleOperation(async ()=>{
+            return await post(_this3.fetch, `${_this3.url}/bucket`, {
+                id,
+                name: id,
+                type: options.type,
+                public: options.public,
+                file_size_limit: options.fileSizeLimit,
+                allowed_mime_types: options.allowedMimeTypes
+            }, {
+                headers: _this3.headers
+            });
+        });
+    }
+    /**
+	* Updates a Storage bucket
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param id A unique identifier for the bucket you are updating.
+	* @param options.public The visibility of the bucket. Public buckets don't require an authorization token to download objects, but still require a valid token for all other operations.
+	* @param options.fileSizeLimit specifies the max file size in bytes that can be uploaded to this bucket.
+	* The global file size limit takes precedence over this value.
+	* The default value is null, which doesn't set a per bucket file size limit.
+	* @param options.allowedMimeTypes specifies the allowed mime types that this bucket can accept during upload.
+	* The default value is null, which allows files with all mime types to be uploaded.
+	* Each mime type specified can be a wildcard, e.g. image/*, or a specific mime type, e.g. image/png.
+	* @returns Promise with response containing success message or error
+	*
+	* @example Update bucket
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .updateBucket('avatars', {
+	*     public: false,
+	*     allowedMimeTypes: ['image/png'],
+	*     fileSizeLimit: 1024
+	*   })
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": {
+	*     "message": "Successfully updated"
+	*   },
+	*   "error": null
+	* }
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: `select` and `update`
+	*   - `objects` table permissions: none
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ async updateBucket(id, options) {
+        var _this4 = this;
+        return _this4.handleOperation(async ()=>{
+            return await put(_this4.fetch, `${_this4.url}/bucket/${id}`, {
+                id,
+                name: id,
+                public: options.public,
+                file_size_limit: options.fileSizeLimit,
+                allowed_mime_types: options.allowedMimeTypes
+            }, {
+                headers: _this4.headers
+            });
+        });
+    }
+    /**
+	* Removes all objects inside a single bucket.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param id The unique identifier of the bucket you would like to empty.
+	* @returns Promise with success message or error
+	*
+	* @example Empty bucket
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .emptyBucket('avatars')
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": {
+	*     "message": "Successfully emptied"
+	*   },
+	*   "error": null
+	* }
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: `select`
+	*   - `objects` table permissions: `select` and `delete`
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ async emptyBucket(id) {
+        var _this5 = this;
+        return _this5.handleOperation(async ()=>{
+            return await post(_this5.fetch, `${_this5.url}/bucket/${id}/empty`, {}, {
+                headers: _this5.headers
+            });
+        });
+    }
+    /**
+	* Deletes an existing bucket. A bucket can't be deleted with existing objects inside it.
+	* You must first `empty()` the bucket.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	* @param id The unique identifier of the bucket you would like to delete.
+	* @returns Promise with success message or error
+	*
+	* @example Delete bucket
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .deleteBucket('avatars')
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": {
+	*     "message": "Successfully deleted"
+	*   },
+	*   "error": null
+	* }
+	* ```
+	*
+	* @remarks
+	* - RLS policy permissions required:
+	*   - `buckets` table permissions: `select` and `delete`
+	*   - `objects` table permissions: none
+	* - Refer to the [Storage guide](/docs/guides/storage/security/access-control) on how access control works
+	*/ async deleteBucket(id) {
+        var _this6 = this;
+        return _this6.handleOperation(async ()=>{
+            return await remove(_this6.fetch, `${_this6.url}/bucket/${id}`, {}, {
+                headers: _this6.headers
+            });
+        });
+    }
+    listBucketOptionsToQueryString(options) {
+        const params = {};
+        if (options) {
+            if ("limit" in options) params.limit = String(options.limit);
+            if ("offset" in options) params.offset = String(options.offset);
+            if (options.search) params.search = options.search;
+            if (options.sortColumn) params.sortColumn = options.sortColumn;
+            if (options.sortOrder) params.sortOrder = options.sortOrder;
+        }
+        return Object.keys(params).length > 0 ? "?" + new URLSearchParams(params).toString() : "";
+    }
+};
+//#endregion
+//#region src/packages/StorageAnalyticsClient.ts
+/**
+* Client class for managing Analytics Buckets using Iceberg tables
+* Provides methods for creating, listing, and deleting analytics buckets
+*/ var StorageAnalyticsClient = class extends BaseApiClient {
+    /**
+	* @alpha
+	*
+	* Creates a new StorageAnalyticsClient instance
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Analytics Buckets
+	* @param url - The base URL for the storage API
+	* @param headers - HTTP headers to include in requests
+	* @param fetch - Optional custom fetch implementation
+	*
+	* @example Using supabase-js (recommended)
+	* ```typescript
+	* import { createClient } from '@supabase/supabase-js'
+	*
+	* const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+	* const { data, error } = await supabase.storage.analytics.listBuckets()
+	* ```
+	*
+	* @example Standalone import for bundle-sensitive environments
+	* ```typescript
+	* import { StorageAnalyticsClient } from '@supabase/storage-js'
+	*
+	* const client = new StorageAnalyticsClient(url, headers)
+	* ```
+	*/ constructor(url, headers = {}, fetch$1){
+        const finalUrl = url.replace(/\/$/, "");
+        const finalHeaders = _objectSpread2(_objectSpread2({}, DEFAULT_HEADERS), headers);
+        super(finalUrl, finalHeaders, fetch$1, "storage");
+    }
+    /**
+	* @alpha
+	*
+	* Creates a new analytics bucket using Iceberg tables
+	* Analytics buckets are optimized for analytical queries and data processing
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Analytics Buckets
+	* @param name A unique name for the bucket you are creating
+	* @returns Promise with response containing newly created analytics bucket or error
+	*
+	* @example Create analytics bucket
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .analytics
+	*   .createBucket('analytics-data')
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": {
+	*     "name": "analytics-data",
+	*     "type": "ANALYTICS",
+	*     "format": "iceberg",
+	*     "created_at": "2024-05-22T22:26:05.100Z",
+	*     "updated_at": "2024-05-22T22:26:05.100Z"
+	*   },
+	*   "error": null
+	* }
+	* ```
+	*
+	* @remarks
+	* - Creates a new analytics bucket using Iceberg tables
+	* - Analytics buckets are optimized for analytical queries and data processing
+	*/ async createBucket(name) {
+        var _this = this;
+        return _this.handleOperation(async ()=>{
+            return await post(_this.fetch, `${_this.url}/bucket`, {
+                name
+            }, {
+                headers: _this.headers
+            });
+        });
+    }
+    /**
+	* @alpha
+	*
+	* Retrieves the details of all Analytics Storage buckets within an existing project
+	* Only returns buckets of type 'ANALYTICS'
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Analytics Buckets
+	* @param options Query parameters for listing buckets
+	* @param options.limit Maximum number of buckets to return
+	* @param options.offset Number of buckets to skip
+	* @param options.sortColumn Column to sort by ('name', 'created_at', 'updated_at')
+	* @param options.sortOrder Sort order ('asc' or 'desc')
+	* @param options.search Search term to filter bucket names
+	* @returns Promise with response containing array of analytics buckets or error
+	*
+	* @example List analytics buckets
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .analytics
+	*   .listBuckets({
+	*     limit: 10,
+	*     offset: 0,
+	*     sortColumn: 'created_at',
+	*     sortOrder: 'desc'
+	*   })
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": [
+	*     {
+	*       "name": "analytics-data",
+	*       "type": "ANALYTICS",
+	*       "format": "iceberg",
+	*       "created_at": "2024-05-22T22:26:05.100Z",
+	*       "updated_at": "2024-05-22T22:26:05.100Z"
+	*     }
+	*   ],
+	*   "error": null
+	* }
+	* ```
+	*
+	* @remarks
+	* - Retrieves the details of all Analytics Storage buckets within an existing project
+	* - Only returns buckets of type 'ANALYTICS'
+	*/ async listBuckets(options) {
+        var _this2 = this;
+        return _this2.handleOperation(async ()=>{
+            const queryParams = new URLSearchParams();
+            if ((options === null || options === void 0 ? void 0 : options.limit) !== void 0) queryParams.set("limit", options.limit.toString());
+            if ((options === null || options === void 0 ? void 0 : options.offset) !== void 0) queryParams.set("offset", options.offset.toString());
+            if (options === null || options === void 0 ? void 0 : options.sortColumn) queryParams.set("sortColumn", options.sortColumn);
+            if (options === null || options === void 0 ? void 0 : options.sortOrder) queryParams.set("sortOrder", options.sortOrder);
+            if (options === null || options === void 0 ? void 0 : options.search) queryParams.set("search", options.search);
+            const queryString = queryParams.toString();
+            const url = queryString ? `${_this2.url}/bucket?${queryString}` : `${_this2.url}/bucket`;
+            return await get(_this2.fetch, url, {
+                headers: _this2.headers
+            });
+        });
+    }
+    /**
+	* @alpha
+	*
+	* Deletes an existing analytics bucket
+	* A bucket can't be deleted with existing objects inside it
+	* You must first empty the bucket before deletion
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Analytics Buckets
+	* @param bucketName The unique identifier of the bucket you would like to delete
+	* @returns Promise with response containing success message or error
+	*
+	* @example Delete analytics bucket
+	* ```js
+	* const { data, error } = await supabase
+	*   .storage
+	*   .analytics
+	*   .deleteBucket('analytics-data')
+	* ```
+	*
+	* Response:
+	* ```json
+	* {
+	*   "data": {
+	*     "message": "Successfully deleted"
+	*   },
+	*   "error": null
+	* }
+	* ```
+	*
+	* @remarks
+	* - Deletes an analytics bucket
+	*/ async deleteBucket(bucketName) {
+        var _this3 = this;
+        return _this3.handleOperation(async ()=>{
+            return await remove(_this3.fetch, `${_this3.url}/bucket/${bucketName}`, {}, {
+                headers: _this3.headers
+            });
+        });
+    }
+    /**
+	* @alpha
+	*
+	* Get an Iceberg REST Catalog client configured for a specific analytics bucket
+	* Use this to perform advanced table and namespace operations within the bucket
+	* The returned client provides full access to the Apache Iceberg REST Catalog API
+	* with the Supabase `{ data, error }` pattern for consistent error handling on all operations.
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Analytics Buckets
+	* @param bucketName - The name of the analytics bucket (warehouse) to connect to
+	* @returns The wrapped Iceberg catalog client
+	* @throws {StorageError} If the bucket name is invalid
+	*
+	* @example Get catalog and create table
+	* ```js
+	* // First, create an analytics bucket
+	* const { data: bucket, error: bucketError } = await supabase
+	*   .storage
+	*   .analytics
+	*   .createBucket('analytics-data')
+	*
+	* // Get the Iceberg catalog for that bucket
+	* const catalog = supabase.storage.analytics.from('analytics-data')
+	*
+	* // Create a namespace
+	* const { error: nsError } = await catalog.createNamespace({ namespace: ['default'] })
+	*
+	* // Create a table with schema
+	* const { data: tableMetadata, error: tableError } = await catalog.createTable(
+	*   { namespace: ['default'] },
+	*   {
+	*     name: 'events',
+	*     schema: {
+	*       type: 'struct',
+	*       fields: [
+	*         { id: 1, name: 'id', type: 'long', required: true },
+	*         { id: 2, name: 'timestamp', type: 'timestamp', required: true },
+	*         { id: 3, name: 'user_id', type: 'string', required: false }
+	*       ],
+	*       'schema-id': 0,
+	*       'identifier-field-ids': [1]
+	*     },
+	*     'partition-spec': {
+	*       'spec-id': 0,
+	*       fields: []
+	*     },
+	*     'write-order': {
+	*       'order-id': 0,
+	*       fields: []
+	*     },
+	*     properties: {
+	*       'write.format.default': 'parquet'
+	*     }
+	*   }
+	* )
+	* ```
+	*
+	* @example List tables in namespace
+	* ```js
+	* const catalog = supabase.storage.analytics.from('analytics-data')
+	*
+	* // List all tables in the default namespace
+	* const { data: tables, error: listError } = await catalog.listTables({ namespace: ['default'] })
+	* if (listError) {
+	*   if (listError.isNotFound()) {
+	*     console.log('Namespace not found')
+	*   }
+	*   return
+	* }
+	* console.log(tables) // [{ namespace: ['default'], name: 'events' }]
+	* ```
+	*
+	* @example Working with namespaces
+	* ```js
+	* const catalog = supabase.storage.analytics.from('analytics-data')
+	*
+	* // List all namespaces
+	* const { data: namespaces } = await catalog.listNamespaces()
+	*
+	* // Create namespace with properties
+	* await catalog.createNamespace(
+	*   { namespace: ['production'] },
+	*   { properties: { owner: 'data-team', env: 'prod' } }
+	* )
+	* ```
+	*
+	* @example Cleanup operations
+	* ```js
+	* const catalog = supabase.storage.analytics.from('analytics-data')
+	*
+	* // Drop table with purge option (removes all data)
+	* const { error: dropError } = await catalog.dropTable(
+	*   { namespace: ['default'], name: 'events' },
+	*   { purge: true }
+	* )
+	*
+	* if (dropError?.isNotFound()) {
+	*   console.log('Table does not exist')
+	* }
+	*
+	* // Drop namespace (must be empty)
+	* await catalog.dropNamespace({ namespace: ['default'] })
+	* ```
+	*
+	* @remarks
+	* This method provides a bridge between Supabase's bucket management and the standard
+	* Apache Iceberg REST Catalog API. The bucket name maps to the Iceberg warehouse parameter.
+	* All authentication and configuration is handled automatically using your Supabase credentials.
+	*
+	* **Error Handling**: Invalid bucket names throw immediately. All catalog
+	* operations return `{ data, error }` where errors are `IcebergError` instances from iceberg-js.
+	* Use helper methods like `error.isNotFound()` or check `error.status` for specific error handling.
+	* Use `.throwOnError()` on the analytics client if you prefer exceptions for catalog operations.
+	*
+	* **Cleanup Operations**: When using `dropTable`, the `purge: true` option permanently
+	* deletes all table data. Without it, the table is marked as deleted but data remains.
+	*
+	* **Library Dependency**: The returned catalog wraps `IcebergRestCatalog` from iceberg-js.
+	* For complete API documentation and advanced usage, refer to the
+	* [iceberg-js documentation](https://supabase.github.io/iceberg-js/).
+	*/ from(bucketName) {
+        var _this4 = this;
+        if (!isValidBucketName(bucketName)) throw new StorageError("Invalid bucket name: File, folder, and bucket names must follow AWS object key naming guidelines and should avoid the use of any other characters.");
+        const catalog = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$iceberg$2d$js$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["IcebergRestCatalog"]({
+            baseUrl: this.url,
+            catalogName: bucketName,
+            auth: {
+                type: "custom",
+                getHeaders: async ()=>_this4.headers
+            },
+            fetch: this.fetch
+        });
+        const shouldThrowOnError = this.shouldThrowOnError;
+        return new Proxy(catalog, {
+            get (target, prop) {
+                const value = target[prop];
+                if (typeof value !== "function") return value;
+                return async (...args)=>{
+                    try {
+                        return {
+                            data: await value.apply(target, args),
+                            error: null
+                        };
+                    } catch (error) {
+                        if (shouldThrowOnError) throw error;
+                        return {
+                            data: null,
+                            error
+                        };
+                    }
+                };
+            }
+        });
+    }
+};
+//#endregion
+//#region src/packages/VectorIndexApi.ts
+/**
+* @hidden
+* Base implementation for vector index operations.
+* Use {@link VectorBucketScope} via `supabase.storage.vectors.from('bucket')` instead.
+*/ var VectorIndexApi = class extends BaseApiClient {
+    /** Creates a new VectorIndexApi instance */ constructor(url, headers = {}, fetch$1){
+        const finalUrl = url.replace(/\/$/, "");
+        const finalHeaders = _objectSpread2(_objectSpread2({}, DEFAULT_HEADERS), {}, {
+            "Content-Type": "application/json"
+        }, headers);
+        super(finalUrl, finalHeaders, fetch$1, "vectors");
+    }
+    /** Creates a new vector index within a bucket */ async createIndex(options) {
+        var _this = this;
+        return _this.handleOperation(async ()=>{
+            return await vectorsApi.post(_this.fetch, `${_this.url}/CreateIndex`, options, {
+                headers: _this.headers
+            }) || {};
+        });
+    }
+    /** Retrieves metadata for a specific vector index */ async getIndex(vectorBucketName, indexName) {
+        var _this2 = this;
+        return _this2.handleOperation(async ()=>{
+            return await vectorsApi.post(_this2.fetch, `${_this2.url}/GetIndex`, {
+                vectorBucketName,
+                indexName
+            }, {
+                headers: _this2.headers
+            });
+        });
+    }
+    /** Lists vector indexes within a bucket with optional filtering and pagination */ async listIndexes(options) {
+        var _this3 = this;
+        return _this3.handleOperation(async ()=>{
+            return await vectorsApi.post(_this3.fetch, `${_this3.url}/ListIndexes`, options, {
+                headers: _this3.headers
+            });
+        });
+    }
+    /** Deletes a vector index and all its data */ async deleteIndex(vectorBucketName, indexName) {
+        var _this4 = this;
+        return _this4.handleOperation(async ()=>{
+            return await vectorsApi.post(_this4.fetch, `${_this4.url}/DeleteIndex`, {
+                vectorBucketName,
+                indexName
+            }, {
+                headers: _this4.headers
+            }) || {};
+        });
+    }
+};
+//#endregion
+//#region src/packages/VectorDataApi.ts
+/**
+* @hidden
+* Base implementation for vector data operations.
+* Use {@link VectorIndexScope} via `supabase.storage.vectors.from('bucket').index('idx')` instead.
+*/ var VectorDataApi = class extends BaseApiClient {
+    /** Creates a new VectorDataApi instance */ constructor(url, headers = {}, fetch$1){
+        const finalUrl = url.replace(/\/$/, "");
+        const finalHeaders = _objectSpread2(_objectSpread2({}, DEFAULT_HEADERS), {}, {
+            "Content-Type": "application/json"
+        }, headers);
+        super(finalUrl, finalHeaders, fetch$1, "vectors");
+    }
+    /** Inserts or updates vectors in batch (1-500 per request) */ async putVectors(options) {
+        var _this = this;
+        if (options.vectors.length < 1 || options.vectors.length > 500) throw new Error("Vector batch size must be between 1 and 500 items");
+        return _this.handleOperation(async ()=>{
+            return await vectorsApi.post(_this.fetch, `${_this.url}/PutVectors`, options, {
+                headers: _this.headers
+            }) || {};
+        });
+    }
+    /** Retrieves vectors by their keys in batch */ async getVectors(options) {
+        var _this2 = this;
+        return _this2.handleOperation(async ()=>{
+            return await vectorsApi.post(_this2.fetch, `${_this2.url}/GetVectors`, options, {
+                headers: _this2.headers
+            });
+        });
+    }
+    /** Lists vectors in an index with pagination */ async listVectors(options) {
+        var _this3 = this;
+        if (options.segmentCount !== void 0) {
+            if (options.segmentCount < 1 || options.segmentCount > 16) throw new Error("segmentCount must be between 1 and 16");
+            if (options.segmentIndex !== void 0) {
+                if (options.segmentIndex < 0 || options.segmentIndex >= options.segmentCount) throw new Error(`segmentIndex must be between 0 and ${options.segmentCount - 1}`);
+            }
+        }
+        return _this3.handleOperation(async ()=>{
+            return await vectorsApi.post(_this3.fetch, `${_this3.url}/ListVectors`, options, {
+                headers: _this3.headers
+            });
+        });
+    }
+    /** Queries for similar vectors using approximate nearest neighbor search */ async queryVectors(options) {
+        var _this4 = this;
+        return _this4.handleOperation(async ()=>{
+            return await vectorsApi.post(_this4.fetch, `${_this4.url}/QueryVectors`, options, {
+                headers: _this4.headers
+            });
+        });
+    }
+    /** Deletes vectors by their keys in batch (1-500 per request) */ async deleteVectors(options) {
+        var _this5 = this;
+        if (options.keys.length < 1 || options.keys.length > 500) throw new Error("Keys batch size must be between 1 and 500 items");
+        return _this5.handleOperation(async ()=>{
+            return await vectorsApi.post(_this5.fetch, `${_this5.url}/DeleteVectors`, options, {
+                headers: _this5.headers
+            }) || {};
+        });
+    }
+};
+//#endregion
+//#region src/packages/VectorBucketApi.ts
+/**
+* @hidden
+* Base implementation for vector bucket operations.
+* Use {@link StorageVectorsClient} via `supabase.storage.vectors` instead.
+*/ var VectorBucketApi = class extends BaseApiClient {
+    /** Creates a new VectorBucketApi instance */ constructor(url, headers = {}, fetch$1){
+        const finalUrl = url.replace(/\/$/, "");
+        const finalHeaders = _objectSpread2(_objectSpread2({}, DEFAULT_HEADERS), {}, {
+            "Content-Type": "application/json"
+        }, headers);
+        super(finalUrl, finalHeaders, fetch$1, "vectors");
+    }
+    /** Creates a new vector bucket */ async createBucket(vectorBucketName) {
+        var _this = this;
+        return _this.handleOperation(async ()=>{
+            return await vectorsApi.post(_this.fetch, `${_this.url}/CreateVectorBucket`, {
+                vectorBucketName
+            }, {
+                headers: _this.headers
+            }) || {};
+        });
+    }
+    /** Retrieves metadata for a specific vector bucket */ async getBucket(vectorBucketName) {
+        var _this2 = this;
+        return _this2.handleOperation(async ()=>{
+            return await vectorsApi.post(_this2.fetch, `${_this2.url}/GetVectorBucket`, {
+                vectorBucketName
+            }, {
+                headers: _this2.headers
+            });
+        });
+    }
+    /** Lists vector buckets with optional filtering and pagination */ async listBuckets(options = {}) {
+        var _this3 = this;
+        return _this3.handleOperation(async ()=>{
+            return await vectorsApi.post(_this3.fetch, `${_this3.url}/ListVectorBuckets`, options, {
+                headers: _this3.headers
+            });
+        });
+    }
+    /** Deletes a vector bucket (must be empty first) */ async deleteBucket(vectorBucketName) {
+        var _this4 = this;
+        return _this4.handleOperation(async ()=>{
+            return await vectorsApi.post(_this4.fetch, `${_this4.url}/DeleteVectorBucket`, {
+                vectorBucketName
+            }, {
+                headers: _this4.headers
+            }) || {};
+        });
+    }
+};
+//#endregion
+//#region src/packages/StorageVectorsClient.ts
+/**
+*
+* @alpha
+*
+* Main client for interacting with S3 Vectors API
+* Provides access to bucket, index, and vector data operations
+*
+* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+*
+* **Usage Patterns:**
+*
+* ```typescript
+* const { data, error } = await supabase
+*  .storage
+*  .vectors
+*  .createBucket('embeddings-prod')
+*
+* // Access index operations via buckets
+* const bucket = supabase.storage.vectors.from('embeddings-prod')
+* await bucket.createIndex({
+*   indexName: 'documents',
+*   dataType: 'float32',
+*   dimension: 1536,
+*   distanceMetric: 'cosine'
+* })
+*
+* // Access vector operations via index
+* const index = bucket.index('documents')
+* await index.putVectors({
+*   vectors: [
+*     { key: 'doc-1', data: { float32: [...] }, metadata: { title: 'Intro' } }
+*   ]
+* })
+*
+* // Query similar vectors
+* const { data } = await index.queryVectors({
+*   queryVector: { float32: [...] },
+*   topK: 5,
+*   returnDistance: true
+* })
+* ```
+*/ var StorageVectorsClient = class extends VectorBucketApi {
+    /**
+	* @alpha
+	*
+	* Creates a StorageVectorsClient that can manage buckets, indexes, and vectors.
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param url - Base URL of the Storage Vectors REST API.
+	* @param options.headers - Optional headers (for example `Authorization`) applied to every request.
+	* @param options.fetch - Optional custom `fetch` implementation for non-browser runtimes.
+	*
+	* @example Using supabase-js (recommended)
+	* ```typescript
+	* import { createClient } from '@supabase/supabase-js'
+	*
+	* const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+	* const bucket = supabase.storage.vectors.from('embeddings-prod')
+	* ```
+	*
+	* @example Standalone import for bundle-sensitive environments
+	* ```typescript
+	* import { StorageVectorsClient } from '@supabase/storage-js'
+	*
+	* const client = new StorageVectorsClient(url, options)
+	* ```
+	*/ constructor(url, options = {}){
+        super(url, options.headers || {}, options.fetch);
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Access operations for a specific vector bucket
+	* Returns a scoped client for index and vector operations within the bucket
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param vectorBucketName - Name of the vector bucket
+	* @returns Bucket-scoped client with index and vector operations
+	*
+	* @example Accessing a vector bucket
+	* ```typescript
+	* const bucket = supabase.storage.vectors.from('embeddings-prod')
+	* ```
+	*/ from(vectorBucketName) {
+        return new VectorBucketScope(this.url, this.headers, vectorBucketName, this.fetch);
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Creates a new vector bucket
+	* Vector buckets are containers for vector indexes and their data
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param vectorBucketName - Unique name for the vector bucket
+	* @returns Promise with empty response on success or error
+	*
+	* @example Creating a vector bucket
+	* ```typescript
+	* const { data, error } = await supabase
+	*   .storage
+	*   .vectors
+	*   .createBucket('embeddings-prod')
+	* ```
+	*/ async createBucket(vectorBucketName) {
+        var _superprop_getCreateBucket = ()=>super.createBucket, _this = this;
+        return _superprop_getCreateBucket().call(_this, vectorBucketName);
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Retrieves metadata for a specific vector bucket
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param vectorBucketName - Name of the vector bucket
+	* @returns Promise with bucket metadata or error
+	*
+	* @example Get bucket metadata
+	* ```typescript
+	* const { data, error } = await supabase
+	*   .storage
+	*   .vectors
+	*   .getBucket('embeddings-prod')
+	*
+	* console.log('Bucket created:', data?.vectorBucket.creationTime)
+	* ```
+	*/ async getBucket(vectorBucketName) {
+        var _superprop_getGetBucket = ()=>super.getBucket, _this2 = this;
+        return _superprop_getGetBucket().call(_this2, vectorBucketName);
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Lists all vector buckets with optional filtering and pagination
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param options - Optional filters (prefix, maxResults, nextToken)
+	* @returns Promise with list of buckets or error
+	*
+	* @example List vector buckets
+	* ```typescript
+	* const { data, error } = await supabase
+	*   .storage
+	*   .vectors
+	*   .listBuckets({ prefix: 'embeddings-' })
+	*
+	* data?.vectorBuckets.forEach(bucket => {
+	*   console.log(bucket.vectorBucketName)
+	* })
+	* ```
+	*/ async listBuckets(options = {}) {
+        var _superprop_getListBuckets = ()=>super.listBuckets, _this3 = this;
+        return _superprop_getListBuckets().call(_this3, options);
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Deletes a vector bucket (bucket must be empty)
+	* All indexes must be deleted before deleting the bucket
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param vectorBucketName - Name of the vector bucket to delete
+	* @returns Promise with empty response on success or error
+	*
+	* @example Delete a vector bucket
+	* ```typescript
+	* const { data, error } = await supabase
+	*   .storage
+	*   .vectors
+	*   .deleteBucket('embeddings-old')
+	* ```
+	*/ async deleteBucket(vectorBucketName) {
+        var _superprop_getDeleteBucket = ()=>super.deleteBucket, _this4 = this;
+        return _superprop_getDeleteBucket().call(_this4, vectorBucketName);
+    }
+};
+/**
+*
+* @alpha
+*
+* Scoped client for operations within a specific vector bucket
+* Provides index management and access to vector operations
+*
+* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+*/ var VectorBucketScope = class extends VectorIndexApi {
+    /**
+	* @alpha
+	*
+	* Creates a helper that automatically scopes all index operations to the provided bucket.
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @example Creating a vector bucket scope
+	* ```typescript
+	* const bucket = supabase.storage.vectors.from('embeddings-prod')
+	* ```
+	*/ constructor(url, headers, vectorBucketName, fetch$1){
+        super(url, headers, fetch$1);
+        this.vectorBucketName = vectorBucketName;
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Creates a new vector index in this bucket
+	* Convenience method that automatically includes the bucket name
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param options - Index configuration (vectorBucketName is automatically set)
+	* @returns Promise with empty response on success or error
+	*
+	* @example Creating a vector index
+	* ```typescript
+	* const bucket = supabase.storage.vectors.from('embeddings-prod')
+	* await bucket.createIndex({
+	*   indexName: 'documents-openai',
+	*   dataType: 'float32',
+	*   dimension: 1536,
+	*   distanceMetric: 'cosine',
+	*   metadataConfiguration: {
+	*     nonFilterableMetadataKeys: ['raw_text']
+	*   }
+	* })
+	* ```
+	*/ async createIndex(options) {
+        var _superprop_getCreateIndex = ()=>super.createIndex, _this5 = this;
+        return _superprop_getCreateIndex().call(_this5, _objectSpread2(_objectSpread2({}, options), {}, {
+            vectorBucketName: _this5.vectorBucketName
+        }));
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Lists indexes in this bucket
+	* Convenience method that automatically includes the bucket name
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param options - Listing options (vectorBucketName is automatically set)
+	* @returns Promise with response containing indexes array and pagination token or error
+	*
+	* @example List indexes
+	* ```typescript
+	* const bucket = supabase.storage.vectors.from('embeddings-prod')
+	* const { data } = await bucket.listIndexes({ prefix: 'documents-' })
+	* ```
+	*/ async listIndexes(options = {}) {
+        var _superprop_getListIndexes = ()=>super.listIndexes, _this6 = this;
+        return _superprop_getListIndexes().call(_this6, _objectSpread2(_objectSpread2({}, options), {}, {
+            vectorBucketName: _this6.vectorBucketName
+        }));
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Retrieves metadata for a specific index in this bucket
+	* Convenience method that automatically includes the bucket name
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param indexName - Name of the index to retrieve
+	* @returns Promise with index metadata or error
+	*
+	* @example Get index metadata
+	* ```typescript
+	* const bucket = supabase.storage.vectors.from('embeddings-prod')
+	* const { data } = await bucket.getIndex('documents-openai')
+	* console.log('Dimension:', data?.index.dimension)
+	* ```
+	*/ async getIndex(indexName) {
+        var _superprop_getGetIndex = ()=>super.getIndex, _this7 = this;
+        return _superprop_getGetIndex().call(_this7, _this7.vectorBucketName, indexName);
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Deletes an index from this bucket
+	* Convenience method that automatically includes the bucket name
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param indexName - Name of the index to delete
+	* @returns Promise with empty response on success or error
+	*
+	* @example Delete an index
+	* ```typescript
+	* const bucket = supabase.storage.vectors.from('embeddings-prod')
+	* await bucket.deleteIndex('old-index')
+	* ```
+	*/ async deleteIndex(indexName) {
+        var _superprop_getDeleteIndex = ()=>super.deleteIndex, _this8 = this;
+        return _superprop_getDeleteIndex().call(_this8, _this8.vectorBucketName, indexName);
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Access operations for a specific index within this bucket
+	* Returns a scoped client for vector data operations
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param indexName - Name of the index
+	* @returns Index-scoped client with vector data operations
+	*
+	* @example Accessing an index
+	* ```typescript
+	* const index = supabase.storage.vectors.from('embeddings-prod').index('documents-openai')
+	*
+	* // Insert vectors
+	* await index.putVectors({
+	*   vectors: [
+	*     { key: 'doc-1', data: { float32: [...] }, metadata: { title: 'Intro' } }
+	*   ]
+	* })
+	*
+	* // Query similar vectors
+	* const { data } = await index.queryVectors({
+	*   queryVector: { float32: [...] },
+	*   topK: 5
+	* })
+	* ```
+	*/ index(indexName) {
+        return new VectorIndexScope(this.url, this.headers, this.vectorBucketName, indexName, this.fetch);
+    }
+};
+/**
+*
+* @alpha
+*
+* Scoped client for operations within a specific vector index
+* Provides vector data operations (put, get, list, query, delete)
+*
+* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+*/ var VectorIndexScope = class extends VectorDataApi {
+    /**
+	*
+	* @alpha
+	*
+	* Creates a helper that automatically scopes all vector operations to the provided bucket/index names.
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @example Creating a vector index scope
+	* ```typescript
+	* const index = supabase.storage.vectors.from('embeddings-prod').index('documents-openai')
+	* ```
+	*/ constructor(url, headers, vectorBucketName, indexName, fetch$1){
+        super(url, headers, fetch$1);
+        this.vectorBucketName = vectorBucketName;
+        this.indexName = indexName;
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Inserts or updates vectors in this index
+	* Convenience method that automatically includes bucket and index names
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param options - Vector insertion options (bucket and index names automatically set)
+	* @returns Promise with empty response on success or error
+	*
+	* @example Insert vectors into an index
+	* ```typescript
+	* const index = supabase.storage.vectors.from('embeddings-prod').index('documents-openai')
+	* await index.putVectors({
+	*   vectors: [
+	*     {
+	*       key: 'doc-1',
+	*       data: { float32: [0.1, 0.2, ...] },
+	*       metadata: { title: 'Introduction', page: 1 }
+	*     }
+	*   ]
+	* })
+	* ```
+	*/ async putVectors(options) {
+        var _superprop_getPutVectors = ()=>super.putVectors, _this9 = this;
+        return _superprop_getPutVectors().call(_this9, _objectSpread2(_objectSpread2({}, options), {}, {
+            vectorBucketName: _this9.vectorBucketName,
+            indexName: _this9.indexName
+        }));
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Retrieves vectors by keys from this index
+	* Convenience method that automatically includes bucket and index names
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param options - Vector retrieval options (bucket and index names automatically set)
+	* @returns Promise with response containing vectors array or error
+	*
+	* @example Get vectors by keys
+	* ```typescript
+	* const index = supabase.storage.vectors.from('embeddings-prod').index('documents-openai')
+	* const { data } = await index.getVectors({
+	*   keys: ['doc-1', 'doc-2'],
+	*   returnMetadata: true
+	* })
+	* ```
+	*/ async getVectors(options) {
+        var _superprop_getGetVectors = ()=>super.getVectors, _this10 = this;
+        return _superprop_getGetVectors().call(_this10, _objectSpread2(_objectSpread2({}, options), {}, {
+            vectorBucketName: _this10.vectorBucketName,
+            indexName: _this10.indexName
+        }));
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Lists vectors in this index with pagination
+	* Convenience method that automatically includes bucket and index names
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param options - Listing options (bucket and index names automatically set)
+	* @returns Promise with response containing vectors array and pagination token or error
+	*
+	* @example List vectors with pagination
+	* ```typescript
+	* const index = supabase.storage.vectors.from('embeddings-prod').index('documents-openai')
+	* const { data } = await index.listVectors({
+	*   maxResults: 500,
+	*   returnMetadata: true
+	* })
+	* ```
+	*/ async listVectors(options = {}) {
+        var _superprop_getListVectors = ()=>super.listVectors, _this11 = this;
+        return _superprop_getListVectors().call(_this11, _objectSpread2(_objectSpread2({}, options), {}, {
+            vectorBucketName: _this11.vectorBucketName,
+            indexName: _this11.indexName
+        }));
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Queries for similar vectors in this index
+	* Convenience method that automatically includes bucket and index names
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param options - Query options (bucket and index names automatically set)
+	* @returns Promise with response containing matches array of similar vectors ordered by distance or error
+	*
+	* @example Query similar vectors
+	* ```typescript
+	* const index = supabase.storage.vectors.from('embeddings-prod').index('documents-openai')
+	* const { data } = await index.queryVectors({
+	*   queryVector: { float32: [0.1, 0.2, ...] },
+	*   topK: 5,
+	*   filter: { category: 'technical' },
+	*   returnDistance: true,
+	*   returnMetadata: true
+	* })
+	* ```
+	*/ async queryVectors(options) {
+        var _superprop_getQueryVectors = ()=>super.queryVectors, _this12 = this;
+        return _superprop_getQueryVectors().call(_this12, _objectSpread2(_objectSpread2({}, options), {}, {
+            vectorBucketName: _this12.vectorBucketName,
+            indexName: _this12.indexName
+        }));
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Deletes vectors by keys from this index
+	* Convenience method that automatically includes bucket and index names
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	* @param options - Deletion options (bucket and index names automatically set)
+	* @returns Promise with empty response on success or error
+	*
+	* @example Delete vectors by keys
+	* ```typescript
+	* const index = supabase.storage.vectors.from('embeddings-prod').index('documents-openai')
+	* await index.deleteVectors({
+	*   keys: ['doc-1', 'doc-2', 'doc-3']
+	* })
+	* ```
+	*/ async deleteVectors(options) {
+        var _superprop_getDeleteVectors = ()=>super.deleteVectors, _this13 = this;
+        return _superprop_getDeleteVectors().call(_this13, _objectSpread2(_objectSpread2({}, options), {}, {
+            vectorBucketName: _this13.vectorBucketName,
+            indexName: _this13.indexName
+        }));
+    }
+};
+//#endregion
+//#region src/StorageClient.ts
+var StorageClient = class extends StorageBucketApi {
+    /**
+	* Creates a client for Storage buckets, files, analytics, and vectors.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	*
+	* @example Using supabase-js (recommended)
+	* ```ts
+	* import { createClient } from '@supabase/supabase-js'
+	*
+	* const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+	* const avatars = supabase.storage.from('avatars')
+	* ```
+	*
+	* @example Standalone import for bundle-sensitive environments
+	* ```ts
+	* import { StorageClient } from '@supabase/storage-js'
+	*
+	* const storage = new StorageClient('https://xyzcompany.supabase.co/storage/v1', {
+	*   apikey: 'your-publishable-key',
+	* })
+	* const avatars = storage.from('avatars')
+	* ```
+	*/ constructor(url, headers = {}, fetch$1, opts){
+        super(url, headers, fetch$1, opts);
+    }
+    /**
+	* Perform file operation in a bucket.
+	*
+	* @category Storage
+	* @subcategory File Buckets
+	*
+	* @param id The bucket id to operate on.
+	*
+	* @example Accessing a bucket
+	* ```typescript
+	* const avatars = supabase.storage.from('avatars')
+	* ```
+	*/ from(id) {
+        return new StorageFileApi(this.url, this.headers, id, this.fetch);
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Access vector storage operations.
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Vector Buckets
+	*
+	* @returns A StorageVectorsClient instance configured with the current storage settings.
+	*/ get vectors() {
+        return new StorageVectorsClient(this.url + "/vector", {
+            headers: this.headers,
+            fetch: this.fetch
+        });
+    }
+    /**
+	*
+	* @alpha
+	*
+	* Access analytics storage operations using Iceberg tables.
+	*
+	* **Public alpha:** This API is part of a public alpha release and may not be available to your account type.
+	*
+	* @category Storage
+	* @subcategory Analytics Buckets
+	*
+	* @returns A StorageAnalyticsClient instance configured with the current storage settings.
+	*/ get analytics() {
+        return new StorageAnalyticsClient(this.url + "/iceberg", this.headers, this.fetch);
+    }
+};
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/@supabase/supabase-js/dist/index.mjs [app-route] (ecmascript) <locals>", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "SupabaseClient",
+    ()=>SupabaseClient,
+    "createClient",
+    ()=>createClient
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$functions$2d$js$2f$dist$2f$module$2f$types$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/functions-js/dist/module/types.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$functions$2d$js$2f$dist$2f$module$2f$FunctionsClient$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/functions-js/dist/module/FunctionsClient.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$postgrest$2d$js$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/postgrest-js/dist/index.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/index.js [app-route] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$RealtimeClient$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__default__as__RealtimeClient$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/realtime-js/dist/module/RealtimeClient.js [app-route] (ecmascript) <export default as RealtimeClient>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$storage$2d$js$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/storage-js/dist/index.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$auth$2d$js$2f$dist$2f$module$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/auth-js/dist/module/index.js [app-route] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$auth$2d$js$2f$dist$2f$module$2f$AuthClient$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__default__as__AuthClient$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@supabase/auth-js/dist/module/AuthClient.js [app-route] (ecmascript) <export default as AuthClient>");
+;
+;
+;
+;
+;
+;
+;
+//#region src/lib/version.ts
+const version = "2.105.3";
+//#endregion
+//#region src/lib/constants.ts
+let JS_ENV = "";
+if (typeof Deno !== "undefined") JS_ENV = "deno";
+else if (typeof document !== "undefined") JS_ENV = "web";
+else if (typeof navigator !== "undefined" && navigator.product === "ReactNative") JS_ENV = "react-native";
+else JS_ENV = "node";
+const DEFAULT_HEADERS = {
+    "X-Client-Info": `supabase-js-${JS_ENV}/${version}`
+};
+const DEFAULT_GLOBAL_OPTIONS = {
+    headers: DEFAULT_HEADERS
+};
+const DEFAULT_DB_OPTIONS = {
+    schema: "public"
+};
+const DEFAULT_AUTH_OPTIONS = {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true,
+    flowType: "implicit"
+};
+const DEFAULT_REALTIME_OPTIONS = {};
+//#endregion
+//#region \0@oxc-project+runtime@0.101.0/helpers/typeof.js
+function _typeof(o) {
+    "@babel/helpers - typeof";
+    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(o$1) {
+        return typeof o$1;
+    } : function(o$1) {
+        return o$1 && "function" == typeof Symbol && o$1.constructor === Symbol && o$1 !== Symbol.prototype ? "symbol" : typeof o$1;
+    }, _typeof(o);
+}
+//#endregion
+//#region \0@oxc-project+runtime@0.101.0/helpers/toPrimitive.js
+function toPrimitive(t, r) {
+    if ("object" != _typeof(t) || !t) return t;
+    var e = t[Symbol.toPrimitive];
+    if (void 0 !== e) {
+        var i = e.call(t, r || "default");
+        if ("object" != _typeof(i)) return i;
+        throw new TypeError("@@toPrimitive must return a primitive value.");
+    }
+    return ("string" === r ? String : Number)(t);
+}
+//#endregion
+//#region \0@oxc-project+runtime@0.101.0/helpers/toPropertyKey.js
+function toPropertyKey(t) {
+    var i = toPrimitive(t, "string");
+    return "symbol" == _typeof(i) ? i : i + "";
+}
+//#endregion
+//#region \0@oxc-project+runtime@0.101.0/helpers/defineProperty.js
+function _defineProperty(e, r, t) {
+    return (r = toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
+        value: t,
+        enumerable: !0,
+        configurable: !0,
+        writable: !0
+    }) : e[r] = t, e;
+}
+//#endregion
+//#region \0@oxc-project+runtime@0.101.0/helpers/objectSpread2.js
+function ownKeys(e, r) {
+    var t = Object.keys(e);
+    if (Object.getOwnPropertySymbols) {
+        var o = Object.getOwnPropertySymbols(e);
+        r && (o = o.filter(function(r$1) {
+            return Object.getOwnPropertyDescriptor(e, r$1).enumerable;
+        })), t.push.apply(t, o);
+    }
+    return t;
+}
+function _objectSpread2(e) {
+    for(var r = 1; r < arguments.length; r++){
+        var t = null != arguments[r] ? arguments[r] : {};
+        r % 2 ? ownKeys(Object(t), !0).forEach(function(r$1) {
+            _defineProperty(e, r$1, t[r$1]);
+        }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function(r$1) {
+            Object.defineProperty(e, r$1, Object.getOwnPropertyDescriptor(t, r$1));
+        });
+    }
+    return e;
+}
+//#endregion
+//#region src/lib/fetch.ts
+const resolveFetch = (customFetch)=>{
+    if (customFetch) return (...args)=>customFetch(...args);
+    return (...args)=>fetch(...args);
+};
+const resolveHeadersConstructor = ()=>{
+    return Headers;
+};
+const fetchWithAuth = (supabaseKey, getAccessToken, customFetch)=>{
+    const fetch$1 = resolveFetch(customFetch);
+    const HeadersConstructor = resolveHeadersConstructor();
+    return async (input, init)=>{
+        var _await$getAccessToken;
+        const accessToken = (_await$getAccessToken = await getAccessToken()) !== null && _await$getAccessToken !== void 0 ? _await$getAccessToken : supabaseKey;
+        let headers = new HeadersConstructor(init === null || init === void 0 ? void 0 : init.headers);
+        if (!headers.has("apikey")) headers.set("apikey", supabaseKey);
+        if (!headers.has("Authorization")) headers.set("Authorization", `Bearer ${accessToken}`);
+        return fetch$1(input, _objectSpread2(_objectSpread2({}, init), {}, {
+            headers
+        }));
+    };
+};
+//#endregion
+//#region src/lib/helpers.ts
+function ensureTrailingSlash(url) {
+    return url.endsWith("/") ? url : url + "/";
+}
+function applySettingDefaults(options, defaults) {
+    var _DEFAULT_GLOBAL_OPTIO, _globalOptions$header;
+    const { db: dbOptions, auth: authOptions, realtime: realtimeOptions, global: globalOptions } = options;
+    const { db: DEFAULT_DB_OPTIONS$1, auth: DEFAULT_AUTH_OPTIONS$1, realtime: DEFAULT_REALTIME_OPTIONS$1, global: DEFAULT_GLOBAL_OPTIONS$1 } = defaults;
+    const result = {
+        db: _objectSpread2(_objectSpread2({}, DEFAULT_DB_OPTIONS$1), dbOptions),
+        auth: _objectSpread2(_objectSpread2({}, DEFAULT_AUTH_OPTIONS$1), authOptions),
+        realtime: _objectSpread2(_objectSpread2({}, DEFAULT_REALTIME_OPTIONS$1), realtimeOptions),
+        storage: {},
+        global: _objectSpread2(_objectSpread2(_objectSpread2({}, DEFAULT_GLOBAL_OPTIONS$1), globalOptions), {}, {
+            headers: _objectSpread2(_objectSpread2({}, (_DEFAULT_GLOBAL_OPTIO = DEFAULT_GLOBAL_OPTIONS$1 === null || DEFAULT_GLOBAL_OPTIONS$1 === void 0 ? void 0 : DEFAULT_GLOBAL_OPTIONS$1.headers) !== null && _DEFAULT_GLOBAL_OPTIO !== void 0 ? _DEFAULT_GLOBAL_OPTIO : {}), (_globalOptions$header = globalOptions === null || globalOptions === void 0 ? void 0 : globalOptions.headers) !== null && _globalOptions$header !== void 0 ? _globalOptions$header : {})
+        }),
+        accessToken: async ()=>""
+    };
+    if (options.accessToken) result.accessToken = options.accessToken;
+    else delete result.accessToken;
+    return result;
+}
+/**
+* Validates a Supabase client URL
+*
+* @param {string} supabaseUrl - The Supabase client URL string.
+* @returns {URL} - The validated base URL.
+* @throws {Error}
+*/ function validateSupabaseUrl(supabaseUrl) {
+    const trimmedUrl = supabaseUrl === null || supabaseUrl === void 0 ? void 0 : supabaseUrl.trim();
+    if (!trimmedUrl) throw new Error("supabaseUrl is required.");
+    if (!trimmedUrl.match(/^https?:\/\//i)) throw new Error("Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.");
+    try {
+        return new URL(ensureTrailingSlash(trimmedUrl));
+    } catch (_unused) {
+        throw Error("Invalid supabaseUrl: Provided URL is malformed.");
+    }
+}
+//#endregion
+//#region src/lib/SupabaseAuthClient.ts
+var SupabaseAuthClient = class extends __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$auth$2d$js$2f$dist$2f$module$2f$AuthClient$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__default__as__AuthClient$3e$__["AuthClient"] {
+    constructor(options){
+        super(options);
+    }
+};
+//#endregion
+//#region src/SupabaseClient.ts
+/**
+* Supabase Client.
+*
+* An isomorphic Javascript client for interacting with Postgres.
+*/ var SupabaseClient = class {
+    /**
+	* Create a new client for use in the browser.
+	*
+	* @category Initializing
+	*
+	* @param supabaseUrl The unique Supabase URL which is supplied when you create a new project in your project dashboard.
+	* @param supabaseKey The unique Supabase Key which is supplied when you create a new project in your project dashboard.
+	* @param options.db.schema You can switch in between schemas. The schema needs to be on the list of exposed schemas inside Supabase.
+	* @param options.auth.autoRefreshToken Set to "true" if you want to automatically refresh the token before expiring.
+	* @param options.auth.persistSession Set to "true" if you want to automatically save the user session into local storage.
+	* @param options.auth.detectSessionInUrl Set to "true" if you want to automatically detects OAuth grants in the URL and signs in the user.
+	* @param options.realtime Options passed along to realtime-js constructor.
+	* @param options.storage Options passed along to the storage-js constructor.
+	* @param options.global.fetch A custom fetch implementation.
+	* @param options.global.headers Any additional headers to send with each network request.
+	*
+	* @example Creating a client
+	* ```js
+	* import { createClient } from '@supabase/supabase-js'
+	*
+	* // Create a single supabase client for interacting with your database
+	* const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+	* ```
+	*
+	* @example With a custom domain
+	* ```js
+	* import { createClient } from '@supabase/supabase-js'
+	*
+	* // Use a custom domain as the supabase URL
+	* const supabase = createClient('https://my-custom-domain.com', 'your-publishable-key')
+	* ```
+	*
+	* @example With additional parameters
+	* ```js
+	* import { createClient } from '@supabase/supabase-js'
+	*
+	* const options = {
+	*   db: {
+	*     schema: 'public',
+	*   },
+	*   auth: {
+	*     autoRefreshToken: true,
+	*     persistSession: true,
+	*     detectSessionInUrl: true
+	*   },
+	*   global: {
+	*     headers: { 'x-my-custom-header': 'my-app-name' },
+	*   },
+	* }
+	* const supabase = createClient("https://xyzcompany.supabase.co", "your-publishable-key", options)
+	* ```
+	*
+	* @exampleDescription With custom schemas
+	* By default the API server points to the `public` schema. You can enable other database schemas within the Dashboard.
+	* Go to [Settings > API > Exposed schemas](/dashboard/project/_/settings/api) and add the schema which you want to expose to the API.
+	*
+	* Note: each client connection can only access a single schema, so the code above can access the `other_schema` schema but cannot access the `public` schema.
+	*
+	* @example With custom schemas
+	* ```js
+	* import { createClient } from '@supabase/supabase-js'
+	*
+	* const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key', {
+	*   // Provide a custom schema. Defaults to "public".
+	*   db: { schema: 'other_schema' }
+	* })
+	* ```
+	*
+	* @exampleDescription Custom fetch implementation
+	* `supabase-js` uses the [`cross-fetch`](https://www.npmjs.com/package/cross-fetch) library to make HTTP requests,
+	* but an alternative `fetch` implementation can be provided as an option.
+	* This is most useful in environments where `cross-fetch` is not compatible (for instance Cloudflare Workers).
+	*
+	* @example Custom fetch implementation
+	* ```js
+	* import { createClient } from '@supabase/supabase-js'
+	*
+	* const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key', {
+	*   global: { fetch: fetch.bind(globalThis) }
+	* })
+	* ```
+	*
+	* @exampleDescription React Native options with AsyncStorage
+	* For React Native we recommend using `AsyncStorage` as the storage implementation for Supabase Auth.
+	*
+	* @example React Native options with AsyncStorage
+	* ```js
+	* import 'react-native-url-polyfill/auto'
+	* import { createClient } from '@supabase/supabase-js'
+	* import AsyncStorage from "@react-native-async-storage/async-storage";
+	*
+	* const supabase = createClient("https://xyzcompany.supabase.co", "your-publishable-key", {
+	*   auth: {
+	*     storage: AsyncStorage,
+	*     autoRefreshToken: true,
+	*     persistSession: true,
+	*     detectSessionInUrl: false,
+	*   },
+	* });
+	* ```
+	*
+	* @exampleDescription React Native options with Expo SecureStore
+	* If you wish to encrypt the user's session information, you can use `aes-js` and store the encryption key in Expo SecureStore.
+	* The `aes-js` library, a reputable JavaScript-only implementation of the AES encryption algorithm in CTR mode.
+	* A new 256-bit encryption key is generated using the `react-native-get-random-values` library.
+	* This key is stored inside Expo's SecureStore, while the value is encrypted and placed inside AsyncStorage.
+	*
+	* Please make sure that:
+	* - You keep the `expo-secure-store`, `aes-js` and `react-native-get-random-values` libraries up-to-date.
+	* - Choose the correct [`SecureStoreOptions`](https://docs.expo.dev/versions/latest/sdk/securestore/#securestoreoptions) for your app's needs.
+	*   E.g. [`SecureStore.WHEN_UNLOCKED`](https://docs.expo.dev/versions/latest/sdk/securestore/#securestorewhen_unlocked) regulates when the data can be accessed.
+	* - Carefully consider optimizations or other modifications to the above example, as those can lead to introducing subtle security vulnerabilities.
+	*
+	* @example React Native options with Expo SecureStore
+	* ```ts
+	* import 'react-native-url-polyfill/auto'
+	* import { createClient } from '@supabase/supabase-js'
+	* import AsyncStorage from '@react-native-async-storage/async-storage';
+	* import * as SecureStore from 'expo-secure-store';
+	* import * as aesjs from 'aes-js';
+	* import 'react-native-get-random-values';
+	*
+	* // As Expo's SecureStore does not support values larger than 2048
+	* // bytes, an AES-256 key is generated and stored in SecureStore, while
+	* // it is used to encrypt/decrypt values stored in AsyncStorage.
+	* class LargeSecureStore {
+	*   private async _encrypt(key: string, value: string) {
+	*     const encryptionKey = crypto.getRandomValues(new Uint8Array(256 / 8));
+	*
+	*     const cipher = new aesjs.ModeOfOperation.ctr(encryptionKey, new aesjs.Counter(1));
+	*     const encryptedBytes = cipher.encrypt(aesjs.utils.utf8.toBytes(value));
+	*
+	*     await SecureStore.setItemAsync(key, aesjs.utils.hex.fromBytes(encryptionKey));
+	*
+	*     return aesjs.utils.hex.fromBytes(encryptedBytes);
+	*   }
+	*
+	*   private async _decrypt(key: string, value: string) {
+	*     const encryptionKeyHex = await SecureStore.getItemAsync(key);
+	*     if (!encryptionKeyHex) {
+	*       return encryptionKeyHex;
+	*     }
+	*
+	*     const cipher = new aesjs.ModeOfOperation.ctr(aesjs.utils.hex.toBytes(encryptionKeyHex), new aesjs.Counter(1));
+	*     const decryptedBytes = cipher.decrypt(aesjs.utils.hex.toBytes(value));
+	*
+	*     return aesjs.utils.utf8.fromBytes(decryptedBytes);
+	*   }
+	*
+	*   async getItem(key: string) {
+	*     const encrypted = await AsyncStorage.getItem(key);
+	*     if (!encrypted) { return encrypted; }
+	*
+	*     return await this._decrypt(key, encrypted);
+	*   }
+	*
+	*   async removeItem(key: string) {
+	*     await AsyncStorage.removeItem(key);
+	*     await SecureStore.deleteItemAsync(key);
+	*   }
+	*
+	*   async setItem(key: string, value: string) {
+	*     const encrypted = await this._encrypt(key, value);
+	*
+	*     await AsyncStorage.setItem(key, encrypted);
+	*   }
+	* }
+	*
+	* const supabase = createClient("https://xyzcompany.supabase.co", "your-publishable-key", {
+	*   auth: {
+	*     storage: new LargeSecureStore(),
+	*     autoRefreshToken: true,
+	*     persistSession: true,
+	*     detectSessionInUrl: false,
+	*   },
+	* });
+	* ```
+	*
+	* @example With a database query
+	* ```ts
+	* import { createClient } from '@supabase/supabase-js'
+	*
+	* const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+	*
+	* const { data } = await supabase.from('profiles').select('*')
+	* ```
+	*/ constructor(supabaseUrl, supabaseKey, options){
+        var _settings$auth$storag, _settings$global$head;
+        this.supabaseUrl = supabaseUrl;
+        this.supabaseKey = supabaseKey;
+        const baseUrl = validateSupabaseUrl(supabaseUrl);
+        if (!supabaseKey) throw new Error("supabaseKey is required.");
+        this.realtimeUrl = new URL("realtime/v1", baseUrl);
+        this.realtimeUrl.protocol = this.realtimeUrl.protocol.replace("http", "ws");
+        this.authUrl = new URL("auth/v1", baseUrl);
+        this.storageUrl = new URL("storage/v1", baseUrl);
+        this.functionsUrl = new URL("functions/v1", baseUrl);
+        const defaultStorageKey = `sb-${baseUrl.hostname.split(".")[0]}-auth-token`;
+        const DEFAULTS = {
+            db: DEFAULT_DB_OPTIONS,
+            realtime: DEFAULT_REALTIME_OPTIONS,
+            auth: _objectSpread2(_objectSpread2({}, DEFAULT_AUTH_OPTIONS), {}, {
+                storageKey: defaultStorageKey
+            }),
+            global: DEFAULT_GLOBAL_OPTIONS
+        };
+        const settings = applySettingDefaults(options !== null && options !== void 0 ? options : {}, DEFAULTS);
+        this.storageKey = (_settings$auth$storag = settings.auth.storageKey) !== null && _settings$auth$storag !== void 0 ? _settings$auth$storag : "";
+        this.headers = (_settings$global$head = settings.global.headers) !== null && _settings$global$head !== void 0 ? _settings$global$head : {};
+        if (!settings.accessToken) {
+            var _settings$auth;
+            this.auth = this._initSupabaseAuthClient((_settings$auth = settings.auth) !== null && _settings$auth !== void 0 ? _settings$auth : {}, this.headers, settings.global.fetch);
+        } else {
+            this.accessToken = settings.accessToken;
+            this.auth = new Proxy({}, {
+                get: (_, prop)=>{
+                    throw new Error(`@supabase/supabase-js: Supabase Client is configured with the accessToken option, accessing supabase.auth.${String(prop)} is not possible`);
+                }
+            });
+        }
+        this.fetch = fetchWithAuth(supabaseKey, this._getAccessToken.bind(this), settings.global.fetch);
+        this.realtime = this._initRealtimeClient(_objectSpread2({
+            headers: this.headers,
+            accessToken: this._getAccessToken.bind(this),
+            fetch: this.fetch
+        }, settings.realtime));
+        if (this.accessToken) Promise.resolve(this.accessToken()).then((token)=>this.realtime.setAuth(token)).catch((e)=>console.warn("Failed to set initial Realtime auth token:", e));
+        this.rest = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$postgrest$2d$js$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["PostgrestClient"](new URL("rest/v1", baseUrl).href, {
+            headers: this.headers,
+            schema: settings.db.schema,
+            fetch: this.fetch,
+            timeout: settings.db.timeout,
+            urlLengthLimit: settings.db.urlLengthLimit
+        });
+        this.storage = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$storage$2d$js$2f$dist$2f$index$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["StorageClient"](this.storageUrl.href, this.headers, this.fetch, options === null || options === void 0 ? void 0 : options.storage);
+        if (!settings.accessToken) this._listenForAuthEvents();
+    }
+    /**
+	* Supabase Functions allows you to deploy and invoke edge functions.
+	*/ get functions() {
+        return new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$functions$2d$js$2f$dist$2f$module$2f$FunctionsClient$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["FunctionsClient"](this.functionsUrl.href, {
+            headers: this.headers,
+            customFetch: this.fetch
+        });
+    }
+    /**
+	* Perform a query on a table or a view.
+	*
+	* @param relation - The table or view name to query
+	*/ from(relation) {
+        return this.rest.from(relation);
+    }
+    /**
+	* Select a schema to query or perform an function (rpc) call.
+	*
+	* The schema needs to be on the list of exposed schemas inside Supabase.
+	*
+	* @param schema - The schema to query
+	*/ schema(schema) {
+        return this.rest.schema(schema);
+    }
+    /**
+	* Perform a function call.
+	*
+	* @param fn - The function name to call
+	* @param args - The arguments to pass to the function call
+	* @param options - Named parameters
+	* @param options.head - When set to `true`, `data` will not be returned.
+	* Useful if you only need the count.
+	* @param options.get - When set to `true`, the function will be called with
+	* read-only access mode.
+	* @param options.count - Count algorithm to use to count rows returned by the
+	* function. Only applicable for [set-returning
+	* functions](https://www.postgresql.org/docs/current/functions-srf.html).
+	*
+	* `"exact"`: Exact but slow count algorithm. Performs a `COUNT(*)` under the
+	* hood.
+	*
+	* `"planned"`: Approximated but fast count algorithm. Uses the Postgres
+	* statistics under the hood.
+	*
+	* `"estimated"`: Uses exact count for low numbers and planned count for high
+	* numbers.
+	*/ rpc(fn, args = {}, options = {
+        head: false,
+        get: false,
+        count: void 0
+    }) {
+        return this.rest.rpc(fn, args, options);
+    }
+    /**
+	* Creates a Realtime channel with Broadcast, Presence, and Postgres Changes.
+	*
+	* @param {string} name - The name of the Realtime channel.
+	* @param {Object} opts - The options to pass to the Realtime channel.
+	*
+	* @category Realtime
+	*/ channel(name, opts = {
+        config: {}
+    }) {
+        return this.realtime.channel(name, opts);
+    }
+    /**
+	* Returns all Realtime channels.
+	*
+	* @category Realtime
+	*
+	* @example Get all channels
+	* ```js
+	* const channels = supabase.getChannels()
+	* ```
+	*/ getChannels() {
+        return this.realtime.getChannels();
+    }
+    /**
+	* Unsubscribes and removes Realtime channel from Realtime client.
+	*
+	* @param {RealtimeChannel} channel - The name of the Realtime channel.
+	*
+	*
+	* @category Realtime
+	*
+	* @remarks
+	* - Removing a channel is a great way to maintain the performance of your project's Realtime service as well as your database if you're listening to Postgres changes. Supabase will automatically handle cleanup 30 seconds after a client is disconnected, but unused channels may cause degradation as more clients are simultaneously subscribed.
+	*
+	* @example Removes a channel
+	* ```js
+	* supabase.removeChannel(myChannel)
+	* ```
+	*/ removeChannel(channel) {
+        return this.realtime.removeChannel(channel);
+    }
+    /**
+	* Unsubscribes and removes all Realtime channels from Realtime client.
+	*
+	* @category Realtime
+	*
+	* @remarks
+	* - Removing channels is a great way to maintain the performance of your project's Realtime service as well as your database if you're listening to Postgres changes. Supabase will automatically handle cleanup 30 seconds after a client is disconnected, but unused channels may cause degradation as more clients are simultaneously subscribed.
+	*
+	* @example Remove all channels
+	* ```js
+	* supabase.removeAllChannels()
+	* ```
+	*/ removeAllChannels() {
+        return this.realtime.removeAllChannels();
+    }
+    async _getAccessToken() {
+        var _this = this;
+        var _data$session$access_, _data$session;
+        if (_this.accessToken) return await _this.accessToken();
+        const { data } = await _this.auth.getSession();
+        return (_data$session$access_ = (_data$session = data.session) === null || _data$session === void 0 ? void 0 : _data$session.access_token) !== null && _data$session$access_ !== void 0 ? _data$session$access_ : _this.supabaseKey;
+    }
+    _initSupabaseAuthClient({ autoRefreshToken, persistSession, detectSessionInUrl, storage, userStorage, storageKey, flowType, lock, debug, throwOnError, experimental, lockAcquireTimeout, skipAutoInitialize }, headers, fetch$1) {
+        const authHeaders = {
+            Authorization: `Bearer ${this.supabaseKey}`,
+            apikey: `${this.supabaseKey}`
+        };
+        return new SupabaseAuthClient({
+            url: this.authUrl.href,
+            headers: _objectSpread2(_objectSpread2({}, authHeaders), headers),
+            storageKey,
+            autoRefreshToken,
+            persistSession,
+            detectSessionInUrl,
+            storage,
+            userStorage,
+            flowType,
+            lock,
+            debug,
+            throwOnError,
+            experimental,
+            fetch: fetch$1,
+            lockAcquireTimeout,
+            skipAutoInitialize,
+            hasCustomAuthorizationHeader: Object.keys(this.headers).some((key)=>key.toLowerCase() === "authorization")
+        });
+    }
+    _initRealtimeClient(options) {
+        return new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$supabase$2f$realtime$2d$js$2f$dist$2f$module$2f$RealtimeClient$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__default__as__RealtimeClient$3e$__["RealtimeClient"](this.realtimeUrl.href, _objectSpread2(_objectSpread2({}, options), {}, {
+            params: _objectSpread2(_objectSpread2({}, {
+                apikey: this.supabaseKey
+            }), options === null || options === void 0 ? void 0 : options.params)
+        }));
+    }
+    _listenForAuthEvents() {
+        return this.auth.onAuthStateChange((event, session)=>{
+            this._handleTokenChanged(event, "CLIENT", session === null || session === void 0 ? void 0 : session.access_token);
+        });
+    }
+    _handleTokenChanged(event, source, token) {
+        if ((event === "TOKEN_REFRESHED" || event === "SIGNED_IN") && this.changedAccessToken !== token) {
+            this.changedAccessToken = token;
+            this.realtime.setAuth(token);
+        } else if (event === "SIGNED_OUT") {
+            this.realtime.setAuth();
+            if (source == "STORAGE") this.auth.signOut();
+            this.changedAccessToken = void 0;
+        }
+    }
+};
+//#endregion
+//#region src/index.ts
+/**
+* Creates a new Supabase Client.
+*
+* @example Creating a Supabase client
+* ```ts
+* import { createClient } from '@supabase/supabase-js'
+*
+* const supabase = createClient('https://xyzcompany.supabase.co', 'your-publishable-key')
+* const { data, error } = await supabase.from('profiles').select('*')
+* ```
+*/ const createClient = (supabaseUrl, supabaseKey, options)=>{
+    return new SupabaseClient(supabaseUrl, supabaseKey, options);
+};
+function shouldShowDeprecationWarning() {
+    if ("TURBOPACK compile-time falsy", 0) //TURBOPACK unreachable
+    ;
+    const _process = globalThis["process"];
+    if (!_process) return false;
+    const processVersion = _process["version"];
+    if (processVersion === void 0 || processVersion === null) return false;
+    const versionMatch = processVersion.match(/^v(\d+)\./);
+    if (!versionMatch) return false;
+    return parseInt(versionMatch[1], 10) <= 18;
+}
+if (shouldShowDeprecationWarning()) console.warn("⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217");
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/xml2js/lib/defaults.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+
+// Generated by CoffeeScript 1.12.7
+(function() {
+    exports.defaults = {
+        "0.1": {
+            explicitCharkey: false,
+            trim: true,
+            normalize: true,
+            normalizeTags: false,
+            attrkey: "@",
+            charkey: "#",
+            explicitArray: false,
+            ignoreAttrs: false,
+            mergeAttrs: false,
+            explicitRoot: false,
+            validator: null,
+            xmlns: false,
+            explicitChildren: false,
+            childkey: '@@',
+            charsAsChildren: false,
+            includeWhiteChars: false,
+            async: false,
+            strict: true,
+            attrNameProcessors: null,
+            attrValueProcessors: null,
+            tagNameProcessors: null,
+            valueProcessors: null,
+            emptyTag: ''
+        },
+        "0.2": {
+            explicitCharkey: false,
+            trim: false,
+            normalize: false,
+            normalizeTags: false,
+            attrkey: "$",
+            charkey: "_",
+            explicitArray: true,
+            ignoreAttrs: false,
+            mergeAttrs: false,
+            explicitRoot: true,
+            validator: null,
+            xmlns: false,
+            explicitChildren: false,
+            preserveChildrenOrder: false,
+            childkey: '$$',
+            charsAsChildren: false,
+            includeWhiteChars: false,
+            async: false,
+            strict: true,
+            attrNameProcessors: null,
+            attrValueProcessors: null,
+            tagNameProcessors: null,
+            valueProcessors: null,
+            rootName: 'root',
+            xmldec: {
+                'version': '1.0',
+                'encoding': 'UTF-8',
+                'standalone': true
+            },
+            doctype: null,
+            renderOpts: {
+                'pretty': true,
+                'indent': '  ',
+                'newline': '\n'
+            },
+            headless: false,
+            chunkSize: 10000,
+            emptyTag: '',
+            cdata: false
+        }
+    };
+}).call(/*TURBOPACK member replacement*/ __turbopack_context__.e);
+}),
+"[project]/Flight-app/flight-finder/node_modules/xml2js/lib/builder.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+
+// Generated by CoffeeScript 1.12.7
+(function() {
+    "use strict";
+    var builder, defaults, escapeCDATA, requiresCDATA, wrapCDATA, hasProp = {}.hasOwnProperty;
+    builder = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/xmlbuilder/lib/index.js [app-route] (ecmascript)");
+    defaults = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/xml2js/lib/defaults.js [app-route] (ecmascript)").defaults;
+    requiresCDATA = function(entry) {
+        return typeof entry === "string" && (entry.indexOf('&') >= 0 || entry.indexOf('>') >= 0 || entry.indexOf('<') >= 0);
+    };
+    wrapCDATA = function(entry) {
+        return "<![CDATA[" + escapeCDATA(entry) + "]]>";
+    };
+    escapeCDATA = function(entry) {
+        return entry.replace(']]>', ']]]]><![CDATA[>');
+    };
+    exports.Builder = function() {
+        function Builder(opts) {
+            var key, ref, value;
+            this.options = {};
+            ref = defaults["0.2"];
+            for(key in ref){
+                if (!hasProp.call(ref, key)) continue;
+                value = ref[key];
+                this.options[key] = value;
+            }
+            for(key in opts){
+                if (!hasProp.call(opts, key)) continue;
+                value = opts[key];
+                this.options[key] = value;
+            }
+        }
+        Builder.prototype.buildObject = function(rootObj) {
+            var attrkey, charkey, render, rootElement, rootName;
+            attrkey = this.options.attrkey;
+            charkey = this.options.charkey;
+            if (Object.keys(rootObj).length === 1 && this.options.rootName === defaults['0.2'].rootName) {
+                rootName = Object.keys(rootObj)[0];
+                rootObj = rootObj[rootName];
+            } else {
+                rootName = this.options.rootName;
+            }
+            render = function(_this) {
+                return function(element, obj) {
+                    var attr, child, entry, index, key, value;
+                    if (typeof obj !== 'object') {
+                        if (_this.options.cdata && requiresCDATA(obj)) {
+                            element.raw(wrapCDATA(obj));
+                        } else {
+                            element.txt(obj);
+                        }
+                    } else if (Array.isArray(obj)) {
+                        for(index in obj){
+                            if (!hasProp.call(obj, index)) continue;
+                            child = obj[index];
+                            for(key in child){
+                                entry = child[key];
+                                element = render(element.ele(key), entry).up();
+                            }
+                        }
+                    } else {
+                        for(key in obj){
+                            if (!hasProp.call(obj, key)) continue;
+                            child = obj[key];
+                            if (key === attrkey) {
+                                if (typeof child === "object") {
+                                    for(attr in child){
+                                        value = child[attr];
+                                        element = element.att(attr, value);
+                                    }
+                                }
+                            } else if (key === charkey) {
+                                if (_this.options.cdata && requiresCDATA(child)) {
+                                    element = element.raw(wrapCDATA(child));
+                                } else {
+                                    element = element.txt(child);
+                                }
+                            } else if (Array.isArray(child)) {
+                                for(index in child){
+                                    if (!hasProp.call(child, index)) continue;
+                                    entry = child[index];
+                                    if (typeof entry === 'string') {
+                                        if (_this.options.cdata && requiresCDATA(entry)) {
+                                            element = element.ele(key).raw(wrapCDATA(entry)).up();
+                                        } else {
+                                            element = element.ele(key, entry).up();
+                                        }
+                                    } else {
+                                        element = render(element.ele(key), entry).up();
+                                    }
+                                }
+                            } else if (typeof child === "object") {
+                                element = render(element.ele(key), child).up();
+                            } else {
+                                if (typeof child === 'string' && _this.options.cdata && requiresCDATA(child)) {
+                                    element = element.ele(key).raw(wrapCDATA(child)).up();
+                                } else {
+                                    if (child == null) {
+                                        child = '';
+                                    }
+                                    element = element.ele(key, child.toString()).up();
+                                }
+                            }
+                        }
+                    }
+                    return element;
+                };
+            }(this);
+            rootElement = builder.create(rootName, this.options.xmldec, this.options.doctype, {
+                headless: this.options.headless,
+                allowSurrogateChars: this.options.allowSurrogateChars
+            });
+            return render(rootElement, rootObj).end(this.options.renderOpts);
+        };
+        return Builder;
+    }();
+}).call(/*TURBOPACK member replacement*/ __turbopack_context__.e);
+}),
+"[project]/Flight-app/flight-finder/node_modules/xml2js/lib/bom.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+
+// Generated by CoffeeScript 1.12.7
+(function() {
+    "use strict";
+    exports.stripBOM = function(str) {
+        if (str[0] === '\uFEFF') {
+            return str.substring(1);
+        } else {
+            return str;
+        }
+    };
+}).call(/*TURBOPACK member replacement*/ __turbopack_context__.e);
+}),
+"[project]/Flight-app/flight-finder/node_modules/xml2js/lib/processors.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+
+// Generated by CoffeeScript 1.12.7
+(function() {
+    "use strict";
+    var prefixMatch;
+    prefixMatch = new RegExp(/(?!xmlns)^.*:/);
+    exports.normalize = function(str) {
+        return str.toLowerCase();
+    };
+    exports.firstCharLowerCase = function(str) {
+        return str.charAt(0).toLowerCase() + str.slice(1);
+    };
+    exports.stripPrefix = function(str) {
+        return str.replace(prefixMatch, '');
+    };
+    exports.parseNumbers = function(str) {
+        if (!isNaN(str)) {
+            str = str % 1 === 0 ? parseInt(str, 10) : parseFloat(str);
+        }
+        return str;
+    };
+    exports.parseBooleans = function(str) {
+        if (/^(?:true|false)$/i.test(str)) {
+            str = str.toLowerCase() === 'true';
+        }
+        return str;
+    };
+}).call(/*TURBOPACK member replacement*/ __turbopack_context__.e);
+}),
+"[project]/Flight-app/flight-finder/node_modules/xml2js/lib/parser.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+
+// Generated by CoffeeScript 1.12.7
+(function() {
+    "use strict";
+    var bom, defaults, events, isEmpty, processItem, processors, sax, setImmediate, bind = function(fn, me) {
+        return function() {
+            return fn.apply(me, arguments);
+        };
+    }, extend = function(child, parent) {
+        for(var key in parent){
+            if (hasProp.call(parent, key)) child[key] = parent[key];
+        }
+        function ctor() {
+            this.constructor = child;
+        }
+        ctor.prototype = parent.prototype;
+        child.prototype = new ctor();
+        child.__super__ = parent.prototype;
+        return child;
+    }, hasProp = {}.hasOwnProperty;
+    sax = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/sax/lib/sax.js [app-route] (ecmascript)");
+    events = __turbopack_context__.r("[externals]/events [external] (events, cjs)");
+    bom = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/xml2js/lib/bom.js [app-route] (ecmascript)");
+    processors = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/xml2js/lib/processors.js [app-route] (ecmascript)");
+    setImmediate = __turbopack_context__.r("[externals]/timers [external] (timers, cjs)").setImmediate;
+    defaults = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/xml2js/lib/defaults.js [app-route] (ecmascript)").defaults;
+    isEmpty = function(thing) {
+        return typeof thing === "object" && thing != null && Object.keys(thing).length === 0;
+    };
+    processItem = function(processors, item, key) {
+        var i, len, process;
+        for(i = 0, len = processors.length; i < len; i++){
+            process = processors[i];
+            item = process(item, key);
+        }
+        return item;
+    };
+    exports.Parser = function(superClass) {
+        extend(Parser, superClass);
+        function Parser(opts) {
+            this.parseStringPromise = bind(this.parseStringPromise, this);
+            this.parseString = bind(this.parseString, this);
+            this.reset = bind(this.reset, this);
+            this.assignOrPush = bind(this.assignOrPush, this);
+            this.processAsync = bind(this.processAsync, this);
+            var key, ref, value;
+            if (!(this instanceof exports.Parser)) {
+                return new exports.Parser(opts);
+            }
+            this.options = {};
+            ref = defaults["0.2"];
+            for(key in ref){
+                if (!hasProp.call(ref, key)) continue;
+                value = ref[key];
+                this.options[key] = value;
+            }
+            for(key in opts){
+                if (!hasProp.call(opts, key)) continue;
+                value = opts[key];
+                this.options[key] = value;
+            }
+            if (this.options.xmlns) {
+                this.options.xmlnskey = this.options.attrkey + "ns";
+            }
+            if (this.options.normalizeTags) {
+                if (!this.options.tagNameProcessors) {
+                    this.options.tagNameProcessors = [];
+                }
+                this.options.tagNameProcessors.unshift(processors.normalize);
+            }
+            this.reset();
+        }
+        Parser.prototype.processAsync = function() {
+            var chunk, err;
+            try {
+                if (this.remaining.length <= this.options.chunkSize) {
+                    chunk = this.remaining;
+                    this.remaining = '';
+                    this.saxParser = this.saxParser.write(chunk);
+                    return this.saxParser.close();
+                } else {
+                    chunk = this.remaining.substr(0, this.options.chunkSize);
+                    this.remaining = this.remaining.substr(this.options.chunkSize, this.remaining.length);
+                    this.saxParser = this.saxParser.write(chunk);
+                    return setImmediate(this.processAsync);
+                }
+            } catch (error1) {
+                err = error1;
+                if (!this.saxParser.errThrown) {
+                    this.saxParser.errThrown = true;
+                    return this.emit(err);
+                }
+            }
+        };
+        Parser.prototype.assignOrPush = function(obj, key, newValue) {
+            if (!(key in obj)) {
+                if (!this.options.explicitArray) {
+                    return obj[key] = newValue;
+                } else {
+                    return obj[key] = [
+                        newValue
+                    ];
+                }
+            } else {
+                if (!(obj[key] instanceof Array)) {
+                    obj[key] = [
+                        obj[key]
+                    ];
+                }
+                return obj[key].push(newValue);
+            }
+        };
+        Parser.prototype.reset = function() {
+            var attrkey, charkey, ontext, stack;
+            this.removeAllListeners();
+            this.saxParser = sax.parser(this.options.strict, {
+                trim: false,
+                normalize: false,
+                xmlns: this.options.xmlns
+            });
+            this.saxParser.errThrown = false;
+            this.saxParser.onerror = function(_this) {
+                return function(error) {
+                    _this.saxParser.resume();
+                    if (!_this.saxParser.errThrown) {
+                        _this.saxParser.errThrown = true;
+                        return _this.emit("error", error);
+                    }
+                };
+            }(this);
+            this.saxParser.onend = function(_this) {
+                return function() {
+                    if (!_this.saxParser.ended) {
+                        _this.saxParser.ended = true;
+                        return _this.emit("end", _this.resultObject);
+                    }
+                };
+            }(this);
+            this.saxParser.ended = false;
+            this.EXPLICIT_CHARKEY = this.options.explicitCharkey;
+            this.resultObject = null;
+            stack = [];
+            attrkey = this.options.attrkey;
+            charkey = this.options.charkey;
+            this.saxParser.onopentag = function(_this) {
+                return function(node) {
+                    var key, newValue, obj, processedKey, ref;
+                    obj = Object.create(null);
+                    obj[charkey] = "";
+                    if (!_this.options.ignoreAttrs) {
+                        ref = node.attributes;
+                        for(key in ref){
+                            if (!hasProp.call(ref, key)) continue;
+                            if (!(attrkey in obj) && !_this.options.mergeAttrs) {
+                                obj[attrkey] = Object.create(null);
+                            }
+                            newValue = _this.options.attrValueProcessors ? processItem(_this.options.attrValueProcessors, node.attributes[key], key) : node.attributes[key];
+                            processedKey = _this.options.attrNameProcessors ? processItem(_this.options.attrNameProcessors, key) : key;
+                            if (_this.options.mergeAttrs) {
+                                _this.assignOrPush(obj, processedKey, newValue);
+                            } else {
+                                obj[attrkey][processedKey] = newValue;
+                            }
+                        }
+                    }
+                    obj["#name"] = _this.options.tagNameProcessors ? processItem(_this.options.tagNameProcessors, node.name) : node.name;
+                    if (_this.options.xmlns) {
+                        obj[_this.options.xmlnskey] = {
+                            uri: node.uri,
+                            local: node.local
+                        };
+                    }
+                    return stack.push(obj);
+                };
+            }(this);
+            this.saxParser.onclosetag = function(_this) {
+                return function() {
+                    var cdata, emptyStr, key, node, nodeName, obj, objClone, old, s, xpath;
+                    obj = stack.pop();
+                    nodeName = obj["#name"];
+                    if (!_this.options.explicitChildren || !_this.options.preserveChildrenOrder) {
+                        delete obj["#name"];
+                    }
+                    if (obj.cdata === true) {
+                        cdata = obj.cdata;
+                        delete obj.cdata;
+                    }
+                    s = stack[stack.length - 1];
+                    if (obj[charkey].match(/^\s*$/) && !cdata) {
+                        emptyStr = obj[charkey];
+                        delete obj[charkey];
+                    } else {
+                        if (_this.options.trim) {
+                            obj[charkey] = obj[charkey].trim();
+                        }
+                        if (_this.options.normalize) {
+                            obj[charkey] = obj[charkey].replace(/\s{2,}/g, " ").trim();
+                        }
+                        obj[charkey] = _this.options.valueProcessors ? processItem(_this.options.valueProcessors, obj[charkey], nodeName) : obj[charkey];
+                        if (Object.keys(obj).length === 1 && charkey in obj && !_this.EXPLICIT_CHARKEY) {
+                            obj = obj[charkey];
+                        }
+                    }
+                    if (isEmpty(obj)) {
+                        if (typeof _this.options.emptyTag === 'function') {
+                            obj = _this.options.emptyTag();
+                        } else {
+                            obj = _this.options.emptyTag !== '' ? _this.options.emptyTag : emptyStr;
+                        }
+                    }
+                    if (_this.options.validator != null) {
+                        xpath = "/" + (function() {
+                            var i, len, results;
+                            results = [];
+                            for(i = 0, len = stack.length; i < len; i++){
+                                node = stack[i];
+                                results.push(node["#name"]);
+                            }
+                            return results;
+                        })().concat(nodeName).join("/");
+                        (function() {
+                            var err;
+                            try {
+                                return obj = _this.options.validator(xpath, s && s[nodeName], obj);
+                            } catch (error1) {
+                                err = error1;
+                                return _this.emit("error", err);
+                            }
+                        })();
+                    }
+                    if (_this.options.explicitChildren && !_this.options.mergeAttrs && typeof obj === 'object') {
+                        if (!_this.options.preserveChildrenOrder) {
+                            node = Object.create(null);
+                            if (_this.options.attrkey in obj) {
+                                node[_this.options.attrkey] = obj[_this.options.attrkey];
+                                delete obj[_this.options.attrkey];
+                            }
+                            if (!_this.options.charsAsChildren && _this.options.charkey in obj) {
+                                node[_this.options.charkey] = obj[_this.options.charkey];
+                                delete obj[_this.options.charkey];
+                            }
+                            if (Object.getOwnPropertyNames(obj).length > 0) {
+                                node[_this.options.childkey] = obj;
+                            }
+                            obj = node;
+                        } else if (s) {
+                            s[_this.options.childkey] = s[_this.options.childkey] || [];
+                            objClone = Object.create(null);
+                            for(key in obj){
+                                if (!hasProp.call(obj, key)) continue;
+                                objClone[key] = obj[key];
+                            }
+                            s[_this.options.childkey].push(objClone);
+                            delete obj["#name"];
+                            if (Object.keys(obj).length === 1 && charkey in obj && !_this.EXPLICIT_CHARKEY) {
+                                obj = obj[charkey];
+                            }
+                        }
+                    }
+                    if (stack.length > 0) {
+                        return _this.assignOrPush(s, nodeName, obj);
+                    } else {
+                        if (_this.options.explicitRoot) {
+                            old = obj;
+                            obj = Object.create(null);
+                            obj[nodeName] = old;
+                        }
+                        _this.resultObject = obj;
+                        _this.saxParser.ended = true;
+                        return _this.emit("end", _this.resultObject);
+                    }
+                };
+            }(this);
+            ontext = function(_this) {
+                return function(text) {
+                    var charChild, s;
+                    s = stack[stack.length - 1];
+                    if (s) {
+                        s[charkey] += text;
+                        if (_this.options.explicitChildren && _this.options.preserveChildrenOrder && _this.options.charsAsChildren && (_this.options.includeWhiteChars || text.replace(/\\n/g, '').trim() !== '')) {
+                            s[_this.options.childkey] = s[_this.options.childkey] || [];
+                            charChild = {
+                                '#name': '__text__'
+                            };
+                            charChild[charkey] = text;
+                            if (_this.options.normalize) {
+                                charChild[charkey] = charChild[charkey].replace(/\s{2,}/g, " ").trim();
+                            }
+                            s[_this.options.childkey].push(charChild);
+                        }
+                        return s;
+                    }
+                };
+            }(this);
+            this.saxParser.ontext = ontext;
+            return this.saxParser.oncdata = function(_this) {
+                return function(text) {
+                    var s;
+                    s = ontext(text);
+                    if (s) {
+                        return s.cdata = true;
+                    }
+                };
+            }(this);
+        };
+        Parser.prototype.parseString = function(str, cb) {
+            var err;
+            if (cb != null && typeof cb === "function") {
+                this.on("end", function(result) {
+                    this.reset();
+                    return cb(null, result);
+                });
+                this.on("error", function(err) {
+                    this.reset();
+                    return cb(err);
+                });
+            }
+            try {
+                str = str.toString();
+                if (str.trim() === '') {
+                    this.emit("end", null);
+                    return true;
+                }
+                str = bom.stripBOM(str);
+                if (this.options.async) {
+                    this.remaining = str;
+                    setImmediate(this.processAsync);
+                    return this.saxParser;
+                }
+                return this.saxParser.write(str).close();
+            } catch (error1) {
+                err = error1;
+                if (!(this.saxParser.errThrown || this.saxParser.ended)) {
+                    this.emit('error', err);
+                    return this.saxParser.errThrown = true;
+                } else if (this.saxParser.ended) {
+                    throw err;
+                }
+            }
+        };
+        Parser.prototype.parseStringPromise = function(str) {
+            return new Promise(function(_this) {
+                return function(resolve, reject) {
+                    return _this.parseString(str, function(err, value) {
+                        if (err) {
+                            return reject(err);
+                        } else {
+                            return resolve(value);
+                        }
+                    });
+                };
+            }(this));
+        };
+        return Parser;
+    }(events);
+    exports.parseString = function(str, a, b) {
+        var cb, options, parser;
+        if (b != null) {
+            if (typeof b === 'function') {
+                cb = b;
+            }
+            if (typeof a === 'object') {
+                options = a;
+            }
+        } else {
+            if (typeof a === 'function') {
+                cb = a;
+            }
+            options = {};
+        }
+        parser = new exports.Parser(options);
+        return parser.parseString(str, cb);
+    };
+    exports.parseStringPromise = function(str, a) {
+        var options, parser;
+        if (typeof a === 'object') {
+            options = a;
+        }
+        parser = new exports.Parser(options);
+        return parser.parseStringPromise(str);
+    };
+}).call(/*TURBOPACK member replacement*/ __turbopack_context__.e);
+}),
+"[project]/Flight-app/flight-finder/node_modules/xml2js/lib/xml2js.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+
+// Generated by CoffeeScript 1.12.7
+(function() {
+    "use strict";
+    var builder, defaults, parser, processors, extend = function(child, parent) {
+        for(var key in parent){
+            if (hasProp.call(parent, key)) child[key] = parent[key];
+        }
+        function ctor() {
+            this.constructor = child;
+        }
+        ctor.prototype = parent.prototype;
+        child.prototype = new ctor();
+        child.__super__ = parent.prototype;
+        return child;
+    }, hasProp = {}.hasOwnProperty;
+    defaults = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/xml2js/lib/defaults.js [app-route] (ecmascript)");
+    builder = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/xml2js/lib/builder.js [app-route] (ecmascript)");
+    parser = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/xml2js/lib/parser.js [app-route] (ecmascript)");
+    processors = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/xml2js/lib/processors.js [app-route] (ecmascript)");
+    exports.defaults = defaults.defaults;
+    exports.processors = processors;
+    exports.ValidationError = function(superClass) {
+        extend(ValidationError, superClass);
+        function ValidationError(message) {
+            this.message = message;
+        }
+        return ValidationError;
+    }(Error);
+    exports.Builder = builder.Builder;
+    exports.Parser = parser.Parser;
+    exports.parseString = parser.parseString;
+    exports.parseStringPromise = parser.parseStringPromise;
+}).call(/*TURBOPACK member replacement*/ __turbopack_context__.e);
+}),
+"[project]/Flight-app/flight-finder/node_modules/sax/lib/sax.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+
+;
+(function(sax) {
+    // wrapper for non-node envs
+    sax.parser = function(strict, opt) {
+        return new SAXParser(strict, opt);
+    };
+    sax.SAXParser = SAXParser;
+    sax.SAXStream = SAXStream;
+    sax.createStream = createStream;
+    // When we pass the MAX_BUFFER_LENGTH position, start checking for buffer overruns.
+    // When we check, schedule the next check for MAX_BUFFER_LENGTH - (max(buffer lengths)),
+    // since that's the earliest that a buffer overrun could occur.  This way, checks are
+    // as rare as required, but as often as necessary to ensure never crossing this bound.
+    // Furthermore, buffers are only tested at most once per write(), so passing a very
+    // large string into write() might have undesirable effects, but this is manageable by
+    // the caller, so it is assumed to be safe.  Thus, a call to write() may, in the extreme
+    // edge case, result in creating at most one complete copy of the string passed in.
+    // Set to Infinity to have unlimited buffers.
+    sax.MAX_BUFFER_LENGTH = 64 * 1024;
+    var buffers = [
+        'comment',
+        'sgmlDecl',
+        'textNode',
+        'tagName',
+        'doctype',
+        'procInstName',
+        'procInstBody',
+        'entity',
+        'attribName',
+        'attribValue',
+        'cdata',
+        'script'
+    ];
+    sax.EVENTS = [
+        'text',
+        'processinginstruction',
+        'sgmldeclaration',
+        'doctype',
+        'comment',
+        'opentagstart',
+        'attribute',
+        'opentag',
+        'closetag',
+        'opencdata',
+        'cdata',
+        'closecdata',
+        'error',
+        'end',
+        'ready',
+        'script',
+        'opennamespace',
+        'closenamespace'
+    ];
+    function SAXParser(strict, opt) {
+        if (!(this instanceof SAXParser)) {
+            return new SAXParser(strict, opt);
+        }
+        var parser = this;
+        clearBuffers(parser);
+        parser.q = parser.c = '';
+        parser.bufferCheckPosition = sax.MAX_BUFFER_LENGTH;
+        parser.encoding = null;
+        parser.opt = opt || {};
+        parser.opt.lowercase = parser.opt.lowercase || parser.opt.lowercasetags;
+        parser.looseCase = parser.opt.lowercase ? 'toLowerCase' : 'toUpperCase';
+        parser.opt.maxEntityCount = parser.opt.maxEntityCount || 512;
+        parser.opt.maxEntityDepth = parser.opt.maxEntityDepth || 4;
+        parser.entityCount = parser.entityDepth = 0;
+        parser.tags = [];
+        parser.closed = parser.closedRoot = parser.sawRoot = false;
+        parser.tag = parser.error = null;
+        parser.strict = !!strict;
+        parser.noscript = !!(strict || parser.opt.noscript);
+        parser.state = S.BEGIN;
+        parser.strictEntities = parser.opt.strictEntities;
+        parser.ENTITIES = parser.strictEntities ? Object.create(sax.XML_ENTITIES) : Object.create(sax.ENTITIES);
+        parser.attribList = [];
+        // namespaces form a prototype chain.
+        // it always points at the current tag,
+        // which protos to its parent tag.
+        if (parser.opt.xmlns) {
+            parser.ns = Object.create(rootNS);
+        }
+        // disallow unquoted attribute values if not otherwise configured
+        // and strict mode is true
+        if (parser.opt.unquotedAttributeValues === undefined) {
+            parser.opt.unquotedAttributeValues = !strict;
+        }
+        // mostly just for error reporting
+        parser.trackPosition = parser.opt.position !== false;
+        if (parser.trackPosition) {
+            parser.position = parser.line = parser.column = 0;
+        }
+        emit(parser, 'onready');
+    }
+    if (!Object.create) {
+        Object.create = function(o) {
+            function F() {}
+            F.prototype = o;
+            var newf = new F();
+            return newf;
+        };
+    }
+    if (!Object.keys) {
+        Object.keys = function(o) {
+            var a = [];
+            for(var i in o)if (o.hasOwnProperty(i)) a.push(i);
+            return a;
+        };
+    }
+    function checkBufferLength(parser) {
+        var maxAllowed = Math.max(sax.MAX_BUFFER_LENGTH, 10);
+        var maxActual = 0;
+        for(var i = 0, l = buffers.length; i < l; i++){
+            var len = parser[buffers[i]].length;
+            if (len > maxAllowed) {
+                // Text/cdata nodes can get big, and since they're buffered,
+                // we can get here under normal conditions.
+                // Avoid issues by emitting the text node now,
+                // so at least it won't get any bigger.
+                switch(buffers[i]){
+                    case 'textNode':
+                        closeText(parser);
+                        break;
+                    case 'cdata':
+                        emitNode(parser, 'oncdata', parser.cdata);
+                        parser.cdata = '';
+                        break;
+                    case 'script':
+                        emitNode(parser, 'onscript', parser.script);
+                        parser.script = '';
+                        break;
+                    default:
+                        error(parser, 'Max buffer length exceeded: ' + buffers[i]);
+                }
+            }
+            maxActual = Math.max(maxActual, len);
+        }
+        // schedule the next check for the earliest possible buffer overrun.
+        var m = sax.MAX_BUFFER_LENGTH - maxActual;
+        parser.bufferCheckPosition = m + parser.position;
+    }
+    function clearBuffers(parser) {
+        for(var i = 0, l = buffers.length; i < l; i++){
+            parser[buffers[i]] = '';
+        }
+    }
+    function flushBuffers(parser) {
+        closeText(parser);
+        if (parser.cdata !== '') {
+            emitNode(parser, 'oncdata', parser.cdata);
+            parser.cdata = '';
+        }
+        if (parser.script !== '') {
+            emitNode(parser, 'onscript', parser.script);
+            parser.script = '';
+        }
+    }
+    SAXParser.prototype = {
+        end: function() {
+            end(this);
+        },
+        write: write,
+        resume: function() {
+            this.error = null;
+            return this;
+        },
+        close: function() {
+            return this.write(null);
+        },
+        flush: function() {
+            flushBuffers(this);
+        }
+    };
+    var Stream;
+    try {
+        Stream = __turbopack_context__.r("[externals]/stream [external] (stream, cjs)").Stream;
+    } catch (ex) {
+        Stream = function() {};
+    }
+    if (!Stream) Stream = function() {};
+    var streamWraps = sax.EVENTS.filter(function(ev) {
+        return ev !== 'error' && ev !== 'end';
+    });
+    function createStream(strict, opt) {
+        return new SAXStream(strict, opt);
+    }
+    function determineBufferEncoding(data, isEnd) {
+        // BOM-based detection is the most reliable signal when present.
+        if (data.length >= 2) {
+            if (data[0] === 0xff && data[1] === 0xfe) {
+                return 'utf-16le';
+            }
+            if (data[0] === 0xfe && data[1] === 0xff) {
+                return 'utf-16be';
+            }
+        }
+        if (data.length >= 3 && data[0] === 0xef && data[1] === 0xbb && data[2] === 0xbf) {
+            return 'utf8';
+        }
+        if (data.length >= 4) {
+            // XML documents without a BOM still start with "<?xml", which is enough
+            // to distinguish UTF-16LE/BE from UTF-8 by looking at the zero bytes.
+            if (data[0] === 0x3c && data[1] === 0x00 && data[2] === 0x3f && data[3] === 0x00) {
+                return 'utf-16le';
+            }
+            if (data[0] === 0x00 && data[1] === 0x3c && data[2] === 0x00 && data[3] === 0x3f) {
+                return 'utf-16be';
+            }
+            return 'utf8';
+        }
+        return isEnd ? 'utf8' : null;
+    }
+    function SAXStream(strict, opt) {
+        if (!(this instanceof SAXStream)) {
+            return new SAXStream(strict, opt);
+        }
+        Stream.apply(this);
+        this._parser = new SAXParser(strict, opt);
+        this.writable = true;
+        this.readable = true;
+        var me = this;
+        this._parser.onend = function() {
+            me.emit('end');
+        };
+        this._parser.onerror = function(er) {
+            me.emit('error', er);
+            // if didn't throw, then means error was handled.
+            // go ahead and clear error, so we can write again.
+            me._parser.error = null;
+        };
+        this._decoder = null;
+        this._decoderBuffer = null;
+        streamWraps.forEach(function(ev) {
+            Object.defineProperty(me, 'on' + ev, {
+                get: function() {
+                    return me._parser['on' + ev];
+                },
+                set: function(h) {
+                    if (!h) {
+                        me.removeAllListeners(ev);
+                        me._parser['on' + ev] = h;
+                        return h;
+                    }
+                    me.on(ev, h);
+                },
+                enumerable: true,
+                configurable: false
+            });
+        });
+    }
+    SAXStream.prototype = Object.create(Stream.prototype, {
+        constructor: {
+            value: SAXStream
+        }
+    });
+    SAXStream.prototype._decodeBuffer = function(data, isEnd) {
+        if (this._decoderBuffer) {
+            // Keep incomplete leading bytes until we have enough data to infer the
+            // stream encoding, then decode the buffered prefix together with the next chunk.
+            data = Buffer.concat([
+                this._decoderBuffer,
+                data
+            ]);
+            this._decoderBuffer = null;
+        }
+        if (!this._decoder) {
+            var encoding = determineBufferEncoding(data, isEnd);
+            if (!encoding) {
+                // A very short first chunk may not contain enough bytes to detect the
+                // encoding yet, so defer decoding until the next write/end call.
+                this._decoderBuffer = data;
+                return '';
+            }
+            // Store the detected transport encoding so strict mode can compare it
+            // with the optional encoding declared in the XML prolog later on.
+            this._parser.encoding = encoding;
+            this._decoder = new TextDecoder(encoding);
+        }
+        return this._decoder.decode(data, {
+            stream: !isEnd
+        });
+    };
+    SAXStream.prototype.write = function(data) {
+        if (typeof Buffer === 'function' && typeof Buffer.isBuffer === 'function' && Buffer.isBuffer(data)) {
+            data = this._decodeBuffer(data, false);
+        } else if (this._decoderBuffer) {
+            // Flush any buffered binary prefix before handling a string chunk.
+            // This only matters if the caller mixes Buffer and string writes (used in test).
+            var remaining = this._decodeBuffer(Buffer.alloc(0), true);
+            if (remaining) {
+                this._parser.write(remaining);
+                this.emit('data', remaining);
+            }
+        }
+        this._parser.write(data.toString());
+        this.emit('data', data);
+        return true;
+    };
+    SAXStream.prototype.end = function(chunk) {
+        if (chunk && chunk.length) {
+            this.write(chunk);
+        }
+        // Flush any remaining decoded data from the TextDecoder
+        if (this._decoderBuffer) {
+            var finalChunk = this._decodeBuffer(Buffer.alloc(0), true);
+            if (finalChunk) {
+                this._parser.write(finalChunk);
+                this.emit('data', finalChunk);
+            }
+        } else if (this._decoder) {
+            var remaining = this._decoder.decode();
+            if (remaining) {
+                this._parser.write(remaining);
+                this.emit('data', remaining);
+            }
+        }
+        this._parser.end();
+        return true;
+    };
+    SAXStream.prototype.on = function(ev, handler) {
+        var me = this;
+        if (!me._parser['on' + ev] && streamWraps.indexOf(ev) !== -1) {
+            me._parser['on' + ev] = function() {
+                var args = arguments.length === 1 ? [
+                    arguments[0]
+                ] : Array.apply(null, arguments);
+                args.splice(0, 0, ev);
+                me.emit.apply(me, args);
+            };
+        }
+        return Stream.prototype.on.call(me, ev, handler);
+    };
+    // this really needs to be replaced with character classes.
+    // XML allows all manner of ridiculous numbers and digits.
+    var CDATA = '[CDATA[';
+    var DOCTYPE = 'DOCTYPE';
+    var XML_NAMESPACE = 'http://www.w3.org/XML/1998/namespace';
+    var XMLNS_NAMESPACE = 'http://www.w3.org/2000/xmlns/';
+    var rootNS = {
+        xml: XML_NAMESPACE,
+        xmlns: XMLNS_NAMESPACE
+    };
+    // http://www.w3.org/TR/REC-xml/#NT-NameStartChar
+    // This implementation works on strings, a single character at a time
+    // as such, it cannot ever support astral-plane characters (10000-EFFFF)
+    // without a significant breaking change to either this  parser, or the
+    // JavaScript language.  Implementation of an emoji-capable xml parser
+    // is left as an exercise for the reader.
+    var nameStart = /[:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/;
+    var nameBody = /[:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\u00B7\u0300-\u036F\u203F-\u2040.\d-]/;
+    var entityStart = /[#:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD]/;
+    var entityBody = /[#:_A-Za-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\u00B7\u0300-\u036F\u203F-\u2040.\d-]/;
+    function isWhitespace(c) {
+        return c === ' ' || c === '\n' || c === '\r' || c === '\t';
+    }
+    function isQuote(c) {
+        return c === '"' || c === "'";
+    }
+    function isAttribEnd(c) {
+        return c === '>' || isWhitespace(c);
+    }
+    function isMatch(regex, c) {
+        return regex.test(c);
+    }
+    function notMatch(regex, c) {
+        return !isMatch(regex, c);
+    }
+    var S = 0;
+    sax.STATE = {
+        BEGIN: S++,
+        BEGIN_WHITESPACE: S++,
+        TEXT: S++,
+        TEXT_ENTITY: S++,
+        OPEN_WAKA: S++,
+        SGML_DECL: S++,
+        SGML_DECL_QUOTED: S++,
+        DOCTYPE: S++,
+        DOCTYPE_QUOTED: S++,
+        DOCTYPE_DTD: S++,
+        DOCTYPE_DTD_QUOTED: S++,
+        COMMENT_STARTING: S++,
+        COMMENT: S++,
+        COMMENT_ENDING: S++,
+        COMMENT_ENDED: S++,
+        CDATA: S++,
+        CDATA_ENDING: S++,
+        CDATA_ENDING_2: S++,
+        PROC_INST: S++,
+        PROC_INST_BODY: S++,
+        PROC_INST_ENDING: S++,
+        OPEN_TAG: S++,
+        OPEN_TAG_SLASH: S++,
+        ATTRIB: S++,
+        ATTRIB_NAME: S++,
+        ATTRIB_NAME_SAW_WHITE: S++,
+        ATTRIB_VALUE: S++,
+        ATTRIB_VALUE_QUOTED: S++,
+        ATTRIB_VALUE_CLOSED: S++,
+        ATTRIB_VALUE_UNQUOTED: S++,
+        ATTRIB_VALUE_ENTITY_Q: S++,
+        ATTRIB_VALUE_ENTITY_U: S++,
+        CLOSE_TAG: S++,
+        CLOSE_TAG_SAW_WHITE: S++,
+        SCRIPT: S++,
+        SCRIPT_ENDING: S++
+    };
+    sax.XML_ENTITIES = {
+        amp: '&',
+        gt: '>',
+        lt: '<',
+        quot: '"',
+        apos: "'"
+    };
+    sax.ENTITIES = {
+        amp: '&',
+        gt: '>',
+        lt: '<',
+        quot: '"',
+        apos: "'",
+        AElig: 198,
+        Aacute: 193,
+        Acirc: 194,
+        Agrave: 192,
+        Aring: 197,
+        Atilde: 195,
+        Auml: 196,
+        Ccedil: 199,
+        ETH: 208,
+        Eacute: 201,
+        Ecirc: 202,
+        Egrave: 200,
+        Euml: 203,
+        Iacute: 205,
+        Icirc: 206,
+        Igrave: 204,
+        Iuml: 207,
+        Ntilde: 209,
+        Oacute: 211,
+        Ocirc: 212,
+        Ograve: 210,
+        Oslash: 216,
+        Otilde: 213,
+        Ouml: 214,
+        THORN: 222,
+        Uacute: 218,
+        Ucirc: 219,
+        Ugrave: 217,
+        Uuml: 220,
+        Yacute: 221,
+        aacute: 225,
+        acirc: 226,
+        aelig: 230,
+        agrave: 224,
+        aring: 229,
+        atilde: 227,
+        auml: 228,
+        ccedil: 231,
+        eacute: 233,
+        ecirc: 234,
+        egrave: 232,
+        eth: 240,
+        euml: 235,
+        iacute: 237,
+        icirc: 238,
+        igrave: 236,
+        iuml: 239,
+        ntilde: 241,
+        oacute: 243,
+        ocirc: 244,
+        ograve: 242,
+        oslash: 248,
+        otilde: 245,
+        ouml: 246,
+        szlig: 223,
+        thorn: 254,
+        uacute: 250,
+        ucirc: 251,
+        ugrave: 249,
+        uuml: 252,
+        yacute: 253,
+        yuml: 255,
+        copy: 169,
+        reg: 174,
+        nbsp: 160,
+        iexcl: 161,
+        cent: 162,
+        pound: 163,
+        curren: 164,
+        yen: 165,
+        brvbar: 166,
+        sect: 167,
+        uml: 168,
+        ordf: 170,
+        laquo: 171,
+        not: 172,
+        shy: 173,
+        macr: 175,
+        deg: 176,
+        plusmn: 177,
+        sup1: 185,
+        sup2: 178,
+        sup3: 179,
+        acute: 180,
+        micro: 181,
+        para: 182,
+        middot: 183,
+        cedil: 184,
+        ordm: 186,
+        raquo: 187,
+        frac14: 188,
+        frac12: 189,
+        frac34: 190,
+        iquest: 191,
+        times: 215,
+        divide: 247,
+        OElig: 338,
+        oelig: 339,
+        Scaron: 352,
+        scaron: 353,
+        Yuml: 376,
+        fnof: 402,
+        circ: 710,
+        tilde: 732,
+        Alpha: 913,
+        Beta: 914,
+        Gamma: 915,
+        Delta: 916,
+        Epsilon: 917,
+        Zeta: 918,
+        Eta: 919,
+        Theta: 920,
+        Iota: 921,
+        Kappa: 922,
+        Lambda: 923,
+        Mu: 924,
+        Nu: 925,
+        Xi: 926,
+        Omicron: 927,
+        Pi: 928,
+        Rho: 929,
+        Sigma: 931,
+        Tau: 932,
+        Upsilon: 933,
+        Phi: 934,
+        Chi: 935,
+        Psi: 936,
+        Omega: 937,
+        alpha: 945,
+        beta: 946,
+        gamma: 947,
+        delta: 948,
+        epsilon: 949,
+        zeta: 950,
+        eta: 951,
+        theta: 952,
+        iota: 953,
+        kappa: 954,
+        lambda: 955,
+        mu: 956,
+        nu: 957,
+        xi: 958,
+        omicron: 959,
+        pi: 960,
+        rho: 961,
+        sigmaf: 962,
+        sigma: 963,
+        tau: 964,
+        upsilon: 965,
+        phi: 966,
+        chi: 967,
+        psi: 968,
+        omega: 969,
+        thetasym: 977,
+        upsih: 978,
+        piv: 982,
+        ensp: 8194,
+        emsp: 8195,
+        thinsp: 8201,
+        zwnj: 8204,
+        zwj: 8205,
+        lrm: 8206,
+        rlm: 8207,
+        ndash: 8211,
+        mdash: 8212,
+        lsquo: 8216,
+        rsquo: 8217,
+        sbquo: 8218,
+        ldquo: 8220,
+        rdquo: 8221,
+        bdquo: 8222,
+        dagger: 8224,
+        Dagger: 8225,
+        bull: 8226,
+        hellip: 8230,
+        permil: 8240,
+        prime: 8242,
+        Prime: 8243,
+        lsaquo: 8249,
+        rsaquo: 8250,
+        oline: 8254,
+        frasl: 8260,
+        euro: 8364,
+        image: 8465,
+        weierp: 8472,
+        real: 8476,
+        trade: 8482,
+        alefsym: 8501,
+        larr: 8592,
+        uarr: 8593,
+        rarr: 8594,
+        darr: 8595,
+        harr: 8596,
+        crarr: 8629,
+        lArr: 8656,
+        uArr: 8657,
+        rArr: 8658,
+        dArr: 8659,
+        hArr: 8660,
+        forall: 8704,
+        part: 8706,
+        exist: 8707,
+        empty: 8709,
+        nabla: 8711,
+        isin: 8712,
+        notin: 8713,
+        ni: 8715,
+        prod: 8719,
+        sum: 8721,
+        minus: 8722,
+        lowast: 8727,
+        radic: 8730,
+        prop: 8733,
+        infin: 8734,
+        ang: 8736,
+        and: 8743,
+        or: 8744,
+        cap: 8745,
+        cup: 8746,
+        int: 8747,
+        there4: 8756,
+        sim: 8764,
+        cong: 8773,
+        asymp: 8776,
+        ne: 8800,
+        equiv: 8801,
+        le: 8804,
+        ge: 8805,
+        sub: 8834,
+        sup: 8835,
+        nsub: 8836,
+        sube: 8838,
+        supe: 8839,
+        oplus: 8853,
+        otimes: 8855,
+        perp: 8869,
+        sdot: 8901,
+        lceil: 8968,
+        rceil: 8969,
+        lfloor: 8970,
+        rfloor: 8971,
+        lang: 9001,
+        rang: 9002,
+        loz: 9674,
+        spades: 9824,
+        clubs: 9827,
+        hearts: 9829,
+        diams: 9830
+    };
+    Object.keys(sax.ENTITIES).forEach(function(key) {
+        var e = sax.ENTITIES[key];
+        var s = typeof e === 'number' ? String.fromCharCode(e) : e;
+        sax.ENTITIES[key] = s;
+    });
+    for(var s in sax.STATE){
+        sax.STATE[sax.STATE[s]] = s;
+    }
+    // shorthand
+    S = sax.STATE;
+    function emit(parser, event, data) {
+        parser[event] && parser[event](data);
+    }
+    function getDeclaredEncoding(body) {
+        var match = body && body.match(/(?:^|\s)encoding\s*=\s*(['"])([^'"]+)\1/i);
+        return match ? match[2] : null;
+    }
+    function normalizeEncodingName(encoding) {
+        if (!encoding) {
+            return null;
+        }
+        return encoding.toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+    function encodingsMatch(detectedEncoding, declaredEncoding) {
+        const detected = normalizeEncodingName(detectedEncoding);
+        const declared = normalizeEncodingName(declaredEncoding);
+        if (!detected || !declared) {
+            return true;
+        }
+        if (declared === 'utf16') {
+            return detected === 'utf16le' || detected === 'utf16be';
+        }
+        return detected === declared;
+    }
+    function validateXmlDeclarationEncoding(parser, data) {
+        if (!parser.strict || !parser.encoding || !data || data.name !== 'xml') {
+            return;
+        }
+        var declaredEncoding = getDeclaredEncoding(data.body);
+        if (declaredEncoding && !encodingsMatch(parser.encoding, declaredEncoding)) {
+            strictFail(parser, 'XML declaration encoding ' + declaredEncoding + ' does not match detected stream encoding ' + parser.encoding.toUpperCase());
+        }
+    }
+    function emitNode(parser, nodeType, data) {
+        if (parser.textNode) closeText(parser);
+        emit(parser, nodeType, data);
+    }
+    function closeText(parser) {
+        parser.textNode = textopts(parser.opt, parser.textNode);
+        if (parser.textNode) emit(parser, 'ontext', parser.textNode);
+        parser.textNode = '';
+    }
+    function textopts(opt, text) {
+        if (opt.trim) text = text.trim();
+        if (opt.normalize) text = text.replace(/\s+/g, ' ');
+        return text;
+    }
+    function error(parser, er) {
+        closeText(parser);
+        if (parser.trackPosition) {
+            er += '\nLine: ' + parser.line + '\nColumn: ' + parser.column + '\nChar: ' + parser.c;
+        }
+        er = new Error(er);
+        parser.error = er;
+        emit(parser, 'onerror', er);
+        return parser;
+    }
+    function end(parser) {
+        if (parser.sawRoot && !parser.closedRoot) strictFail(parser, 'Unclosed root tag');
+        if (parser.state !== S.BEGIN && parser.state !== S.BEGIN_WHITESPACE && parser.state !== S.TEXT) {
+            error(parser, 'Unexpected end');
+        }
+        closeText(parser);
+        parser.c = '';
+        parser.closed = true;
+        emit(parser, 'onend');
+        SAXParser.call(parser, parser.strict, parser.opt);
+        return parser;
+    }
+    function strictFail(parser, message) {
+        if (typeof parser !== 'object' || !(parser instanceof SAXParser)) {
+            throw new Error('bad call to strictFail');
+        }
+        if (parser.strict) {
+            error(parser, message);
+        }
+    }
+    function newTag(parser) {
+        if (!parser.strict) parser.tagName = parser.tagName[parser.looseCase]();
+        var parent = parser.tags[parser.tags.length - 1] || parser;
+        var tag = parser.tag = {
+            name: parser.tagName,
+            attributes: {}
+        };
+        // will be overridden if tag contails an xmlns="foo" or xmlns:foo="bar"
+        if (parser.opt.xmlns) {
+            tag.ns = parent.ns;
+        }
+        parser.attribList.length = 0;
+        emitNode(parser, 'onopentagstart', tag);
+    }
+    function qname(name, attribute) {
+        var i = name.indexOf(':');
+        var qualName = i < 0 ? [
+            '',
+            name
+        ] : name.split(':');
+        var prefix = qualName[0];
+        var local = qualName[1];
+        // <x "xmlns"="http://foo">
+        if (attribute && name === 'xmlns') {
+            prefix = 'xmlns';
+            local = '';
+        }
+        return {
+            prefix: prefix,
+            local: local
+        };
+    }
+    function attrib(parser) {
+        if (!parser.strict) {
+            parser.attribName = parser.attribName[parser.looseCase]();
+        }
+        if (parser.attribList.indexOf(parser.attribName) !== -1 || parser.tag.attributes.hasOwnProperty(parser.attribName)) {
+            parser.attribName = parser.attribValue = '';
+            return;
+        }
+        if (parser.opt.xmlns) {
+            var qn = qname(parser.attribName, true);
+            var prefix = qn.prefix;
+            var local = qn.local;
+            if (prefix === 'xmlns') {
+                // namespace binding attribute. push the binding into scope
+                if (local === 'xml' && parser.attribValue !== XML_NAMESPACE) {
+                    strictFail(parser, 'xml: prefix must be bound to ' + XML_NAMESPACE + '\n' + 'Actual: ' + parser.attribValue);
+                } else if (local === 'xmlns' && parser.attribValue !== XMLNS_NAMESPACE) {
+                    strictFail(parser, 'xmlns: prefix must be bound to ' + XMLNS_NAMESPACE + '\n' + 'Actual: ' + parser.attribValue);
+                } else {
+                    var tag = parser.tag;
+                    var parent = parser.tags[parser.tags.length - 1] || parser;
+                    if (tag.ns === parent.ns) {
+                        tag.ns = Object.create(parent.ns);
+                    }
+                    tag.ns[local] = parser.attribValue;
+                }
+            }
+            // defer onattribute events until all attributes have been seen
+            // so any new bindings can take effect. preserve attribute order
+            // so deferred events can be emitted in document order
+            parser.attribList.push([
+                parser.attribName,
+                parser.attribValue
+            ]);
+        } else {
+            // in non-xmlns mode, we can emit the event right away
+            parser.tag.attributes[parser.attribName] = parser.attribValue;
+            emitNode(parser, 'onattribute', {
+                name: parser.attribName,
+                value: parser.attribValue
+            });
+        }
+        parser.attribName = parser.attribValue = '';
+    }
+    function openTag(parser, selfClosing) {
+        if (parser.opt.xmlns) {
+            // emit namespace binding events
+            var tag = parser.tag;
+            // add namespace info to tag
+            var qn = qname(parser.tagName);
+            tag.prefix = qn.prefix;
+            tag.local = qn.local;
+            tag.uri = tag.ns[qn.prefix] || '';
+            if (tag.prefix && !tag.uri) {
+                strictFail(parser, 'Unbound namespace prefix: ' + JSON.stringify(parser.tagName));
+                tag.uri = qn.prefix;
+            }
+            var parent = parser.tags[parser.tags.length - 1] || parser;
+            if (tag.ns && parent.ns !== tag.ns) {
+                Object.keys(tag.ns).forEach(function(p) {
+                    emitNode(parser, 'onopennamespace', {
+                        prefix: p,
+                        uri: tag.ns[p]
+                    });
+                });
+            }
+            // handle deferred onattribute events
+            // Note: do not apply default ns to attributes:
+            //   http://www.w3.org/TR/REC-xml-names/#defaulting
+            for(var i = 0, l = parser.attribList.length; i < l; i++){
+                var nv = parser.attribList[i];
+                var name = nv[0];
+                var value = nv[1];
+                var qualName = qname(name, true);
+                var prefix = qualName.prefix;
+                var local = qualName.local;
+                var uri = prefix === '' ? '' : tag.ns[prefix] || '';
+                var a = {
+                    name: name,
+                    value: value,
+                    prefix: prefix,
+                    local: local,
+                    uri: uri
+                };
+                // if there's any attributes with an undefined namespace,
+                // then fail on them now.
+                if (prefix && prefix !== 'xmlns' && !uri) {
+                    strictFail(parser, 'Unbound namespace prefix: ' + JSON.stringify(prefix));
+                    a.uri = prefix;
+                }
+                parser.tag.attributes[name] = a;
+                emitNode(parser, 'onattribute', a);
+            }
+            parser.attribList.length = 0;
+        }
+        parser.tag.isSelfClosing = !!selfClosing;
+        // process the tag
+        parser.sawRoot = true;
+        parser.tags.push(parser.tag);
+        emitNode(parser, 'onopentag', parser.tag);
+        if (!selfClosing) {
+            // special case for <script> in non-strict mode.
+            if (!parser.noscript && parser.tagName.toLowerCase() === 'script') {
+                parser.state = S.SCRIPT;
+            } else {
+                parser.state = S.TEXT;
+            }
+            parser.tag = null;
+            parser.tagName = '';
+        }
+        parser.attribName = parser.attribValue = '';
+        parser.attribList.length = 0;
+    }
+    function closeTag(parser) {
+        if (!parser.tagName) {
+            strictFail(parser, 'Weird empty close tag.');
+            parser.textNode += '</>';
+            parser.state = S.TEXT;
+            return;
+        }
+        if (parser.script) {
+            if (parser.tagName !== 'script') {
+                parser.script += '</' + parser.tagName + '>';
+                parser.tagName = '';
+                parser.state = S.SCRIPT;
+                return;
+            }
+            emitNode(parser, 'onscript', parser.script);
+            parser.script = '';
+        }
+        // first make sure that the closing tag actually exists.
+        // <a><b></c></b></a> will close everything, otherwise.
+        var t = parser.tags.length;
+        var tagName = parser.tagName;
+        if (!parser.strict) {
+            tagName = tagName[parser.looseCase]();
+        }
+        var closeTo = tagName;
+        while(t--){
+            var close = parser.tags[t];
+            if (close.name !== closeTo) {
+                // fail the first time in strict mode
+                strictFail(parser, 'Unexpected close tag');
+            } else {
+                break;
+            }
+        }
+        // didn't find it.  we already failed for strict, so just abort.
+        if (t < 0) {
+            strictFail(parser, 'Unmatched closing tag: ' + parser.tagName);
+            parser.textNode += '</' + parser.tagName + '>';
+            parser.state = S.TEXT;
+            return;
+        }
+        parser.tagName = tagName;
+        var s = parser.tags.length;
+        while(s-- > t){
+            var tag = parser.tag = parser.tags.pop();
+            parser.tagName = parser.tag.name;
+            emitNode(parser, 'onclosetag', parser.tagName);
+            var x = {};
+            for(var i in tag.ns){
+                x[i] = tag.ns[i];
+            }
+            var parent = parser.tags[parser.tags.length - 1] || parser;
+            if (parser.opt.xmlns && tag.ns !== parent.ns) {
+                // remove namespace bindings introduced by tag
+                Object.keys(tag.ns).forEach(function(p) {
+                    var n = tag.ns[p];
+                    emitNode(parser, 'onclosenamespace', {
+                        prefix: p,
+                        uri: n
+                    });
+                });
+            }
+        }
+        if (t === 0) parser.closedRoot = true;
+        parser.tagName = parser.attribValue = parser.attribName = '';
+        parser.attribList.length = 0;
+        parser.state = S.TEXT;
+    }
+    function parseEntity(parser) {
+        var entity = parser.entity;
+        var entityLC = entity.toLowerCase();
+        var num;
+        var numStr = '';
+        if (parser.ENTITIES[entity]) {
+            return parser.ENTITIES[entity];
+        }
+        if (parser.ENTITIES[entityLC]) {
+            return parser.ENTITIES[entityLC];
+        }
+        entity = entityLC;
+        if (entity.charAt(0) === '#') {
+            if (entity.charAt(1) === 'x') {
+                entity = entity.slice(2);
+                num = parseInt(entity, 16);
+                numStr = num.toString(16);
+            } else {
+                entity = entity.slice(1);
+                num = parseInt(entity, 10);
+                numStr = num.toString(10);
+            }
+        }
+        entity = entity.replace(/^0+/, '');
+        if (isNaN(num) || numStr.toLowerCase() !== entity || num < 0 || num > 0x10ffff) {
+            strictFail(parser, 'Invalid character entity');
+            return '&' + parser.entity + ';';
+        }
+        return String.fromCodePoint(num);
+    }
+    function beginWhiteSpace(parser, c) {
+        if (c === '<') {
+            parser.state = S.OPEN_WAKA;
+            parser.startTagPosition = parser.position;
+        } else if (!isWhitespace(c)) {
+            // have to process this as a text node.
+            // weird, but happens.
+            strictFail(parser, 'Non-whitespace before first tag.');
+            parser.textNode = c;
+            parser.state = S.TEXT;
+        }
+    }
+    function charAt(chunk, i) {
+        var result = '';
+        if (i < chunk.length) {
+            result = chunk.charAt(i);
+        }
+        return result;
+    }
+    function write(chunk) {
+        var parser = this;
+        if (this.error) {
+            throw this.error;
+        }
+        if (parser.closed) {
+            return error(parser, 'Cannot write after close. Assign an onready handler.');
+        }
+        if (chunk === null) {
+            return end(parser);
+        }
+        if (typeof chunk === 'object') {
+            chunk = chunk.toString();
+        }
+        var i = 0;
+        var c = '';
+        while(true){
+            c = charAt(chunk, i++);
+            parser.c = c;
+            if (!c) {
+                break;
+            }
+            if (parser.trackPosition) {
+                parser.position++;
+                if (c === '\n') {
+                    parser.line++;
+                    parser.column = 0;
+                } else {
+                    parser.column++;
+                }
+            }
+            switch(parser.state){
+                case S.BEGIN:
+                    parser.state = S.BEGIN_WHITESPACE;
+                    if (c === '\uFEFF') {
+                        continue;
+                    }
+                    beginWhiteSpace(parser, c);
+                    continue;
+                case S.BEGIN_WHITESPACE:
+                    beginWhiteSpace(parser, c);
+                    continue;
+                case S.TEXT:
+                    if (parser.sawRoot && !parser.closedRoot) {
+                        var starti = i - 1;
+                        while(c && c !== '<' && c !== '&'){
+                            c = charAt(chunk, i++);
+                            if (c && parser.trackPosition) {
+                                parser.position++;
+                                if (c === '\n') {
+                                    parser.line++;
+                                    parser.column = 0;
+                                } else {
+                                    parser.column++;
+                                }
+                            }
+                        }
+                        parser.textNode += chunk.substring(starti, i - 1);
+                    }
+                    if (c === '<' && !(parser.sawRoot && parser.closedRoot && !parser.strict)) {
+                        parser.state = S.OPEN_WAKA;
+                        parser.startTagPosition = parser.position;
+                    } else {
+                        if (!isWhitespace(c) && (!parser.sawRoot || parser.closedRoot)) {
+                            strictFail(parser, 'Text data outside of root node.');
+                        }
+                        if (c === '&') {
+                            parser.state = S.TEXT_ENTITY;
+                        } else {
+                            parser.textNode += c;
+                        }
+                    }
+                    continue;
+                case S.SCRIPT:
+                    // only non-strict
+                    if (c === '<') {
+                        parser.state = S.SCRIPT_ENDING;
+                    } else {
+                        parser.script += c;
+                    }
+                    continue;
+                case S.SCRIPT_ENDING:
+                    if (c === '/') {
+                        parser.state = S.CLOSE_TAG;
+                    } else {
+                        parser.script += '<' + c;
+                        parser.state = S.SCRIPT;
+                    }
+                    continue;
+                case S.OPEN_WAKA:
+                    // either a /, ?, !, or text is coming next.
+                    if (c === '!') {
+                        parser.state = S.SGML_DECL;
+                        parser.sgmlDecl = '';
+                    } else if (isWhitespace(c)) {
+                    // wait for it...
+                    } else if (isMatch(nameStart, c)) {
+                        parser.state = S.OPEN_TAG;
+                        parser.tagName = c;
+                    } else if (c === '/') {
+                        parser.state = S.CLOSE_TAG;
+                        parser.tagName = '';
+                    } else if (c === '?') {
+                        parser.state = S.PROC_INST;
+                        parser.procInstName = parser.procInstBody = '';
+                    } else {
+                        strictFail(parser, 'Unencoded <');
+                        // if there was some whitespace, then add that in.
+                        if (parser.startTagPosition + 1 < parser.position) {
+                            var pad = parser.position - parser.startTagPosition;
+                            c = new Array(pad).join(' ') + c;
+                        }
+                        parser.textNode += '<' + c;
+                        parser.state = S.TEXT;
+                    }
+                    continue;
+                case S.SGML_DECL:
+                    if (parser.sgmlDecl + c === '--') {
+                        parser.state = S.COMMENT;
+                        parser.comment = '';
+                        parser.sgmlDecl = '';
+                        continue;
+                    }
+                    if (parser.doctype && parser.doctype !== true && parser.sgmlDecl) {
+                        parser.state = S.DOCTYPE_DTD;
+                        parser.doctype += '<!' + parser.sgmlDecl + c;
+                        parser.sgmlDecl = '';
+                    } else if ((parser.sgmlDecl + c).toUpperCase() === CDATA) {
+                        emitNode(parser, 'onopencdata');
+                        parser.state = S.CDATA;
+                        parser.sgmlDecl = '';
+                        parser.cdata = '';
+                    } else if ((parser.sgmlDecl + c).toUpperCase() === DOCTYPE) {
+                        parser.state = S.DOCTYPE;
+                        if (parser.doctype || parser.sawRoot) {
+                            strictFail(parser, 'Inappropriately located doctype declaration');
+                        }
+                        parser.doctype = '';
+                        parser.sgmlDecl = '';
+                    } else if (c === '>') {
+                        emitNode(parser, 'onsgmldeclaration', parser.sgmlDecl);
+                        parser.sgmlDecl = '';
+                        parser.state = S.TEXT;
+                    } else if (isQuote(c)) {
+                        parser.state = S.SGML_DECL_QUOTED;
+                        parser.sgmlDecl += c;
+                    } else {
+                        parser.sgmlDecl += c;
+                    }
+                    continue;
+                case S.SGML_DECL_QUOTED:
+                    if (c === parser.q) {
+                        parser.state = S.SGML_DECL;
+                        parser.q = '';
+                    }
+                    parser.sgmlDecl += c;
+                    continue;
+                case S.DOCTYPE:
+                    if (c === '>') {
+                        parser.state = S.TEXT;
+                        emitNode(parser, 'ondoctype', parser.doctype);
+                        parser.doctype = true; // just remember that we saw it.
+                    } else {
+                        parser.doctype += c;
+                        if (c === '[') {
+                            parser.state = S.DOCTYPE_DTD;
+                        } else if (isQuote(c)) {
+                            parser.state = S.DOCTYPE_QUOTED;
+                            parser.q = c;
+                        }
+                    }
+                    continue;
+                case S.DOCTYPE_QUOTED:
+                    parser.doctype += c;
+                    if (c === parser.q) {
+                        parser.q = '';
+                        parser.state = S.DOCTYPE;
+                    }
+                    continue;
+                case S.DOCTYPE_DTD:
+                    if (c === ']') {
+                        parser.doctype += c;
+                        parser.state = S.DOCTYPE;
+                    } else if (c === '<') {
+                        parser.state = S.OPEN_WAKA;
+                        parser.startTagPosition = parser.position;
+                    } else if (isQuote(c)) {
+                        parser.doctype += c;
+                        parser.state = S.DOCTYPE_DTD_QUOTED;
+                        parser.q = c;
+                    } else {
+                        parser.doctype += c;
+                    }
+                    continue;
+                case S.DOCTYPE_DTD_QUOTED:
+                    parser.doctype += c;
+                    if (c === parser.q) {
+                        parser.state = S.DOCTYPE_DTD;
+                        parser.q = '';
+                    }
+                    continue;
+                case S.COMMENT:
+                    if (c === '-') {
+                        parser.state = S.COMMENT_ENDING;
+                    } else {
+                        parser.comment += c;
+                    }
+                    continue;
+                case S.COMMENT_ENDING:
+                    if (c === '-') {
+                        parser.state = S.COMMENT_ENDED;
+                        parser.comment = textopts(parser.opt, parser.comment);
+                        if (parser.comment) {
+                            emitNode(parser, 'oncomment', parser.comment);
+                        }
+                        parser.comment = '';
+                    } else {
+                        parser.comment += '-' + c;
+                        parser.state = S.COMMENT;
+                    }
+                    continue;
+                case S.COMMENT_ENDED:
+                    if (c !== '>') {
+                        strictFail(parser, 'Malformed comment');
+                        // allow <!-- blah -- bloo --> in non-strict mode,
+                        // which is a comment of " blah -- bloo "
+                        parser.comment += '--' + c;
+                        parser.state = S.COMMENT;
+                    } else if (parser.doctype && parser.doctype !== true) {
+                        parser.state = S.DOCTYPE_DTD;
+                    } else {
+                        parser.state = S.TEXT;
+                    }
+                    continue;
+                case S.CDATA:
+                    var starti = i - 1;
+                    while(c && c !== ']'){
+                        c = charAt(chunk, i++);
+                        if (c && parser.trackPosition) {
+                            parser.position++;
+                            if (c === '\n') {
+                                parser.line++;
+                                parser.column = 0;
+                            } else {
+                                parser.column++;
+                            }
+                        }
+                    }
+                    parser.cdata += chunk.substring(starti, i - 1);
+                    if (c === ']') {
+                        parser.state = S.CDATA_ENDING;
+                    }
+                    continue;
+                case S.CDATA_ENDING:
+                    if (c === ']') {
+                        parser.state = S.CDATA_ENDING_2;
+                    } else {
+                        parser.cdata += ']' + c;
+                        parser.state = S.CDATA;
+                    }
+                    continue;
+                case S.CDATA_ENDING_2:
+                    if (c === '>') {
+                        if (parser.cdata) {
+                            emitNode(parser, 'oncdata', parser.cdata);
+                        }
+                        emitNode(parser, 'onclosecdata');
+                        parser.cdata = '';
+                        parser.state = S.TEXT;
+                    } else if (c === ']') {
+                        parser.cdata += ']';
+                    } else {
+                        parser.cdata += ']]' + c;
+                        parser.state = S.CDATA;
+                    }
+                    continue;
+                case S.PROC_INST:
+                    if (c === '?') {
+                        parser.state = S.PROC_INST_ENDING;
+                    } else if (isWhitespace(c)) {
+                        parser.state = S.PROC_INST_BODY;
+                    } else {
+                        parser.procInstName += c;
+                    }
+                    continue;
+                case S.PROC_INST_BODY:
+                    if (!parser.procInstBody && isWhitespace(c)) {
+                        continue;
+                    } else if (c === '?') {
+                        parser.state = S.PROC_INST_ENDING;
+                    } else {
+                        parser.procInstBody += c;
+                    }
+                    continue;
+                case S.PROC_INST_ENDING:
+                    if (c === '>') {
+                        const procInstEndData = {
+                            name: parser.procInstName,
+                            body: parser.procInstBody
+                        };
+                        validateXmlDeclarationEncoding(parser, procInstEndData);
+                        emitNode(parser, 'onprocessinginstruction', procInstEndData);
+                        parser.procInstName = parser.procInstBody = '';
+                        parser.state = S.TEXT;
+                    } else {
+                        parser.procInstBody += '?' + c;
+                        parser.state = S.PROC_INST_BODY;
+                    }
+                    continue;
+                case S.OPEN_TAG:
+                    if (isMatch(nameBody, c)) {
+                        parser.tagName += c;
+                    } else {
+                        newTag(parser);
+                        if (c === '>') {
+                            openTag(parser);
+                        } else if (c === '/') {
+                            parser.state = S.OPEN_TAG_SLASH;
+                        } else {
+                            if (!isWhitespace(c)) {
+                                strictFail(parser, 'Invalid character in tag name');
+                            }
+                            parser.state = S.ATTRIB;
+                        }
+                    }
+                    continue;
+                case S.OPEN_TAG_SLASH:
+                    if (c === '>') {
+                        openTag(parser, true);
+                        closeTag(parser);
+                    } else {
+                        strictFail(parser, 'Forward-slash in opening tag not followed by >');
+                        parser.state = S.ATTRIB;
+                    }
+                    continue;
+                case S.ATTRIB:
+                    // haven't read the attribute name yet.
+                    if (isWhitespace(c)) {
+                        continue;
+                    } else if (c === '>') {
+                        openTag(parser);
+                    } else if (c === '/') {
+                        parser.state = S.OPEN_TAG_SLASH;
+                    } else if (isMatch(nameStart, c)) {
+                        parser.attribName = c;
+                        parser.attribValue = '';
+                        parser.state = S.ATTRIB_NAME;
+                    } else {
+                        strictFail(parser, 'Invalid attribute name');
+                    }
+                    continue;
+                case S.ATTRIB_NAME:
+                    if (c === '=') {
+                        parser.state = S.ATTRIB_VALUE;
+                    } else if (c === '>') {
+                        strictFail(parser, 'Attribute without value');
+                        parser.attribValue = parser.attribName;
+                        attrib(parser);
+                        openTag(parser);
+                    } else if (isWhitespace(c)) {
+                        parser.state = S.ATTRIB_NAME_SAW_WHITE;
+                    } else if (isMatch(nameBody, c)) {
+                        parser.attribName += c;
+                    } else {
+                        strictFail(parser, 'Invalid attribute name');
+                    }
+                    continue;
+                case S.ATTRIB_NAME_SAW_WHITE:
+                    if (c === '=') {
+                        parser.state = S.ATTRIB_VALUE;
+                    } else if (isWhitespace(c)) {
+                        continue;
+                    } else {
+                        strictFail(parser, 'Attribute without value');
+                        parser.tag.attributes[parser.attribName] = '';
+                        parser.attribValue = '';
+                        emitNode(parser, 'onattribute', {
+                            name: parser.attribName,
+                            value: ''
+                        });
+                        parser.attribName = '';
+                        if (c === '>') {
+                            openTag(parser);
+                        } else if (isMatch(nameStart, c)) {
+                            parser.attribName = c;
+                            parser.state = S.ATTRIB_NAME;
+                        } else {
+                            strictFail(parser, 'Invalid attribute name');
+                            parser.state = S.ATTRIB;
+                        }
+                    }
+                    continue;
+                case S.ATTRIB_VALUE:
+                    if (isWhitespace(c)) {
+                        continue;
+                    } else if (isQuote(c)) {
+                        parser.q = c;
+                        parser.state = S.ATTRIB_VALUE_QUOTED;
+                    } else {
+                        if (!parser.opt.unquotedAttributeValues) {
+                            error(parser, 'Unquoted attribute value');
+                        }
+                        parser.state = S.ATTRIB_VALUE_UNQUOTED;
+                        parser.attribValue = c;
+                    }
+                    continue;
+                case S.ATTRIB_VALUE_QUOTED:
+                    if (c !== parser.q) {
+                        if (c === '&') {
+                            parser.state = S.ATTRIB_VALUE_ENTITY_Q;
+                        } else {
+                            parser.attribValue += c;
+                        }
+                        continue;
+                    }
+                    attrib(parser);
+                    parser.q = '';
+                    parser.state = S.ATTRIB_VALUE_CLOSED;
+                    continue;
+                case S.ATTRIB_VALUE_CLOSED:
+                    if (isWhitespace(c)) {
+                        parser.state = S.ATTRIB;
+                    } else if (c === '>') {
+                        openTag(parser);
+                    } else if (c === '/') {
+                        parser.state = S.OPEN_TAG_SLASH;
+                    } else if (isMatch(nameStart, c)) {
+                        strictFail(parser, 'No whitespace between attributes');
+                        parser.attribName = c;
+                        parser.attribValue = '';
+                        parser.state = S.ATTRIB_NAME;
+                    } else {
+                        strictFail(parser, 'Invalid attribute name');
+                    }
+                    continue;
+                case S.ATTRIB_VALUE_UNQUOTED:
+                    if (!isAttribEnd(c)) {
+                        if (c === '&') {
+                            parser.state = S.ATTRIB_VALUE_ENTITY_U;
+                        } else {
+                            parser.attribValue += c;
+                        }
+                        continue;
+                    }
+                    attrib(parser);
+                    if (c === '>') {
+                        openTag(parser);
+                    } else {
+                        parser.state = S.ATTRIB;
+                    }
+                    continue;
+                case S.CLOSE_TAG:
+                    if (!parser.tagName) {
+                        if (isWhitespace(c)) {
+                            continue;
+                        } else if (notMatch(nameStart, c)) {
+                            if (parser.script) {
+                                parser.script += '</' + c;
+                                parser.state = S.SCRIPT;
+                            } else {
+                                strictFail(parser, 'Invalid tagname in closing tag.');
+                            }
+                        } else {
+                            parser.tagName = c;
+                        }
+                    } else if (c === '>') {
+                        closeTag(parser);
+                    } else if (isMatch(nameBody, c)) {
+                        parser.tagName += c;
+                    } else if (parser.script) {
+                        parser.script += '</' + parser.tagName + c;
+                        parser.tagName = '';
+                        parser.state = S.SCRIPT;
+                    } else {
+                        if (!isWhitespace(c)) {
+                            strictFail(parser, 'Invalid tagname in closing tag');
+                        }
+                        parser.state = S.CLOSE_TAG_SAW_WHITE;
+                    }
+                    continue;
+                case S.CLOSE_TAG_SAW_WHITE:
+                    if (isWhitespace(c)) {
+                        continue;
+                    }
+                    if (c === '>') {
+                        closeTag(parser);
+                    } else {
+                        strictFail(parser, 'Invalid characters in closing tag');
+                    }
+                    continue;
+                case S.TEXT_ENTITY:
+                case S.ATTRIB_VALUE_ENTITY_Q:
+                case S.ATTRIB_VALUE_ENTITY_U:
+                    var returnState;
+                    var buffer;
+                    switch(parser.state){
+                        case S.TEXT_ENTITY:
+                            returnState = S.TEXT;
+                            buffer = 'textNode';
+                            break;
+                        case S.ATTRIB_VALUE_ENTITY_Q:
+                            returnState = S.ATTRIB_VALUE_QUOTED;
+                            buffer = 'attribValue';
+                            break;
+                        case S.ATTRIB_VALUE_ENTITY_U:
+                            returnState = S.ATTRIB_VALUE_UNQUOTED;
+                            buffer = 'attribValue';
+                            break;
+                    }
+                    if (c === ';') {
+                        var parsedEntity = parseEntity(parser);
+                        if (parser.opt.unparsedEntities && !Object.values(sax.XML_ENTITIES).includes(parsedEntity)) {
+                            if ((parser.entityCount += 1) > parser.opt.maxEntityCount) {
+                                error(parser, 'Parsed entity count exceeds max entity count');
+                            }
+                            if ((parser.entityDepth += 1) > parser.opt.maxEntityDepth) {
+                                error(parser, 'Parsed entity depth exceeds max entity depth');
+                            }
+                            parser.entity = '';
+                            parser.state = returnState;
+                            parser.write(parsedEntity);
+                            parser.entityDepth -= 1;
+                        } else {
+                            parser[buffer] += parsedEntity;
+                            parser.entity = '';
+                            parser.state = returnState;
+                        }
+                    } else if (isMatch(parser.entity.length ? entityBody : entityStart, c)) {
+                        parser.entity += c;
+                    } else {
+                        strictFail(parser, 'Invalid character in entity name');
+                        parser[buffer] += '&' + parser.entity + c;
+                        parser.entity = '';
+                        parser.state = returnState;
+                    }
+                    continue;
+                default:
+                    /* istanbul ignore next */ {
+                        throw new Error(parser, 'Unknown state: ' + parser.state);
+                    }
+            }
+        } // while
+        if (parser.position >= parser.bufferCheckPosition) {
+            checkBufferLength(parser);
+        }
+        return parser;
+    }
+    /*! http://mths.be/fromcodepoint v0.1.0 by @mathias */ /* istanbul ignore next */ if (!String.fromCodePoint) {
+        ;
+        (function() {
+            var stringFromCharCode = String.fromCharCode;
+            var floor = Math.floor;
+            var fromCodePoint = function() {
+                var MAX_SIZE = 0x4000;
+                var codeUnits = [];
+                var highSurrogate;
+                var lowSurrogate;
+                var index = -1;
+                var length = arguments.length;
+                if (!length) {
+                    return '';
+                }
+                var result = '';
+                while(++index < length){
+                    var codePoint = Number(arguments[index]);
+                    if (!isFinite(codePoint) || // `NaN`, `+Infinity`, or `-Infinity`
+                    codePoint < 0 || // not a valid Unicode code point
+                    codePoint > 0x10ffff || // not a valid Unicode code point
+                    floor(codePoint) !== codePoint // not an integer
+                    ) {
+                        throw RangeError('Invalid code point: ' + codePoint);
+                    }
+                    if (codePoint <= 0xffff) {
+                        // BMP code point
+                        codeUnits.push(codePoint);
+                    } else {
+                        // Astral code point; split in surrogate halves
+                        // http://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
+                        codePoint -= 0x10000;
+                        highSurrogate = (codePoint >> 10) + 0xd800;
+                        lowSurrogate = codePoint % 0x400 + 0xdc00;
+                        codeUnits.push(highSurrogate, lowSurrogate);
+                    }
+                    if (index + 1 === length || codeUnits.length > MAX_SIZE) {
+                        result += stringFromCharCode.apply(null, codeUnits);
+                        codeUnits.length = 0;
+                    }
+                }
+                return result;
+            };
+            /* istanbul ignore next */ if (Object.defineProperty) {
+                Object.defineProperty(String, 'fromCodePoint', {
+                    value: fromCodePoint,
+                    configurable: true,
+                    writable: true
+                });
+            } else {
+                String.fromCodePoint = fromCodePoint;
+            }
+        })();
+    }
+})(("TURBOPACK compile-time falsy", 0) ? "TURBOPACK unreachable" : exports);
+}),
+"[project]/Flight-app/flight-finder/node_modules/rss-parser/lib/fields.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+
+const fields = module.exports = {};
+fields.feed = [
+    [
+        'author',
+        'creator'
+    ],
+    [
+        'dc:publisher',
+        'publisher'
+    ],
+    [
+        'dc:creator',
+        'creator'
+    ],
+    [
+        'dc:source',
+        'source'
+    ],
+    [
+        'dc:title',
+        'title'
+    ],
+    [
+        'dc:type',
+        'type'
+    ],
+    'title',
+    'description',
+    'author',
+    'pubDate',
+    'webMaster',
+    'managingEditor',
+    'generator',
+    'link',
+    'language',
+    'copyright',
+    'lastBuildDate',
+    'docs',
+    'generator',
+    'ttl',
+    'rating',
+    'skipHours',
+    'skipDays'
+];
+fields.item = [
+    [
+        'author',
+        'creator'
+    ],
+    [
+        'dc:creator',
+        'creator'
+    ],
+    [
+        'dc:date',
+        'date'
+    ],
+    [
+        'dc:language',
+        'language'
+    ],
+    [
+        'dc:rights',
+        'rights'
+    ],
+    [
+        'dc:source',
+        'source'
+    ],
+    [
+        'dc:title',
+        'title'
+    ],
+    'title',
+    'link',
+    'pubDate',
+    'author',
+    'summary',
+    [
+        'content:encoded',
+        'content:encoded',
+        {
+            includeSnippet: true
+        }
+    ],
+    'enclosure',
+    'dc:creator',
+    'dc:date',
+    'comments'
+];
+var mapItunesField = function(f) {
+    return [
+        'itunes:' + f,
+        f
+    ];
+};
+fields.podcastFeed = [
+    'author',
+    'subtitle',
+    'summary',
+    'explicit'
+].map(mapItunesField);
+fields.podcastItem = [
+    'author',
+    'subtitle',
+    'summary',
+    'explicit',
+    'duration',
+    'image',
+    'episode',
+    'image',
+    'season',
+    'keywords',
+    'episodeType'
+].map(mapItunesField);
+}),
+"[project]/Flight-app/flight-finder/node_modules/rss-parser/lib/utils.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+
+const utils = module.exports = {};
+const entities = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/rss-parser/node_modules/entities/lib/index.js [app-route] (ecmascript)");
+const xml2js = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/xml2js/lib/xml2js.js [app-route] (ecmascript)");
+utils.stripHtml = function(str) {
+    str = str.replace(/([^\n])<\/?(h|br|p|ul|ol|li|blockquote|section|table|tr|div)(?:.|\n)*?>([^\n])/gm, '$1\n$3');
+    str = str.replace(/<(?:.|\n)*?>/gm, '');
+    return str;
+};
+utils.getSnippet = function(str) {
+    return entities.decodeHTML(utils.stripHtml(str)).trim();
+};
+utils.getLink = function(links, rel, fallbackIdx) {
+    if (!links) return;
+    for(let i = 0; i < links.length; ++i){
+        if (links[i].$.rel === rel) return links[i].$.href;
+    }
+    if (links[fallbackIdx]) return links[fallbackIdx].$.href;
+};
+utils.getContent = function(content) {
+    if (typeof content._ === 'string') {
+        return content._;
+    } else if (typeof content === 'object') {
+        let builder = new xml2js.Builder({
+            headless: true,
+            explicitRoot: true,
+            rootName: 'div',
+            renderOpts: {
+                pretty: false
+            }
+        });
+        return builder.buildObject(content);
+    } else {
+        return content;
+    }
+};
+utils.copyFromXML = function(xml, dest, fields) {
+    fields.forEach(function(f) {
+        let from = f;
+        let to = f;
+        let options = {};
+        if (Array.isArray(f)) {
+            from = f[0];
+            to = f[1];
+            if (f.length > 2) {
+                options = f[2];
+            }
+        }
+        const { keepArray, includeSnippet } = options;
+        if (xml[from] !== undefined) {
+            dest[to] = keepArray ? xml[from] : xml[from][0];
+        }
+        if (dest[to] && typeof dest[to]._ === 'string') {
+            dest[to] = dest[to]._;
+        }
+        if (includeSnippet && dest[to] && typeof dest[to] === 'string') {
+            dest[to + 'Snippet'] = utils.getSnippet(dest[to]);
+        }
+    });
+};
+utils.maybePromisify = function(callback, promise) {
+    if (!callback) return promise;
+    return promise.then((data)=>setTimeout(()=>callback(null, data)), (err)=>setTimeout(()=>callback(err)));
+};
+const DEFAULT_ENCODING = 'utf8';
+const ENCODING_REGEX = /(encoding|charset)\s*=\s*(\S+)/;
+const SUPPORTED_ENCODINGS = [
+    'ascii',
+    'utf8',
+    'utf16le',
+    'ucs2',
+    'base64',
+    'latin1',
+    'binary',
+    'hex'
+];
+const ENCODING_ALIASES = {
+    'utf-8': 'utf8',
+    'iso-8859-1': 'latin1'
+};
+utils.getEncodingFromContentType = function(contentType) {
+    contentType = contentType || '';
+    let match = contentType.match(ENCODING_REGEX);
+    let encoding = (match || [])[2] || '';
+    encoding = encoding.toLowerCase();
+    encoding = ENCODING_ALIASES[encoding] || encoding;
+    if (!encoding || SUPPORTED_ENCODINGS.indexOf(encoding) === -1) {
+        encoding = DEFAULT_ENCODING;
+    }
+    return encoding;
+};
+}),
+"[project]/Flight-app/flight-finder/node_modules/rss-parser/lib/parser.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+"use strict";
+
+const http = __turbopack_context__.r("[externals]/http [external] (http, cjs)");
+const https = __turbopack_context__.r("[externals]/https [external] (https, cjs)");
+const xml2js = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/xml2js/lib/xml2js.js [app-route] (ecmascript)");
+const url = __turbopack_context__.r("[externals]/url [external] (url, cjs)");
+const fields = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/rss-parser/lib/fields.js [app-route] (ecmascript)");
+const utils = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/rss-parser/lib/utils.js [app-route] (ecmascript)");
+const DEFAULT_HEADERS = {
+    'User-Agent': 'rss-parser',
+    'Accept': 'application/rss+xml'
+};
+const DEFAULT_MAX_REDIRECTS = 5;
+const DEFAULT_TIMEOUT = 60000;
+class Parser {
+    constructor(options = {}){
+        options.headers = options.headers || {};
+        options.xml2js = options.xml2js || {};
+        options.customFields = options.customFields || {};
+        options.customFields.item = options.customFields.item || [];
+        options.customFields.feed = options.customFields.feed || [];
+        options.requestOptions = options.requestOptions || {};
+        if (!options.maxRedirects) options.maxRedirects = DEFAULT_MAX_REDIRECTS;
+        if (!options.timeout) options.timeout = DEFAULT_TIMEOUT;
+        this.options = options;
+        this.xmlParser = new xml2js.Parser(this.options.xml2js);
+    }
+    parseString(xml, callback) {
+        let prom = new Promise((resolve, reject)=>{
+            this.xmlParser.parseString(xml, (err, result)=>{
+                if (err) return reject(err);
+                if (!result) {
+                    return reject(new Error('Unable to parse XML.'));
+                }
+                let feed = null;
+                if (result.feed) {
+                    feed = this.buildAtomFeed(result);
+                } else if (result.rss && result.rss.$ && result.rss.$.version && result.rss.$.version.match(/^2/)) {
+                    feed = this.buildRSS2(result);
+                } else if (result['rdf:RDF']) {
+                    feed = this.buildRSS1(result);
+                } else if (result.rss && result.rss.$ && result.rss.$.version && result.rss.$.version.match(/0\.9/)) {
+                    feed = this.buildRSS0_9(result);
+                } else if (result.rss && this.options.defaultRSS) {
+                    switch(this.options.defaultRSS){
+                        case 0.9:
+                            feed = this.buildRSS0_9(result);
+                            break;
+                        case 1:
+                            feed = this.buildRSS1(result);
+                            break;
+                        case 2:
+                            feed = this.buildRSS2(result);
+                            break;
+                        default:
+                            return reject(new Error("default RSS version not recognized."));
+                    }
+                } else {
+                    return reject(new Error("Feed not recognized as RSS 1 or 2."));
+                }
+                resolve(feed);
+            });
+        });
+        prom = utils.maybePromisify(callback, prom);
+        return prom;
+    }
+    parseURL(feedUrl, callback, redirectCount = 0) {
+        let xml = '';
+        let get = feedUrl.indexOf('https') === 0 ? https.get : http.get;
+        let urlParts = url.parse(feedUrl);
+        let headers = Object.assign({}, DEFAULT_HEADERS, this.options.headers);
+        let timeout = null;
+        let prom = new Promise((resolve, reject)=>{
+            const requestOpts = Object.assign({
+                headers
+            }, urlParts, this.options.requestOptions);
+            let req = get(requestOpts, (res)=>{
+                if (this.options.maxRedirects && res.statusCode >= 300 && res.statusCode < 400 && res.headers['location']) {
+                    if (redirectCount === this.options.maxRedirects) {
+                        return reject(new Error("Too many redirects"));
+                    } else {
+                        const newLocation = url.resolve(feedUrl, res.headers['location']);
+                        return this.parseURL(newLocation, null, redirectCount + 1).then(resolve, reject);
+                    }
+                } else if (res.statusCode >= 300) {
+                    return reject(new Error("Status code " + res.statusCode));
+                }
+                let encoding = utils.getEncodingFromContentType(res.headers['content-type']);
+                res.setEncoding(encoding);
+                res.on('data', (chunk)=>{
+                    xml += chunk;
+                });
+                res.on('end', ()=>{
+                    return this.parseString(xml).then(resolve, reject);
+                });
+            });
+            req.on('error', reject);
+            timeout = setTimeout(()=>{
+                return reject(new Error("Request timed out after " + this.options.timeout + "ms"));
+            }, this.options.timeout);
+        }).then((data)=>{
+            clearTimeout(timeout);
+            return Promise.resolve(data);
+        }, (e)=>{
+            clearTimeout(timeout);
+            return Promise.reject(e);
+        });
+        prom = utils.maybePromisify(callback, prom);
+        return prom;
+    }
+    buildAtomFeed(xmlObj) {
+        let feed = {
+            items: []
+        };
+        utils.copyFromXML(xmlObj.feed, feed, this.options.customFields.feed);
+        if (xmlObj.feed.link) {
+            feed.link = utils.getLink(xmlObj.feed.link, 'alternate', 0);
+            feed.feedUrl = utils.getLink(xmlObj.feed.link, 'self', 1);
+        }
+        if (xmlObj.feed.title) {
+            let title = xmlObj.feed.title[0] || '';
+            if (title._) title = title._;
+            if (title) feed.title = title;
+        }
+        if (xmlObj.feed.updated) {
+            feed.lastBuildDate = xmlObj.feed.updated[0];
+        }
+        feed.items = (xmlObj.feed.entry || []).map((entry)=>this.parseItemAtom(entry));
+        return feed;
+    }
+    parseItemAtom(entry) {
+        let item = {};
+        utils.copyFromXML(entry, item, this.options.customFields.item);
+        if (entry.title) {
+            let title = entry.title[0] || '';
+            if (title._) title = title._;
+            if (title) item.title = title;
+        }
+        if (entry.link && entry.link.length) {
+            item.link = utils.getLink(entry.link, 'alternate', 0);
+        }
+        if (entry.published && entry.published.length && entry.published[0].length) item.pubDate = new Date(entry.published[0]).toISOString();
+        if (!item.pubDate && entry.updated && entry.updated.length && entry.updated[0].length) item.pubDate = new Date(entry.updated[0]).toISOString();
+        if (entry.author && entry.author.length && entry.author[0].name && entry.author[0].name.length) item.author = entry.author[0].name[0];
+        if (entry.content && entry.content.length) {
+            item.content = utils.getContent(entry.content[0]);
+            item.contentSnippet = utils.getSnippet(item.content);
+        }
+        if (entry.summary && entry.summary.length) {
+            item.summary = utils.getContent(entry.summary[0]);
+        }
+        if (entry.id) {
+            item.id = entry.id[0];
+        }
+        this.setISODate(item);
+        return item;
+    }
+    buildRSS0_9(xmlObj) {
+        var channel = xmlObj.rss.channel[0];
+        var items = channel.item;
+        return this.buildRSS(channel, items);
+    }
+    buildRSS1(xmlObj) {
+        xmlObj = xmlObj['rdf:RDF'];
+        let channel = xmlObj.channel[0];
+        let items = xmlObj.item;
+        return this.buildRSS(channel, items);
+    }
+    buildRSS2(xmlObj) {
+        let channel = xmlObj.rss.channel[0];
+        let items = channel.item;
+        let feed = this.buildRSS(channel, items);
+        if (xmlObj.rss.$ && xmlObj.rss.$['xmlns:itunes']) {
+            this.decorateItunes(feed, channel);
+        }
+        return feed;
+    }
+    buildRSS(channel, items) {
+        items = items || [];
+        let feed = {
+            items: []
+        };
+        let feedFields = fields.feed.concat(this.options.customFields.feed);
+        let itemFields = fields.item.concat(this.options.customFields.item);
+        if (channel['atom:link'] && channel['atom:link'][0] && channel['atom:link'][0].$) {
+            feed.feedUrl = channel['atom:link'][0].$.href;
+        }
+        if (channel.image && channel.image[0] && channel.image[0].url) {
+            feed.image = {};
+            let image = channel.image[0];
+            if (image.link) feed.image.link = image.link[0];
+            if (image.url) feed.image.url = image.url[0];
+            if (image.title) feed.image.title = image.title[0];
+            if (image.width) feed.image.width = image.width[0];
+            if (image.height) feed.image.height = image.height[0];
+        }
+        const paginationLinks = this.generatePaginationLinks(channel);
+        if (Object.keys(paginationLinks).length) {
+            feed.paginationLinks = paginationLinks;
+        }
+        utils.copyFromXML(channel, feed, feedFields);
+        feed.items = items.map((xmlItem)=>this.parseItemRss(xmlItem, itemFields));
+        return feed;
+    }
+    parseItemRss(xmlItem, itemFields) {
+        let item = {};
+        utils.copyFromXML(xmlItem, item, itemFields);
+        if (xmlItem.enclosure) {
+            item.enclosure = xmlItem.enclosure[0].$;
+        }
+        if (xmlItem.description) {
+            item.content = utils.getContent(xmlItem.description[0]);
+            item.contentSnippet = utils.getSnippet(item.content);
+        }
+        if (xmlItem.guid) {
+            item.guid = xmlItem.guid[0];
+            if (item.guid._) item.guid = item.guid._;
+        }
+        if (xmlItem.$ && xmlItem.$['rdf:about']) {
+            item['rdf:about'] = xmlItem.$['rdf:about'];
+        }
+        if (xmlItem.category) item.categories = xmlItem.category;
+        this.setISODate(item);
+        return item;
+    }
+    /**
+   * Add iTunes specific fields from XML to extracted JSON
+   *
+   * @access public
+   * @param {object} feed extracted
+   * @param {object} channel parsed XML
+   */ decorateItunes(feed, channel) {
+        let items = channel.item || [];
+        let categories = [];
+        feed.itunes = {};
+        if (channel['itunes:owner']) {
+            let owner = {};
+            if (channel['itunes:owner'][0]['itunes:name']) {
+                owner.name = channel['itunes:owner'][0]['itunes:name'][0];
+            }
+            if (channel['itunes:owner'][0]['itunes:email']) {
+                owner.email = channel['itunes:owner'][0]['itunes:email'][0];
+            }
+            feed.itunes.owner = owner;
+        }
+        if (channel['itunes:image']) {
+            let image;
+            let hasImageHref = channel['itunes:image'][0] && channel['itunes:image'][0].$ && channel['itunes:image'][0].$.href;
+            image = hasImageHref ? channel['itunes:image'][0].$.href : null;
+            if (image) {
+                feed.itunes.image = image;
+            }
+        }
+        if (channel['itunes:category']) {
+            const categoriesWithSubs = channel['itunes:category'].map((category)=>{
+                return {
+                    name: category && category.$ && category.$.text,
+                    subs: category['itunes:category'] ? category['itunes:category'].map((subcategory)=>({
+                            name: subcategory && subcategory.$ && subcategory.$.text
+                        })) : null
+                };
+            });
+            feed.itunes.categories = categoriesWithSubs.map((category)=>category.name);
+            feed.itunes.categoriesWithSubs = categoriesWithSubs;
+        }
+        if (channel['itunes:keywords']) {
+            if (channel['itunes:keywords'].length > 1) {
+                feed.itunes.keywords = channel['itunes:keywords'].map((keyword)=>keyword && keyword.$ && keyword.$.text);
+            } else {
+                let keywords = channel['itunes:keywords'][0];
+                if (keywords && typeof keywords._ === 'string') {
+                    keywords = keywords._;
+                }
+                if (keywords && keywords.$ && keywords.$.text) {
+                    feed.itunes.keywords = keywords.$.text.split(',');
+                } else if (typeof keywords === "string") {
+                    feed.itunes.keywords = keywords.split(',');
+                }
+            }
+        }
+        utils.copyFromXML(channel, feed.itunes, fields.podcastFeed);
+        items.forEach((item, index)=>{
+            let entry = feed.items[index];
+            entry.itunes = {};
+            utils.copyFromXML(item, entry.itunes, fields.podcastItem);
+            let image = item['itunes:image'];
+            if (image && image[0] && image[0].$ && image[0].$.href) {
+                entry.itunes.image = image[0].$.href;
+            }
+        });
+    }
+    setISODate(item) {
+        let date = item.pubDate || item.date;
+        if (date) {
+            try {
+                item.isoDate = new Date(date.trim()).toISOString();
+            } catch (e) {
+            // Ignore bad date format
+            }
+        }
+    }
+    /**
+   * Generates a pagination object where the rel attribute is the key and href attribute is the value
+   *  { self: 'self-url', first: 'first-url', ...  }
+   *
+   * @access private
+   * @param {Object} channel parsed XML
+   * @returns {Object}
+   */ generatePaginationLinks(channel) {
+        if (!channel['atom:link']) {
+            return {};
+        }
+        const paginationRelAttributes = [
+            'self',
+            'first',
+            'next',
+            'prev',
+            'last'
+        ];
+        return channel['atom:link'].reduce((paginationLinks, link)=>{
+            if (!link.$ || !paginationRelAttributes.includes(link.$.rel)) {
+                return paginationLinks;
+            }
+            paginationLinks[link.$.rel] = link.$.href;
+            return paginationLinks;
+        }, {});
+    }
+}
+module.exports = Parser;
+}),
+"[project]/Flight-app/flight-finder/node_modules/rss-parser/index.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+"use strict";
+
+module.exports = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/rss-parser/lib/parser.js [app-route] (ecmascript)");
+}),
+"[project]/Flight-app/flight-finder/node_modules/standardwebhooks/dist/timing_safe_equal.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.timingSafeEqual = void 0;
+function assert(expr, msg = "") {
+    if (!expr) {
+        throw new Error(msg);
+    }
+}
+function timingSafeEqual(a, b) {
+    if (a.byteLength !== b.byteLength) {
+        return false;
+    }
+    if (!(a instanceof DataView)) {
+        a = new DataView(ArrayBuffer.isView(a) ? a.buffer : a);
+    }
+    if (!(b instanceof DataView)) {
+        b = new DataView(ArrayBuffer.isView(b) ? b.buffer : b);
+    }
+    assert(a instanceof DataView);
+    assert(b instanceof DataView);
+    const length = a.byteLength;
+    let out = 0;
+    let i = -1;
+    while(++i < length){
+        out |= a.getUint8(i) ^ b.getUint8(i);
+    }
+    return out === 0;
+}
+exports.timingSafeEqual = timingSafeEqual;
+}),
+"[project]/Flight-app/flight-finder/node_modules/standardwebhooks/dist/index.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Webhook = exports.WebhookVerificationError = void 0;
+const timing_safe_equal_1 = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/standardwebhooks/dist/timing_safe_equal.js [app-route] (ecmascript)");
+const base64 = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/@stablelib/base64/lib/base64.js [app-route] (ecmascript)");
+const sha256 = __turbopack_context__.r("[project]/Flight-app/flight-finder/node_modules/fast-sha256/sha256.js [app-route] (ecmascript)");
+const WEBHOOK_TOLERANCE_IN_SECONDS = 5 * 60;
+class ExtendableError extends Error {
+    constructor(message){
+        super(message);
+        Object.setPrototypeOf(this, ExtendableError.prototype);
+        this.name = "ExtendableError";
+        this.stack = new Error(message).stack;
+    }
+}
+class WebhookVerificationError extends ExtendableError {
+    constructor(message){
+        super(message);
+        Object.setPrototypeOf(this, WebhookVerificationError.prototype);
+        this.name = "WebhookVerificationError";
+    }
+}
+exports.WebhookVerificationError = WebhookVerificationError;
+class Webhook {
+    constructor(secret, options){
+        if (!secret) {
+            throw new Error("Secret can't be empty.");
+        }
+        if ((options === null || options === void 0 ? void 0 : options.format) === "raw") {
+            if (secret instanceof Uint8Array) {
+                this.key = secret;
+            } else {
+                this.key = Uint8Array.from(secret, (c)=>c.charCodeAt(0));
+            }
+        } else {
+            if (typeof secret !== "string") {
+                throw new Error("Expected secret to be of type string");
+            }
+            if (secret.startsWith(Webhook.prefix)) {
+                secret = secret.substring(Webhook.prefix.length);
+            }
+            this.key = base64.decode(secret);
+        }
+    }
+    verify(payload, headers_) {
+        const headers = {};
+        for (const key of Object.keys(headers_)){
+            headers[key.toLowerCase()] = headers_[key];
+        }
+        const msgId = headers["webhook-id"];
+        const msgSignature = headers["webhook-signature"];
+        const msgTimestamp = headers["webhook-timestamp"];
+        if (!msgSignature || !msgId || !msgTimestamp) {
+            throw new WebhookVerificationError("Missing required headers");
+        }
+        const timestamp = this.verifyTimestamp(msgTimestamp);
+        const computedSignature = this.sign(msgId, timestamp, payload);
+        const expectedSignature = computedSignature.split(",")[1];
+        const passedSignatures = msgSignature.split(" ");
+        const encoder = new globalThis.TextEncoder();
+        for (const versionedSignature of passedSignatures){
+            const [version, signature] = versionedSignature.split(",");
+            if (version !== "v1") {
+                continue;
+            }
+            if ((0, timing_safe_equal_1.timingSafeEqual)(encoder.encode(signature), encoder.encode(expectedSignature))) {
+                return JSON.parse(payload.toString());
+            }
+        }
+        throw new WebhookVerificationError("No matching signature found");
+    }
+    sign(msgId, timestamp, payload) {
+        if (typeof payload === "string") {} else if (payload.constructor.name === "Buffer") {
+            payload = payload.toString();
+        } else {
+            throw new Error("Expected payload to be of type string or Buffer.");
+        }
+        const encoder = new TextEncoder();
+        const timestampNumber = Math.floor(timestamp.getTime() / 1000);
+        const toSign = encoder.encode(`${msgId}.${timestampNumber}.${payload}`);
+        const expectedSignature = base64.encode(sha256.hmac(this.key, toSign));
+        return `v1,${expectedSignature}`;
+    }
+    verifyTimestamp(timestampHeader) {
+        const now = Math.floor(Date.now() / 1000);
+        const timestamp = parseInt(timestampHeader, 10);
+        if (isNaN(timestamp)) {
+            throw new WebhookVerificationError("Invalid Signature Headers");
+        }
+        if (now - timestamp > WEBHOOK_TOLERANCE_IN_SECONDS) {
+            throw new WebhookVerificationError("Message timestamp too old");
+        }
+        if (timestamp > now + WEBHOOK_TOLERANCE_IN_SECONDS) {
+            throw new WebhookVerificationError("Message timestamp too new");
+        }
+        return new Date(timestamp * 1000);
+    }
+}
+exports.Webhook = Webhook;
+Webhook.prefix = "whsec_";
+}),
+"[project]/Flight-app/flight-finder/node_modules/@stablelib/base64/lib/base64.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+"use strict";
+
+// Copyright (C) 2016 Dmitry Chestnykh
+// MIT License. See LICENSE file for details.
+var __extends = /*TURBOPACK member replacement*/ __turbopack_context__.e && /*TURBOPACK member replacement*/ __turbopack_context__.e.__extends || function() {
+    var extendStatics = function(d, b) {
+        extendStatics = Object.setPrototypeOf || ({
+            __proto__: []
+        }) instanceof Array && function(d, b) {
+            d.__proto__ = b;
+        } || function(d, b) {
+            for(var p in b)if (b.hasOwnProperty(p)) d[p] = b[p];
+        };
+        return extendStatics(d, b);
+    };
+    return function(d, b) {
+        extendStatics(d, b);
+        function __() {
+            this.constructor = d;
+        }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+}();
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+/**
+ * Package base64 implements Base64 encoding and decoding.
+ */ // Invalid character used in decoding to indicate
+// that the character to decode is out of range of
+// alphabet and cannot be decoded.
+var INVALID_BYTE = 256;
+/**
+ * Implements standard Base64 encoding.
+ *
+ * Operates in constant time.
+ */ var Coder = function() {
+    // TODO(dchest): methods to encode chunk-by-chunk.
+    function Coder(_paddingCharacter) {
+        if (_paddingCharacter === void 0) {
+            _paddingCharacter = "=";
+        }
+        this._paddingCharacter = _paddingCharacter;
+    }
+    Coder.prototype.encodedLength = function(length) {
+        if (!this._paddingCharacter) {
+            return (length * 8 + 5) / 6 | 0;
+        }
+        return (length + 2) / 3 * 4 | 0;
+    };
+    Coder.prototype.encode = function(data) {
+        var out = "";
+        var i = 0;
+        for(; i < data.length - 2; i += 3){
+            var c = data[i] << 16 | data[i + 1] << 8 | data[i + 2];
+            out += this._encodeByte(c >>> 3 * 6 & 63);
+            out += this._encodeByte(c >>> 2 * 6 & 63);
+            out += this._encodeByte(c >>> 1 * 6 & 63);
+            out += this._encodeByte(c >>> 0 * 6 & 63);
+        }
+        var left = data.length - i;
+        if (left > 0) {
+            var c = data[i] << 16 | (left === 2 ? data[i + 1] << 8 : 0);
+            out += this._encodeByte(c >>> 3 * 6 & 63);
+            out += this._encodeByte(c >>> 2 * 6 & 63);
+            if (left === 2) {
+                out += this._encodeByte(c >>> 1 * 6 & 63);
+            } else {
+                out += this._paddingCharacter || "";
+            }
+            out += this._paddingCharacter || "";
+        }
+        return out;
+    };
+    Coder.prototype.maxDecodedLength = function(length) {
+        if (!this._paddingCharacter) {
+            return (length * 6 + 7) / 8 | 0;
+        }
+        return length / 4 * 3 | 0;
+    };
+    Coder.prototype.decodedLength = function(s) {
+        return this.maxDecodedLength(s.length - this._getPaddingLength(s));
+    };
+    Coder.prototype.decode = function(s) {
+        if (s.length === 0) {
+            return new Uint8Array(0);
+        }
+        var paddingLength = this._getPaddingLength(s);
+        var length = s.length - paddingLength;
+        var out = new Uint8Array(this.maxDecodedLength(length));
+        var op = 0;
+        var i = 0;
+        var haveBad = 0;
+        var v0 = 0, v1 = 0, v2 = 0, v3 = 0;
+        for(; i < length - 4; i += 4){
+            v0 = this._decodeChar(s.charCodeAt(i + 0));
+            v1 = this._decodeChar(s.charCodeAt(i + 1));
+            v2 = this._decodeChar(s.charCodeAt(i + 2));
+            v3 = this._decodeChar(s.charCodeAt(i + 3));
+            out[op++] = v0 << 2 | v1 >>> 4;
+            out[op++] = v1 << 4 | v2 >>> 2;
+            out[op++] = v2 << 6 | v3;
+            haveBad |= v0 & INVALID_BYTE;
+            haveBad |= v1 & INVALID_BYTE;
+            haveBad |= v2 & INVALID_BYTE;
+            haveBad |= v3 & INVALID_BYTE;
+        }
+        if (i < length - 1) {
+            v0 = this._decodeChar(s.charCodeAt(i));
+            v1 = this._decodeChar(s.charCodeAt(i + 1));
+            out[op++] = v0 << 2 | v1 >>> 4;
+            haveBad |= v0 & INVALID_BYTE;
+            haveBad |= v1 & INVALID_BYTE;
+        }
+        if (i < length - 2) {
+            v2 = this._decodeChar(s.charCodeAt(i + 2));
+            out[op++] = v1 << 4 | v2 >>> 2;
+            haveBad |= v2 & INVALID_BYTE;
+        }
+        if (i < length - 3) {
+            v3 = this._decodeChar(s.charCodeAt(i + 3));
+            out[op++] = v2 << 6 | v3;
+            haveBad |= v3 & INVALID_BYTE;
+        }
+        if (haveBad !== 0) {
+            throw new Error("Base64Coder: incorrect characters for decoding");
+        }
+        return out;
+    };
+    // Standard encoding have the following encoded/decoded ranges,
+    // which we need to convert between.
+    //
+    // ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789  +   /
+    // Index:   0 - 25                    26 - 51              52 - 61   62  63
+    // ASCII:  65 - 90                    97 - 122             48 - 57   43  47
+    //
+    // Encode 6 bits in b into a new character.
+    Coder.prototype._encodeByte = function(b) {
+        // Encoding uses constant time operations as follows:
+        //
+        // 1. Define comparison of A with B using (A - B) >>> 8:
+        //          if A > B, then result is positive integer
+        //          if A <= B, then result is 0
+        //
+        // 2. Define selection of C or 0 using bitwise AND: X & C:
+        //          if X == 0, then result is 0
+        //          if X != 0, then result is C
+        //
+        // 3. Start with the smallest comparison (b >= 0), which is always
+        //    true, so set the result to the starting ASCII value (65).
+        //
+        // 4. Continue comparing b to higher ASCII values, and selecting
+        //    zero if comparison isn't true, otherwise selecting a value
+        //    to add to result, which:
+        //
+        //          a) undoes the previous addition
+        //          b) provides new value to add
+        //
+        var result = b;
+        // b >= 0
+        result += 65;
+        // b > 25
+        result += 25 - b >>> 8 & 0 - 65 - 26 + 97;
+        // b > 51
+        result += 51 - b >>> 8 & 26 - 97 - 52 + 48;
+        // b > 61
+        result += 61 - b >>> 8 & 52 - 48 - 62 + 43;
+        // b > 62
+        result += 62 - b >>> 8 & 62 - 43 - 63 + 47;
+        return String.fromCharCode(result);
+    };
+    // Decode a character code into a byte.
+    // Must return 256 if character is out of alphabet range.
+    Coder.prototype._decodeChar = function(c) {
+        // Decoding works similar to encoding: using the same comparison
+        // function, but now it works on ranges: result is always incremented
+        // by value, but this value becomes zero if the range is not
+        // satisfied.
+        //
+        // Decoding starts with invalid value, 256, which is then
+        // subtracted when the range is satisfied. If none of the ranges
+        // apply, the function returns 256, which is then checked by
+        // the caller to throw error.
+        var result = INVALID_BYTE; // start with invalid character
+        // c == 43 (c > 42 and c < 44)
+        result += (42 - c & c - 44) >>> 8 & -INVALID_BYTE + c - 43 + 62;
+        // c == 47 (c > 46 and c < 48)
+        result += (46 - c & c - 48) >>> 8 & -INVALID_BYTE + c - 47 + 63;
+        // c > 47 and c < 58
+        result += (47 - c & c - 58) >>> 8 & -INVALID_BYTE + c - 48 + 52;
+        // c > 64 and c < 91
+        result += (64 - c & c - 91) >>> 8 & -INVALID_BYTE + c - 65 + 0;
+        // c > 96 and c < 123
+        result += (96 - c & c - 123) >>> 8 & -INVALID_BYTE + c - 97 + 26;
+        return result;
+    };
+    Coder.prototype._getPaddingLength = function(s) {
+        var paddingLength = 0;
+        if (this._paddingCharacter) {
+            for(var i = s.length - 1; i >= 0; i--){
+                if (s[i] !== this._paddingCharacter) {
+                    break;
+                }
+                paddingLength++;
+            }
+            if (s.length < 4 || paddingLength > 2) {
+                throw new Error("Base64Coder: incorrect padding");
+            }
+        }
+        return paddingLength;
+    };
+    return Coder;
+}();
+exports.Coder = Coder;
+var stdCoder = new Coder();
+function encode(data) {
+    return stdCoder.encode(data);
+}
+exports.encode = encode;
+function decode(s) {
+    return stdCoder.decode(s);
+}
+exports.decode = decode;
+/**
+ * Implements URL-safe Base64 encoding.
+ * (Same as Base64, but '+' is replaced with '-', and '/' with '_').
+ *
+ * Operates in constant time.
+ */ var URLSafeCoder = function(_super) {
+    __extends(URLSafeCoder, _super);
+    function URLSafeCoder() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    // URL-safe encoding have the following encoded/decoded ranges:
+    //
+    // ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789  -   _
+    // Index:   0 - 25                    26 - 51              52 - 61   62  63
+    // ASCII:  65 - 90                    97 - 122             48 - 57   45  95
+    //
+    URLSafeCoder.prototype._encodeByte = function(b) {
+        var result = b;
+        // b >= 0
+        result += 65;
+        // b > 25
+        result += 25 - b >>> 8 & 0 - 65 - 26 + 97;
+        // b > 51
+        result += 51 - b >>> 8 & 26 - 97 - 52 + 48;
+        // b > 61
+        result += 61 - b >>> 8 & 52 - 48 - 62 + 45;
+        // b > 62
+        result += 62 - b >>> 8 & 62 - 45 - 63 + 95;
+        return String.fromCharCode(result);
+    };
+    URLSafeCoder.prototype._decodeChar = function(c) {
+        var result = INVALID_BYTE;
+        // c == 45 (c > 44 and c < 46)
+        result += (44 - c & c - 46) >>> 8 & -INVALID_BYTE + c - 45 + 62;
+        // c == 95 (c > 94 and c < 96)
+        result += (94 - c & c - 96) >>> 8 & -INVALID_BYTE + c - 95 + 63;
+        // c > 47 and c < 58
+        result += (47 - c & c - 58) >>> 8 & -INVALID_BYTE + c - 48 + 52;
+        // c > 64 and c < 91
+        result += (64 - c & c - 91) >>> 8 & -INVALID_BYTE + c - 65 + 0;
+        // c > 96 and c < 123
+        result += (96 - c & c - 123) >>> 8 & -INVALID_BYTE + c - 97 + 26;
+        return result;
+    };
+    return URLSafeCoder;
+}(Coder);
+exports.URLSafeCoder = URLSafeCoder;
+var urlSafeCoder = new URLSafeCoder();
+function encodeURLSafe(data) {
+    return urlSafeCoder.encode(data);
+}
+exports.encodeURLSafe = encodeURLSafe;
+function decodeURLSafe(s) {
+    return urlSafeCoder.decode(s);
+}
+exports.decodeURLSafe = decodeURLSafe;
+exports.encodedLength = function(length) {
+    return stdCoder.encodedLength(length);
+};
+exports.maxDecodedLength = function(length) {
+    return stdCoder.maxDecodedLength(length);
+};
+exports.decodedLength = function(s) {
+    return stdCoder.decodedLength(s);
+};
+}),
+"[project]/Flight-app/flight-finder/node_modules/fast-sha256/sha256.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+
+(function(root, factory) {
+    // Hack to make all exports of this module sha256 function object properties.
+    var exports = {};
+    factory(exports);
+    var sha256 = exports["default"];
+    for(var k in exports){
+        sha256[k] = exports[k];
+    }
+    if (("TURBOPACK compile-time value", "object") === 'object' && typeof module.exports === 'object') {
+        module.exports = sha256;
+    } else if (typeof define === 'function' && define.amd) {
+        ((r)=>r !== undefined && __turbopack_context__.v(r))(function() {
+            return sha256;
+        }(__turbopack_context__.r, exports, module));
+    } else {
+        root.sha256 = sha256;
+    }
+})(/*TURBOPACK member replacement*/ __turbopack_context__.e, function(exports) {
+    "use strict";
+    exports.__esModule = true;
+    // SHA-256 (+ HMAC and PBKDF2) for JavaScript.
+    //
+    // Written in 2014-2016 by Dmitry Chestnykh.
+    // Public domain, no warranty.
+    //
+    // Functions (accept and return Uint8Arrays):
+    //
+    //   sha256(message) -> hash
+    //   sha256.hmac(key, message) -> mac
+    //   sha256.pbkdf2(password, salt, rounds, dkLen) -> dk
+    //
+    //  Classes:
+    //
+    //   new sha256.Hash()
+    //   new sha256.HMAC(key)
+    //
+    exports.digestLength = 32;
+    exports.blockSize = 64;
+    // SHA-256 constants
+    var K = new Uint32Array([
+        0x428a2f98,
+        0x71374491,
+        0xb5c0fbcf,
+        0xe9b5dba5,
+        0x3956c25b,
+        0x59f111f1,
+        0x923f82a4,
+        0xab1c5ed5,
+        0xd807aa98,
+        0x12835b01,
+        0x243185be,
+        0x550c7dc3,
+        0x72be5d74,
+        0x80deb1fe,
+        0x9bdc06a7,
+        0xc19bf174,
+        0xe49b69c1,
+        0xefbe4786,
+        0x0fc19dc6,
+        0x240ca1cc,
+        0x2de92c6f,
+        0x4a7484aa,
+        0x5cb0a9dc,
+        0x76f988da,
+        0x983e5152,
+        0xa831c66d,
+        0xb00327c8,
+        0xbf597fc7,
+        0xc6e00bf3,
+        0xd5a79147,
+        0x06ca6351,
+        0x14292967,
+        0x27b70a85,
+        0x2e1b2138,
+        0x4d2c6dfc,
+        0x53380d13,
+        0x650a7354,
+        0x766a0abb,
+        0x81c2c92e,
+        0x92722c85,
+        0xa2bfe8a1,
+        0xa81a664b,
+        0xc24b8b70,
+        0xc76c51a3,
+        0xd192e819,
+        0xd6990624,
+        0xf40e3585,
+        0x106aa070,
+        0x19a4c116,
+        0x1e376c08,
+        0x2748774c,
+        0x34b0bcb5,
+        0x391c0cb3,
+        0x4ed8aa4a,
+        0x5b9cca4f,
+        0x682e6ff3,
+        0x748f82ee,
+        0x78a5636f,
+        0x84c87814,
+        0x8cc70208,
+        0x90befffa,
+        0xa4506ceb,
+        0xbef9a3f7,
+        0xc67178f2
+    ]);
+    function hashBlocks(w, v, p, pos, len) {
+        var a, b, c, d, e, f, g, h, u, i, j, t1, t2;
+        while(len >= 64){
+            a = v[0];
+            b = v[1];
+            c = v[2];
+            d = v[3];
+            e = v[4];
+            f = v[5];
+            g = v[6];
+            h = v[7];
+            for(i = 0; i < 16; i++){
+                j = pos + i * 4;
+                w[i] = (p[j] & 0xff) << 24 | (p[j + 1] & 0xff) << 16 | (p[j + 2] & 0xff) << 8 | p[j + 3] & 0xff;
+            }
+            for(i = 16; i < 64; i++){
+                u = w[i - 2];
+                t1 = (u >>> 17 | u << 32 - 17) ^ (u >>> 19 | u << 32 - 19) ^ u >>> 10;
+                u = w[i - 15];
+                t2 = (u >>> 7 | u << 32 - 7) ^ (u >>> 18 | u << 32 - 18) ^ u >>> 3;
+                w[i] = (t1 + w[i - 7] | 0) + (t2 + w[i - 16] | 0);
+            }
+            for(i = 0; i < 64; i++){
+                t1 = (((e >>> 6 | e << 32 - 6) ^ (e >>> 11 | e << 32 - 11) ^ (e >>> 25 | e << 32 - 25)) + (e & f ^ ~e & g) | 0) + (h + (K[i] + w[i] | 0) | 0) | 0;
+                t2 = ((a >>> 2 | a << 32 - 2) ^ (a >>> 13 | a << 32 - 13) ^ (a >>> 22 | a << 32 - 22)) + (a & b ^ a & c ^ b & c) | 0;
+                h = g;
+                g = f;
+                f = e;
+                e = d + t1 | 0;
+                d = c;
+                c = b;
+                b = a;
+                a = t1 + t2 | 0;
+            }
+            v[0] += a;
+            v[1] += b;
+            v[2] += c;
+            v[3] += d;
+            v[4] += e;
+            v[5] += f;
+            v[6] += g;
+            v[7] += h;
+            pos += 64;
+            len -= 64;
+        }
+        return pos;
+    }
+    // Hash implements SHA256 hash algorithm.
+    var Hash = function() {
+        function Hash() {
+            this.digestLength = exports.digestLength;
+            this.blockSize = exports.blockSize;
+            // Note: Int32Array is used instead of Uint32Array for performance reasons.
+            this.state = new Int32Array(8); // hash state
+            this.temp = new Int32Array(64); // temporary state
+            this.buffer = new Uint8Array(128); // buffer for data to hash
+            this.bufferLength = 0; // number of bytes in buffer
+            this.bytesHashed = 0; // number of total bytes hashed
+            this.finished = false; // indicates whether the hash was finalized
+            this.reset();
+        }
+        // Resets hash state making it possible
+        // to re-use this instance to hash other data.
+        Hash.prototype.reset = function() {
+            this.state[0] = 0x6a09e667;
+            this.state[1] = 0xbb67ae85;
+            this.state[2] = 0x3c6ef372;
+            this.state[3] = 0xa54ff53a;
+            this.state[4] = 0x510e527f;
+            this.state[5] = 0x9b05688c;
+            this.state[6] = 0x1f83d9ab;
+            this.state[7] = 0x5be0cd19;
+            this.bufferLength = 0;
+            this.bytesHashed = 0;
+            this.finished = false;
+            return this;
+        };
+        // Cleans internal buffers and re-initializes hash state.
+        Hash.prototype.clean = function() {
+            for(var i = 0; i < this.buffer.length; i++){
+                this.buffer[i] = 0;
+            }
+            for(var i = 0; i < this.temp.length; i++){
+                this.temp[i] = 0;
+            }
+            this.reset();
+        };
+        // Updates hash state with the given data.
+        //
+        // Optionally, length of the data can be specified to hash
+        // fewer bytes than data.length.
+        //
+        // Throws error when trying to update already finalized hash:
+        // instance must be reset to use it again.
+        Hash.prototype.update = function(data, dataLength) {
+            if (dataLength === void 0) {
+                dataLength = data.length;
+            }
+            if (this.finished) {
+                throw new Error("SHA256: can't update because hash was finished.");
+            }
+            var dataPos = 0;
+            this.bytesHashed += dataLength;
+            if (this.bufferLength > 0) {
+                while(this.bufferLength < 64 && dataLength > 0){
+                    this.buffer[this.bufferLength++] = data[dataPos++];
+                    dataLength--;
+                }
+                if (this.bufferLength === 64) {
+                    hashBlocks(this.temp, this.state, this.buffer, 0, 64);
+                    this.bufferLength = 0;
+                }
+            }
+            if (dataLength >= 64) {
+                dataPos = hashBlocks(this.temp, this.state, data, dataPos, dataLength);
+                dataLength %= 64;
+            }
+            while(dataLength > 0){
+                this.buffer[this.bufferLength++] = data[dataPos++];
+                dataLength--;
+            }
+            return this;
+        };
+        // Finalizes hash state and puts hash into out.
+        //
+        // If hash was already finalized, puts the same value.
+        Hash.prototype.finish = function(out) {
+            if (!this.finished) {
+                var bytesHashed = this.bytesHashed;
+                var left = this.bufferLength;
+                var bitLenHi = bytesHashed / 0x20000000 | 0;
+                var bitLenLo = bytesHashed << 3;
+                var padLength = bytesHashed % 64 < 56 ? 64 : 128;
+                this.buffer[left] = 0x80;
+                for(var i = left + 1; i < padLength - 8; i++){
+                    this.buffer[i] = 0;
+                }
+                this.buffer[padLength - 8] = bitLenHi >>> 24 & 0xff;
+                this.buffer[padLength - 7] = bitLenHi >>> 16 & 0xff;
+                this.buffer[padLength - 6] = bitLenHi >>> 8 & 0xff;
+                this.buffer[padLength - 5] = bitLenHi >>> 0 & 0xff;
+                this.buffer[padLength - 4] = bitLenLo >>> 24 & 0xff;
+                this.buffer[padLength - 3] = bitLenLo >>> 16 & 0xff;
+                this.buffer[padLength - 2] = bitLenLo >>> 8 & 0xff;
+                this.buffer[padLength - 1] = bitLenLo >>> 0 & 0xff;
+                hashBlocks(this.temp, this.state, this.buffer, 0, padLength);
+                this.finished = true;
+            }
+            for(var i = 0; i < 8; i++){
+                out[i * 4 + 0] = this.state[i] >>> 24 & 0xff;
+                out[i * 4 + 1] = this.state[i] >>> 16 & 0xff;
+                out[i * 4 + 2] = this.state[i] >>> 8 & 0xff;
+                out[i * 4 + 3] = this.state[i] >>> 0 & 0xff;
+            }
+            return this;
+        };
+        // Returns the final hash digest.
+        Hash.prototype.digest = function() {
+            var out = new Uint8Array(this.digestLength);
+            this.finish(out);
+            return out;
+        };
+        // Internal function for use in HMAC for optimization.
+        Hash.prototype._saveState = function(out) {
+            for(var i = 0; i < this.state.length; i++){
+                out[i] = this.state[i];
+            }
+        };
+        // Internal function for use in HMAC for optimization.
+        Hash.prototype._restoreState = function(from, bytesHashed) {
+            for(var i = 0; i < this.state.length; i++){
+                this.state[i] = from[i];
+            }
+            this.bytesHashed = bytesHashed;
+            this.finished = false;
+            this.bufferLength = 0;
+        };
+        return Hash;
+    }();
+    exports.Hash = Hash;
+    // HMAC implements HMAC-SHA256 message authentication algorithm.
+    var HMAC = function() {
+        function HMAC(key) {
+            this.inner = new Hash();
+            this.outer = new Hash();
+            this.blockSize = this.inner.blockSize;
+            this.digestLength = this.inner.digestLength;
+            var pad = new Uint8Array(this.blockSize);
+            if (key.length > this.blockSize) {
+                new Hash().update(key).finish(pad).clean();
+            } else {
+                for(var i = 0; i < key.length; i++){
+                    pad[i] = key[i];
+                }
+            }
+            for(var i = 0; i < pad.length; i++){
+                pad[i] ^= 0x36;
+            }
+            this.inner.update(pad);
+            for(var i = 0; i < pad.length; i++){
+                pad[i] ^= 0x36 ^ 0x5c;
+            }
+            this.outer.update(pad);
+            this.istate = new Uint32Array(8);
+            this.ostate = new Uint32Array(8);
+            this.inner._saveState(this.istate);
+            this.outer._saveState(this.ostate);
+            for(var i = 0; i < pad.length; i++){
+                pad[i] = 0;
+            }
+        }
+        // Returns HMAC state to the state initialized with key
+        // to make it possible to run HMAC over the other data with the same
+        // key without creating a new instance.
+        HMAC.prototype.reset = function() {
+            this.inner._restoreState(this.istate, this.inner.blockSize);
+            this.outer._restoreState(this.ostate, this.outer.blockSize);
+            return this;
+        };
+        // Cleans HMAC state.
+        HMAC.prototype.clean = function() {
+            for(var i = 0; i < this.istate.length; i++){
+                this.ostate[i] = this.istate[i] = 0;
+            }
+            this.inner.clean();
+            this.outer.clean();
+        };
+        // Updates state with provided data.
+        HMAC.prototype.update = function(data) {
+            this.inner.update(data);
+            return this;
+        };
+        // Finalizes HMAC and puts the result in out.
+        HMAC.prototype.finish = function(out) {
+            if (this.outer.finished) {
+                this.outer.finish(out);
+            } else {
+                this.inner.finish(out);
+                this.outer.update(out, this.digestLength).finish(out);
+            }
+            return this;
+        };
+        // Returns message authentication code.
+        HMAC.prototype.digest = function() {
+            var out = new Uint8Array(this.digestLength);
+            this.finish(out);
+            return out;
+        };
+        return HMAC;
+    }();
+    exports.HMAC = HMAC;
+    // Returns SHA256 hash of data.
+    function hash(data) {
+        var h = new Hash().update(data);
+        var digest = h.digest();
+        h.clean();
+        return digest;
+    }
+    exports.hash = hash;
+    // Function hash is both available as module.hash and as default export.
+    exports["default"] = hash;
+    // Returns HMAC-SHA256 of data under the key.
+    function hmac(key, data) {
+        var h = new HMAC(key).update(data);
+        var digest = h.digest();
+        h.clean();
+        return digest;
+    }
+    exports.hmac = hmac;
+    // Fills hkdf buffer like this:
+    // T(1) = HMAC-Hash(PRK, T(0) | info | 0x01)
+    function fillBuffer(buffer, hmac, info, counter) {
+        // Counter is a byte value: check if it overflowed.
+        var num = counter[0];
+        if (num === 0) {
+            throw new Error("hkdf: cannot expand more");
+        }
+        // Prepare HMAC instance for new data with old key.
+        hmac.reset();
+        // Hash in previous output if it was generated
+        // (i.e. counter is greater than 1).
+        if (num > 1) {
+            hmac.update(buffer);
+        }
+        // Hash in info if it exists.
+        if (info) {
+            hmac.update(info);
+        }
+        // Hash in the counter.
+        hmac.update(counter);
+        // Output result to buffer and clean HMAC instance.
+        hmac.finish(buffer);
+        // Increment counter inside typed array, this works properly.
+        counter[0]++;
+    }
+    var hkdfSalt = new Uint8Array(exports.digestLength); // Filled with zeroes.
+    function hkdf(key, salt, info, length) {
+        if (salt === void 0) {
+            salt = hkdfSalt;
+        }
+        if (length === void 0) {
+            length = 32;
+        }
+        var counter = new Uint8Array([
+            1
+        ]);
+        // HKDF-Extract uses salt as HMAC key, and key as data.
+        var okm = hmac(salt, key);
+        // Initialize HMAC for expanding with extracted key.
+        // Ensure no collisions with `hmac` function.
+        var hmac_ = new HMAC(okm);
+        // Allocate buffer.
+        var buffer = new Uint8Array(hmac_.digestLength);
+        var bufpos = buffer.length;
+        var out = new Uint8Array(length);
+        for(var i = 0; i < length; i++){
+            if (bufpos === buffer.length) {
+                fillBuffer(buffer, hmac_, info, counter);
+                bufpos = 0;
+            }
+            out[i] = buffer[bufpos++];
+        }
+        hmac_.clean();
+        buffer.fill(0);
+        counter.fill(0);
+        return out;
+    }
+    exports.hkdf = hkdf;
+    // Derives a key from password and salt using PBKDF2-HMAC-SHA256
+    // with the given number of iterations.
+    //
+    // The number of bytes returned is equal to dkLen.
+    //
+    // (For better security, avoid dkLen greater than hash length - 32 bytes).
+    function pbkdf2(password, salt, iterations, dkLen) {
+        var prf = new HMAC(password);
+        var len = prf.digestLength;
+        var ctr = new Uint8Array(4);
+        var t = new Uint8Array(len);
+        var u = new Uint8Array(len);
+        var dk = new Uint8Array(dkLen);
+        for(var i = 0; i * len < dkLen; i++){
+            var c = i + 1;
+            ctr[0] = c >>> 24 & 0xff;
+            ctr[1] = c >>> 16 & 0xff;
+            ctr[2] = c >>> 8 & 0xff;
+            ctr[3] = c >>> 0 & 0xff;
+            prf.reset();
+            prf.update(salt);
+            prf.update(ctr);
+            prf.finish(u);
+            for(var j = 0; j < len; j++){
+                t[j] = u[j];
+            }
+            for(var j = 2; j <= iterations; j++){
+                prf.reset();
+                prf.update(u).finish(u);
+                for(var k = 0; k < len; k++){
+                    t[k] ^= u[k];
+                }
+            }
+            for(var j = 0; j < len && i * len + j < dkLen; j++){
+                dk[i * len + j] = t[j];
+            }
+        }
+        for(var i = 0; i < len; i++){
+            t[i] = u[i] = 0;
+        }
+        for(var i = 0; i < 4; i++){
+            ctr[i] = 0;
+        }
+        prf.clean();
+        return dk;
+    }
+    exports.pbkdf2 = pbkdf2;
+});
+}),
+"[project]/Flight-app/flight-finder/node_modules/resend/dist/index.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Resend",
+    ()=>Resend
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$postal$2d$mime$2f$src$2f$postal$2d$mime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/postal-mime/src/postal-mime.js [app-route] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$svix$2f$dist$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/svix/dist/index.js [app-route] (ecmascript)");
+;
+;
+//#region package.json
+var version = "6.12.3";
+//#endregion
+//#region src/common/utils/build-pagination-query.ts
+/**
+* Builds a query string from pagination options
+* @param options - Pagination options containing limit and either after or before (but not both)
+* @returns Query string (without leading '?') or empty string if no options
+*/ function buildPaginationQuery(options) {
+    const searchParams = new URLSearchParams();
+    if (options.limit !== void 0) searchParams.set("limit", options.limit.toString());
+    if ("after" in options && options.after !== void 0) searchParams.set("after", options.after);
+    if ("before" in options && options.before !== void 0) searchParams.set("before", options.before);
+    return searchParams.toString();
+}
+//#endregion
+//#region src/api-keys/api-keys.ts
+var ApiKeys = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    async create(payload, options = {}) {
+        return await this.resend.post("/api-keys", payload, options);
+    }
+    async list(options = {}) {
+        const queryString = buildPaginationQuery(options);
+        const url = queryString ? `/api-keys?${queryString}` : "/api-keys";
+        return await this.resend.get(url);
+    }
+    async remove(id) {
+        return await this.resend.delete(`/api-keys/${id}`);
+    }
+};
+//#endregion
+//#region src/automation-runs/automation-runs.ts
+var AutomationRuns = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    async get(options) {
+        return await this.resend.get(`/automations/${options.automationId}/runs/${options.runId}`);
+    }
+    async list(options) {
+        const queryString = buildPaginationQuery(options);
+        const searchParams = new URLSearchParams(queryString);
+        if (options.status) {
+            const statusValue = Array.isArray(options.status) ? options.status.join(",") : options.status;
+            searchParams.set("status", statusValue);
+        }
+        const qs = searchParams.toString();
+        const url = qs ? `/automations/${options.automationId}/runs?${qs}` : `/automations/${options.automationId}/runs`;
+        return await this.resend.get(url);
+    }
+};
+//#endregion
+//#region src/common/utils/parse-automation-to-api-options.ts
+function parseStepConfig(step) {
+    switch(step.type){
+        case "trigger":
+            return {
+                key: step.key,
+                type: step.type,
+                config: {
+                    event_name: step.config.eventName
+                }
+            };
+        case "delay":
+            return {
+                key: step.key,
+                type: step.type,
+                config: step.config
+            };
+        case "send_email":
+            return {
+                key: step.key,
+                type: step.type,
+                config: {
+                    template: step.config.template,
+                    subject: step.config.subject,
+                    from: step.config.from,
+                    reply_to: step.config.replyTo
+                }
+            };
+        case "wait_for_event":
+            return {
+                key: step.key,
+                type: step.type,
+                config: {
+                    event_name: step.config.eventName,
+                    timeout: step.config.timeout,
+                    filter_rule: step.config.filterRule
+                }
+            };
+        case "condition":
+            return {
+                key: step.key,
+                type: step.type,
+                config: step.config
+            };
+        case "contact_update":
+            return {
+                key: step.key,
+                type: step.type,
+                config: {
+                    first_name: step.config.firstName,
+                    last_name: step.config.lastName,
+                    unsubscribed: step.config.unsubscribed,
+                    properties: step.config.properties
+                }
+            };
+        case "contact_delete":
+            return {
+                key: step.key,
+                type: step.type,
+                config: step.config
+            };
+        case "add_to_segment":
+            return {
+                key: step.key,
+                type: step.type,
+                config: {
+                    segment_id: step.config.segmentId
+                }
+            };
+    }
+}
+function parseConnection(connection) {
+    return {
+        from: connection.from,
+        to: connection.to,
+        type: connection.type
+    };
+}
+function parseAutomationToApiOptions(automation) {
+    return {
+        name: automation.name,
+        status: automation.status,
+        steps: automation.steps.map(parseStepConfig),
+        connections: automation.connections.map(parseConnection)
+    };
+}
+function parseEventToApiOptions(event) {
+    return {
+        event: event.event,
+        contact_id: event.contactId,
+        email: event.email,
+        payload: event.payload
+    };
+}
+//#endregion
+//#region src/automations/automations.ts
+var Automations = class {
+    constructor(resend){
+        this.resend = resend;
+        this.runs = new AutomationRuns(this.resend);
+    }
+    async create(payload) {
+        return await this.resend.post("/automations", parseAutomationToApiOptions(payload));
+    }
+    async list(options = {}) {
+        const params = [
+            buildPaginationQuery(options)
+        ];
+        if (options.status) params.push(`status=${encodeURIComponent(options.status)}`);
+        const qs = params.filter(Boolean).join("&");
+        const url = qs ? `/automations?${qs}` : "/automations";
+        return await this.resend.get(url);
+    }
+    async get(id) {
+        return await this.resend.get(`/automations/${id}`);
+    }
+    async remove(id) {
+        return await this.resend.delete(`/automations/${id}`);
+    }
+    async update(id, payload) {
+        const apiPayload = {};
+        if (payload.name !== void 0) apiPayload.name = payload.name;
+        if (payload.status !== void 0) apiPayload.status = payload.status;
+        if (payload.steps !== void 0) apiPayload.steps = payload.steps.map(parseStepConfig);
+        if (payload.connections !== void 0) apiPayload.connections = payload.connections.map(parseConnection);
+        return await this.resend.patch(`/automations/${id}`, apiPayload);
+    }
+    async stop(id) {
+        return await this.resend.post(`/automations/${id}/stop`);
+    }
+};
+//#endregion
+//#region src/common/utils/parse-email-to-api-options.ts
+function parseAttachments(attachments) {
+    return attachments?.map((attachment)=>({
+            content: attachment.content,
+            filename: attachment.filename,
+            path: attachment.path,
+            content_type: attachment.contentType,
+            content_id: attachment.contentId
+        }));
+}
+function parseEmailToApiOptions(email) {
+    return {
+        attachments: parseAttachments(email.attachments),
+        bcc: email.bcc,
+        cc: email.cc,
+        from: email.from,
+        headers: email.headers,
+        html: email.html,
+        reply_to: email.replyTo,
+        scheduled_at: email.scheduledAt,
+        subject: email.subject,
+        tags: email.tags,
+        text: email.text,
+        to: email.to,
+        template: email.template ? {
+            id: email.template.id,
+            variables: email.template.variables
+        } : void 0,
+        topic_id: email.topicId
+    };
+}
+//#endregion
+//#region src/render.ts
+async function render(node) {
+    let render;
+    try {
+        ({ render } = await Promise.resolve().then(()=>{
+            const e = new Error("Cannot find module '@react-email/render'");
+            e.code = 'MODULE_NOT_FOUND';
+            throw e;
+        }));
+    } catch  {
+        throw new Error("Failed to render React component. Make sure to install `@react-email/render` or `@react-email/components`.");
+    }
+    return render(node);
+}
+//#endregion
+//#region src/batch/batch.ts
+var Batch = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    async send(payload, options) {
+        return this.create(payload, options);
+    }
+    async create(payload, options) {
+        const emails = [];
+        for (const email of payload){
+            if (email.react) {
+                email.html = await render(email.react);
+                email.react = void 0;
+            }
+            emails.push(parseEmailToApiOptions(email));
+        }
+        return await this.resend.post("/emails/batch", emails, {
+            ...options,
+            headers: {
+                "x-batch-validation": options?.batchValidation ?? "strict",
+                ...options?.headers
+            }
+        });
+    }
+};
+//#endregion
+//#region src/broadcasts/broadcasts.ts
+var Broadcasts = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    async create(payload, options = {}) {
+        if (payload.react) payload.html = await render(payload.react);
+        return await this.resend.post("/broadcasts", {
+            name: payload.name,
+            segment_id: payload.segmentId,
+            audience_id: payload.audienceId,
+            preview_text: payload.previewText,
+            from: payload.from,
+            html: payload.html,
+            reply_to: payload.replyTo,
+            subject: payload.subject,
+            text: payload.text,
+            topic_id: payload.topicId,
+            send: payload.send,
+            scheduled_at: payload.scheduledAt
+        }, options);
+    }
+    async send(id, payload) {
+        return await this.resend.post(`/broadcasts/${id}/send`, {
+            scheduled_at: payload?.scheduledAt
+        });
+    }
+    async list(options = {}) {
+        const queryString = buildPaginationQuery(options);
+        const url = queryString ? `/broadcasts?${queryString}` : "/broadcasts";
+        return await this.resend.get(url);
+    }
+    async get(id) {
+        return await this.resend.get(`/broadcasts/${id}`);
+    }
+    async remove(id) {
+        return await this.resend.delete(`/broadcasts/${id}`);
+    }
+    async update(id, payload) {
+        if (payload.react) payload.html = await render(payload.react);
+        return await this.resend.patch(`/broadcasts/${id}`, {
+            name: payload.name,
+            segment_id: payload.segmentId,
+            audience_id: payload.audienceId,
+            from: payload.from,
+            html: payload.html,
+            text: payload.text,
+            subject: payload.subject,
+            reply_to: payload.replyTo,
+            preview_text: payload.previewText,
+            topic_id: payload.topicId
+        });
+    }
+};
+//#endregion
+//#region src/common/utils/parse-contact-properties-to-api-options.ts
+function parseContactPropertyFromApi(contactProperty) {
+    return {
+        id: contactProperty.id,
+        key: contactProperty.key,
+        createdAt: contactProperty.created_at,
+        type: contactProperty.type,
+        fallbackValue: contactProperty.fallback_value
+    };
+}
+function parseContactPropertyToApiOptions(contactProperty) {
+    if ("key" in contactProperty) return {
+        key: contactProperty.key,
+        type: contactProperty.type,
+        fallback_value: contactProperty.fallbackValue
+    };
+    return {
+        fallback_value: contactProperty.fallbackValue
+    };
+}
+//#endregion
+//#region src/contact-properties/contact-properties.ts
+var ContactProperties = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    async create(options) {
+        const apiOptions = parseContactPropertyToApiOptions(options);
+        return await this.resend.post("/contact-properties", apiOptions);
+    }
+    async list(options = {}) {
+        const queryString = buildPaginationQuery(options);
+        const url = queryString ? `/contact-properties?${queryString}` : "/contact-properties";
+        const response = await this.resend.get(url);
+        if (response.data) return {
+            data: {
+                ...response.data,
+                data: response.data.data.map((apiContactProperty)=>parseContactPropertyFromApi(apiContactProperty))
+            },
+            headers: response.headers,
+            error: null
+        };
+        return response;
+    }
+    async get(id) {
+        if (!id) return {
+            data: null,
+            headers: null,
+            error: {
+                message: "Missing `id` field.",
+                statusCode: null,
+                name: "missing_required_field"
+            }
+        };
+        const response = await this.resend.get(`/contact-properties/${id}`);
+        if (response.data) return {
+            data: {
+                object: "contact_property",
+                ...parseContactPropertyFromApi(response.data)
+            },
+            headers: response.headers,
+            error: null
+        };
+        return response;
+    }
+    async update(payload) {
+        if (!payload.id) return {
+            data: null,
+            headers: null,
+            error: {
+                message: "Missing `id` field.",
+                statusCode: null,
+                name: "missing_required_field"
+            }
+        };
+        const apiOptions = parseContactPropertyToApiOptions(payload);
+        return await this.resend.patch(`/contact-properties/${payload.id}`, apiOptions);
+    }
+    async remove(id) {
+        if (!id) return {
+            data: null,
+            headers: null,
+            error: {
+                message: "Missing `id` field.",
+                statusCode: null,
+                name: "missing_required_field"
+            }
+        };
+        return await this.resend.delete(`/contact-properties/${id}`);
+    }
+};
+//#endregion
+//#region src/contacts/segments/contact-segments.ts
+var ContactSegments = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    async list(options) {
+        if (!options.contactId && !options.email) return {
+            data: null,
+            headers: null,
+            error: {
+                message: "Missing `id` or `email` field.",
+                statusCode: null,
+                name: "missing_required_field"
+            }
+        };
+        const identifier = options.email ? options.email : options.contactId;
+        const queryString = buildPaginationQuery(options);
+        const url = queryString ? `/contacts/${identifier}/segments?${queryString}` : `/contacts/${identifier}/segments`;
+        return await this.resend.get(url);
+    }
+    async add(options) {
+        if (!options.contactId && !options.email) return {
+            data: null,
+            headers: null,
+            error: {
+                message: "Missing `id` or `email` field.",
+                statusCode: null,
+                name: "missing_required_field"
+            }
+        };
+        const identifier = options.email ? options.email : options.contactId;
+        return this.resend.post(`/contacts/${identifier}/segments/${options.segmentId}`);
+    }
+    async remove(options) {
+        if (!options.contactId && !options.email) return {
+            data: null,
+            headers: null,
+            error: {
+                message: "Missing `id` or `email` field.",
+                statusCode: null,
+                name: "missing_required_field"
+            }
+        };
+        const identifier = options.email ? options.email : options.contactId;
+        return this.resend.delete(`/contacts/${identifier}/segments/${options.segmentId}`);
+    }
+};
+//#endregion
+//#region src/contacts/topics/contact-topics.ts
+var ContactTopics = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    async update(payload) {
+        if (!payload.id && !payload.email) return {
+            data: null,
+            headers: null,
+            error: {
+                message: "Missing `id` or `email` field.",
+                statusCode: null,
+                name: "missing_required_field"
+            }
+        };
+        const identifier = payload.email ? payload.email : payload.id;
+        return this.resend.patch(`/contacts/${identifier}/topics`, payload.topics);
+    }
+    async list(options) {
+        if (!options.id && !options.email) return {
+            data: null,
+            headers: null,
+            error: {
+                message: "Missing `id` or `email` field.",
+                statusCode: null,
+                name: "missing_required_field"
+            }
+        };
+        const identifier = options.email ? options.email : options.id;
+        const queryString = buildPaginationQuery(options);
+        const url = queryString ? `/contacts/${identifier}/topics?${queryString}` : `/contacts/${identifier}/topics`;
+        return this.resend.get(url);
+    }
+};
+//#endregion
+//#region src/contacts/contacts.ts
+var Contacts = class {
+    constructor(resend){
+        this.resend = resend;
+        this.topics = new ContactTopics(this.resend);
+        this.segments = new ContactSegments(this.resend);
+    }
+    async create(payload, options = {}) {
+        if ("audienceId" in payload) {
+            if ("segments" in payload || "topics" in payload) return {
+                data: null,
+                headers: null,
+                error: {
+                    message: "`audienceId` is deprecated, and cannot be used together with `segments` or `topics`. Use `segments` instead to add one or more segments to the new contact.",
+                    statusCode: null,
+                    name: "invalid_parameter"
+                }
+            };
+            return await this.resend.post(`/audiences/${payload.audienceId}/contacts`, {
+                unsubscribed: payload.unsubscribed,
+                email: payload.email,
+                first_name: payload.firstName,
+                last_name: payload.lastName,
+                properties: payload.properties
+            }, options);
+        }
+        return await this.resend.post("/contacts", {
+            unsubscribed: payload.unsubscribed,
+            email: payload.email,
+            first_name: payload.firstName,
+            last_name: payload.lastName,
+            properties: payload.properties,
+            segments: payload.segments,
+            topics: payload.topics
+        }, options);
+    }
+    async list(options = {}) {
+        const segmentId = options.segmentId ?? options.audienceId;
+        if (!segmentId) {
+            const queryString = buildPaginationQuery(options);
+            const url = queryString ? `/contacts?${queryString}` : "/contacts";
+            return await this.resend.get(url);
+        }
+        const queryString = buildPaginationQuery(options);
+        const url = queryString ? `/segments/${segmentId}/contacts?${queryString}` : `/segments/${segmentId}/contacts`;
+        return await this.resend.get(url);
+    }
+    async get(options) {
+        if (typeof options === "string") return this.resend.get(`/contacts/${options}`);
+        if (!options.id && !options.email) return {
+            data: null,
+            headers: null,
+            error: {
+                message: "Missing `id` or `email` field.",
+                statusCode: null,
+                name: "missing_required_field"
+            }
+        };
+        if (!options.audienceId) return this.resend.get(`/contacts/${options?.email ? options?.email : options?.id}`);
+        return this.resend.get(`/audiences/${options.audienceId}/contacts/${options?.email ? options?.email : options?.id}`);
+    }
+    async update(options) {
+        if (!options.id && !options.email) return {
+            data: null,
+            headers: null,
+            error: {
+                message: "Missing `id` or `email` field.",
+                statusCode: null,
+                name: "missing_required_field"
+            }
+        };
+        if (!options.audienceId) return await this.resend.patch(`/contacts/${options?.email ? options?.email : options?.id}`, {
+            unsubscribed: options.unsubscribed,
+            first_name: options.firstName,
+            last_name: options.lastName,
+            properties: options.properties
+        });
+        return await this.resend.patch(`/audiences/${options.audienceId}/contacts/${options?.email ? options?.email : options?.id}`, {
+            unsubscribed: options.unsubscribed,
+            first_name: options.firstName,
+            last_name: options.lastName,
+            properties: options.properties
+        });
+    }
+    async remove(payload) {
+        if (typeof payload === "string") return this.resend.delete(`/contacts/${payload}`);
+        if (!payload.id && !payload.email) return {
+            data: null,
+            headers: null,
+            error: {
+                message: "Missing `id` or `email` field.",
+                statusCode: null,
+                name: "missing_required_field"
+            }
+        };
+        if (!payload.audienceId) return this.resend.delete(`/contacts/${payload?.email ? payload?.email : payload?.id}`);
+        return this.resend.delete(`/audiences/${payload.audienceId}/contacts/${payload?.email ? payload?.email : payload?.id}`);
+    }
+};
+//#endregion
+//#region src/common/utils/parse-domain-to-api-options.ts
+function parseDomainToApiOptions(domain) {
+    return {
+        name: domain.name,
+        region: domain.region,
+        custom_return_path: domain.customReturnPath,
+        capabilities: domain.capabilities,
+        open_tracking: domain.openTracking,
+        click_tracking: domain.clickTracking,
+        tls: domain.tls,
+        tracking_subdomain: domain.trackingSubdomain
+    };
+}
+//#endregion
+//#region src/domains/domains.ts
+var Domains = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    async create(payload, options = {}) {
+        return await this.resend.post("/domains", parseDomainToApiOptions(payload), options);
+    }
+    async list(options = {}) {
+        const queryString = buildPaginationQuery(options);
+        const url = queryString ? `/domains?${queryString}` : "/domains";
+        return await this.resend.get(url);
+    }
+    async get(id) {
+        return await this.resend.get(`/domains/${id}`);
+    }
+    async update(payload) {
+        return await this.resend.patch(`/domains/${payload.id}`, {
+            click_tracking: payload.clickTracking,
+            open_tracking: payload.openTracking,
+            tls: payload.tls,
+            capabilities: payload.capabilities,
+            tracking_subdomain: payload.trackingSubdomain
+        });
+    }
+    async remove(id) {
+        return await this.resend.delete(`/domains/${id}`);
+    }
+    async verify(id) {
+        return await this.resend.post(`/domains/${id}/verify`);
+    }
+};
+//#endregion
+//#region src/emails/attachments/attachments.ts
+var Attachments$1 = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    async get(options) {
+        const { emailId, id } = options;
+        return await this.resend.get(`/emails/${emailId}/attachments/${id}`);
+    }
+    async list(options) {
+        const { emailId } = options;
+        const queryString = buildPaginationQuery(options);
+        const url = queryString ? `/emails/${emailId}/attachments?${queryString}` : `/emails/${emailId}/attachments`;
+        return await this.resend.get(url);
+    }
+};
+//#endregion
+//#region src/emails/receiving/attachments/attachments.ts
+var Attachments = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    async get(options) {
+        const { emailId, id } = options;
+        return await this.resend.get(`/emails/receiving/${emailId}/attachments/${id}`);
+    }
+    async list(options) {
+        const { emailId } = options;
+        const queryString = buildPaginationQuery(options);
+        const url = queryString ? `/emails/receiving/${emailId}/attachments?${queryString}` : `/emails/receiving/${emailId}/attachments`;
+        return await this.resend.get(url);
+    }
+};
+//#endregion
+//#region src/emails/receiving/receiving.ts
+var Receiving = class {
+    constructor(resend){
+        this.resend = resend;
+        this.attachments = new Attachments(resend);
+    }
+    async get(id) {
+        return await this.resend.get(`/emails/receiving/${id}`);
+    }
+    async list(options = {}) {
+        const queryString = buildPaginationQuery(options);
+        const url = queryString ? `/emails/receiving?${queryString}` : "/emails/receiving";
+        return await this.resend.get(url);
+    }
+    async forward(options) {
+        const { emailId, to, from } = options;
+        const passthrough = options.passthrough !== false;
+        const emailResponse = await this.get(emailId);
+        if (emailResponse.error) return {
+            data: null,
+            error: emailResponse.error,
+            headers: emailResponse.headers
+        };
+        const email = emailResponse.data;
+        const originalSubject = email.subject || "(no subject)";
+        if (passthrough) return this.forwardPassthrough(email, {
+            to,
+            from,
+            subject: originalSubject
+        });
+        const forwardSubject = originalSubject.startsWith("Fwd:") ? originalSubject : `Fwd: ${originalSubject}`;
+        return this.forwardWrapped(email, {
+            to,
+            from,
+            subject: forwardSubject,
+            text: "text" in options ? options.text : void 0,
+            html: "html" in options ? options.html : void 0
+        });
+    }
+    async forwardPassthrough(email, options) {
+        const { to, from, subject } = options;
+        if (!email.raw?.download_url) return {
+            data: null,
+            error: {
+                name: "validation_error",
+                message: "Raw email content is not available for this email",
+                statusCode: 400
+            },
+            headers: null
+        };
+        const rawResponse = await fetch(email.raw.download_url);
+        if (!rawResponse.ok) return {
+            data: null,
+            error: {
+                name: "application_error",
+                message: "Failed to download raw email content",
+                statusCode: rawResponse.status
+            },
+            headers: null
+        };
+        const rawEmailContent = await rawResponse.text();
+        const parsed = await __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$postal$2d$mime$2f$src$2f$postal$2d$mime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__["default"].parse(rawEmailContent, {
+            attachmentEncoding: "base64"
+        });
+        const attachments = parsed.attachments.map((attachment)=>{
+            const contentId = attachment.contentId ? attachment.contentId.replace(/^<|>$/g, "") : void 0;
+            return {
+                filename: attachment.filename,
+                content: attachment.content.toString(),
+                content_type: attachment.mimeType,
+                content_id: contentId || void 0
+            };
+        });
+        return await this.resend.post("/emails", {
+            from,
+            to,
+            subject,
+            text: parsed.text || void 0,
+            html: parsed.html || void 0,
+            attachments: attachments.length > 0 ? attachments : void 0
+        });
+    }
+    async forwardWrapped(email, options) {
+        const { to, from, subject, text, html } = options;
+        if (!email.raw?.download_url) return {
+            data: null,
+            error: {
+                name: "validation_error",
+                message: "Raw email content is not available for this email",
+                statusCode: 400
+            },
+            headers: null
+        };
+        const rawResponse = await fetch(email.raw.download_url);
+        if (!rawResponse.ok) return {
+            data: null,
+            error: {
+                name: "application_error",
+                message: "Failed to download raw email content",
+                statusCode: rawResponse.status
+            },
+            headers: null
+        };
+        const rawEmailContent = await rawResponse.text();
+        return await this.resend.post("/emails", {
+            from,
+            to,
+            subject,
+            text,
+            html,
+            attachments: [
+                {
+                    filename: "forwarded_message.eml",
+                    content: Buffer.from(rawEmailContent).toString("base64"),
+                    content_type: "message/rfc822"
+                }
+            ]
+        });
+    }
+};
+//#endregion
+//#region src/emails/emails.ts
+var Emails = class {
+    constructor(resend){
+        this.resend = resend;
+        this.attachments = new Attachments$1(resend);
+        this.receiving = new Receiving(resend);
+    }
+    async send(payload, options = {}) {
+        return this.create(payload, options);
+    }
+    async create(payload, options = {}) {
+        if (payload.react) payload.html = await render(payload.react);
+        return await this.resend.post("/emails", parseEmailToApiOptions(payload), options);
+    }
+    async get(id) {
+        return await this.resend.get(`/emails/${id}`);
+    }
+    async list(options = {}) {
+        const queryString = buildPaginationQuery(options);
+        const url = queryString ? `/emails?${queryString}` : "/emails";
+        return await this.resend.get(url);
+    }
+    async update(payload) {
+        return await this.resend.patch(`/emails/${payload.id}`, {
+            scheduled_at: payload.scheduledAt
+        });
+    }
+    async cancel(id) {
+        return await this.resend.post(`/emails/${id}/cancel`);
+    }
+};
+//#endregion
+//#region src/events/events.ts
+var Events = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    async send(payload) {
+        return await this.resend.post("/events/send", parseEventToApiOptions(payload));
+    }
+    async create(payload) {
+        return await this.resend.post("/events", payload);
+    }
+    async get(identifier) {
+        return await this.resend.get(`/events/${encodeURIComponent(identifier)}`);
+    }
+    async list(options = {}) {
+        const queryString = buildPaginationQuery(options);
+        const url = queryString ? `/events?${queryString}` : "/events";
+        return await this.resend.get(url);
+    }
+    async update(identifier, payload) {
+        return await this.resend.patch(`/events/${encodeURIComponent(identifier)}`, payload);
+    }
+    async remove(identifier) {
+        return await this.resend.delete(`/events/${encodeURIComponent(identifier)}`);
+    }
+};
+//#endregion
+//#region src/logs/logs.ts
+var Logs = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    async list(options = {}) {
+        const queryString = buildPaginationQuery(options);
+        const url = queryString ? `/logs?${queryString}` : "/logs";
+        return await this.resend.get(url);
+    }
+    async get(id) {
+        return await this.resend.get(`/logs/${id}`);
+    }
+};
+//#endregion
+//#region src/segments/segments.ts
+var Segments = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    async create(payload, options = {}) {
+        return await this.resend.post("/segments", payload, options);
+    }
+    async list(options = {}) {
+        const queryString = buildPaginationQuery(options);
+        const url = queryString ? `/segments?${queryString}` : "/segments";
+        return await this.resend.get(url);
+    }
+    async get(id) {
+        return await this.resend.get(`/segments/${id}`);
+    }
+    async remove(id) {
+        return await this.resend.delete(`/segments/${id}`);
+    }
+};
+//#endregion
+//#region src/common/utils/get-pagination-query-properties.ts
+function getPaginationQueryProperties(options = {}) {
+    const query = new URLSearchParams();
+    if (options.before) query.set("before", options.before);
+    if (options.after) query.set("after", options.after);
+    if (options.limit) query.set("limit", options.limit.toString());
+    return query.size > 0 ? `?${query.toString()}` : "";
+}
+//#endregion
+//#region src/common/utils/parse-template-to-api-options.ts
+function parseVariables(variables) {
+    return variables?.map((variable)=>({
+            key: variable.key,
+            type: variable.type,
+            fallback_value: variable.fallbackValue
+        }));
+}
+function parseTemplateToApiOptions(template) {
+    return {
+        name: "name" in template ? template.name : void 0,
+        subject: template.subject,
+        html: template.html,
+        text: template.text,
+        alias: template.alias,
+        from: template.from,
+        reply_to: template.replyTo,
+        variables: parseVariables(template.variables)
+    };
+}
+//#endregion
+//#region src/templates/chainable-template-result.ts
+var ChainableTemplateResult = class {
+    constructor(promise, publishFn){
+        this.promise = promise;
+        this.publishFn = publishFn;
+    }
+    then(onfulfilled, onrejected) {
+        return this.promise.then(onfulfilled, onrejected);
+    }
+    async publish() {
+        const { data, error } = await this.promise;
+        if (error) return {
+            data: null,
+            headers: null,
+            error
+        };
+        return this.publishFn(data.id);
+    }
+};
+//#endregion
+//#region src/templates/templates.ts
+var Templates = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    create(payload) {
+        return new ChainableTemplateResult(this.performCreate(payload), this.publish.bind(this));
+    }
+    async performCreate(payload) {
+        if (payload.react) {
+            if (!this.renderAsync) try {
+                const { renderAsync } = await Promise.resolve().then(()=>{
+                    const e = new Error("Cannot find module '@react-email/render'");
+                    e.code = 'MODULE_NOT_FOUND';
+                    throw e;
+                });
+                this.renderAsync = renderAsync;
+            } catch  {
+                throw new Error("Failed to render React component. Make sure to install `@react-email/render`");
+            }
+            payload.html = await this.renderAsync(payload.react);
+        }
+        return this.resend.post("/templates", parseTemplateToApiOptions(payload));
+    }
+    async remove(identifier) {
+        return await this.resend.delete(`/templates/${identifier}`);
+    }
+    async get(identifier) {
+        return await this.resend.get(`/templates/${identifier}`);
+    }
+    async list(options = {}) {
+        return this.resend.get(`/templates${getPaginationQueryProperties(options)}`);
+    }
+    duplicate(identifier) {
+        return new ChainableTemplateResult(this.resend.post(`/templates/${identifier}/duplicate`), this.publish.bind(this));
+    }
+    async publish(identifier) {
+        return await this.resend.post(`/templates/${identifier}/publish`);
+    }
+    async update(identifier, payload) {
+        return await this.resend.patch(`/templates/${identifier}`, parseTemplateToApiOptions(payload));
+    }
+};
+//#endregion
+//#region src/topics/topics.ts
+var Topics = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    async create(payload) {
+        const { defaultSubscription, ...body } = payload;
+        return await this.resend.post("/topics", {
+            ...body,
+            default_subscription: defaultSubscription
+        });
+    }
+    async list() {
+        return await this.resend.get("/topics");
+    }
+    async get(id) {
+        if (!id) return {
+            data: null,
+            headers: null,
+            error: {
+                message: "Missing `id` field.",
+                statusCode: null,
+                name: "missing_required_field"
+            }
+        };
+        return await this.resend.get(`/topics/${id}`);
+    }
+    async update(payload) {
+        if (!payload.id) return {
+            data: null,
+            headers: null,
+            error: {
+                message: "Missing `id` field.",
+                statusCode: null,
+                name: "missing_required_field"
+            }
+        };
+        return await this.resend.patch(`/topics/${payload.id}`, payload);
+    }
+    async remove(id) {
+        if (!id) return {
+            data: null,
+            headers: null,
+            error: {
+                message: "Missing `id` field.",
+                statusCode: null,
+                name: "missing_required_field"
+            }
+        };
+        return await this.resend.delete(`/topics/${id}`);
+    }
+};
+//#endregion
+//#region src/webhooks/webhooks.ts
+var Webhooks = class {
+    constructor(resend){
+        this.resend = resend;
+    }
+    async create(payload, options = {}) {
+        return await this.resend.post("/webhooks", payload, options);
+    }
+    async get(id) {
+        return await this.resend.get(`/webhooks/${id}`);
+    }
+    async list(options = {}) {
+        const queryString = buildPaginationQuery(options);
+        const url = queryString ? `/webhooks?${queryString}` : "/webhooks";
+        return await this.resend.get(url);
+    }
+    async update(id, payload) {
+        return await this.resend.patch(`/webhooks/${id}`, payload);
+    }
+    async remove(id) {
+        return await this.resend.delete(`/webhooks/${id}`);
+    }
+    verify(payload) {
+        return new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$svix$2f$dist$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Webhook"](payload.webhookSecret).verify(payload.payload, {
+            "svix-id": payload.headers.id,
+            "svix-timestamp": payload.headers.timestamp,
+            "svix-signature": payload.headers.signature
+        });
+    }
+};
+//#endregion
+//#region src/resend.ts
+const defaultBaseUrl = "https://api.resend.com";
+const defaultUserAgent = `resend-node:${version}`;
+const baseUrl = typeof process !== "undefined" && process.env ? process.env.RESEND_BASE_URL || defaultBaseUrl : defaultBaseUrl;
+const userAgent = typeof process !== "undefined" && process.env ? process.env.RESEND_USER_AGENT || defaultUserAgent : defaultUserAgent;
+var Resend = class {
+    constructor(key){
+        this.key = key;
+        this.segments = new Segments(this);
+        this.apiKeys = new ApiKeys(this);
+        this.audiences = this.segments;
+        this.automations = new Automations(this);
+        this.batch = new Batch(this);
+        this.broadcasts = new Broadcasts(this);
+        this.contactProperties = new ContactProperties(this);
+        this.contacts = new Contacts(this);
+        this.domains = new Domains(this);
+        this.emails = new Emails(this);
+        this.events = new Events(this);
+        this.logs = new Logs(this);
+        this.templates = new Templates(this);
+        this.topics = new Topics(this);
+        this.webhooks = new Webhooks(this);
+        if (!key) {
+            if (typeof process !== "undefined" && process.env) this.key = process.env.RESEND_API_KEY;
+            if (!this.key) throw new Error("Missing API key. Pass it to the constructor `new Resend(\"re_123\")`");
+        }
+        this.headers = new Headers({
+            Authorization: `Bearer ${this.key}`,
+            "User-Agent": userAgent,
+            "Content-Type": "application/json"
+        });
+    }
+    async fetchRequest(path, options = {}) {
+        try {
+            const response = await fetch(`${baseUrl}${path}`, options);
+            if (!response.ok) try {
+                const rawError = await response.text();
+                return {
+                    data: null,
+                    error: JSON.parse(rawError),
+                    headers: Object.fromEntries(response.headers.entries())
+                };
+            } catch (err) {
+                if (err instanceof SyntaxError) return {
+                    data: null,
+                    error: {
+                        name: "application_error",
+                        statusCode: response.status,
+                        message: "Internal server error. We are unable to process your request right now, please try again later."
+                    },
+                    headers: Object.fromEntries(response.headers.entries())
+                };
+                const error = {
+                    message: response.statusText,
+                    statusCode: response.status,
+                    name: "application_error"
+                };
+                if (err instanceof Error) return {
+                    data: null,
+                    error: {
+                        ...error,
+                        message: err.message
+                    },
+                    headers: Object.fromEntries(response.headers.entries())
+                };
+                return {
+                    data: null,
+                    error,
+                    headers: Object.fromEntries(response.headers.entries())
+                };
+            }
+            return {
+                data: await response.json(),
+                error: null,
+                headers: Object.fromEntries(response.headers.entries())
+            };
+        } catch  {
+            return {
+                data: null,
+                error: {
+                    name: "application_error",
+                    statusCode: null,
+                    message: "Unable to fetch data. The request could not be resolved."
+                },
+                headers: null
+            };
+        }
+    }
+    async post(path, entity, options = {}) {
+        const headers = new Headers(this.headers);
+        if (options.headers) for (const [key, value] of new Headers(options.headers).entries())headers.set(key, value);
+        if (options.idempotencyKey) headers.set("Idempotency-Key", options.idempotencyKey);
+        const requestOptions = {
+            method: "POST",
+            body: JSON.stringify(entity),
+            ...options,
+            headers
+        };
+        return this.fetchRequest(path, requestOptions);
+    }
+    async get(path, options = {}) {
+        const headers = new Headers(this.headers);
+        if (options.headers) for (const [key, value] of new Headers(options.headers).entries())headers.set(key, value);
+        const requestOptions = {
+            method: "GET",
+            ...options,
+            headers
+        };
+        return this.fetchRequest(path, requestOptions);
+    }
+    async put(path, entity, options = {}) {
+        const headers = new Headers(this.headers);
+        if (options.headers) for (const [key, value] of new Headers(options.headers).entries())headers.set(key, value);
+        const requestOptions = {
+            method: "PUT",
+            body: JSON.stringify(entity),
+            ...options,
+            headers
+        };
+        return this.fetchRequest(path, requestOptions);
+    }
+    async patch(path, entity, options = {}) {
+        const headers = new Headers(this.headers);
+        if (options.headers) for (const [key, value] of new Headers(options.headers).entries())headers.set(key, value);
+        const requestOptions = {
+            method: "PATCH",
+            body: JSON.stringify(entity),
+            ...options,
+            headers
+        };
+        return this.fetchRequest(path, requestOptions);
+    }
+    async delete(path, query) {
+        const requestOptions = {
+            method: "DELETE",
+            body: JSON.stringify(query),
+            headers: this.headers
+        };
+        return this.fetchRequest(path, requestOptions);
+    }
+};
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/@react-email/body/dist/index.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Body",
+    ()=>Body
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-runtime.js [app-route] (ecmascript)");
+;
+;
+//#region src/margin-properties.ts
+const marginProperties = [
+    "margin",
+    "marginTop",
+    "marginBottom",
+    "marginRight",
+    "marginLeft",
+    "marginInline",
+    "marginBlock",
+    "marginBlockStart",
+    "marginBlockEnd",
+    "marginInlineStart",
+    "marginInlineEnd"
+];
+const paddingProperties = [
+    "padding",
+    "paddingTop",
+    "paddingBottom",
+    "paddingRight",
+    "paddingLeft",
+    "paddingInline",
+    "paddingBlock",
+    "paddingBlockStart",
+    "paddingBlockEnd",
+    "paddingInlineStart",
+    "paddingInlineEnd"
+];
+//#endregion
+//#region src/body.tsx
+const Body = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["forwardRef"](({ children, style, ...props }, ref)=>{
+    const bodyStyle = {
+        background: style?.background,
+        backgroundColor: style?.backgroundColor
+    };
+    if (style) for (const property of [
+        ...marginProperties,
+        ...paddingProperties
+    ])bodyStyle[property] = style[property] !== void 0 ? 0 : void 0;
+    return /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("body", {
+        ...props,
+        style: bodyStyle,
+        ref,
+        children: /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("table", {
+            border: 0,
+            width: "100%",
+            cellPadding: "0",
+            cellSpacing: "0",
+            role: "presentation",
+            align: "center",
+            children: /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("tbody", {
+                children: /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("tr", {
+                    children: /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("td", {
+                        style,
+                        children
+                    })
+                })
+            })
+        })
+    });
+});
+Body.displayName = "Body";
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/@react-email/container/dist/index.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Container",
+    ()=>Container
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-runtime.js [app-route] (ecmascript)");
+;
+;
+//#region src/container.tsx
+const Container = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["forwardRef"](({ children, style, ...props }, ref)=>{
+    return /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("table", {
+        align: "center",
+        width: "100%",
+        ...props,
+        border: 0,
+        cellPadding: "0",
+        cellSpacing: "0",
+        ref,
+        role: "presentation",
+        style: {
+            maxWidth: "37.5em",
+            ...style
+        },
+        children: /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("tbody", {
+            children: /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("tr", {
+                style: {
+                    width: "100%"
+                },
+                children: /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("td", {
+                    children
+                })
+            })
+        })
+    });
+});
+Container.displayName = "Container";
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/@react-email/head/dist/index.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Head",
+    ()=>Head
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-runtime.js [app-route] (ecmascript)");
+;
+;
+//#region src/head.tsx
+const Head = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["forwardRef"](({ children, ...props }, ref)=>/* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxs"])("head", {
+        ...props,
+        ref,
+        children: [
+            /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("meta", {
+                content: "text/html; charset=UTF-8",
+                httpEquiv: "Content-Type"
+            }),
+            /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("meta", {
+                name: "x-apple-disable-message-reformatting"
+            }),
+            children
+        ]
+    }));
+Head.displayName = "Head";
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/@react-email/html/dist/index.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Html",
+    ()=>Html
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-runtime.js [app-route] (ecmascript)");
+;
+;
+//#region src/html.tsx
+const Html = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["forwardRef"](({ children, lang = "en", dir = "ltr", ...props }, ref)=>/* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("html", {
+        ...props,
+        dir,
+        lang,
+        ref,
+        children
+    }));
+Html.displayName = "Html";
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/@react-email/preview/dist/index.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Preview",
+    ()=>Preview,
+    "renderWhiteSpace",
+    ()=>renderWhiteSpace
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-runtime.js [app-route] (ecmascript)");
+;
+;
+//#region src/preview.tsx
+const PREVIEW_MAX_LENGTH = 150;
+const Preview = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["forwardRef"](({ children = "", ...props }, ref)=>{
+    const text = (Array.isArray(children) ? children.join("") : children).substring(0, PREVIEW_MAX_LENGTH);
+    return /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsxs"])("div", {
+        style: {
+            display: "none",
+            overflow: "hidden",
+            lineHeight: "1px",
+            opacity: 0,
+            maxHeight: 0,
+            maxWidth: 0
+        },
+        "data-skip-in-text": true,
+        ...props,
+        ref,
+        children: [
+            text,
+            renderWhiteSpace(text)
+        ]
+    });
+});
+Preview.displayName = "Preview";
+const whiteSpaceCodes = "\xA0‌​‍‎‏﻿";
+const renderWhiteSpace = (text)=>{
+    if (text.length >= PREVIEW_MAX_LENGTH) return null;
+    return /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("div", {
+        children: whiteSpaceCodes.repeat(PREVIEW_MAX_LENGTH - text.length)
+    });
+};
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/@react-email/section/dist/index.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Section",
+    ()=>Section
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-runtime.js [app-route] (ecmascript)");
+;
+;
+//#region src/section.tsx
+const Section = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["forwardRef"](({ children, style, ...props }, ref)=>{
+    return /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("table", {
+        align: "center",
+        width: "100%",
+        border: 0,
+        cellPadding: "0",
+        cellSpacing: "0",
+        role: "presentation",
+        ...props,
+        ref,
+        style,
+        children: /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("tbody", {
+            children: /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("tr", {
+                children: /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("td", {
+                    children
+                })
+            })
+        })
+    });
+});
+Section.displayName = "Section";
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/@react-email/text/dist/index.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Text",
+    ()=>Text
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-runtime.js [app-route] (ecmascript)");
+;
+;
+//#region src/utils/compute-margins.ts
+function parseMarginValue(value) {
+    if (typeof value === "number") return {
+        marginTop: value,
+        marginBottom: value,
+        marginLeft: value,
+        marginRight: value
+    };
+    if (typeof value === "string") {
+        const values = value.toString().trim().split(/\s+/);
+        if (values.length === 1) return {
+            marginTop: values[0],
+            marginBottom: values[0],
+            marginLeft: values[0],
+            marginRight: values[0]
+        };
+        if (values.length === 2) return {
+            marginTop: values[0],
+            marginRight: values[1],
+            marginBottom: values[0],
+            marginLeft: values[1]
+        };
+        if (values.length === 3) return {
+            marginTop: values[0],
+            marginRight: values[1],
+            marginBottom: values[2],
+            marginLeft: values[1]
+        };
+        if (values.length === 4) return {
+            marginTop: values[0],
+            marginRight: values[1],
+            marginBottom: values[2],
+            marginLeft: values[3]
+        };
+    }
+    return {
+        marginTop: void 0,
+        marginBottom: void 0,
+        marginLeft: void 0,
+        marginRight: void 0
+    };
+}
+/**
+* Parses all the values out of a margin string to get the value for all margin props in the four margin properties
+* @example e.g. "10px" =\> mt: "10px", mr: "10px", mb: "10px", ml: "10px"
+*/ function computeMargins(properties) {
+    let result = {
+        marginTop: void 0,
+        marginRight: void 0,
+        marginBottom: void 0,
+        marginLeft: void 0
+    };
+    for (const [key, value] of Object.entries(properties))if (key === "margin") result = parseMarginValue(value);
+    else if (key === "marginTop") result.marginTop = value;
+    else if (key === "marginRight") result.marginRight = value;
+    else if (key === "marginBottom") result.marginBottom = value;
+    else if (key === "marginLeft") result.marginLeft = value;
+    return result;
+}
+//#endregion
+//#region src/text.tsx
+const Text = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["forwardRef"](({ style, ...props }, ref)=>{
+    /**
+	* we do this clunky way of spreading these default margins because
+	* if we were to simply spread, the ordering of the margins would be lost
+	*
+	* ex:
+	* ```js
+	* { ...{ marginTop: '16px', marginBottom: '16px' }, ...{ marginTop: '24px' } }
+	* // would result in
+	* { marginTop: '24px', marginBottom: '16px' }
+	* // not the expected
+	* { marginBottom: '16px', marginTop: '24px' }
+	* ```
+	*/ const defaultMargins = {};
+    if (style?.marginTop === void 0) defaultMargins.marginTop = "16px";
+    if (style?.marginBottom === void 0) defaultMargins.marginBottom = "16px";
+    const margins = computeMargins({
+        ...defaultMargins,
+        ...style
+    });
+    return /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])("p", {
+        ...props,
+        ref,
+        style: {
+            fontSize: "14px",
+            lineHeight: "24px",
+            ...style,
+            ...margins
+        }
+    });
+});
+Text.displayName = "Text";
+;
+}),
+"[externals]/prettier/plugins/html [external] (prettier/plugins/html, esm_import, [project]/Flight-app/flight-finder/node_modules/prettier)", ((__turbopack_context__) => {
+"use strict";
+
+return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
+
+const mod = await __turbopack_context__.y("prettier-d155dcb90376940a/plugins/html");
+
+__turbopack_context__.n(mod);
+__turbopack_async_result__();
+} catch(e) { __turbopack_async_result__(e); } }, true);}),
+"[externals]/prettier/standalone [external] (prettier/standalone, esm_import, [project]/Flight-app/flight-finder/node_modules/prettier)", ((__turbopack_context__) => {
+"use strict";
+
+return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
+
+const mod = await __turbopack_context__.y("prettier-d155dcb90376940a/standalone");
+
+__turbopack_context__.n(mod);
+__turbopack_async_result__();
+} catch(e) { __turbopack_async_result__(e); } }, true);}),
+"[project]/Flight-app/flight-finder/node_modules/domelementtype/lib/esm/index.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+/** Types of elements found in htmlparser2's DOM */ __turbopack_context__.s([
+    "CDATA",
+    ()=>CDATA,
+    "Comment",
+    ()=>Comment,
+    "Directive",
+    ()=>Directive,
+    "Doctype",
+    ()=>Doctype,
+    "ElementType",
+    ()=>ElementType,
+    "Root",
+    ()=>Root,
+    "Script",
+    ()=>Script,
+    "Style",
+    ()=>Style,
+    "Tag",
+    ()=>Tag,
+    "Text",
+    ()=>Text,
+    "isTag",
+    ()=>isTag
+]);
+var ElementType;
+(function(ElementType) {
+    /** Type for the root element of a document */ ElementType["Root"] = "root";
+    /** Type for Text */ ElementType["Text"] = "text";
+    /** Type for <? ... ?> */ ElementType["Directive"] = "directive";
+    /** Type for <!-- ... --> */ ElementType["Comment"] = "comment";
+    /** Type for <script> tags */ ElementType["Script"] = "script";
+    /** Type for <style> tags */ ElementType["Style"] = "style";
+    /** Type for Any tag */ ElementType["Tag"] = "tag";
+    /** Type for <![CDATA[ ... ]]> */ ElementType["CDATA"] = "cdata";
+    /** Type for <!doctype ...> */ ElementType["Doctype"] = "doctype";
+})(ElementType || (ElementType = {}));
+function isTag(elem) {
+    return elem.type === ElementType.Tag || elem.type === ElementType.Script || elem.type === ElementType.Style;
+}
+const Root = ElementType.Root;
+const Text = ElementType.Text;
+const Directive = ElementType.Directive;
+const Comment = ElementType.Comment;
+const Script = ElementType.Script;
+const Style = ElementType.Style;
+const Tag = ElementType.Tag;
+const CDATA = ElementType.CDATA;
+const Doctype = ElementType.Doctype;
+}),
+"[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/node.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "CDATA",
+    ()=>CDATA,
+    "Comment",
+    ()=>Comment,
+    "DataNode",
+    ()=>DataNode,
+    "Document",
+    ()=>Document,
+    "Element",
+    ()=>Element,
+    "Node",
+    ()=>Node,
+    "NodeWithChildren",
+    ()=>NodeWithChildren,
+    "ProcessingInstruction",
+    ()=>ProcessingInstruction,
+    "Text",
+    ()=>Text,
+    "cloneNode",
+    ()=>cloneNode,
+    "hasChildren",
+    ()=>hasChildren,
+    "isCDATA",
+    ()=>isCDATA,
+    "isComment",
+    ()=>isComment,
+    "isDirective",
+    ()=>isDirective,
+    "isDocument",
+    ()=>isDocument,
+    "isTag",
+    ()=>isTag,
+    "isText",
+    ()=>isText
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domelementtype/lib/esm/index.js [app-route] (ecmascript)");
+;
+class Node {
+    constructor(){
+        /** Parent of the node */ this.parent = null;
+        /** Previous sibling */ this.prev = null;
+        /** Next sibling */ this.next = null;
+        /** The start index of the node. Requires `withStartIndices` on the handler to be `true. */ this.startIndex = null;
+        /** The end index of the node. Requires `withEndIndices` on the handler to be `true. */ this.endIndex = null;
+    }
+    // Read-write aliases for properties
+    /**
+     * Same as {@link parent}.
+     * [DOM spec](https://dom.spec.whatwg.org)-compatible alias.
+     */ get parentNode() {
+        return this.parent;
+    }
+    set parentNode(parent) {
+        this.parent = parent;
+    }
+    /**
+     * Same as {@link prev}.
+     * [DOM spec](https://dom.spec.whatwg.org)-compatible alias.
+     */ get previousSibling() {
+        return this.prev;
+    }
+    set previousSibling(prev) {
+        this.prev = prev;
+    }
+    /**
+     * Same as {@link next}.
+     * [DOM spec](https://dom.spec.whatwg.org)-compatible alias.
+     */ get nextSibling() {
+        return this.next;
+    }
+    set nextSibling(next) {
+        this.next = next;
+    }
+    /**
+     * Clone this node, and optionally its children.
+     *
+     * @param recursive Clone child nodes as well.
+     * @returns A clone of the node.
+     */ cloneNode(recursive = false) {
+        return cloneNode(this, recursive);
+    }
+}
+class DataNode extends Node {
+    /**
+     * @param data The content of the data node
+     */ constructor(data){
+        super();
+        this.data = data;
+    }
+    /**
+     * Same as {@link data}.
+     * [DOM spec](https://dom.spec.whatwg.org)-compatible alias.
+     */ get nodeValue() {
+        return this.data;
+    }
+    set nodeValue(data) {
+        this.data = data;
+    }
+}
+class Text extends DataNode {
+    constructor(){
+        super(...arguments);
+        this.type = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].Text;
+    }
+    get nodeType() {
+        return 3;
+    }
+}
+class Comment extends DataNode {
+    constructor(){
+        super(...arguments);
+        this.type = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].Comment;
+    }
+    get nodeType() {
+        return 8;
+    }
+}
+class ProcessingInstruction extends DataNode {
+    constructor(name, data){
+        super(data);
+        this.name = name;
+        this.type = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].Directive;
+    }
+    get nodeType() {
+        return 1;
+    }
+}
+class NodeWithChildren extends Node {
+    /**
+     * @param children Children of the node. Only certain node types can have children.
+     */ constructor(children){
+        super();
+        this.children = children;
+    }
+    // Aliases
+    /** First child of the node. */ get firstChild() {
+        var _a;
+        return (_a = this.children[0]) !== null && _a !== void 0 ? _a : null;
+    }
+    /** Last child of the node. */ get lastChild() {
+        return this.children.length > 0 ? this.children[this.children.length - 1] : null;
+    }
+    /**
+     * Same as {@link children}.
+     * [DOM spec](https://dom.spec.whatwg.org)-compatible alias.
+     */ get childNodes() {
+        return this.children;
+    }
+    set childNodes(children) {
+        this.children = children;
+    }
+}
+class CDATA extends NodeWithChildren {
+    constructor(){
+        super(...arguments);
+        this.type = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].CDATA;
+    }
+    get nodeType() {
+        return 4;
+    }
+}
+class Document extends NodeWithChildren {
+    constructor(){
+        super(...arguments);
+        this.type = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].Root;
+    }
+    get nodeType() {
+        return 9;
+    }
+}
+class Element extends NodeWithChildren {
+    /**
+     * @param name Name of the tag, eg. `div`, `span`.
+     * @param attribs Object mapping attribute names to attribute values.
+     * @param children Children of the node.
+     */ constructor(name, attribs, children = [], type = name === "script" ? __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].Script : name === "style" ? __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].Style : __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].Tag){
+        super(children);
+        this.name = name;
+        this.attribs = attribs;
+        this.type = type;
+    }
+    get nodeType() {
+        return 1;
+    }
+    // DOM Level 1 aliases
+    /**
+     * Same as {@link name}.
+     * [DOM spec](https://dom.spec.whatwg.org)-compatible alias.
+     */ get tagName() {
+        return this.name;
+    }
+    set tagName(name) {
+        this.name = name;
+    }
+    get attributes() {
+        return Object.keys(this.attribs).map((name)=>{
+            var _a, _b;
+            return {
+                name,
+                value: this.attribs[name],
+                namespace: (_a = this["x-attribsNamespace"]) === null || _a === void 0 ? void 0 : _a[name],
+                prefix: (_b = this["x-attribsPrefix"]) === null || _b === void 0 ? void 0 : _b[name]
+            };
+        });
+    }
+}
+function isTag(node) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isTag"])(node);
+}
+function isCDATA(node) {
+    return node.type === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].CDATA;
+}
+function isText(node) {
+    return node.type === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].Text;
+}
+function isComment(node) {
+    return node.type === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].Comment;
+}
+function isDirective(node) {
+    return node.type === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].Directive;
+}
+function isDocument(node) {
+    return node.type === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].Root;
+}
+function hasChildren(node) {
+    return Object.prototype.hasOwnProperty.call(node, "children");
+}
+function cloneNode(node, recursive = false) {
+    let result;
+    if (isText(node)) {
+        result = new Text(node.data);
+    } else if (isComment(node)) {
+        result = new Comment(node.data);
+    } else if (isTag(node)) {
+        const children = recursive ? cloneChildren(node.children) : [];
+        const clone = new Element(node.name, {
+            ...node.attribs
+        }, children);
+        children.forEach((child)=>child.parent = clone);
+        if (node.namespace != null) {
+            clone.namespace = node.namespace;
+        }
+        if (node["x-attribsNamespace"]) {
+            clone["x-attribsNamespace"] = {
+                ...node["x-attribsNamespace"]
+            };
+        }
+        if (node["x-attribsPrefix"]) {
+            clone["x-attribsPrefix"] = {
+                ...node["x-attribsPrefix"]
+            };
+        }
+        result = clone;
+    } else if (isCDATA(node)) {
+        const children = recursive ? cloneChildren(node.children) : [];
+        const clone = new CDATA(children);
+        children.forEach((child)=>child.parent = clone);
+        result = clone;
+    } else if (isDocument(node)) {
+        const children = recursive ? cloneChildren(node.children) : [];
+        const clone = new Document(children);
+        children.forEach((child)=>child.parent = clone);
+        if (node["x-mode"]) {
+            clone["x-mode"] = node["x-mode"];
+        }
+        result = clone;
+    } else if (isDirective(node)) {
+        const instruction = new ProcessingInstruction(node.name, node.data);
+        if (node["x-name"] != null) {
+            instruction["x-name"] = node["x-name"];
+            instruction["x-publicId"] = node["x-publicId"];
+            instruction["x-systemId"] = node["x-systemId"];
+        }
+        result = instruction;
+    } else {
+        throw new Error(`Not implemented yet: ${node.type}`);
+    }
+    result.startIndex = node.startIndex;
+    result.endIndex = node.endIndex;
+    if (node.sourceCodeLocation != null) {
+        result.sourceCodeLocation = node.sourceCodeLocation;
+    }
+    return result;
+}
+function cloneChildren(childs) {
+    const children = childs.map((child)=>cloneNode(child, true));
+    for(let i = 1; i < children.length; i++){
+        children[i].prev = children[i - 1];
+        children[i - 1].next = children[i];
+    }
+    return children;
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/index.js [app-route] (ecmascript) <locals>", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "DomHandler",
+    ()=>DomHandler,
+    "default",
+    ()=>__TURBOPACK__default__export__
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domelementtype/lib/esm/index.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/node.js [app-route] (ecmascript)");
+;
+;
+;
+// Default options
+const defaultOpts = {
+    withStartIndices: false,
+    withEndIndices: false,
+    xmlMode: false
+};
+class DomHandler {
+    /**
+     * @param callback Called once parsing has completed.
+     * @param options Settings for the handler.
+     * @param elementCB Callback whenever a tag is closed.
+     */ constructor(callback, options, elementCB){
+        /** The elements of the DOM */ this.dom = [];
+        /** The root element for the DOM */ this.root = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Document"](this.dom);
+        /** Indicated whether parsing has been completed. */ this.done = false;
+        /** Stack of open tags. */ this.tagStack = [
+            this.root
+        ];
+        /** A data node that is still being written to. */ this.lastNode = null;
+        /** Reference to the parser instance. Used for location information. */ this.parser = null;
+        // Make it possible to skip arguments, for backwards-compatibility
+        if (typeof options === "function") {
+            elementCB = options;
+            options = defaultOpts;
+        }
+        if (typeof callback === "object") {
+            options = callback;
+            callback = undefined;
+        }
+        this.callback = callback !== null && callback !== void 0 ? callback : null;
+        this.options = options !== null && options !== void 0 ? options : defaultOpts;
+        this.elementCB = elementCB !== null && elementCB !== void 0 ? elementCB : null;
+    }
+    onparserinit(parser) {
+        this.parser = parser;
+    }
+    // Resets the handler back to starting state
+    onreset() {
+        this.dom = [];
+        this.root = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Document"](this.dom);
+        this.done = false;
+        this.tagStack = [
+            this.root
+        ];
+        this.lastNode = null;
+        this.parser = null;
+    }
+    // Signals the handler that parsing is done
+    onend() {
+        if (this.done) return;
+        this.done = true;
+        this.parser = null;
+        this.handleCallback(null);
+    }
+    onerror(error) {
+        this.handleCallback(error);
+    }
+    onclosetag() {
+        this.lastNode = null;
+        const elem = this.tagStack.pop();
+        if (this.options.withEndIndices) {
+            elem.endIndex = this.parser.endIndex;
+        }
+        if (this.elementCB) this.elementCB(elem);
+    }
+    onopentag(name, attribs) {
+        const type = this.options.xmlMode ? __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].Tag : undefined;
+        const element = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Element"](name, attribs, undefined, type);
+        this.addNode(element);
+        this.tagStack.push(element);
+    }
+    ontext(data) {
+        const { lastNode } = this;
+        if (lastNode && lastNode.type === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].Text) {
+            lastNode.data += data;
+            if (this.options.withEndIndices) {
+                lastNode.endIndex = this.parser.endIndex;
+            }
+        } else {
+            const node = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"](data);
+            this.addNode(node);
+            this.lastNode = node;
+        }
+    }
+    oncomment(data) {
+        if (this.lastNode && this.lastNode.type === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].Comment) {
+            this.lastNode.data += data;
+            return;
+        }
+        const node = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Comment"](data);
+        this.addNode(node);
+        this.lastNode = node;
+    }
+    oncommentend() {
+        this.lastNode = null;
+    }
+    oncdatastart() {
+        const text = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"]("");
+        const node = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CDATA"]([
+            text
+        ]);
+        this.addNode(node);
+        text.parent = node;
+        this.lastNode = text;
+    }
+    oncdataend() {
+        this.lastNode = null;
+    }
+    onprocessinginstruction(name, data) {
+        const node = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ProcessingInstruction"](name, data);
+        this.addNode(node);
+    }
+    handleCallback(error) {
+        if (typeof this.callback === "function") {
+            this.callback(error, this.dom);
+        } else if (error) {
+            throw error;
+        }
+    }
+    addNode(node) {
+        const parent = this.tagStack[this.tagStack.length - 1];
+        const previousSibling = parent.children[parent.children.length - 1];
+        if (this.options.withStartIndices) {
+            node.startIndex = this.parser.startIndex;
+        }
+        if (this.options.withEndIndices) {
+            node.endIndex = this.parser.endIndex;
+        }
+        parent.children.push(node);
+        if (previousSibling) {
+            node.prev = previousSibling;
+            previousSibling.next = node;
+        }
+        node.parent = parent;
+        this.lastNode = null;
+    }
+}
+const __TURBOPACK__default__export__ = DomHandler;
+}),
+"[project]/Flight-app/flight-finder/node_modules/leac/lib/leac.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "createLexer",
+    ()=>o
+]);
+const e = /\n/g;
+function n(n) {
+    const o = [
+        ...n.matchAll(e)
+    ].map((e)=>e.index || 0);
+    o.unshift(-1);
+    const s = t(o, 0, o.length);
+    return (e)=>r(s, e);
+}
+function t(e, n, r) {
+    if (r - n == 1) return {
+        offset: e[n],
+        index: n + 1
+    };
+    const o = Math.ceil((n + r) / 2), s = t(e, n, o), l = t(e, o, r);
+    return {
+        offset: s.offset,
+        low: s,
+        high: l
+    };
+}
+function r(e, n) {
+    return function(e) {
+        return Object.prototype.hasOwnProperty.call(e, "index");
+    }(e) ? {
+        line: e.index,
+        column: n - e.offset
+    } : r(e.high.offset < n ? e.high : e.low, n);
+}
+function o(e, t = "", r = {}) {
+    const o1 = "string" != typeof t ? t : r, l = "string" == typeof t ? t : "", c = e.map(s), f = !!o1.lineNumbers;
+    return function(e, t = 0) {
+        const r = f ? n(e) : ()=>({
+                line: 0,
+                column: 0
+            });
+        let o = t;
+        const s = [];
+        e: for(; o < e.length;){
+            let n = !1;
+            for (const t of c){
+                t.regex.lastIndex = o;
+                const c = t.regex.exec(e);
+                if (c && c[0].length > 0) {
+                    if (!t.discard) {
+                        const e = r(o), n = "string" == typeof t.replace ? c[0].replace(new RegExp(t.regex.source, t.regex.flags), t.replace) : c[0];
+                        s.push({
+                            state: l,
+                            name: t.name,
+                            text: n,
+                            offset: o,
+                            len: c[0].length,
+                            line: e.line,
+                            column: e.column
+                        });
+                    }
+                    if (o = t.regex.lastIndex, n = !0, t.push) {
+                        const n = t.push(e, o);
+                        s.push(...n.tokens), o = n.offset;
+                    }
+                    if (t.pop) break e;
+                    break;
+                }
+            }
+            if (!n) break;
+        }
+        return {
+            tokens: s,
+            offset: o,
+            complete: e.length <= o
+        };
+    };
+}
+function s(e, n) {
+    return {
+        ...e,
+        regex: l(e, n)
+    };
+}
+function l(e, n) {
+    if (0 === e.name.length) throw new Error(`Rule #${n} has empty name, which is not allowed.`);
+    if (function(e) {
+        return Object.prototype.hasOwnProperty.call(e, "regex");
+    }(e)) return function(e) {
+        if (e.global) throw new Error(`Regular expression /${e.source}/${e.flags} contains the global flag, which is not allowed.`);
+        return e.sticky ? e : new RegExp(e.source, e.flags + "y");
+    }(e.regex);
+    if (function(e) {
+        return Object.prototype.hasOwnProperty.call(e, "str");
+    }(e)) {
+        if (0 === e.str.length) throw new Error(`Rule #${n} ("${e.name}") has empty "str" property, which is not allowed.`);
+        return new RegExp(c(e.str), "y");
+    }
+    return new RegExp(c(e.name), "y");
+}
+function c(e) {
+    return e.replace(/[-[\]{}()*+!<=:?./\\^$|#\s,]/g, "\\$&");
+}
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/peberminta/lib/util.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "clamp",
+    ()=>clamp,
+    "escapeWhitespace",
+    ()=>escapeWhitespace
+]);
+function clamp(left, x, right) {
+    return Math.max(left, Math.min(x, right));
+}
+function escapeWhitespace(str) {
+    return str.replace(/(\t)|(\r)|(\n)/g, (m, t, r)=>t ? '\\t' : r ? '\\r' : '\\n');
+}
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/peberminta/lib/core.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "ab",
+    ()=>ab,
+    "abc",
+    ()=>abc,
+    "action",
+    ()=>action,
+    "ahead",
+    ()=>ahead,
+    "all",
+    ()=>all,
+    "and",
+    ()=>all,
+    "any",
+    ()=>any,
+    "chain",
+    ()=>chain,
+    "chainReduce",
+    ()=>chainReduce,
+    "choice",
+    ()=>choice,
+    "condition",
+    ()=>condition,
+    "decide",
+    ()=>decide,
+    "discard",
+    ()=>skip,
+    "eitherOr",
+    ()=>otherwise,
+    "emit",
+    ()=>emit,
+    "end",
+    ()=>end,
+    "eof",
+    ()=>end,
+    "error",
+    ()=>error,
+    "fail",
+    ()=>fail,
+    "flatten",
+    ()=>flatten,
+    "flatten1",
+    ()=>flatten1,
+    "left",
+    ()=>left,
+    "leftAssoc1",
+    ()=>leftAssoc1,
+    "leftAssoc2",
+    ()=>leftAssoc2,
+    "longest",
+    ()=>longest,
+    "lookAhead",
+    ()=>ahead,
+    "make",
+    ()=>make,
+    "many",
+    ()=>many,
+    "many1",
+    ()=>many1,
+    "map",
+    ()=>map,
+    "map1",
+    ()=>map1,
+    "match",
+    ()=>match,
+    "middle",
+    ()=>middle,
+    "not",
+    ()=>not,
+    "of",
+    ()=>emit,
+    "option",
+    ()=>option,
+    "or",
+    ()=>choice,
+    "otherwise",
+    ()=>otherwise,
+    "parse",
+    ()=>parse,
+    "parserPosition",
+    ()=>parserPosition,
+    "peek",
+    ()=>peek,
+    "recursive",
+    ()=>recursive,
+    "reduceLeft",
+    ()=>reduceLeft,
+    "reduceRight",
+    ()=>reduceRight,
+    "remainingTokensNumber",
+    ()=>remainingTokensNumber,
+    "right",
+    ()=>right,
+    "rightAssoc1",
+    ()=>rightAssoc1,
+    "rightAssoc2",
+    ()=>rightAssoc2,
+    "satisfy",
+    ()=>satisfy,
+    "sepBy",
+    ()=>sepBy,
+    "sepBy1",
+    ()=>sepBy1,
+    "skip",
+    ()=>skip,
+    "some",
+    ()=>many1,
+    "start",
+    ()=>start,
+    "takeUntil",
+    ()=>takeUntil,
+    "takeUntilP",
+    ()=>takeUntilP,
+    "takeWhile",
+    ()=>takeWhile,
+    "takeWhileP",
+    ()=>takeWhileP,
+    "token",
+    ()=>token,
+    "tryParse",
+    ()=>tryParse
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$util$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/peberminta/lib/util.mjs [app-route] (ecmascript)");
+;
+function emit(value) {
+    return (data, i)=>({
+            matched: true,
+            position: i,
+            value: value
+        });
+}
+function make(f) {
+    return (data, i)=>({
+            matched: true,
+            position: i,
+            value: f(data, i)
+        });
+}
+function action(f) {
+    return (data, i)=>{
+        f(data, i);
+        return {
+            matched: true,
+            position: i,
+            value: null
+        };
+    };
+}
+function fail(data, i) {
+    return {
+        matched: false
+    };
+}
+function error(message) {
+    return (data, i)=>{
+        throw new Error(message instanceof Function ? message(data, i) : message);
+    };
+}
+function token(onToken, onEnd) {
+    return (data, i)=>{
+        let position = i;
+        let value = undefined;
+        if (i < data.tokens.length) {
+            value = onToken(data.tokens[i], data, i);
+            if (value !== undefined) {
+                position++;
+            }
+        } else {
+            onEnd?.(data, i);
+        }
+        return value === undefined ? {
+            matched: false
+        } : {
+            matched: true,
+            position: position,
+            value: value
+        };
+    };
+}
+function any(data, i) {
+    return i < data.tokens.length ? {
+        matched: true,
+        position: i + 1,
+        value: data.tokens[i]
+    } : {
+        matched: false
+    };
+}
+function satisfy(test) {
+    return (data, i)=>i < data.tokens.length && test(data.tokens[i], data, i) ? {
+            matched: true,
+            position: i + 1,
+            value: data.tokens[i]
+        } : {
+            matched: false
+        };
+}
+function mapInner(r, f) {
+    return r.matched ? {
+        matched: true,
+        position: r.position,
+        value: f(r.value, r.position)
+    } : r;
+}
+function mapOuter(r, f) {
+    return r.matched ? f(r) : r;
+}
+function map(p, mapper) {
+    return (data, i)=>mapInner(p(data, i), (v, j)=>mapper(v, data, i, j));
+}
+function map1(p, mapper) {
+    return (data, i)=>mapOuter(p(data, i), (m)=>mapper(m, data, i));
+}
+function peek(p, f) {
+    return (data, i)=>{
+        const r = p(data, i);
+        f(r, data, i);
+        return r;
+    };
+}
+function option(p, def) {
+    return (data, i)=>{
+        const r = p(data, i);
+        return r.matched ? r : {
+            matched: true,
+            position: i,
+            value: def
+        };
+    };
+}
+function not(p) {
+    return (data, i)=>{
+        const r = p(data, i);
+        return r.matched ? {
+            matched: false
+        } : {
+            matched: true,
+            position: i,
+            value: true
+        };
+    };
+}
+function choice(...ps) {
+    return (data, i)=>{
+        for (const p of ps){
+            const result = p(data, i);
+            if (result.matched) {
+                return result;
+            }
+        }
+        return {
+            matched: false
+        };
+    };
+}
+function otherwise(pa, pb) {
+    return (data, i)=>{
+        const r1 = pa(data, i);
+        return r1.matched ? r1 : pb(data, i);
+    };
+}
+function longest(...ps) {
+    return (data, i)=>{
+        let match = undefined;
+        for (const p of ps){
+            const result = p(data, i);
+            if (result.matched && (!match || match.position < result.position)) {
+                match = result;
+            }
+        }
+        return match || {
+            matched: false
+        };
+    };
+}
+function takeWhile(p, test) {
+    return (data, i)=>{
+        const values = [];
+        let success = true;
+        do {
+            const r = p(data, i);
+            if (r.matched && test(r.value, values.length + 1, data, i, r.position)) {
+                values.push(r.value);
+                i = r.position;
+            } else {
+                success = false;
+            }
+        }while (success)
+        return {
+            matched: true,
+            position: i,
+            value: values
+        };
+    };
+}
+function takeUntil(p, test) {
+    return takeWhile(p, (value, n, data, i, j)=>!test(value, n, data, i, j));
+}
+function takeWhileP(pValue, pTest) {
+    return takeWhile(pValue, (value, n, data, i)=>pTest(data, i).matched);
+}
+function takeUntilP(pValue, pTest) {
+    return takeWhile(pValue, (value, n, data, i)=>!pTest(data, i).matched);
+}
+function many(p) {
+    return takeWhile(p, ()=>true);
+}
+function many1(p) {
+    return ab(p, many(p), (head, tail)=>[
+            head,
+            ...tail
+        ]);
+}
+function ab(pa, pb, join) {
+    return (data, i)=>mapOuter(pa(data, i), (ma)=>mapInner(pb(data, ma.position), (vb, j)=>join(ma.value, vb, data, i, j)));
+}
+function left(pa, pb) {
+    return ab(pa, pb, (va)=>va);
+}
+function right(pa, pb) {
+    return ab(pa, pb, (va, vb)=>vb);
+}
+function abc(pa, pb, pc, join) {
+    return (data, i)=>mapOuter(pa(data, i), (ma)=>mapOuter(pb(data, ma.position), (mb)=>mapInner(pc(data, mb.position), (vc, j)=>join(ma.value, mb.value, vc, data, i, j))));
+}
+function middle(pa, pb, pc) {
+    return abc(pa, pb, pc, (ra, rb)=>rb);
+}
+function all(...ps) {
+    return (data, i)=>{
+        const result = [];
+        let position = i;
+        for (const p of ps){
+            const r1 = p(data, position);
+            if (r1.matched) {
+                result.push(r1.value);
+                position = r1.position;
+            } else {
+                return {
+                    matched: false
+                };
+            }
+        }
+        return {
+            matched: true,
+            position: position,
+            value: result
+        };
+    };
+}
+function skip(...ps) {
+    return map(all(...ps), ()=>null);
+}
+function flatten(...ps) {
+    return flatten1(all(...ps));
+}
+function flatten1(p) {
+    return map(p, (vs)=>vs.flatMap((v)=>v));
+}
+function sepBy1(pValue, pSep) {
+    return ab(pValue, many(right(pSep, pValue)), (head, tail)=>[
+            head,
+            ...tail
+        ]);
+}
+function sepBy(pValue, pSep) {
+    return otherwise(sepBy1(pValue, pSep), emit([]));
+}
+function chainReduce(acc, f) {
+    return (data, i)=>{
+        let loop = true;
+        let acc1 = acc;
+        let pos = i;
+        do {
+            const r = f(acc1, data, pos)(data, pos);
+            if (r.matched) {
+                acc1 = r.value;
+                pos = r.position;
+            } else {
+                loop = false;
+            }
+        }while (loop)
+        return {
+            matched: true,
+            position: pos,
+            value: acc1
+        };
+    };
+}
+function reduceLeft(acc, p, reducer) {
+    return chainReduce(acc, (acc)=>map(p, (v, data, i, j)=>reducer(acc, v, data, i, j)));
+}
+function reduceRight(p, acc, reducer) {
+    return map(many(p), (vs, data, i, j)=>vs.reduceRight((acc, v)=>reducer(v, acc, data, i, j), acc));
+}
+function leftAssoc1(pLeft, pOper) {
+    return chain(pLeft, (v0)=>reduceLeft(v0, pOper, (acc, f)=>f(acc)));
+}
+function rightAssoc1(pOper, pRight) {
+    return ab(reduceRight(pOper, (y)=>y, (f, acc)=>(y)=>f(acc(y))), pRight, (f, v)=>f(v));
+}
+function leftAssoc2(pLeft, pOper, pRight) {
+    return chain(pLeft, (v0)=>reduceLeft(v0, ab(pOper, pRight, (f, y)=>[
+                f,
+                y
+            ]), (acc, [f, y])=>f(acc, y)));
+}
+function rightAssoc2(pLeft, pOper, pRight) {
+    return ab(reduceRight(ab(pLeft, pOper, (x, f)=>[
+            x,
+            f
+        ]), (y)=>y, ([x, f], acc)=>(y)=>f(x, acc(y))), pRight, (f, v)=>f(v));
+}
+function condition(cond, pTrue, pFalse) {
+    return (data, i)=>cond(data, i) ? pTrue(data, i) : pFalse(data, i);
+}
+function decide(p) {
+    return (data, i)=>mapOuter(p(data, i), (m1)=>m1.value(data, m1.position));
+}
+function chain(p, f) {
+    return (data, i)=>mapOuter(p(data, i), (m1)=>f(m1.value, data, i, m1.position)(data, m1.position));
+}
+function ahead(p) {
+    return (data, i)=>mapOuter(p(data, i), (m1)=>({
+                matched: true,
+                position: i,
+                value: m1.value
+            }));
+}
+function recursive(f) {
+    return function(data, i) {
+        return f()(data, i);
+    };
+}
+function start(data, i) {
+    return i !== 0 ? {
+        matched: false
+    } : {
+        matched: true,
+        position: i,
+        value: true
+    };
+}
+function end(data, i) {
+    return i < data.tokens.length ? {
+        matched: false
+    } : {
+        matched: true,
+        position: i,
+        value: true
+    };
+}
+function remainingTokensNumber(data, i) {
+    return data.tokens.length - i;
+}
+function parserPosition(data, i, formatToken, contextTokens = 3) {
+    const len = data.tokens.length;
+    const lowIndex = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$util$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["clamp"])(0, i - contextTokens, len - contextTokens);
+    const highIndex = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$util$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["clamp"])(contextTokens, i + 1 + contextTokens, len);
+    const tokensSlice = data.tokens.slice(lowIndex, highIndex);
+    const lines = [];
+    const indexWidth = String(highIndex - 1).length + 1;
+    if (i < 0) {
+        lines.push(`${String(i).padStart(indexWidth)} >>`);
+    }
+    if (0 < lowIndex) {
+        lines.push('...'.padStart(indexWidth + 6));
+    }
+    for(let j = 0; j < tokensSlice.length; j++){
+        const index = lowIndex + j;
+        lines.push(`${String(index).padStart(indexWidth)} ${index === i ? '>' : ' '} ${(0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$util$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["escapeWhitespace"])(formatToken(tokensSlice[j]))}`);
+    }
+    if (highIndex < len) {
+        lines.push('...'.padStart(indexWidth + 6));
+    }
+    if (len <= i) {
+        lines.push(`${String(i).padStart(indexWidth)} >>`);
+    }
+    return lines.join('\n');
+}
+function parse(parser, tokens, options, formatToken = JSON.stringify) {
+    const data = {
+        tokens: tokens,
+        options: options
+    };
+    const result = parser(data, 0);
+    if (!result.matched) {
+        throw new Error('No match');
+    }
+    if (result.position < data.tokens.length) {
+        throw new Error(`Partial match. Parsing stopped at:\n${parserPosition(data, result.position, formatToken)}`);
+    }
+    return result.value;
+}
+function tryParse(parser, tokens, options) {
+    const result = parser({
+        tokens: tokens,
+        options: options
+    }, 0);
+    return result.matched ? result.value : undefined;
+}
+function match(matcher, tokens, options) {
+    const result = matcher({
+        tokens: tokens,
+        options: options
+    }, 0);
+    return result.value;
+}
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/parseley/lib/parseley.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Ast",
+    ()=>ast,
+    "compareSelectors",
+    ()=>compareSelectors,
+    "compareSpecificity",
+    ()=>compareSpecificity,
+    "normalize",
+    ()=>normalize,
+    "parse",
+    ()=>parse,
+    "parse1",
+    ()=>parse1,
+    "serialize",
+    ()=>serialize
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$leac$2f$lib$2f$leac$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/leac/lib/leac.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/peberminta/lib/core.mjs [app-route] (ecmascript)");
+;
+;
+var ast = /*#__PURE__*/ Object.freeze({
+    __proto__: null
+});
+const ws = `(?:[ \\t\\r\\n\\f]*)`;
+const nl = `(?:\\n|\\r\\n|\\r|\\f)`;
+const nonascii = `[^\\x00-\\x7F]`;
+const unicode = `(?:\\\\[0-9a-f]{1,6}(?:\\r\\n|[ \\n\\r\\t\\f])?)`;
+const escape = `(?:\\\\[^\\n\\r\\f0-9a-f])`;
+const nmstart = `(?:[_a-z]|${nonascii}|${unicode}|${escape})`;
+const nmchar = `(?:[_a-z0-9-]|${nonascii}|${unicode}|${escape})`;
+const name = `(?:${nmchar}+)`;
+const ident = `(?:[-]?${nmstart}${nmchar}*)`;
+const string1 = `'([^\\n\\r\\f\\\\']|\\\\${nl}|${nonascii}|${unicode}|${escape})*'`;
+const string2 = `"([^\\n\\r\\f\\\\"]|\\\\${nl}|${nonascii}|${unicode}|${escape})*"`;
+const lexSelector = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$leac$2f$lib$2f$leac$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["createLexer"])([
+    {
+        name: 'ws',
+        regex: new RegExp(ws)
+    },
+    {
+        name: 'hash',
+        regex: new RegExp(`#${name}`, 'i')
+    },
+    {
+        name: 'ident',
+        regex: new RegExp(ident, 'i')
+    },
+    {
+        name: 'str1',
+        regex: new RegExp(string1, 'i')
+    },
+    {
+        name: 'str2',
+        regex: new RegExp(string2, 'i')
+    },
+    {
+        name: '*'
+    },
+    {
+        name: '.'
+    },
+    {
+        name: ','
+    },
+    {
+        name: '['
+    },
+    {
+        name: ']'
+    },
+    {
+        name: '='
+    },
+    {
+        name: '>'
+    },
+    {
+        name: '|'
+    },
+    {
+        name: '+'
+    },
+    {
+        name: '~'
+    },
+    {
+        name: '^'
+    },
+    {
+        name: '$'
+    }
+]);
+const lexEscapedString = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$leac$2f$lib$2f$leac$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["createLexer"])([
+    {
+        name: 'unicode',
+        regex: new RegExp(unicode, 'i')
+    },
+    {
+        name: 'escape',
+        regex: new RegExp(escape, 'i')
+    },
+    {
+        name: 'any',
+        regex: new RegExp('[\\s\\S]', 'i')
+    }
+]);
+function sumSpec([a0, a1, a2], [b0, b1, b2]) {
+    return [
+        a0 + b0,
+        a1 + b1,
+        a2 + b2
+    ];
+}
+function sumAllSpec(ss) {
+    return ss.reduce(sumSpec, [
+        0,
+        0,
+        0
+    ]);
+}
+const unicodeEscapedSequence_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["token"]((t)=>t.name === 'unicode' ? String.fromCodePoint(parseInt(t.text.slice(1), 16)) : undefined);
+const escapedSequence_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["token"]((t)=>t.name === 'escape' ? t.text.slice(1) : undefined);
+const anyChar_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["token"]((t)=>t.name === 'any' ? t.text : undefined);
+const escapedString_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["map"](__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["many"](__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["or"](unicodeEscapedSequence_, escapedSequence_, anyChar_)), (cs)=>cs.join(''));
+function unescape(escapedString) {
+    const lexerResult = lexEscapedString(escapedString);
+    const result = escapedString_({
+        tokens: lexerResult.tokens,
+        options: undefined
+    }, 0);
+    return result.value;
+}
+function literal(name) {
+    return __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["token"]((t)=>t.name === name ? true : undefined);
+}
+const whitespace_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["token"]((t)=>t.name === 'ws' ? null : undefined);
+const optionalWhitespace_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["option"](whitespace_, null);
+function optionallySpaced(parser) {
+    return __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["middle"](optionalWhitespace_, parser, optionalWhitespace_);
+}
+const identifier_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["token"]((t)=>t.name === 'ident' ? unescape(t.text) : undefined);
+const hashId_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["token"]((t)=>t.name === 'hash' ? unescape(t.text.slice(1)) : undefined);
+const string_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["token"]((t)=>t.name.startsWith('str') ? unescape(t.text.slice(1, -1)) : undefined);
+const namespace_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["left"](__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["option"](identifier_, ''), literal('|'));
+const qualifiedName_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["eitherOr"](__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ab"](namespace_, identifier_, (ns, name)=>({
+        name: name,
+        namespace: ns
+    })), __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["map"](identifier_, (name)=>({
+        name: name,
+        namespace: null
+    })));
+const uniSelector_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["eitherOr"](__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ab"](namespace_, literal('*'), (ns)=>({
+        type: 'universal',
+        namespace: ns,
+        specificity: [
+            0,
+            0,
+            0
+        ]
+    })), __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["map"](literal('*'), ()=>({
+        type: 'universal',
+        namespace: null,
+        specificity: [
+            0,
+            0,
+            0
+        ]
+    })));
+const tagSelector_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["map"](qualifiedName_, ({ name, namespace })=>({
+        type: 'tag',
+        name: name,
+        namespace: namespace,
+        specificity: [
+            0,
+            0,
+            1
+        ]
+    }));
+const classSelector_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ab"](literal('.'), identifier_, (fullstop, name)=>({
+        type: 'class',
+        name: name,
+        specificity: [
+            0,
+            1,
+            0
+        ]
+    }));
+const idSelector_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["map"](hashId_, (name)=>({
+        type: 'id',
+        name: name,
+        specificity: [
+            1,
+            0,
+            0
+        ]
+    }));
+const attrModifier_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["token"]((t)=>{
+    if (t.name === 'ident') {
+        if (t.text === 'i' || t.text === 'I') {
+            return 'i';
+        }
+        if (t.text === 's' || t.text === 'S') {
+            return 's';
+        }
+    }
+    return undefined;
+});
+const attrValue_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["eitherOr"](__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ab"](string_, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["option"](__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["right"](optionalWhitespace_, attrModifier_), null), (v, mod)=>({
+        value: v,
+        modifier: mod
+    })), __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ab"](identifier_, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["option"](__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["right"](whitespace_, attrModifier_), null), (v, mod)=>({
+        value: v,
+        modifier: mod
+    })));
+const attrMatcher_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["choice"](__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["map"](literal('='), ()=>'='), __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ab"](literal('~'), literal('='), ()=>'~='), __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ab"](literal('|'), literal('='), ()=>'|='), __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ab"](literal('^'), literal('='), ()=>'^='), __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ab"](literal('$'), literal('='), ()=>'$='), __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ab"](literal('*'), literal('='), ()=>'*='));
+const attrPresenceSelector_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["abc"](literal('['), optionallySpaced(qualifiedName_), literal(']'), (lbr, { name, namespace })=>({
+        type: 'attrPresence',
+        name: name,
+        namespace: namespace,
+        specificity: [
+            0,
+            1,
+            0
+        ]
+    }));
+const attrValueSelector_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["middle"](literal('['), __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["abc"](optionallySpaced(qualifiedName_), attrMatcher_, optionallySpaced(attrValue_), ({ name, namespace }, matcher, { value, modifier })=>({
+        type: 'attrValue',
+        name: name,
+        namespace: namespace,
+        matcher: matcher,
+        value: value,
+        modifier: modifier,
+        specificity: [
+            0,
+            1,
+            0
+        ]
+    })), literal(']'));
+const attrSelector_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["eitherOr"](attrPresenceSelector_, attrValueSelector_);
+const typeSelector_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["eitherOr"](uniSelector_, tagSelector_);
+const subclassSelector_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["choice"](idSelector_, classSelector_, attrSelector_);
+const compoundSelector_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["map"](__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["eitherOr"](__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["flatten"](typeSelector_, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["many"](subclassSelector_)), __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["many1"](subclassSelector_)), (ss)=>{
+    return {
+        type: 'compound',
+        list: ss,
+        specificity: sumAllSpec(ss.map((s)=>s.specificity))
+    };
+});
+const combinator_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["choice"](__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["map"](literal('>'), ()=>'>'), __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["map"](literal('+'), ()=>'+'), __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["map"](literal('~'), ()=>'~'), __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ab"](literal('|'), literal('|'), ()=>'||'));
+const combinatorSeparator_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["eitherOr"](optionallySpaced(combinator_), __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["map"](whitespace_, ()=>' '));
+const complexSelector_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["leftAssoc2"](compoundSelector_, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["map"](combinatorSeparator_, (c)=>(left, right)=>({
+            type: 'compound',
+            list: [
+                ...right.list,
+                {
+                    type: 'combinator',
+                    combinator: c,
+                    left: left,
+                    specificity: left.specificity
+                }
+            ],
+            specificity: sumSpec(left.specificity, right.specificity)
+        })), compoundSelector_);
+const listSelector_ = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["leftAssoc2"](__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["map"](complexSelector_, (s)=>({
+        type: 'list',
+        list: [
+            s
+        ]
+    })), __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$peberminta$2f$lib$2f$core$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["map"](optionallySpaced(literal(',')), ()=>(acc, next)=>({
+            type: 'list',
+            list: [
+                ...acc.list,
+                next
+            ]
+        })), complexSelector_);
+function parse_(parser, str) {
+    if (!(typeof str === 'string' || str instanceof String)) {
+        throw new Error('Expected a selector string. Actual input is not a string!');
+    }
+    const lexerResult = lexSelector(str);
+    if (!lexerResult.complete) {
+        throw new Error(`The input "${str}" was only partially tokenized, stopped at offset ${lexerResult.offset}!\n` + prettyPrintPosition(str, lexerResult.offset));
+    }
+    const result = optionallySpaced(parser)({
+        tokens: lexerResult.tokens,
+        options: undefined
+    }, 0);
+    if (!result.matched) {
+        throw new Error(`No match for "${str}" input!`);
+    }
+    if (result.position < lexerResult.tokens.length) {
+        const token = lexerResult.tokens[result.position];
+        throw new Error(`The input "${str}" was only partially parsed, stopped at offset ${token.offset}!\n` + prettyPrintPosition(str, token.offset, token.len));
+    }
+    return result.value;
+}
+function prettyPrintPosition(str, offset, len = 1) {
+    return `${str.replace(/(\t)|(\r)|(\n)/g, (m, t, r)=>t ? '\u2409' : r ? '\u240d' : '\u240a')}\n${''.padEnd(offset)}${'^'.repeat(len)}`;
+}
+function parse(str) {
+    return parse_(listSelector_, str);
+}
+function parse1(str) {
+    return parse_(complexSelector_, str);
+}
+function serialize(selector) {
+    if (!selector.type) {
+        throw new Error('This is not an AST node.');
+    }
+    switch(selector.type){
+        case 'universal':
+            return _serNs(selector.namespace) + '*';
+        case 'tag':
+            return _serNs(selector.namespace) + _serIdent(selector.name);
+        case 'class':
+            return '.' + _serIdent(selector.name);
+        case 'id':
+            return '#' + _serIdent(selector.name);
+        case 'attrPresence':
+            return `[${_serNs(selector.namespace)}${_serIdent(selector.name)}]`;
+        case 'attrValue':
+            return `[${_serNs(selector.namespace)}${_serIdent(selector.name)}${selector.matcher}"${_serStr(selector.value)}"${selector.modifier ? selector.modifier : ''}]`;
+        case 'combinator':
+            return serialize(selector.left) + selector.combinator;
+        case 'compound':
+            return selector.list.reduce((acc, node)=>{
+                if (node.type === 'combinator') {
+                    return serialize(node) + acc;
+                } else {
+                    return acc + serialize(node);
+                }
+            }, '');
+        case 'list':
+            return selector.list.map(serialize).join(',');
+    }
+}
+function _serNs(ns) {
+    return ns || ns === '' ? _serIdent(ns) + '|' : '';
+}
+function _codePoint(char) {
+    return `\\${char.codePointAt(0).toString(16)} `;
+}
+function _serIdent(str) {
+    return str.replace(/(^[0-9])|(^-[0-9])|(^-$)|([-0-9a-zA-Z_]|[^\x00-\x7F])|(\x00)|([\x01-\x1f]|\x7f)|([\s\S])/g, (m, d1, d2, hy, safe, nl, ctrl, other)=>d1 ? _codePoint(d1) : d2 ? '-' + _codePoint(d2.slice(1)) : hy ? '\\-' : safe ? safe : nl ? '\ufffd' : ctrl ? _codePoint(ctrl) : '\\' + other);
+}
+function _serStr(str) {
+    return str.replace(/(")|(\\)|(\x00)|([\x01-\x1f]|\x7f)/g, (m, dq, bs, nl, ctrl)=>dq ? '\\"' : bs ? '\\\\' : nl ? '\ufffd' : _codePoint(ctrl));
+}
+function normalize(selector) {
+    if (!selector.type) {
+        throw new Error('This is not an AST node.');
+    }
+    switch(selector.type){
+        case 'compound':
+            {
+                selector.list.forEach(normalize);
+                selector.list.sort((a, b)=>_compareArrays(_getSelectorPriority(a), _getSelectorPriority(b)));
+                break;
+            }
+        case 'combinator':
+            {
+                normalize(selector.left);
+                break;
+            }
+        case 'list':
+            {
+                selector.list.forEach(normalize);
+                selector.list.sort((a, b)=>serialize(a) < serialize(b) ? -1 : 1);
+                break;
+            }
+    }
+    return selector;
+}
+function _getSelectorPriority(selector) {
+    switch(selector.type){
+        case 'universal':
+            return [
+                1
+            ];
+        case 'tag':
+            return [
+                1
+            ];
+        case 'id':
+            return [
+                2
+            ];
+        case 'class':
+            return [
+                3,
+                selector.name
+            ];
+        case 'attrPresence':
+            return [
+                4,
+                serialize(selector)
+            ];
+        case 'attrValue':
+            return [
+                5,
+                serialize(selector)
+            ];
+        case 'combinator':
+            return [
+                15,
+                serialize(selector)
+            ];
+    }
+}
+function compareSelectors(a, b) {
+    return _compareArrays(a.specificity, b.specificity);
+}
+function compareSpecificity(a, b) {
+    return _compareArrays(a, b);
+}
+function _compareArrays(a, b) {
+    if (!Array.isArray(a) || !Array.isArray(b)) {
+        throw new Error('Arguments must be arrays.');
+    }
+    const shorter = a.length < b.length ? a.length : b.length;
+    for(let i = 0; i < shorter; i++){
+        if (a[i] === b[i]) {
+            continue;
+        }
+        return a[i] < b[i] ? -1 : 1;
+    }
+    return a.length - b.length;
+}
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/selderee/lib/selderee.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Ast",
+    ()=>Ast,
+    "DecisionTree",
+    ()=>DecisionTree,
+    "Picker",
+    ()=>Picker,
+    "Treeify",
+    ()=>TreeifyBuilder,
+    "Types",
+    ()=>Types
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$parseley$2f$lib$2f$parseley$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/parseley/lib/parseley.mjs [app-route] (ecmascript)");
+;
+;
+var Ast = /*#__PURE__*/ Object.freeze({
+    __proto__: null
+});
+var Types = /*#__PURE__*/ Object.freeze({
+    __proto__: null
+});
+const treeify = (nodes)=>'▽\n' + treeifyArray(nodes, thinLines);
+const thinLines = [
+    [
+        '├─',
+        '│ '
+    ],
+    [
+        '└─',
+        '  '
+    ]
+];
+const heavyLines = [
+    [
+        '┠─',
+        '┃ '
+    ],
+    [
+        '┖─',
+        '  '
+    ]
+];
+const doubleLines = [
+    [
+        '╟─',
+        '║ '
+    ],
+    [
+        '╙─',
+        '  '
+    ]
+];
+function treeifyArray(nodes, tpl = heavyLines) {
+    return prefixItems(tpl, nodes.map((n)=>treeifyNode(n)));
+}
+function treeifyNode(node) {
+    switch(node.type){
+        case 'terminal':
+            {
+                const vctr = node.valueContainer;
+                return `◁ #${vctr.index} ${JSON.stringify(vctr.specificity)} ${vctr.value}`;
+            }
+        case 'tagName':
+            return `◻ Tag name\n${treeifyArray(node.variants, doubleLines)}`;
+        case 'attrValue':
+            return `▣ Attr value: ${node.name}\n${treeifyArray(node.matchers, doubleLines)}`;
+        case 'attrPresence':
+            return `◨ Attr presence: ${node.name}\n${treeifyArray(node.cont)}`;
+        case 'pushElement':
+            return `◉ Push element: ${node.combinator}\n${treeifyArray(node.cont, thinLines)}`;
+        case 'popElement':
+            return `◌ Pop element\n${treeifyArray(node.cont, thinLines)}`;
+        case 'variant':
+            return `◇ = ${node.value}\n${treeifyArray(node.cont)}`;
+        case 'matcher':
+            return `◈ ${node.matcher} "${node.value}"${node.modifier || ''}\n${treeifyArray(node.cont)}`;
+    }
+}
+function prefixItems(tpl, items) {
+    return items.map((item, i, { length })=>prefixItem(tpl, item, i === length - 1)).join('\n');
+}
+function prefixItem(tpl, item, tail = true) {
+    const tpl1 = tpl[tail ? 1 : 0];
+    return tpl1[0] + item.split('\n').join('\n' + tpl1[1]);
+}
+var TreeifyBuilder = /*#__PURE__*/ Object.freeze({
+    __proto__: null,
+    treeify: treeify
+});
+class DecisionTree {
+    constructor(input){
+        this.branches = weave(toAstTerminalPairs(input));
+    }
+    build(builder) {
+        return builder(this.branches);
+    }
+}
+function toAstTerminalPairs(array) {
+    const len = array.length;
+    const results = new Array(len);
+    for(let i = 0; i < len; i++){
+        const [selectorString, val] = array[i];
+        const ast = preprocess(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$parseley$2f$lib$2f$parseley$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["parse1"](selectorString));
+        results[i] = {
+            ast: ast,
+            terminal: {
+                type: 'terminal',
+                valueContainer: {
+                    index: i,
+                    value: val,
+                    specificity: ast.specificity
+                }
+            }
+        };
+    }
+    return results;
+}
+function preprocess(ast) {
+    reduceSelectorVariants(ast);
+    __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$parseley$2f$lib$2f$parseley$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["normalize"](ast);
+    return ast;
+}
+function reduceSelectorVariants(ast) {
+    const newList = [];
+    ast.list.forEach((sel)=>{
+        switch(sel.type){
+            case 'class':
+                newList.push({
+                    matcher: '~=',
+                    modifier: null,
+                    name: 'class',
+                    namespace: null,
+                    specificity: sel.specificity,
+                    type: 'attrValue',
+                    value: sel.name
+                });
+                break;
+            case 'id':
+                newList.push({
+                    matcher: '=',
+                    modifier: null,
+                    name: 'id',
+                    namespace: null,
+                    specificity: sel.specificity,
+                    type: 'attrValue',
+                    value: sel.name
+                });
+                break;
+            case 'combinator':
+                reduceSelectorVariants(sel.left);
+                newList.push(sel);
+                break;
+            case 'universal':
+                break;
+            default:
+                newList.push(sel);
+                break;
+        }
+    });
+    ast.list = newList;
+}
+function weave(items) {
+    const branches = [];
+    while(items.length){
+        const topKind = findTopKey(items, (sel)=>true, getSelectorKind);
+        const { matches, nonmatches, empty } = breakByKind(items, topKind);
+        items = nonmatches;
+        if (matches.length) {
+            branches.push(branchOfKind(topKind, matches));
+        }
+        if (empty.length) {
+            branches.push(...terminate(empty));
+        }
+    }
+    return branches;
+}
+function terminate(items) {
+    const results = [];
+    for (const item of items){
+        const terminal = item.terminal;
+        if (terminal.type === 'terminal') {
+            results.push(terminal);
+        } else {
+            const { matches, rest } = partition(terminal.cont, (node)=>node.type === 'terminal');
+            matches.forEach((node)=>results.push(node));
+            if (rest.length) {
+                terminal.cont = rest;
+                results.push(terminal);
+            }
+        }
+    }
+    return results;
+}
+function breakByKind(items, selectedKind) {
+    const matches = [];
+    const nonmatches = [];
+    const empty = [];
+    for (const item of items){
+        const simpsels = item.ast.list;
+        if (simpsels.length) {
+            const isMatch = simpsels.some((node)=>getSelectorKind(node) === selectedKind);
+            (isMatch ? matches : nonmatches).push(item);
+        } else {
+            empty.push(item);
+        }
+    }
+    return {
+        matches,
+        nonmatches,
+        empty
+    };
+}
+function getSelectorKind(sel) {
+    switch(sel.type){
+        case 'attrPresence':
+            return `attrPresence ${sel.name}`;
+        case 'attrValue':
+            return `attrValue ${sel.name}`;
+        case 'combinator':
+            return `combinator ${sel.combinator}`;
+        default:
+            return sel.type;
+    }
+}
+function branchOfKind(kind, items) {
+    if (kind === 'tag') {
+        return tagNameBranch(items);
+    }
+    if (kind.startsWith('attrValue ')) {
+        return attrValueBranch(kind.substring(10), items);
+    }
+    if (kind.startsWith('attrPresence ')) {
+        return attrPresenceBranch(kind.substring(13), items);
+    }
+    if (kind === 'combinator >') {
+        return combinatorBranch('>', items);
+    }
+    if (kind === 'combinator +') {
+        return combinatorBranch('+', items);
+    }
+    throw new Error(`Unsupported selector kind: ${kind}`);
+}
+function tagNameBranch(items) {
+    const groups = spliceAndGroup(items, (x)=>x.type === 'tag', (x)=>x.name);
+    const variants = Object.entries(groups).map(([name, group])=>({
+            type: 'variant',
+            value: name,
+            cont: weave(group.items)
+        }));
+    return {
+        type: 'tagName',
+        variants: variants
+    };
+}
+function attrPresenceBranch(name, items) {
+    for (const item of items){
+        spliceSimpleSelector(item, (x)=>x.type === 'attrPresence' && x.name === name);
+    }
+    return {
+        type: 'attrPresence',
+        name: name,
+        cont: weave(items)
+    };
+}
+function attrValueBranch(name, items) {
+    const groups = spliceAndGroup(items, (x)=>x.type === 'attrValue' && x.name === name, (x)=>`${x.matcher} ${x.modifier || ''} ${x.value}`);
+    const matchers = [];
+    for (const group of Object.values(groups)){
+        const sel = group.oneSimpleSelector;
+        const predicate = getAttrPredicate(sel);
+        const continuation = weave(group.items);
+        matchers.push({
+            type: 'matcher',
+            matcher: sel.matcher,
+            modifier: sel.modifier,
+            value: sel.value,
+            predicate: predicate,
+            cont: continuation
+        });
+    }
+    return {
+        type: 'attrValue',
+        name: name,
+        matchers: matchers
+    };
+}
+function getAttrPredicate(sel) {
+    if (sel.modifier === 'i') {
+        const expected = sel.value.toLowerCase();
+        switch(sel.matcher){
+            case '=':
+                return (actual)=>expected === actual.toLowerCase();
+            case '~=':
+                return (actual)=>actual.toLowerCase().split(/[ \t]+/).includes(expected);
+            case '^=':
+                return (actual)=>actual.toLowerCase().startsWith(expected);
+            case '$=':
+                return (actual)=>actual.toLowerCase().endsWith(expected);
+            case '*=':
+                return (actual)=>actual.toLowerCase().includes(expected);
+            case '|=':
+                return (actual)=>{
+                    const lower = actual.toLowerCase();
+                    return expected === lower || lower.startsWith(expected) && lower[expected.length] === '-';
+                };
+        }
+    } else {
+        const expected = sel.value;
+        switch(sel.matcher){
+            case '=':
+                return (actual)=>expected === actual;
+            case '~=':
+                return (actual)=>actual.split(/[ \t]+/).includes(expected);
+            case '^=':
+                return (actual)=>actual.startsWith(expected);
+            case '$=':
+                return (actual)=>actual.endsWith(expected);
+            case '*=':
+                return (actual)=>actual.includes(expected);
+            case '|=':
+                return (actual)=>expected === actual || actual.startsWith(expected) && actual[expected.length] === '-';
+        }
+    }
+}
+function combinatorBranch(combinator, items) {
+    const groups = spliceAndGroup(items, (x)=>x.type === 'combinator' && x.combinator === combinator, (x)=>__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$parseley$2f$lib$2f$parseley$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["serialize"](x.left));
+    const leftItems = [];
+    for (const group of Object.values(groups)){
+        const rightCont = weave(group.items);
+        const leftAst = group.oneSimpleSelector.left;
+        leftItems.push({
+            ast: leftAst,
+            terminal: {
+                type: 'popElement',
+                cont: rightCont
+            }
+        });
+    }
+    return {
+        type: 'pushElement',
+        combinator: combinator,
+        cont: weave(leftItems)
+    };
+}
+function spliceAndGroup(items, predicate, keyCallback) {
+    const groups = {};
+    while(items.length){
+        const bestKey = findTopKey(items, predicate, keyCallback);
+        const bestKeyPredicate = (sel)=>predicate(sel) && keyCallback(sel) === bestKey;
+        const hasBestKeyPredicate = (item)=>item.ast.list.some(bestKeyPredicate);
+        const { matches, rest } = partition1(items, hasBestKeyPredicate);
+        let oneSimpleSelector = null;
+        for (const item of matches){
+            const splicedNode = spliceSimpleSelector(item, bestKeyPredicate);
+            if (!oneSimpleSelector) {
+                oneSimpleSelector = splicedNode;
+            }
+        }
+        if (oneSimpleSelector == null) {
+            throw new Error('No simple selector is found.');
+        }
+        groups[bestKey] = {
+            oneSimpleSelector: oneSimpleSelector,
+            items: matches
+        };
+        items = rest;
+    }
+    return groups;
+}
+function spliceSimpleSelector(item, predicate) {
+    const simpsels = item.ast.list;
+    const matches = new Array(simpsels.length);
+    let firstIndex = -1;
+    for(let i = simpsels.length; i-- > 0;){
+        if (predicate(simpsels[i])) {
+            matches[i] = true;
+            firstIndex = i;
+        }
+    }
+    if (firstIndex == -1) {
+        throw new Error(`Couldn't find the required simple selector.`);
+    }
+    const result = simpsels[firstIndex];
+    item.ast.list = simpsels.filter((sel, i)=>!matches[i]);
+    return result;
+}
+function findTopKey(items, predicate, keyCallback) {
+    const candidates = {};
+    for (const item of items){
+        const candidates1 = {};
+        for (const node of item.ast.list.filter(predicate)){
+            candidates1[keyCallback(node)] = true;
+        }
+        for (const key of Object.keys(candidates1)){
+            if (candidates[key]) {
+                candidates[key]++;
+            } else {
+                candidates[key] = 1;
+            }
+        }
+    }
+    let topKind = '';
+    let topCounter = 0;
+    for (const entry of Object.entries(candidates)){
+        if (entry[1] > topCounter) {
+            topKind = entry[0];
+            topCounter = entry[1];
+        }
+    }
+    return topKind;
+}
+function partition(src, predicate) {
+    const matches = [];
+    const rest = [];
+    for (const x of src){
+        if (predicate(x)) {
+            matches.push(x);
+        } else {
+            rest.push(x);
+        }
+    }
+    return {
+        matches,
+        rest
+    };
+}
+function partition1(src, predicate) {
+    const matches = [];
+    const rest = [];
+    for (const x of src){
+        if (predicate(x)) {
+            matches.push(x);
+        } else {
+            rest.push(x);
+        }
+    }
+    return {
+        matches,
+        rest
+    };
+}
+class Picker {
+    constructor(f){
+        this.f = f;
+    }
+    pickAll(el) {
+        return this.f(el);
+    }
+    pick1(el, preferFirst = false) {
+        const results = this.f(el);
+        const len = results.length;
+        if (len === 0) {
+            return null;
+        }
+        if (len === 1) {
+            return results[0].value;
+        }
+        const comparator = preferFirst ? comparatorPreferFirst : comparatorPreferLast;
+        let result = results[0];
+        for(let i = 1; i < len; i++){
+            const next = results[i];
+            if (comparator(result, next)) {
+                result = next;
+            }
+        }
+        return result.value;
+    }
+}
+function comparatorPreferFirst(acc, next) {
+    const diff = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$parseley$2f$lib$2f$parseley$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["compareSpecificity"])(next.specificity, acc.specificity);
+    return diff > 0 || diff === 0 && next.index < acc.index;
+}
+function comparatorPreferLast(acc, next) {
+    const diff = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$parseley$2f$lib$2f$parseley$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["compareSpecificity"])(next.specificity, acc.specificity);
+    return diff > 0 || diff === 0 && next.index > acc.index;
+}
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/@selderee/plugin-htmlparser2/lib/hp2-builder.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "hp2Builder",
+    ()=>hp2Builder
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/index.js [app-route] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/node.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$selderee$2f$lib$2f$selderee$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/selderee/lib/selderee.mjs [app-route] (ecmascript)");
+;
+;
+function hp2Builder(nodes) {
+    return new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$selderee$2f$lib$2f$selderee$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Picker"](handleArray(nodes));
+}
+function handleArray(nodes) {
+    const matchers = nodes.map(handleNode);
+    return (el, ...tail)=>matchers.flatMap((m)=>m(el, ...tail));
+}
+function handleNode(node) {
+    switch(node.type){
+        case 'terminal':
+            {
+                const result = [
+                    node.valueContainer
+                ];
+                return (el, ...tail)=>result;
+            }
+        case 'tagName':
+            return handleTagName(node);
+        case 'attrValue':
+            return handleAttrValueName(node);
+        case 'attrPresence':
+            return handleAttrPresenceName(node);
+        case 'pushElement':
+            return handlePushElementNode(node);
+        case 'popElement':
+            return handlePopElementNode(node);
+    }
+}
+function handleTagName(node) {
+    const variants = {};
+    for (const variant of node.variants){
+        variants[variant.value] = handleArray(variant.cont);
+    }
+    return (el, ...tail)=>{
+        const continuation = variants[el.name];
+        return continuation ? continuation(el, ...tail) : [];
+    };
+}
+function handleAttrPresenceName(node) {
+    const attrName = node.name;
+    const continuation = handleArray(node.cont);
+    return (el, ...tail)=>Object.prototype.hasOwnProperty.call(el.attribs, attrName) ? continuation(el, ...tail) : [];
+}
+function handleAttrValueName(node) {
+    const callbacks = [];
+    for (const matcher of node.matchers){
+        const predicate = matcher.predicate;
+        const continuation = handleArray(matcher.cont);
+        callbacks.push((attr, el, ...tail)=>predicate(attr) ? continuation(el, ...tail) : []);
+    }
+    const attrName = node.name;
+    return (el, ...tail)=>{
+        const attr = el.attribs[attrName];
+        return attr || attr === '' ? callbacks.flatMap((cb)=>cb(attr, el, ...tail)) : [];
+    };
+}
+function handlePushElementNode(node) {
+    const continuation = handleArray(node.cont);
+    const leftElementGetter = node.combinator === '+' ? getPrecedingElement : getParentElement;
+    return (el, ...tail)=>{
+        const next = leftElementGetter(el);
+        if (next === null) {
+            return [];
+        }
+        return continuation(next, el, ...tail);
+    };
+}
+const getPrecedingElement = (el)=>{
+    const prev = el.prev;
+    if (prev === null) {
+        return null;
+    }
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isTag"])(prev) ? prev : getPrecedingElement(prev);
+};
+const getParentElement = (el)=>{
+    const parent = el.parent;
+    return parent && (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isTag"])(parent) ? parent : null;
+};
+function handlePopElementNode(node) {
+    const continuation = handleArray(node.cont);
+    return (el, next, ...tail)=>continuation(next, ...tail);
+}
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/htmlparser2/lib/esm/Tokenizer.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "QuoteType",
+    ()=>QuoteType,
+    "default",
+    ()=>Tokenizer
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$decode$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/entities/lib/esm/decode.js [app-route] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$generated$2f$decode$2d$data$2d$html$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__default__as__htmlDecodeTree$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/entities/lib/esm/generated/decode-data-html.js [app-route] (ecmascript) <export default as htmlDecodeTree>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$generated$2f$decode$2d$data$2d$xml$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__default__as__xmlDecodeTree$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/entities/lib/esm/generated/decode-data-xml.js [app-route] (ecmascript) <export default as xmlDecodeTree>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$decode_codepoint$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/entities/lib/esm/decode_codepoint.js [app-route] (ecmascript)");
+;
+var CharCodes;
+(function(CharCodes) {
+    CharCodes[CharCodes["Tab"] = 9] = "Tab";
+    CharCodes[CharCodes["NewLine"] = 10] = "NewLine";
+    CharCodes[CharCodes["FormFeed"] = 12] = "FormFeed";
+    CharCodes[CharCodes["CarriageReturn"] = 13] = "CarriageReturn";
+    CharCodes[CharCodes["Space"] = 32] = "Space";
+    CharCodes[CharCodes["ExclamationMark"] = 33] = "ExclamationMark";
+    CharCodes[CharCodes["Number"] = 35] = "Number";
+    CharCodes[CharCodes["Amp"] = 38] = "Amp";
+    CharCodes[CharCodes["SingleQuote"] = 39] = "SingleQuote";
+    CharCodes[CharCodes["DoubleQuote"] = 34] = "DoubleQuote";
+    CharCodes[CharCodes["Dash"] = 45] = "Dash";
+    CharCodes[CharCodes["Slash"] = 47] = "Slash";
+    CharCodes[CharCodes["Zero"] = 48] = "Zero";
+    CharCodes[CharCodes["Nine"] = 57] = "Nine";
+    CharCodes[CharCodes["Semi"] = 59] = "Semi";
+    CharCodes[CharCodes["Lt"] = 60] = "Lt";
+    CharCodes[CharCodes["Eq"] = 61] = "Eq";
+    CharCodes[CharCodes["Gt"] = 62] = "Gt";
+    CharCodes[CharCodes["Questionmark"] = 63] = "Questionmark";
+    CharCodes[CharCodes["UpperA"] = 65] = "UpperA";
+    CharCodes[CharCodes["LowerA"] = 97] = "LowerA";
+    CharCodes[CharCodes["UpperF"] = 70] = "UpperF";
+    CharCodes[CharCodes["LowerF"] = 102] = "LowerF";
+    CharCodes[CharCodes["UpperZ"] = 90] = "UpperZ";
+    CharCodes[CharCodes["LowerZ"] = 122] = "LowerZ";
+    CharCodes[CharCodes["LowerX"] = 120] = "LowerX";
+    CharCodes[CharCodes["OpeningSquareBracket"] = 91] = "OpeningSquareBracket";
+})(CharCodes || (CharCodes = {}));
+/** All the states the tokenizer can be in. */ var State;
+(function(State) {
+    State[State["Text"] = 1] = "Text";
+    State[State["BeforeTagName"] = 2] = "BeforeTagName";
+    State[State["InTagName"] = 3] = "InTagName";
+    State[State["InSelfClosingTag"] = 4] = "InSelfClosingTag";
+    State[State["BeforeClosingTagName"] = 5] = "BeforeClosingTagName";
+    State[State["InClosingTagName"] = 6] = "InClosingTagName";
+    State[State["AfterClosingTagName"] = 7] = "AfterClosingTagName";
+    // Attributes
+    State[State["BeforeAttributeName"] = 8] = "BeforeAttributeName";
+    State[State["InAttributeName"] = 9] = "InAttributeName";
+    State[State["AfterAttributeName"] = 10] = "AfterAttributeName";
+    State[State["BeforeAttributeValue"] = 11] = "BeforeAttributeValue";
+    State[State["InAttributeValueDq"] = 12] = "InAttributeValueDq";
+    State[State["InAttributeValueSq"] = 13] = "InAttributeValueSq";
+    State[State["InAttributeValueNq"] = 14] = "InAttributeValueNq";
+    // Declarations
+    State[State["BeforeDeclaration"] = 15] = "BeforeDeclaration";
+    State[State["InDeclaration"] = 16] = "InDeclaration";
+    // Processing instructions
+    State[State["InProcessingInstruction"] = 17] = "InProcessingInstruction";
+    // Comments & CDATA
+    State[State["BeforeComment"] = 18] = "BeforeComment";
+    State[State["CDATASequence"] = 19] = "CDATASequence";
+    State[State["InSpecialComment"] = 20] = "InSpecialComment";
+    State[State["InCommentLike"] = 21] = "InCommentLike";
+    // Special tags
+    State[State["BeforeSpecialS"] = 22] = "BeforeSpecialS";
+    State[State["SpecialStartSequence"] = 23] = "SpecialStartSequence";
+    State[State["InSpecialTag"] = 24] = "InSpecialTag";
+    State[State["BeforeEntity"] = 25] = "BeforeEntity";
+    State[State["BeforeNumericEntity"] = 26] = "BeforeNumericEntity";
+    State[State["InNamedEntity"] = 27] = "InNamedEntity";
+    State[State["InNumericEntity"] = 28] = "InNumericEntity";
+    State[State["InHexEntity"] = 29] = "InHexEntity";
+})(State || (State = {}));
+function isWhitespace(c) {
+    return c === CharCodes.Space || c === CharCodes.NewLine || c === CharCodes.Tab || c === CharCodes.FormFeed || c === CharCodes.CarriageReturn;
+}
+function isEndOfTagSection(c) {
+    return c === CharCodes.Slash || c === CharCodes.Gt || isWhitespace(c);
+}
+function isNumber(c) {
+    return c >= CharCodes.Zero && c <= CharCodes.Nine;
+}
+function isASCIIAlpha(c) {
+    return c >= CharCodes.LowerA && c <= CharCodes.LowerZ || c >= CharCodes.UpperA && c <= CharCodes.UpperZ;
+}
+function isHexDigit(c) {
+    return c >= CharCodes.UpperA && c <= CharCodes.UpperF || c >= CharCodes.LowerA && c <= CharCodes.LowerF;
+}
+var QuoteType;
+(function(QuoteType) {
+    QuoteType[QuoteType["NoValue"] = 0] = "NoValue";
+    QuoteType[QuoteType["Unquoted"] = 1] = "Unquoted";
+    QuoteType[QuoteType["Single"] = 2] = "Single";
+    QuoteType[QuoteType["Double"] = 3] = "Double";
+})(QuoteType || (QuoteType = {}));
+/**
+ * Sequences used to match longer strings.
+ *
+ * We don't have `Script`, `Style`, or `Title` here. Instead, we re-use the *End
+ * sequences with an increased offset.
+ */ const Sequences = {
+    Cdata: new Uint8Array([
+        0x43,
+        0x44,
+        0x41,
+        0x54,
+        0x41,
+        0x5b
+    ]),
+    CdataEnd: new Uint8Array([
+        0x5d,
+        0x5d,
+        0x3e
+    ]),
+    CommentEnd: new Uint8Array([
+        0x2d,
+        0x2d,
+        0x3e
+    ]),
+    ScriptEnd: new Uint8Array([
+        0x3c,
+        0x2f,
+        0x73,
+        0x63,
+        0x72,
+        0x69,
+        0x70,
+        0x74
+    ]),
+    StyleEnd: new Uint8Array([
+        0x3c,
+        0x2f,
+        0x73,
+        0x74,
+        0x79,
+        0x6c,
+        0x65
+    ]),
+    TitleEnd: new Uint8Array([
+        0x3c,
+        0x2f,
+        0x74,
+        0x69,
+        0x74,
+        0x6c,
+        0x65
+    ])
+};
+class Tokenizer {
+    constructor({ xmlMode = false, decodeEntities = true }, cbs){
+        this.cbs = cbs;
+        /** The current state the tokenizer is in. */ this.state = State.Text;
+        /** The read buffer. */ this.buffer = "";
+        /** The beginning of the section that is currently being read. */ this.sectionStart = 0;
+        /** The index within the buffer that we are currently looking at. */ this.index = 0;
+        /** Some behavior, eg. when decoding entities, is done while we are in another state. This keeps track of the other state type. */ this.baseState = State.Text;
+        /** For special parsing behavior inside of script and style tags. */ this.isSpecial = false;
+        /** Indicates whether the tokenizer has been paused. */ this.running = true;
+        /** The offset of the current buffer. */ this.offset = 0;
+        this.currentSequence = undefined;
+        this.sequenceIndex = 0;
+        this.trieIndex = 0;
+        this.trieCurrent = 0;
+        /** For named entities, the index of the value. For numeric entities, the code point. */ this.entityResult = 0;
+        this.entityExcess = 0;
+        this.xmlMode = xmlMode;
+        this.decodeEntities = decodeEntities;
+        this.entityTrie = xmlMode ? __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$generated$2f$decode$2d$data$2d$xml$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__default__as__xmlDecodeTree$3e$__["xmlDecodeTree"] : __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$generated$2f$decode$2d$data$2d$html$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$export__default__as__htmlDecodeTree$3e$__["htmlDecodeTree"];
+    }
+    reset() {
+        this.state = State.Text;
+        this.buffer = "";
+        this.sectionStart = 0;
+        this.index = 0;
+        this.baseState = State.Text;
+        this.currentSequence = undefined;
+        this.running = true;
+        this.offset = 0;
+    }
+    write(chunk) {
+        this.offset += this.buffer.length;
+        this.buffer = chunk;
+        this.parse();
+    }
+    end() {
+        if (this.running) this.finish();
+    }
+    pause() {
+        this.running = false;
+    }
+    resume() {
+        this.running = true;
+        if (this.index < this.buffer.length + this.offset) {
+            this.parse();
+        }
+    }
+    /**
+     * The current index within all of the written data.
+     */ getIndex() {
+        return this.index;
+    }
+    /**
+     * The start of the current section.
+     */ getSectionStart() {
+        return this.sectionStart;
+    }
+    stateText(c) {
+        if (c === CharCodes.Lt || !this.decodeEntities && this.fastForwardTo(CharCodes.Lt)) {
+            if (this.index > this.sectionStart) {
+                this.cbs.ontext(this.sectionStart, this.index);
+            }
+            this.state = State.BeforeTagName;
+            this.sectionStart = this.index;
+        } else if (this.decodeEntities && c === CharCodes.Amp) {
+            this.state = State.BeforeEntity;
+        }
+    }
+    stateSpecialStartSequence(c) {
+        const isEnd = this.sequenceIndex === this.currentSequence.length;
+        const isMatch = isEnd ? isEndOfTagSection(c) : (c | 0x20) === this.currentSequence[this.sequenceIndex];
+        if (!isMatch) {
+            this.isSpecial = false;
+        } else if (!isEnd) {
+            this.sequenceIndex++;
+            return;
+        }
+        this.sequenceIndex = 0;
+        this.state = State.InTagName;
+        this.stateInTagName(c);
+    }
+    /** Look for an end tag. For <title> tags, also decode entities. */ stateInSpecialTag(c) {
+        if (this.sequenceIndex === this.currentSequence.length) {
+            if (c === CharCodes.Gt || isWhitespace(c)) {
+                const endOfText = this.index - this.currentSequence.length;
+                if (this.sectionStart < endOfText) {
+                    // Spoof the index so that reported locations match up.
+                    const actualIndex = this.index;
+                    this.index = endOfText;
+                    this.cbs.ontext(this.sectionStart, endOfText);
+                    this.index = actualIndex;
+                }
+                this.isSpecial = false;
+                this.sectionStart = endOfText + 2; // Skip over the `</`
+                this.stateInClosingTagName(c);
+                return; // We are done; skip the rest of the function.
+            }
+            this.sequenceIndex = 0;
+        }
+        if ((c | 0x20) === this.currentSequence[this.sequenceIndex]) {
+            this.sequenceIndex += 1;
+        } else if (this.sequenceIndex === 0) {
+            if (this.currentSequence === Sequences.TitleEnd) {
+                // We have to parse entities in <title> tags.
+                if (this.decodeEntities && c === CharCodes.Amp) {
+                    this.state = State.BeforeEntity;
+                }
+            } else if (this.fastForwardTo(CharCodes.Lt)) {
+                // Outside of <title> tags, we can fast-forward.
+                this.sequenceIndex = 1;
+            }
+        } else {
+            // If we see a `<`, set the sequence index to 1; useful for eg. `<</script>`.
+            this.sequenceIndex = Number(c === CharCodes.Lt);
+        }
+    }
+    stateCDATASequence(c) {
+        if (c === Sequences.Cdata[this.sequenceIndex]) {
+            if (++this.sequenceIndex === Sequences.Cdata.length) {
+                this.state = State.InCommentLike;
+                this.currentSequence = Sequences.CdataEnd;
+                this.sequenceIndex = 0;
+                this.sectionStart = this.index + 1;
+            }
+        } else {
+            this.sequenceIndex = 0;
+            this.state = State.InDeclaration;
+            this.stateInDeclaration(c); // Reconsume the character
+        }
+    }
+    /**
+     * When we wait for one specific character, we can speed things up
+     * by skipping through the buffer until we find it.
+     *
+     * @returns Whether the character was found.
+     */ fastForwardTo(c) {
+        while(++this.index < this.buffer.length + this.offset){
+            if (this.buffer.charCodeAt(this.index - this.offset) === c) {
+                return true;
+            }
+        }
+        /*
+         * We increment the index at the end of the `parse` loop,
+         * so set it to `buffer.length - 1` here.
+         *
+         * TODO: Refactor `parse` to increment index before calling states.
+         */ this.index = this.buffer.length + this.offset - 1;
+        return false;
+    }
+    /**
+     * Comments and CDATA end with `-->` and `]]>`.
+     *
+     * Their common qualities are:
+     * - Their end sequences have a distinct character they start with.
+     * - That character is then repeated, so we have to check multiple repeats.
+     * - All characters but the start character of the sequence can be skipped.
+     */ stateInCommentLike(c) {
+        if (c === this.currentSequence[this.sequenceIndex]) {
+            if (++this.sequenceIndex === this.currentSequence.length) {
+                if (this.currentSequence === Sequences.CdataEnd) {
+                    this.cbs.oncdata(this.sectionStart, this.index, 2);
+                } else {
+                    this.cbs.oncomment(this.sectionStart, this.index, 2);
+                }
+                this.sequenceIndex = 0;
+                this.sectionStart = this.index + 1;
+                this.state = State.Text;
+            }
+        } else if (this.sequenceIndex === 0) {
+            // Fast-forward to the first character of the sequence
+            if (this.fastForwardTo(this.currentSequence[0])) {
+                this.sequenceIndex = 1;
+            }
+        } else if (c !== this.currentSequence[this.sequenceIndex - 1]) {
+            // Allow long sequences, eg. --->, ]]]>
+            this.sequenceIndex = 0;
+        }
+    }
+    /**
+     * HTML only allows ASCII alpha characters (a-z and A-Z) at the beginning of a tag name.
+     *
+     * XML allows a lot more characters here (@see https://www.w3.org/TR/REC-xml/#NT-NameStartChar).
+     * We allow anything that wouldn't end the tag.
+     */ isTagStartChar(c) {
+        return this.xmlMode ? !isEndOfTagSection(c) : isASCIIAlpha(c);
+    }
+    startSpecial(sequence, offset) {
+        this.isSpecial = true;
+        this.currentSequence = sequence;
+        this.sequenceIndex = offset;
+        this.state = State.SpecialStartSequence;
+    }
+    stateBeforeTagName(c) {
+        if (c === CharCodes.ExclamationMark) {
+            this.state = State.BeforeDeclaration;
+            this.sectionStart = this.index + 1;
+        } else if (c === CharCodes.Questionmark) {
+            this.state = State.InProcessingInstruction;
+            this.sectionStart = this.index + 1;
+        } else if (this.isTagStartChar(c)) {
+            const lower = c | 0x20;
+            this.sectionStart = this.index;
+            if (!this.xmlMode && lower === Sequences.TitleEnd[2]) {
+                this.startSpecial(Sequences.TitleEnd, 3);
+            } else {
+                this.state = !this.xmlMode && lower === Sequences.ScriptEnd[2] ? State.BeforeSpecialS : State.InTagName;
+            }
+        } else if (c === CharCodes.Slash) {
+            this.state = State.BeforeClosingTagName;
+        } else {
+            this.state = State.Text;
+            this.stateText(c);
+        }
+    }
+    stateInTagName(c) {
+        if (isEndOfTagSection(c)) {
+            this.cbs.onopentagname(this.sectionStart, this.index);
+            this.sectionStart = -1;
+            this.state = State.BeforeAttributeName;
+            this.stateBeforeAttributeName(c);
+        }
+    }
+    stateBeforeClosingTagName(c) {
+        if (isWhitespace(c)) {
+        // Ignore
+        } else if (c === CharCodes.Gt) {
+            this.state = State.Text;
+        } else {
+            this.state = this.isTagStartChar(c) ? State.InClosingTagName : State.InSpecialComment;
+            this.sectionStart = this.index;
+        }
+    }
+    stateInClosingTagName(c) {
+        if (c === CharCodes.Gt || isWhitespace(c)) {
+            this.cbs.onclosetag(this.sectionStart, this.index);
+            this.sectionStart = -1;
+            this.state = State.AfterClosingTagName;
+            this.stateAfterClosingTagName(c);
+        }
+    }
+    stateAfterClosingTagName(c) {
+        // Skip everything until ">"
+        if (c === CharCodes.Gt || this.fastForwardTo(CharCodes.Gt)) {
+            this.state = State.Text;
+            this.baseState = State.Text;
+            this.sectionStart = this.index + 1;
+        }
+    }
+    stateBeforeAttributeName(c) {
+        if (c === CharCodes.Gt) {
+            this.cbs.onopentagend(this.index);
+            if (this.isSpecial) {
+                this.state = State.InSpecialTag;
+                this.sequenceIndex = 0;
+            } else {
+                this.state = State.Text;
+            }
+            this.baseState = this.state;
+            this.sectionStart = this.index + 1;
+        } else if (c === CharCodes.Slash) {
+            this.state = State.InSelfClosingTag;
+        } else if (!isWhitespace(c)) {
+            this.state = State.InAttributeName;
+            this.sectionStart = this.index;
+        }
+    }
+    stateInSelfClosingTag(c) {
+        if (c === CharCodes.Gt) {
+            this.cbs.onselfclosingtag(this.index);
+            this.state = State.Text;
+            this.baseState = State.Text;
+            this.sectionStart = this.index + 1;
+            this.isSpecial = false; // Reset special state, in case of self-closing special tags
+        } else if (!isWhitespace(c)) {
+            this.state = State.BeforeAttributeName;
+            this.stateBeforeAttributeName(c);
+        }
+    }
+    stateInAttributeName(c) {
+        if (c === CharCodes.Eq || isEndOfTagSection(c)) {
+            this.cbs.onattribname(this.sectionStart, this.index);
+            this.sectionStart = -1;
+            this.state = State.AfterAttributeName;
+            this.stateAfterAttributeName(c);
+        }
+    }
+    stateAfterAttributeName(c) {
+        if (c === CharCodes.Eq) {
+            this.state = State.BeforeAttributeValue;
+        } else if (c === CharCodes.Slash || c === CharCodes.Gt) {
+            this.cbs.onattribend(QuoteType.NoValue, this.index);
+            this.state = State.BeforeAttributeName;
+            this.stateBeforeAttributeName(c);
+        } else if (!isWhitespace(c)) {
+            this.cbs.onattribend(QuoteType.NoValue, this.index);
+            this.state = State.InAttributeName;
+            this.sectionStart = this.index;
+        }
+    }
+    stateBeforeAttributeValue(c) {
+        if (c === CharCodes.DoubleQuote) {
+            this.state = State.InAttributeValueDq;
+            this.sectionStart = this.index + 1;
+        } else if (c === CharCodes.SingleQuote) {
+            this.state = State.InAttributeValueSq;
+            this.sectionStart = this.index + 1;
+        } else if (!isWhitespace(c)) {
+            this.sectionStart = this.index;
+            this.state = State.InAttributeValueNq;
+            this.stateInAttributeValueNoQuotes(c); // Reconsume token
+        }
+    }
+    handleInAttributeValue(c, quote) {
+        if (c === quote || !this.decodeEntities && this.fastForwardTo(quote)) {
+            this.cbs.onattribdata(this.sectionStart, this.index);
+            this.sectionStart = -1;
+            this.cbs.onattribend(quote === CharCodes.DoubleQuote ? QuoteType.Double : QuoteType.Single, this.index);
+            this.state = State.BeforeAttributeName;
+        } else if (this.decodeEntities && c === CharCodes.Amp) {
+            this.baseState = this.state;
+            this.state = State.BeforeEntity;
+        }
+    }
+    stateInAttributeValueDoubleQuotes(c) {
+        this.handleInAttributeValue(c, CharCodes.DoubleQuote);
+    }
+    stateInAttributeValueSingleQuotes(c) {
+        this.handleInAttributeValue(c, CharCodes.SingleQuote);
+    }
+    stateInAttributeValueNoQuotes(c) {
+        if (isWhitespace(c) || c === CharCodes.Gt) {
+            this.cbs.onattribdata(this.sectionStart, this.index);
+            this.sectionStart = -1;
+            this.cbs.onattribend(QuoteType.Unquoted, this.index);
+            this.state = State.BeforeAttributeName;
+            this.stateBeforeAttributeName(c);
+        } else if (this.decodeEntities && c === CharCodes.Amp) {
+            this.baseState = this.state;
+            this.state = State.BeforeEntity;
+        }
+    }
+    stateBeforeDeclaration(c) {
+        if (c === CharCodes.OpeningSquareBracket) {
+            this.state = State.CDATASequence;
+            this.sequenceIndex = 0;
+        } else {
+            this.state = c === CharCodes.Dash ? State.BeforeComment : State.InDeclaration;
+        }
+    }
+    stateInDeclaration(c) {
+        if (c === CharCodes.Gt || this.fastForwardTo(CharCodes.Gt)) {
+            this.cbs.ondeclaration(this.sectionStart, this.index);
+            this.state = State.Text;
+            this.sectionStart = this.index + 1;
+        }
+    }
+    stateInProcessingInstruction(c) {
+        if (c === CharCodes.Gt || this.fastForwardTo(CharCodes.Gt)) {
+            this.cbs.onprocessinginstruction(this.sectionStart, this.index);
+            this.state = State.Text;
+            this.sectionStart = this.index + 1;
+        }
+    }
+    stateBeforeComment(c) {
+        if (c === CharCodes.Dash) {
+            this.state = State.InCommentLike;
+            this.currentSequence = Sequences.CommentEnd;
+            // Allow short comments (eg. <!-->)
+            this.sequenceIndex = 2;
+            this.sectionStart = this.index + 1;
+        } else {
+            this.state = State.InDeclaration;
+        }
+    }
+    stateInSpecialComment(c) {
+        if (c === CharCodes.Gt || this.fastForwardTo(CharCodes.Gt)) {
+            this.cbs.oncomment(this.sectionStart, this.index, 0);
+            this.state = State.Text;
+            this.sectionStart = this.index + 1;
+        }
+    }
+    stateBeforeSpecialS(c) {
+        const lower = c | 0x20;
+        if (lower === Sequences.ScriptEnd[3]) {
+            this.startSpecial(Sequences.ScriptEnd, 4);
+        } else if (lower === Sequences.StyleEnd[3]) {
+            this.startSpecial(Sequences.StyleEnd, 4);
+        } else {
+            this.state = State.InTagName;
+            this.stateInTagName(c); // Consume the token again
+        }
+    }
+    stateBeforeEntity(c) {
+        // Start excess with 1 to include the '&'
+        this.entityExcess = 1;
+        this.entityResult = 0;
+        if (c === CharCodes.Number) {
+            this.state = State.BeforeNumericEntity;
+        } else if (c === CharCodes.Amp) {
+        // We have two `&` characters in a row. Stay in the current state.
+        } else {
+            this.trieIndex = 0;
+            this.trieCurrent = this.entityTrie[0];
+            this.state = State.InNamedEntity;
+            this.stateInNamedEntity(c);
+        }
+    }
+    stateInNamedEntity(c) {
+        this.entityExcess += 1;
+        this.trieIndex = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$decode$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__["determineBranch"])(this.entityTrie, this.trieCurrent, this.trieIndex + 1, c);
+        if (this.trieIndex < 0) {
+            this.emitNamedEntity();
+            this.index--;
+            return;
+        }
+        this.trieCurrent = this.entityTrie[this.trieIndex];
+        const masked = this.trieCurrent & __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$decode$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__["BinTrieFlags"].VALUE_LENGTH;
+        // If the branch is a value, store it and continue
+        if (masked) {
+            // The mask is the number of bytes of the value, including the current byte.
+            const valueLength = (masked >> 14) - 1;
+            // If we have a legacy entity while parsing strictly, just skip the number of bytes
+            if (!this.allowLegacyEntity() && c !== CharCodes.Semi) {
+                this.trieIndex += valueLength;
+            } else {
+                // Add 1 as we have already incremented the excess
+                const entityStart = this.index - this.entityExcess + 1;
+                if (entityStart > this.sectionStart) {
+                    this.emitPartial(this.sectionStart, entityStart);
+                }
+                // If this is a surrogate pair, consume the next two bytes
+                this.entityResult = this.trieIndex;
+                this.trieIndex += valueLength;
+                this.entityExcess = 0;
+                this.sectionStart = this.index + 1;
+                if (valueLength === 0) {
+                    this.emitNamedEntity();
+                }
+            }
+        }
+    }
+    emitNamedEntity() {
+        this.state = this.baseState;
+        if (this.entityResult === 0) {
+            return;
+        }
+        const valueLength = (this.entityTrie[this.entityResult] & __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$decode$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__["BinTrieFlags"].VALUE_LENGTH) >> 14;
+        switch(valueLength){
+            case 1:
+                {
+                    this.emitCodePoint(this.entityTrie[this.entityResult] & ~__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$decode$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__["BinTrieFlags"].VALUE_LENGTH);
+                    break;
+                }
+            case 2:
+                {
+                    this.emitCodePoint(this.entityTrie[this.entityResult + 1]);
+                    break;
+                }
+            case 3:
+                {
+                    this.emitCodePoint(this.entityTrie[this.entityResult + 1]);
+                    this.emitCodePoint(this.entityTrie[this.entityResult + 2]);
+                }
+        }
+    }
+    stateBeforeNumericEntity(c) {
+        if ((c | 0x20) === CharCodes.LowerX) {
+            this.entityExcess++;
+            this.state = State.InHexEntity;
+        } else {
+            this.state = State.InNumericEntity;
+            this.stateInNumericEntity(c);
+        }
+    }
+    emitNumericEntity(strict) {
+        const entityStart = this.index - this.entityExcess - 1;
+        const numberStart = entityStart + 2 + Number(this.state === State.InHexEntity);
+        if (numberStart !== this.index) {
+            // Emit leading data if any
+            if (entityStart > this.sectionStart) {
+                this.emitPartial(this.sectionStart, entityStart);
+            }
+            this.sectionStart = this.index + Number(strict);
+            this.emitCodePoint((0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$decode_codepoint$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["replaceCodePoint"])(this.entityResult));
+        }
+        this.state = this.baseState;
+    }
+    stateInNumericEntity(c) {
+        if (c === CharCodes.Semi) {
+            this.emitNumericEntity(true);
+        } else if (isNumber(c)) {
+            this.entityResult = this.entityResult * 10 + (c - CharCodes.Zero);
+            this.entityExcess++;
+        } else {
+            if (this.allowLegacyEntity()) {
+                this.emitNumericEntity(false);
+            } else {
+                this.state = this.baseState;
+            }
+            this.index--;
+        }
+    }
+    stateInHexEntity(c) {
+        if (c === CharCodes.Semi) {
+            this.emitNumericEntity(true);
+        } else if (isNumber(c)) {
+            this.entityResult = this.entityResult * 16 + (c - CharCodes.Zero);
+            this.entityExcess++;
+        } else if (isHexDigit(c)) {
+            this.entityResult = this.entityResult * 16 + ((c | 0x20) - CharCodes.LowerA + 10);
+            this.entityExcess++;
+        } else {
+            if (this.allowLegacyEntity()) {
+                this.emitNumericEntity(false);
+            } else {
+                this.state = this.baseState;
+            }
+            this.index--;
+        }
+    }
+    allowLegacyEntity() {
+        return !this.xmlMode && (this.baseState === State.Text || this.baseState === State.InSpecialTag);
+    }
+    /**
+     * Remove data that has already been consumed from the buffer.
+     */ cleanup() {
+        // If we are inside of text or attributes, emit what we already have.
+        if (this.running && this.sectionStart !== this.index) {
+            if (this.state === State.Text || this.state === State.InSpecialTag && this.sequenceIndex === 0) {
+                this.cbs.ontext(this.sectionStart, this.index);
+                this.sectionStart = this.index;
+            } else if (this.state === State.InAttributeValueDq || this.state === State.InAttributeValueSq || this.state === State.InAttributeValueNq) {
+                this.cbs.onattribdata(this.sectionStart, this.index);
+                this.sectionStart = this.index;
+            }
+        }
+    }
+    shouldContinue() {
+        return this.index < this.buffer.length + this.offset && this.running;
+    }
+    /**
+     * Iterates through the buffer, calling the function corresponding to the current state.
+     *
+     * States that are more likely to be hit are higher up, as a performance improvement.
+     */ parse() {
+        while(this.shouldContinue()){
+            const c = this.buffer.charCodeAt(this.index - this.offset);
+            switch(this.state){
+                case State.Text:
+                    {
+                        this.stateText(c);
+                        break;
+                    }
+                case State.SpecialStartSequence:
+                    {
+                        this.stateSpecialStartSequence(c);
+                        break;
+                    }
+                case State.InSpecialTag:
+                    {
+                        this.stateInSpecialTag(c);
+                        break;
+                    }
+                case State.CDATASequence:
+                    {
+                        this.stateCDATASequence(c);
+                        break;
+                    }
+                case State.InAttributeValueDq:
+                    {
+                        this.stateInAttributeValueDoubleQuotes(c);
+                        break;
+                    }
+                case State.InAttributeName:
+                    {
+                        this.stateInAttributeName(c);
+                        break;
+                    }
+                case State.InCommentLike:
+                    {
+                        this.stateInCommentLike(c);
+                        break;
+                    }
+                case State.InSpecialComment:
+                    {
+                        this.stateInSpecialComment(c);
+                        break;
+                    }
+                case State.BeforeAttributeName:
+                    {
+                        this.stateBeforeAttributeName(c);
+                        break;
+                    }
+                case State.InTagName:
+                    {
+                        this.stateInTagName(c);
+                        break;
+                    }
+                case State.InClosingTagName:
+                    {
+                        this.stateInClosingTagName(c);
+                        break;
+                    }
+                case State.BeforeTagName:
+                    {
+                        this.stateBeforeTagName(c);
+                        break;
+                    }
+                case State.AfterAttributeName:
+                    {
+                        this.stateAfterAttributeName(c);
+                        break;
+                    }
+                case State.InAttributeValueSq:
+                    {
+                        this.stateInAttributeValueSingleQuotes(c);
+                        break;
+                    }
+                case State.BeforeAttributeValue:
+                    {
+                        this.stateBeforeAttributeValue(c);
+                        break;
+                    }
+                case State.BeforeClosingTagName:
+                    {
+                        this.stateBeforeClosingTagName(c);
+                        break;
+                    }
+                case State.AfterClosingTagName:
+                    {
+                        this.stateAfterClosingTagName(c);
+                        break;
+                    }
+                case State.BeforeSpecialS:
+                    {
+                        this.stateBeforeSpecialS(c);
+                        break;
+                    }
+                case State.InAttributeValueNq:
+                    {
+                        this.stateInAttributeValueNoQuotes(c);
+                        break;
+                    }
+                case State.InSelfClosingTag:
+                    {
+                        this.stateInSelfClosingTag(c);
+                        break;
+                    }
+                case State.InDeclaration:
+                    {
+                        this.stateInDeclaration(c);
+                        break;
+                    }
+                case State.BeforeDeclaration:
+                    {
+                        this.stateBeforeDeclaration(c);
+                        break;
+                    }
+                case State.BeforeComment:
+                    {
+                        this.stateBeforeComment(c);
+                        break;
+                    }
+                case State.InProcessingInstruction:
+                    {
+                        this.stateInProcessingInstruction(c);
+                        break;
+                    }
+                case State.InNamedEntity:
+                    {
+                        this.stateInNamedEntity(c);
+                        break;
+                    }
+                case State.BeforeEntity:
+                    {
+                        this.stateBeforeEntity(c);
+                        break;
+                    }
+                case State.InHexEntity:
+                    {
+                        this.stateInHexEntity(c);
+                        break;
+                    }
+                case State.InNumericEntity:
+                    {
+                        this.stateInNumericEntity(c);
+                        break;
+                    }
+                default:
+                    {
+                        // `this._state === State.BeforeNumericEntity`
+                        this.stateBeforeNumericEntity(c);
+                    }
+            }
+            this.index++;
+        }
+        this.cleanup();
+    }
+    finish() {
+        if (this.state === State.InNamedEntity) {
+            this.emitNamedEntity();
+        }
+        // If there is remaining data, emit it in a reasonable way
+        if (this.sectionStart < this.index) {
+            this.handleTrailingData();
+        }
+        this.cbs.onend();
+    }
+    /** Handle any trailing data. */ handleTrailingData() {
+        const endIndex = this.buffer.length + this.offset;
+        if (this.state === State.InCommentLike) {
+            if (this.currentSequence === Sequences.CdataEnd) {
+                this.cbs.oncdata(this.sectionStart, endIndex, 0);
+            } else {
+                this.cbs.oncomment(this.sectionStart, endIndex, 0);
+            }
+        } else if (this.state === State.InNumericEntity && this.allowLegacyEntity()) {
+            this.emitNumericEntity(false);
+        // All trailing data will have been consumed
+        } else if (this.state === State.InHexEntity && this.allowLegacyEntity()) {
+            this.emitNumericEntity(false);
+        // All trailing data will have been consumed
+        } else if (this.state === State.InTagName || this.state === State.BeforeAttributeName || this.state === State.BeforeAttributeValue || this.state === State.AfterAttributeName || this.state === State.InAttributeName || this.state === State.InAttributeValueSq || this.state === State.InAttributeValueDq || this.state === State.InAttributeValueNq || this.state === State.InClosingTagName) {
+        /*
+             * If we are currently in an opening or closing tag, us not calling the
+             * respective callback signals that the tag should be ignored.
+             */ } else {
+            this.cbs.ontext(this.sectionStart, endIndex);
+        }
+    }
+    emitPartial(start, endIndex) {
+        if (this.baseState !== State.Text && this.baseState !== State.InSpecialTag) {
+            this.cbs.onattribdata(start, endIndex);
+        } else {
+            this.cbs.ontext(start, endIndex);
+        }
+    }
+    emitCodePoint(cp) {
+        if (this.baseState !== State.Text && this.baseState !== State.InSpecialTag) {
+            this.cbs.onattribentity(cp);
+        } else {
+            this.cbs.ontextentity(cp);
+        }
+    }
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/htmlparser2/lib/esm/Parser.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "Parser",
+    ()=>Parser
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$htmlparser2$2f$lib$2f$esm$2f$Tokenizer$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/htmlparser2/lib/esm/Tokenizer.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$decode$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/entities/lib/esm/decode.js [app-route] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$decode_codepoint$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/entities/lib/esm/decode_codepoint.js [app-route] (ecmascript)");
+;
+;
+const formTags = new Set([
+    "input",
+    "option",
+    "optgroup",
+    "select",
+    "button",
+    "datalist",
+    "textarea"
+]);
+const pTag = new Set([
+    "p"
+]);
+const tableSectionTags = new Set([
+    "thead",
+    "tbody"
+]);
+const ddtTags = new Set([
+    "dd",
+    "dt"
+]);
+const rtpTags = new Set([
+    "rt",
+    "rp"
+]);
+const openImpliesClose = new Map([
+    [
+        "tr",
+        new Set([
+            "tr",
+            "th",
+            "td"
+        ])
+    ],
+    [
+        "th",
+        new Set([
+            "th"
+        ])
+    ],
+    [
+        "td",
+        new Set([
+            "thead",
+            "th",
+            "td"
+        ])
+    ],
+    [
+        "body",
+        new Set([
+            "head",
+            "link",
+            "script"
+        ])
+    ],
+    [
+        "li",
+        new Set([
+            "li"
+        ])
+    ],
+    [
+        "p",
+        pTag
+    ],
+    [
+        "h1",
+        pTag
+    ],
+    [
+        "h2",
+        pTag
+    ],
+    [
+        "h3",
+        pTag
+    ],
+    [
+        "h4",
+        pTag
+    ],
+    [
+        "h5",
+        pTag
+    ],
+    [
+        "h6",
+        pTag
+    ],
+    [
+        "select",
+        formTags
+    ],
+    [
+        "input",
+        formTags
+    ],
+    [
+        "output",
+        formTags
+    ],
+    [
+        "button",
+        formTags
+    ],
+    [
+        "datalist",
+        formTags
+    ],
+    [
+        "textarea",
+        formTags
+    ],
+    [
+        "option",
+        new Set([
+            "option"
+        ])
+    ],
+    [
+        "optgroup",
+        new Set([
+            "optgroup",
+            "option"
+        ])
+    ],
+    [
+        "dd",
+        ddtTags
+    ],
+    [
+        "dt",
+        ddtTags
+    ],
+    [
+        "address",
+        pTag
+    ],
+    [
+        "article",
+        pTag
+    ],
+    [
+        "aside",
+        pTag
+    ],
+    [
+        "blockquote",
+        pTag
+    ],
+    [
+        "details",
+        pTag
+    ],
+    [
+        "div",
+        pTag
+    ],
+    [
+        "dl",
+        pTag
+    ],
+    [
+        "fieldset",
+        pTag
+    ],
+    [
+        "figcaption",
+        pTag
+    ],
+    [
+        "figure",
+        pTag
+    ],
+    [
+        "footer",
+        pTag
+    ],
+    [
+        "form",
+        pTag
+    ],
+    [
+        "header",
+        pTag
+    ],
+    [
+        "hr",
+        pTag
+    ],
+    [
+        "main",
+        pTag
+    ],
+    [
+        "nav",
+        pTag
+    ],
+    [
+        "ol",
+        pTag
+    ],
+    [
+        "pre",
+        pTag
+    ],
+    [
+        "section",
+        pTag
+    ],
+    [
+        "table",
+        pTag
+    ],
+    [
+        "ul",
+        pTag
+    ],
+    [
+        "rt",
+        rtpTags
+    ],
+    [
+        "rp",
+        rtpTags
+    ],
+    [
+        "tbody",
+        tableSectionTags
+    ],
+    [
+        "tfoot",
+        tableSectionTags
+    ]
+]);
+const voidElements = new Set([
+    "area",
+    "base",
+    "basefont",
+    "br",
+    "col",
+    "command",
+    "embed",
+    "frame",
+    "hr",
+    "img",
+    "input",
+    "isindex",
+    "keygen",
+    "link",
+    "meta",
+    "param",
+    "source",
+    "track",
+    "wbr"
+]);
+const foreignContextElements = new Set([
+    "math",
+    "svg"
+]);
+const htmlIntegrationElements = new Set([
+    "mi",
+    "mo",
+    "mn",
+    "ms",
+    "mtext",
+    "annotation-xml",
+    "foreignobject",
+    "desc",
+    "title"
+]);
+const reNameEnd = /\s|\//;
+class Parser {
+    constructor(cbs, options = {}){
+        var _a, _b, _c, _d, _e;
+        this.options = options;
+        /** The start index of the last event. */ this.startIndex = 0;
+        /** The end index of the last event. */ this.endIndex = 0;
+        /**
+         * Store the start index of the current open tag,
+         * so we can update the start index for attributes.
+         */ this.openTagStart = 0;
+        this.tagname = "";
+        this.attribname = "";
+        this.attribvalue = "";
+        this.attribs = null;
+        this.stack = [];
+        this.foreignContext = [];
+        this.buffers = [];
+        this.bufferOffset = 0;
+        /** The index of the last written buffer. Used when resuming after a `pause()`. */ this.writeIndex = 0;
+        /** Indicates whether the parser has finished running / `.end` has been called. */ this.ended = false;
+        this.cbs = cbs !== null && cbs !== void 0 ? cbs : {};
+        this.lowerCaseTagNames = (_a = options.lowerCaseTags) !== null && _a !== void 0 ? _a : !options.xmlMode;
+        this.lowerCaseAttributeNames = (_b = options.lowerCaseAttributeNames) !== null && _b !== void 0 ? _b : !options.xmlMode;
+        this.tokenizer = new ((_c = options.Tokenizer) !== null && _c !== void 0 ? _c : __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$htmlparser2$2f$lib$2f$esm$2f$Tokenizer$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])(this.options, this);
+        (_e = (_d = this.cbs).onparserinit) === null || _e === void 0 ? void 0 : _e.call(_d, this);
+    }
+    // Tokenizer event handlers
+    /** @internal */ ontext(start, endIndex) {
+        var _a, _b;
+        const data = this.getSlice(start, endIndex);
+        this.endIndex = endIndex - 1;
+        (_b = (_a = this.cbs).ontext) === null || _b === void 0 ? void 0 : _b.call(_a, data);
+        this.startIndex = endIndex;
+    }
+    /** @internal */ ontextentity(cp) {
+        var _a, _b;
+        /*
+         * Entities can be emitted on the character, or directly after.
+         * We use the section start here to get accurate indices.
+         */ const index = this.tokenizer.getSectionStart();
+        this.endIndex = index - 1;
+        (_b = (_a = this.cbs).ontext) === null || _b === void 0 ? void 0 : _b.call(_a, (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$decode_codepoint$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["fromCodePoint"])(cp));
+        this.startIndex = index;
+    }
+    isVoidElement(name) {
+        return !this.options.xmlMode && voidElements.has(name);
+    }
+    /** @internal */ onopentagname(start, endIndex) {
+        this.endIndex = endIndex;
+        let name = this.getSlice(start, endIndex);
+        if (this.lowerCaseTagNames) {
+            name = name.toLowerCase();
+        }
+        this.emitOpenTag(name);
+    }
+    emitOpenTag(name) {
+        var _a, _b, _c, _d;
+        this.openTagStart = this.startIndex;
+        this.tagname = name;
+        const impliesClose = !this.options.xmlMode && openImpliesClose.get(name);
+        if (impliesClose) {
+            while(this.stack.length > 0 && impliesClose.has(this.stack[this.stack.length - 1])){
+                const element = this.stack.pop();
+                (_b = (_a = this.cbs).onclosetag) === null || _b === void 0 ? void 0 : _b.call(_a, element, true);
+            }
+        }
+        if (!this.isVoidElement(name)) {
+            this.stack.push(name);
+            if (foreignContextElements.has(name)) {
+                this.foreignContext.push(true);
+            } else if (htmlIntegrationElements.has(name)) {
+                this.foreignContext.push(false);
+            }
+        }
+        (_d = (_c = this.cbs).onopentagname) === null || _d === void 0 ? void 0 : _d.call(_c, name);
+        if (this.cbs.onopentag) this.attribs = {};
+    }
+    endOpenTag(isImplied) {
+        var _a, _b;
+        this.startIndex = this.openTagStart;
+        if (this.attribs) {
+            (_b = (_a = this.cbs).onopentag) === null || _b === void 0 ? void 0 : _b.call(_a, this.tagname, this.attribs, isImplied);
+            this.attribs = null;
+        }
+        if (this.cbs.onclosetag && this.isVoidElement(this.tagname)) {
+            this.cbs.onclosetag(this.tagname, true);
+        }
+        this.tagname = "";
+    }
+    /** @internal */ onopentagend(endIndex) {
+        this.endIndex = endIndex;
+        this.endOpenTag(false);
+        // Set `startIndex` for next node
+        this.startIndex = endIndex + 1;
+    }
+    /** @internal */ onclosetag(start, endIndex) {
+        var _a, _b, _c, _d, _e, _f;
+        this.endIndex = endIndex;
+        let name = this.getSlice(start, endIndex);
+        if (this.lowerCaseTagNames) {
+            name = name.toLowerCase();
+        }
+        if (foreignContextElements.has(name) || htmlIntegrationElements.has(name)) {
+            this.foreignContext.pop();
+        }
+        if (!this.isVoidElement(name)) {
+            const pos = this.stack.lastIndexOf(name);
+            if (pos !== -1) {
+                if (this.cbs.onclosetag) {
+                    let count = this.stack.length - pos;
+                    while(count--){
+                        // We know the stack has sufficient elements.
+                        this.cbs.onclosetag(this.stack.pop(), count !== 0);
+                    }
+                } else this.stack.length = pos;
+            } else if (!this.options.xmlMode && name === "p") {
+                // Implicit open before close
+                this.emitOpenTag("p");
+                this.closeCurrentTag(true);
+            }
+        } else if (!this.options.xmlMode && name === "br") {
+            // We can't use `emitOpenTag` for implicit open, as `br` would be implicitly closed.
+            (_b = (_a = this.cbs).onopentagname) === null || _b === void 0 ? void 0 : _b.call(_a, "br");
+            (_d = (_c = this.cbs).onopentag) === null || _d === void 0 ? void 0 : _d.call(_c, "br", {}, true);
+            (_f = (_e = this.cbs).onclosetag) === null || _f === void 0 ? void 0 : _f.call(_e, "br", false);
+        }
+        // Set `startIndex` for next node
+        this.startIndex = endIndex + 1;
+    }
+    /** @internal */ onselfclosingtag(endIndex) {
+        this.endIndex = endIndex;
+        if (this.options.xmlMode || this.options.recognizeSelfClosing || this.foreignContext[this.foreignContext.length - 1]) {
+            this.closeCurrentTag(false);
+            // Set `startIndex` for next node
+            this.startIndex = endIndex + 1;
+        } else {
+            // Ignore the fact that the tag is self-closing.
+            this.onopentagend(endIndex);
+        }
+    }
+    closeCurrentTag(isOpenImplied) {
+        var _a, _b;
+        const name = this.tagname;
+        this.endOpenTag(isOpenImplied);
+        // Self-closing tags will be on the top of the stack
+        if (this.stack[this.stack.length - 1] === name) {
+            // If the opening tag isn't implied, the closing tag has to be implied.
+            (_b = (_a = this.cbs).onclosetag) === null || _b === void 0 ? void 0 : _b.call(_a, name, !isOpenImplied);
+            this.stack.pop();
+        }
+    }
+    /** @internal */ onattribname(start, endIndex) {
+        this.startIndex = start;
+        const name = this.getSlice(start, endIndex);
+        this.attribname = this.lowerCaseAttributeNames ? name.toLowerCase() : name;
+    }
+    /** @internal */ onattribdata(start, endIndex) {
+        this.attribvalue += this.getSlice(start, endIndex);
+    }
+    /** @internal */ onattribentity(cp) {
+        this.attribvalue += (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$decode_codepoint$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["fromCodePoint"])(cp);
+    }
+    /** @internal */ onattribend(quote, endIndex) {
+        var _a, _b;
+        this.endIndex = endIndex;
+        (_b = (_a = this.cbs).onattribute) === null || _b === void 0 ? void 0 : _b.call(_a, this.attribname, this.attribvalue, quote === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$htmlparser2$2f$lib$2f$esm$2f$Tokenizer$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["QuoteType"].Double ? '"' : quote === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$htmlparser2$2f$lib$2f$esm$2f$Tokenizer$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["QuoteType"].Single ? "'" : quote === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$htmlparser2$2f$lib$2f$esm$2f$Tokenizer$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["QuoteType"].NoValue ? undefined : null);
+        if (this.attribs && !Object.prototype.hasOwnProperty.call(this.attribs, this.attribname)) {
+            this.attribs[this.attribname] = this.attribvalue;
+        }
+        this.attribvalue = "";
+    }
+    getInstructionName(value) {
+        const index = value.search(reNameEnd);
+        let name = index < 0 ? value : value.substr(0, index);
+        if (this.lowerCaseTagNames) {
+            name = name.toLowerCase();
+        }
+        return name;
+    }
+    /** @internal */ ondeclaration(start, endIndex) {
+        this.endIndex = endIndex;
+        const value = this.getSlice(start, endIndex);
+        if (this.cbs.onprocessinginstruction) {
+            const name = this.getInstructionName(value);
+            this.cbs.onprocessinginstruction(`!${name}`, `!${value}`);
+        }
+        // Set `startIndex` for next node
+        this.startIndex = endIndex + 1;
+    }
+    /** @internal */ onprocessinginstruction(start, endIndex) {
+        this.endIndex = endIndex;
+        const value = this.getSlice(start, endIndex);
+        if (this.cbs.onprocessinginstruction) {
+            const name = this.getInstructionName(value);
+            this.cbs.onprocessinginstruction(`?${name}`, `?${value}`);
+        }
+        // Set `startIndex` for next node
+        this.startIndex = endIndex + 1;
+    }
+    /** @internal */ oncomment(start, endIndex, offset) {
+        var _a, _b, _c, _d;
+        this.endIndex = endIndex;
+        (_b = (_a = this.cbs).oncomment) === null || _b === void 0 ? void 0 : _b.call(_a, this.getSlice(start, endIndex - offset));
+        (_d = (_c = this.cbs).oncommentend) === null || _d === void 0 ? void 0 : _d.call(_c);
+        // Set `startIndex` for next node
+        this.startIndex = endIndex + 1;
+    }
+    /** @internal */ oncdata(start, endIndex, offset) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+        this.endIndex = endIndex;
+        const value = this.getSlice(start, endIndex - offset);
+        if (this.options.xmlMode || this.options.recognizeCDATA) {
+            (_b = (_a = this.cbs).oncdatastart) === null || _b === void 0 ? void 0 : _b.call(_a);
+            (_d = (_c = this.cbs).ontext) === null || _d === void 0 ? void 0 : _d.call(_c, value);
+            (_f = (_e = this.cbs).oncdataend) === null || _f === void 0 ? void 0 : _f.call(_e);
+        } else {
+            (_h = (_g = this.cbs).oncomment) === null || _h === void 0 ? void 0 : _h.call(_g, `[CDATA[${value}]]`);
+            (_k = (_j = this.cbs).oncommentend) === null || _k === void 0 ? void 0 : _k.call(_j);
+        }
+        // Set `startIndex` for next node
+        this.startIndex = endIndex + 1;
+    }
+    /** @internal */ onend() {
+        var _a, _b;
+        if (this.cbs.onclosetag) {
+            // Set the end index for all remaining tags
+            this.endIndex = this.startIndex;
+            for(let index = this.stack.length; index > 0; this.cbs.onclosetag(this.stack[--index], true));
+        }
+        (_b = (_a = this.cbs).onend) === null || _b === void 0 ? void 0 : _b.call(_a);
+    }
+    /**
+     * Resets the parser to a blank state, ready to parse a new HTML document
+     */ reset() {
+        var _a, _b, _c, _d;
+        (_b = (_a = this.cbs).onreset) === null || _b === void 0 ? void 0 : _b.call(_a);
+        this.tokenizer.reset();
+        this.tagname = "";
+        this.attribname = "";
+        this.attribs = null;
+        this.stack.length = 0;
+        this.startIndex = 0;
+        this.endIndex = 0;
+        (_d = (_c = this.cbs).onparserinit) === null || _d === void 0 ? void 0 : _d.call(_c, this);
+        this.buffers.length = 0;
+        this.bufferOffset = 0;
+        this.writeIndex = 0;
+        this.ended = false;
+    }
+    /**
+     * Resets the parser, then parses a complete document and
+     * pushes it to the handler.
+     *
+     * @param data Document to parse.
+     */ parseComplete(data) {
+        this.reset();
+        this.end(data);
+    }
+    getSlice(start, end) {
+        while(start - this.bufferOffset >= this.buffers[0].length){
+            this.shiftBuffer();
+        }
+        let slice = this.buffers[0].slice(start - this.bufferOffset, end - this.bufferOffset);
+        while(end - this.bufferOffset > this.buffers[0].length){
+            this.shiftBuffer();
+            slice += this.buffers[0].slice(0, end - this.bufferOffset);
+        }
+        return slice;
+    }
+    shiftBuffer() {
+        this.bufferOffset += this.buffers[0].length;
+        this.writeIndex--;
+        this.buffers.shift();
+    }
+    /**
+     * Parses a chunk of data and calls the corresponding callbacks.
+     *
+     * @param chunk Chunk to parse.
+     */ write(chunk) {
+        var _a, _b;
+        if (this.ended) {
+            (_b = (_a = this.cbs).onerror) === null || _b === void 0 ? void 0 : _b.call(_a, new Error(".write() after done!"));
+            return;
+        }
+        this.buffers.push(chunk);
+        if (this.tokenizer.running) {
+            this.tokenizer.write(chunk);
+            this.writeIndex++;
+        }
+    }
+    /**
+     * Parses the end of the buffer and clears the stack, calls onend.
+     *
+     * @param chunk Optional final chunk to parse.
+     */ end(chunk) {
+        var _a, _b;
+        if (this.ended) {
+            (_b = (_a = this.cbs).onerror) === null || _b === void 0 ? void 0 : _b.call(_a, new Error(".end() after done!"));
+            return;
+        }
+        if (chunk) this.write(chunk);
+        this.ended = true;
+        this.tokenizer.end();
+    }
+    /**
+     * Pauses parsing. The parser won't emit events until `resume` is called.
+     */ pause() {
+        this.tokenizer.pause();
+    }
+    /**
+     * Resumes parsing after `pause` was called.
+     */ resume() {
+        this.tokenizer.resume();
+        while(this.tokenizer.running && this.writeIndex < this.buffers.length){
+            this.tokenizer.write(this.buffers[this.writeIndex++]);
+        }
+        if (this.ended) this.tokenizer.end();
+    }
+    /**
+     * Alias of `write`, for backwards compatibility.
+     *
+     * @param chunk Chunk to parse.
+     * @deprecated
+     */ parseChunk(chunk) {
+        this.write(chunk);
+    }
+    /**
+     * Alias of `end`, for backwards compatibility.
+     *
+     * @param chunk Optional final chunk to parse.
+     * @deprecated
+     */ done(chunk) {
+        this.end(chunk);
+    }
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/htmlparser2/lib/esm/index.js [app-route] (ecmascript) <locals>", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "createDomStream",
+    ()=>createDomStream,
+    "parseDOM",
+    ()=>parseDOM,
+    "parseDocument",
+    ()=>parseDocument,
+    "parseFeed",
+    ()=>parseFeed
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$htmlparser2$2f$lib$2f$esm$2f$Parser$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/htmlparser2/lib/esm/Parser.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/index.js [app-route] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$htmlparser2$2f$lib$2f$esm$2f$Tokenizer$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/htmlparser2/lib/esm/Tokenizer.js [app-route] (ecmascript)");
+/*
+ * All of the following exports exist for backwards-compatibility.
+ * They should probably be removed eventually.
+ */ var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domelementtype/lib/esm/index.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/index.js [app-route] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$feeds$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/feeds.js [app-route] (ecmascript)");
+;
+;
+;
+;
+function parseDocument(data, options) {
+    const handler = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__["DomHandler"](undefined, options);
+    new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$htmlparser2$2f$lib$2f$esm$2f$Parser$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Parser"](handler, options).end(data);
+    return handler.root;
+}
+function parseDOM(data, options) {
+    return parseDocument(data, options).children;
+}
+function createDomStream(callback, options, elementCallback) {
+    const handler = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__["DomHandler"](callback, options, elementCallback);
+    return new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$htmlparser2$2f$lib$2f$esm$2f$Parser$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Parser"](handler, options);
+}
+;
+;
+;
+;
+const parseFeedDefaultOptions = {
+    xmlMode: true
+};
+function parseFeed(feed, options = parseFeedDefaultOptions) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$feeds$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getFeed"])(parseDOM(feed, options));
+}
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/dom-serializer/lib/esm/foreignNames.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "attributeNames",
+    ()=>attributeNames,
+    "elementNames",
+    ()=>elementNames
+]);
+const elementNames = new Map([
+    "altGlyph",
+    "altGlyphDef",
+    "altGlyphItem",
+    "animateColor",
+    "animateMotion",
+    "animateTransform",
+    "clipPath",
+    "feBlend",
+    "feColorMatrix",
+    "feComponentTransfer",
+    "feComposite",
+    "feConvolveMatrix",
+    "feDiffuseLighting",
+    "feDisplacementMap",
+    "feDistantLight",
+    "feDropShadow",
+    "feFlood",
+    "feFuncA",
+    "feFuncB",
+    "feFuncG",
+    "feFuncR",
+    "feGaussianBlur",
+    "feImage",
+    "feMerge",
+    "feMergeNode",
+    "feMorphology",
+    "feOffset",
+    "fePointLight",
+    "feSpecularLighting",
+    "feSpotLight",
+    "feTile",
+    "feTurbulence",
+    "foreignObject",
+    "glyphRef",
+    "linearGradient",
+    "radialGradient",
+    "textPath"
+].map((val)=>[
+        val.toLowerCase(),
+        val
+    ]));
+const attributeNames = new Map([
+    "definitionURL",
+    "attributeName",
+    "attributeType",
+    "baseFrequency",
+    "baseProfile",
+    "calcMode",
+    "clipPathUnits",
+    "diffuseConstant",
+    "edgeMode",
+    "filterUnits",
+    "glyphRef",
+    "gradientTransform",
+    "gradientUnits",
+    "kernelMatrix",
+    "kernelUnitLength",
+    "keyPoints",
+    "keySplines",
+    "keyTimes",
+    "lengthAdjust",
+    "limitingConeAngle",
+    "markerHeight",
+    "markerUnits",
+    "markerWidth",
+    "maskContentUnits",
+    "maskUnits",
+    "numOctaves",
+    "pathLength",
+    "patternContentUnits",
+    "patternTransform",
+    "patternUnits",
+    "pointsAtX",
+    "pointsAtY",
+    "pointsAtZ",
+    "preserveAlpha",
+    "preserveAspectRatio",
+    "primitiveUnits",
+    "refX",
+    "refY",
+    "repeatCount",
+    "repeatDur",
+    "requiredExtensions",
+    "requiredFeatures",
+    "specularConstant",
+    "specularExponent",
+    "spreadMethod",
+    "startOffset",
+    "stdDeviation",
+    "stitchTiles",
+    "surfaceScale",
+    "systemLanguage",
+    "tableValues",
+    "targetX",
+    "targetY",
+    "textLength",
+    "viewBox",
+    "viewTarget",
+    "xChannelSelector",
+    "yChannelSelector",
+    "zoomAndPan"
+].map((val)=>[
+        val.toLowerCase(),
+        val
+    ]));
+}),
+"[project]/Flight-app/flight-finder/node_modules/dom-serializer/lib/esm/index.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "default",
+    ()=>__TURBOPACK__default__export__,
+    "render",
+    ()=>render
+]);
+/*
+ * Module dependencies
+ */ var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domelementtype/lib/esm/index.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/entities/lib/esm/index.js [app-route] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$escape$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/entities/lib/esm/escape.js [app-route] (ecmascript)");
+/**
+ * Mixed-case SVG and MathML tags & attributes
+ * recognized by the HTML parser.
+ *
+ * @see https://html.spec.whatwg.org/multipage/parsing.html#parsing-main-inforeign
+ */ var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$dom$2d$serializer$2f$lib$2f$esm$2f$foreignNames$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/dom-serializer/lib/esm/foreignNames.js [app-route] (ecmascript)");
+;
+;
+;
+const unencodedElements = new Set([
+    "style",
+    "script",
+    "xmp",
+    "iframe",
+    "noembed",
+    "noframes",
+    "plaintext",
+    "noscript"
+]);
+function replaceQuotes(value) {
+    return value.replace(/"/g, "&quot;");
+}
+/**
+ * Format attributes
+ */ function formatAttributes(attributes, opts) {
+    var _a;
+    if (!attributes) return;
+    const encode = ((_a = opts.encodeEntities) !== null && _a !== void 0 ? _a : opts.decodeEntities) === false ? replaceQuotes : opts.xmlMode || opts.encodeEntities !== "utf8" ? __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$escape$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["encodeXML"] : __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$escape$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["escapeAttribute"];
+    return Object.keys(attributes).map((key)=>{
+        var _a, _b;
+        const value = (_a = attributes[key]) !== null && _a !== void 0 ? _a : "";
+        if (opts.xmlMode === "foreign") {
+            /* Fix up mixed-case attribute names */ key = (_b = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$dom$2d$serializer$2f$lib$2f$esm$2f$foreignNames$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["attributeNames"].get(key)) !== null && _b !== void 0 ? _b : key;
+        }
+        if (!opts.emptyAttrs && !opts.xmlMode && value === "") {
+            return key;
+        }
+        return `${key}="${encode(value)}"`;
+    }).join(" ");
+}
+/**
+ * Self-enclosing tags
+ */ const singleTag = new Set([
+    "area",
+    "base",
+    "basefont",
+    "br",
+    "col",
+    "command",
+    "embed",
+    "frame",
+    "hr",
+    "img",
+    "input",
+    "isindex",
+    "keygen",
+    "link",
+    "meta",
+    "param",
+    "source",
+    "track",
+    "wbr"
+]);
+function render(node, options = {}) {
+    const nodes = "length" in node ? node : [
+        node
+    ];
+    let output = "";
+    for(let i = 0; i < nodes.length; i++){
+        output += renderNode(nodes[i], options);
+    }
+    return output;
+}
+const __TURBOPACK__default__export__ = render;
+function renderNode(node, options) {
+    switch(node.type){
+        case __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Root"]:
+            return render(node.children, options);
+        // @ts-expect-error We don't use `Doctype` yet
+        case __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Doctype"]:
+        case __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Directive"]:
+            return renderDirective(node);
+        case __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Comment"]:
+            return renderComment(node);
+        case __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["CDATA"]:
+            return renderCdata(node);
+        case __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Script"]:
+        case __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Style"]:
+        case __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Tag"]:
+            return renderTag(node, options);
+        case __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Text"]:
+            return renderText(node, options);
+    }
+}
+const foreignModeIntegrationPoints = new Set([
+    "mi",
+    "mo",
+    "mn",
+    "ms",
+    "mtext",
+    "annotation-xml",
+    "foreignObject",
+    "desc",
+    "title"
+]);
+const foreignElements = new Set([
+    "svg",
+    "math"
+]);
+function renderTag(elem, opts) {
+    var _a;
+    // Handle SVG / MathML in HTML
+    if (opts.xmlMode === "foreign") {
+        /* Fix up mixed-case element names */ elem.name = (_a = __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$dom$2d$serializer$2f$lib$2f$esm$2f$foreignNames$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["elementNames"].get(elem.name)) !== null && _a !== void 0 ? _a : elem.name;
+        /* Exit foreign mode at integration points */ if (elem.parent && foreignModeIntegrationPoints.has(elem.parent.name)) {
+            opts = {
+                ...opts,
+                xmlMode: false
+            };
+        }
+    }
+    if (!opts.xmlMode && foreignElements.has(elem.name)) {
+        opts = {
+            ...opts,
+            xmlMode: "foreign"
+        };
+    }
+    let tag = `<${elem.name}`;
+    const attribs = formatAttributes(elem.attribs, opts);
+    if (attribs) {
+        tag += ` ${attribs}`;
+    }
+    if (elem.children.length === 0 && (opts.xmlMode ? opts.selfClosingTags !== false : opts.selfClosingTags && singleTag.has(elem.name))) {
+        if (!opts.xmlMode) tag += " ";
+        tag += "/>";
+    } else {
+        tag += ">";
+        if (elem.children.length > 0) {
+            tag += render(elem.children, opts);
+        }
+        if (opts.xmlMode || !singleTag.has(elem.name)) {
+            tag += `</${elem.name}>`;
+        }
+    }
+    return tag;
+}
+function renderDirective(elem) {
+    return `<${elem.data}>`;
+}
+function renderText(elem, opts) {
+    var _a;
+    let data = elem.data || "";
+    // If entities weren't decoded, no need to encode them back
+    if (((_a = opts.encodeEntities) !== null && _a !== void 0 ? _a : opts.decodeEntities) !== false && !(!opts.xmlMode && elem.parent && unencodedElements.has(elem.parent.name))) {
+        data = opts.xmlMode || opts.encodeEntities !== "utf8" ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$escape$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["encodeXML"])(data) : (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$entities$2f$lib$2f$esm$2f$escape$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["escapeText"])(data);
+    }
+    return data;
+}
+function renderCdata(elem) {
+    return `<![CDATA[${elem.children[0].data}]]>`;
+}
+function renderComment(elem) {
+    return `<!--${elem.data}-->`;
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/stringify.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getInnerHTML",
+    ()=>getInnerHTML,
+    "getOuterHTML",
+    ()=>getOuterHTML,
+    "getText",
+    ()=>getText,
+    "innerText",
+    ()=>innerText,
+    "textContent",
+    ()=>textContent
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/index.js [app-route] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/node.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$dom$2d$serializer$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/dom-serializer/lib/esm/index.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domelementtype/lib/esm/index.js [app-route] (ecmascript)");
+;
+;
+;
+function getOuterHTML(node, options) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$dom$2d$serializer$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])(node, options);
+}
+function getInnerHTML(node, options) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hasChildren"])(node) ? node.children.map((node)=>getOuterHTML(node, options)).join("") : "";
+}
+function getText(node) {
+    if (Array.isArray(node)) return node.map(getText).join("");
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isTag"])(node)) return node.name === "br" ? "\n" : getText(node.children);
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isCDATA"])(node)) return getText(node.children);
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isText"])(node)) return node.data;
+    return "";
+}
+function textContent(node) {
+    if (Array.isArray(node)) return node.map(textContent).join("");
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hasChildren"])(node) && !(0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isComment"])(node)) {
+        return textContent(node.children);
+    }
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isText"])(node)) return node.data;
+    return "";
+}
+function innerText(node) {
+    if (Array.isArray(node)) return node.map(innerText).join("");
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hasChildren"])(node) && (node.type === __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domelementtype$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["ElementType"].Tag || (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isCDATA"])(node))) {
+        return innerText(node.children);
+    }
+    if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isText"])(node)) return node.data;
+    return "";
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/traversal.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getAttributeValue",
+    ()=>getAttributeValue,
+    "getChildren",
+    ()=>getChildren,
+    "getName",
+    ()=>getName,
+    "getParent",
+    ()=>getParent,
+    "getSiblings",
+    ()=>getSiblings,
+    "hasAttrib",
+    ()=>hasAttrib,
+    "nextElementSibling",
+    ()=>nextElementSibling,
+    "prevElementSibling",
+    ()=>prevElementSibling
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/index.js [app-route] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/node.js [app-route] (ecmascript)");
+;
+function getChildren(elem) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hasChildren"])(elem) ? elem.children : [];
+}
+function getParent(elem) {
+    return elem.parent || null;
+}
+function getSiblings(elem) {
+    const parent = getParent(elem);
+    if (parent != null) return getChildren(parent);
+    const siblings = [
+        elem
+    ];
+    let { prev, next } = elem;
+    while(prev != null){
+        siblings.unshift(prev);
+        ({ prev } = prev);
+    }
+    while(next != null){
+        siblings.push(next);
+        ({ next } = next);
+    }
+    return siblings;
+}
+function getAttributeValue(elem, name) {
+    var _a;
+    return (_a = elem.attribs) === null || _a === void 0 ? void 0 : _a[name];
+}
+function hasAttrib(elem, name) {
+    return elem.attribs != null && Object.prototype.hasOwnProperty.call(elem.attribs, name) && elem.attribs[name] != null;
+}
+function getName(elem) {
+    return elem.name;
+}
+function nextElementSibling(elem) {
+    let { next } = elem;
+    while(next !== null && !(0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isTag"])(next))({ next } = next);
+    return next;
+}
+function prevElementSibling(elem) {
+    let { prev } = elem;
+    while(prev !== null && !(0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isTag"])(prev))({ prev } = prev);
+    return prev;
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/querying.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "existsOne",
+    ()=>existsOne,
+    "filter",
+    ()=>filter,
+    "find",
+    ()=>find,
+    "findAll",
+    ()=>findAll,
+    "findOne",
+    ()=>findOne,
+    "findOneChild",
+    ()=>findOneChild
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/index.js [app-route] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/node.js [app-route] (ecmascript)");
+;
+function filter(test, node, recurse = true, limit = Infinity) {
+    return find(test, Array.isArray(node) ? node : [
+        node
+    ], recurse, limit);
+}
+function find(test, nodes, recurse, limit) {
+    const result = [];
+    /** Stack of the arrays we are looking at. */ const nodeStack = [
+        Array.isArray(nodes) ? nodes : [
+            nodes
+        ]
+    ];
+    /** Stack of the indices within the arrays. */ const indexStack = [
+        0
+    ];
+    for(;;){
+        // First, check if the current array has any more elements to look at.
+        if (indexStack[0] >= nodeStack[0].length) {
+            // If we have no more arrays to look at, we are done.
+            if (indexStack.length === 1) {
+                return result;
+            }
+            // Otherwise, remove the current array from the stack.
+            nodeStack.shift();
+            indexStack.shift();
+            continue;
+        }
+        const elem = nodeStack[0][indexStack[0]++];
+        if (test(elem)) {
+            result.push(elem);
+            if (--limit <= 0) return result;
+        }
+        if (recurse && (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hasChildren"])(elem) && elem.children.length > 0) {
+            /*
+             * Add the children to the stack. We are depth-first, so this is
+             * the next array we look at.
+             */ indexStack.unshift(0);
+            nodeStack.unshift(elem.children);
+        }
+    }
+}
+function findOneChild(test, nodes) {
+    return nodes.find(test);
+}
+function findOne(test, nodes, recurse = true) {
+    const searchedNodes = Array.isArray(nodes) ? nodes : [
+        nodes
+    ];
+    for(let i = 0; i < searchedNodes.length; i++){
+        const node = searchedNodes[i];
+        if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isTag"])(node) && test(node)) {
+            return node;
+        }
+        if (recurse && (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hasChildren"])(node) && node.children.length > 0) {
+            const found = findOne(test, node.children, true);
+            if (found) return found;
+        }
+    }
+    return null;
+}
+function existsOne(test, nodes) {
+    return (Array.isArray(nodes) ? nodes : [
+        nodes
+    ]).some((node)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isTag"])(node) && test(node) || (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hasChildren"])(node) && existsOne(test, node.children));
+}
+function findAll(test, nodes) {
+    const result = [];
+    const nodeStack = [
+        Array.isArray(nodes) ? nodes : [
+            nodes
+        ]
+    ];
+    const indexStack = [
+        0
+    ];
+    for(;;){
+        if (indexStack[0] >= nodeStack[0].length) {
+            if (nodeStack.length === 1) {
+                return result;
+            }
+            // Otherwise, remove the current array from the stack.
+            nodeStack.shift();
+            indexStack.shift();
+            continue;
+        }
+        const elem = nodeStack[0][indexStack[0]++];
+        if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isTag"])(elem) && test(elem)) result.push(elem);
+        if ((0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hasChildren"])(elem) && elem.children.length > 0) {
+            indexStack.unshift(0);
+            nodeStack.unshift(elem.children);
+        }
+    }
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/legacy.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getElementById",
+    ()=>getElementById,
+    "getElements",
+    ()=>getElements,
+    "getElementsByClassName",
+    ()=>getElementsByClassName,
+    "getElementsByTagName",
+    ()=>getElementsByTagName,
+    "getElementsByTagType",
+    ()=>getElementsByTagType,
+    "testElement",
+    ()=>testElement
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/index.js [app-route] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/node.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$querying$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/querying.js [app-route] (ecmascript)");
+;
+;
+/**
+ * A map of functions to check nodes against.
+ */ const Checks = {
+    tag_name (name) {
+        if (typeof name === "function") {
+            return (elem)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isTag"])(elem) && name(elem.name);
+        } else if (name === "*") {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isTag"];
+        }
+        return (elem)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isTag"])(elem) && elem.name === name;
+    },
+    tag_type (type) {
+        if (typeof type === "function") {
+            return (elem)=>type(elem.type);
+        }
+        return (elem)=>elem.type === type;
+    },
+    tag_contains (data) {
+        if (typeof data === "function") {
+            return (elem)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isText"])(elem) && data(elem.data);
+        }
+        return (elem)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isText"])(elem) && elem.data === data;
+    }
+};
+/**
+ * Returns a function to check whether a node has an attribute with a particular
+ * value.
+ *
+ * @param attrib Attribute to check.
+ * @param value Attribute value to look for.
+ * @returns A function to check whether the a node has an attribute with a
+ *   particular value.
+ */ function getAttribCheck(attrib, value) {
+    if (typeof value === "function") {
+        return (elem)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isTag"])(elem) && value(elem.attribs[attrib]);
+    }
+    return (elem)=>(0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["isTag"])(elem) && elem.attribs[attrib] === value;
+}
+/**
+ * Returns a function that returns `true` if either of the input functions
+ * returns `true` for a node.
+ *
+ * @param a First function to combine.
+ * @param b Second function to combine.
+ * @returns A function taking a node and returning `true` if either of the input
+ *   functions returns `true` for the node.
+ */ function combineFuncs(a, b) {
+    return (elem)=>a(elem) || b(elem);
+}
+/**
+ * Returns a function that executes all checks in `options` and returns `true`
+ * if any of them match a node.
+ *
+ * @param options An object describing nodes to look for.
+ * @returns A function that executes all checks in `options` and returns `true`
+ *   if any of them match a node.
+ */ function compileTest(options) {
+    const funcs = Object.keys(options).map((key)=>{
+        const value = options[key];
+        return Object.prototype.hasOwnProperty.call(Checks, key) ? Checks[key](value) : getAttribCheck(key, value);
+    });
+    return funcs.length === 0 ? null : funcs.reduce(combineFuncs);
+}
+function testElement(options, node) {
+    const test = compileTest(options);
+    return test ? test(node) : true;
+}
+function getElements(options, nodes, recurse, limit = Infinity) {
+    const test = compileTest(options);
+    return test ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$querying$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["filter"])(test, nodes, recurse, limit) : [];
+}
+function getElementById(id, nodes, recurse = true) {
+    if (!Array.isArray(nodes)) nodes = [
+        nodes
+    ];
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$querying$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["findOne"])(getAttribCheck("id", id), nodes, recurse);
+}
+function getElementsByTagName(tagName, nodes, recurse = true, limit = Infinity) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$querying$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["filter"])(Checks["tag_name"](tagName), nodes, recurse, limit);
+}
+function getElementsByClassName(className, nodes, recurse = true, limit = Infinity) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$querying$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["filter"])(getAttribCheck("class", className), nodes, recurse, limit);
+}
+function getElementsByTagType(type, nodes, recurse = true, limit = Infinity) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$querying$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["filter"])(Checks["tag_type"](type), nodes, recurse, limit);
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/helpers.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "DocumentPosition",
+    ()=>DocumentPosition,
+    "compareDocumentPosition",
+    ()=>compareDocumentPosition,
+    "removeSubsets",
+    ()=>removeSubsets,
+    "uniqueSort",
+    ()=>uniqueSort
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/index.js [app-route] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/node.js [app-route] (ecmascript)");
+;
+function removeSubsets(nodes) {
+    let idx = nodes.length;
+    /*
+     * Check if each node (or one of its ancestors) is already contained in the
+     * array.
+     */ while(--idx >= 0){
+        const node = nodes[idx];
+        /*
+         * Remove the node if it is not unique.
+         * We are going through the array from the end, so we only
+         * have to check nodes that preceed the node under consideration in the array.
+         */ if (idx > 0 && nodes.lastIndexOf(node, idx - 1) >= 0) {
+            nodes.splice(idx, 1);
+            continue;
+        }
+        for(let ancestor = node.parent; ancestor; ancestor = ancestor.parent){
+            if (nodes.includes(ancestor)) {
+                nodes.splice(idx, 1);
+                break;
+            }
+        }
+    }
+    return nodes;
+}
+var DocumentPosition;
+(function(DocumentPosition) {
+    DocumentPosition[DocumentPosition["DISCONNECTED"] = 1] = "DISCONNECTED";
+    DocumentPosition[DocumentPosition["PRECEDING"] = 2] = "PRECEDING";
+    DocumentPosition[DocumentPosition["FOLLOWING"] = 4] = "FOLLOWING";
+    DocumentPosition[DocumentPosition["CONTAINS"] = 8] = "CONTAINS";
+    DocumentPosition[DocumentPosition["CONTAINED_BY"] = 16] = "CONTAINED_BY";
+})(DocumentPosition || (DocumentPosition = {}));
+function compareDocumentPosition(nodeA, nodeB) {
+    const aParents = [];
+    const bParents = [];
+    if (nodeA === nodeB) {
+        return 0;
+    }
+    let current = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hasChildren"])(nodeA) ? nodeA : nodeA.parent;
+    while(current){
+        aParents.unshift(current);
+        current = current.parent;
+    }
+    current = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$node$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hasChildren"])(nodeB) ? nodeB : nodeB.parent;
+    while(current){
+        bParents.unshift(current);
+        current = current.parent;
+    }
+    const maxIdx = Math.min(aParents.length, bParents.length);
+    let idx = 0;
+    while(idx < maxIdx && aParents[idx] === bParents[idx]){
+        idx++;
+    }
+    if (idx === 0) {
+        return DocumentPosition.DISCONNECTED;
+    }
+    const sharedParent = aParents[idx - 1];
+    const siblings = sharedParent.children;
+    const aSibling = aParents[idx];
+    const bSibling = bParents[idx];
+    if (siblings.indexOf(aSibling) > siblings.indexOf(bSibling)) {
+        if (sharedParent === nodeB) {
+            return DocumentPosition.FOLLOWING | DocumentPosition.CONTAINED_BY;
+        }
+        return DocumentPosition.FOLLOWING;
+    }
+    if (sharedParent === nodeA) {
+        return DocumentPosition.PRECEDING | DocumentPosition.CONTAINS;
+    }
+    return DocumentPosition.PRECEDING;
+}
+function uniqueSort(nodes) {
+    nodes = nodes.filter((node, i, arr)=>!arr.includes(node, i + 1));
+    nodes.sort((a, b)=>{
+        const relative = compareDocumentPosition(a, b);
+        if (relative & DocumentPosition.PRECEDING) {
+            return -1;
+        } else if (relative & DocumentPosition.FOLLOWING) {
+            return 1;
+        }
+        return 0;
+    });
+    return nodes;
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/feeds.js [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "getFeed",
+    ()=>getFeed
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$stringify$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/stringify.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$legacy$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/legacy.js [app-route] (ecmascript)");
+;
+;
+function getFeed(doc) {
+    const feedRoot = getOneElement(isValidFeed, doc);
+    return !feedRoot ? null : feedRoot.name === "feed" ? getAtomFeed(feedRoot) : getRssFeed(feedRoot);
+}
+/**
+ * Parse an Atom feed.
+ *
+ * @param feedRoot The root of the feed.
+ * @returns The parsed feed.
+ */ function getAtomFeed(feedRoot) {
+    var _a;
+    const childs = feedRoot.children;
+    const feed = {
+        type: "atom",
+        items: (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$legacy$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getElementsByTagName"])("entry", childs).map((item)=>{
+            var _a;
+            const { children } = item;
+            const entry = {
+                media: getMediaElements(children)
+            };
+            addConditionally(entry, "id", "id", children);
+            addConditionally(entry, "title", "title", children);
+            const href = (_a = getOneElement("link", children)) === null || _a === void 0 ? void 0 : _a.attribs["href"];
+            if (href) {
+                entry.link = href;
+            }
+            const description = fetch("summary", children) || fetch("content", children);
+            if (description) {
+                entry.description = description;
+            }
+            const pubDate = fetch("updated", children);
+            if (pubDate) {
+                entry.pubDate = new Date(pubDate);
+            }
+            return entry;
+        })
+    };
+    addConditionally(feed, "id", "id", childs);
+    addConditionally(feed, "title", "title", childs);
+    const href = (_a = getOneElement("link", childs)) === null || _a === void 0 ? void 0 : _a.attribs["href"];
+    if (href) {
+        feed.link = href;
+    }
+    addConditionally(feed, "description", "subtitle", childs);
+    const updated = fetch("updated", childs);
+    if (updated) {
+        feed.updated = new Date(updated);
+    }
+    addConditionally(feed, "author", "email", childs, true);
+    return feed;
+}
+/**
+ * Parse a RSS feed.
+ *
+ * @param feedRoot The root of the feed.
+ * @returns The parsed feed.
+ */ function getRssFeed(feedRoot) {
+    var _a, _b;
+    const childs = (_b = (_a = getOneElement("channel", feedRoot.children)) === null || _a === void 0 ? void 0 : _a.children) !== null && _b !== void 0 ? _b : [];
+    const feed = {
+        type: feedRoot.name.substr(0, 3),
+        id: "",
+        items: (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$legacy$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getElementsByTagName"])("item", feedRoot.children).map((item)=>{
+            const { children } = item;
+            const entry = {
+                media: getMediaElements(children)
+            };
+            addConditionally(entry, "id", "guid", children);
+            addConditionally(entry, "title", "title", children);
+            addConditionally(entry, "link", "link", children);
+            addConditionally(entry, "description", "description", children);
+            const pubDate = fetch("pubDate", children) || fetch("dc:date", children);
+            if (pubDate) entry.pubDate = new Date(pubDate);
+            return entry;
+        })
+    };
+    addConditionally(feed, "title", "title", childs);
+    addConditionally(feed, "link", "link", childs);
+    addConditionally(feed, "description", "description", childs);
+    const updated = fetch("lastBuildDate", childs);
+    if (updated) {
+        feed.updated = new Date(updated);
+    }
+    addConditionally(feed, "author", "managingEditor", childs, true);
+    return feed;
+}
+const MEDIA_KEYS_STRING = [
+    "url",
+    "type",
+    "lang"
+];
+const MEDIA_KEYS_INT = [
+    "fileSize",
+    "bitrate",
+    "framerate",
+    "samplingrate",
+    "channels",
+    "duration",
+    "height",
+    "width"
+];
+/**
+ * Get all media elements of a feed item.
+ *
+ * @param where Nodes to search in.
+ * @returns Media elements.
+ */ function getMediaElements(where) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$legacy$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getElementsByTagName"])("media:content", where).map((elem)=>{
+        const { attribs } = elem;
+        const media = {
+            medium: attribs["medium"],
+            isDefault: !!attribs["isDefault"]
+        };
+        for (const attrib of MEDIA_KEYS_STRING){
+            if (attribs[attrib]) {
+                media[attrib] = attribs[attrib];
+            }
+        }
+        for (const attrib of MEDIA_KEYS_INT){
+            if (attribs[attrib]) {
+                media[attrib] = parseInt(attribs[attrib], 10);
+            }
+        }
+        if (attribs["expression"]) {
+            media.expression = attribs["expression"];
+        }
+        return media;
+    });
+}
+/**
+ * Get one element by tag name.
+ *
+ * @param tagName Tag name to look for
+ * @param node Node to search in
+ * @returns The element or null
+ */ function getOneElement(tagName, node) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$legacy$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getElementsByTagName"])(tagName, node, true, 1)[0];
+}
+/**
+ * Get the text content of an element with a certain tag name.
+ *
+ * @param tagName Tag name to look for.
+ * @param where Node to search in.
+ * @param recurse Whether to recurse into child nodes.
+ * @returns The text content of the element.
+ */ function fetch(tagName, where, recurse = false) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$stringify$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["textContent"])((0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$legacy$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["getElementsByTagName"])(tagName, where, recurse, 1)).trim();
+}
+/**
+ * Adds a property to an object if it has a value.
+ *
+ * @param obj Object to be extended
+ * @param prop Property name
+ * @param tagName Tag name that contains the conditionally added property
+ * @param where Element to search for the property
+ * @param recurse Whether to recurse into child nodes.
+ */ function addConditionally(obj, prop, tagName, where, recurse = false) {
+    const val = fetch(tagName, where, recurse);
+    if (val) obj[prop] = val;
+}
+/**
+ * Checks if an element is a feed root node.
+ *
+ * @param value The name of the element to check.
+ * @returns Whether an element is a feed root node.
+ */ function isValidFeed(value) {
+    return value === "rss" || value === "feed" || value === "rdf:RDF";
+}
+}),
+"[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/index.js [app-route] (ecmascript) <locals>", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$stringify$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/stringify.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$traversal$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/traversal.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$querying$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/querying.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$legacy$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/legacy.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$helpers$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/helpers.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domutils$2f$lib$2f$esm$2f$feeds$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domutils/lib/esm/feeds.js [app-route] (ecmascript)");
+/** @deprecated Use these methods from `domhandler` directly. */ var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$domhandler$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/domhandler/lib/esm/index.js [app-route] (ecmascript) <locals>");
+;
+;
+;
+;
+;
+;
+;
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/deepmerge/dist/cjs.js [app-route] (ecmascript)", ((__turbopack_context__, module, exports) => {
+"use strict";
+
+var isMergeableObject = function isMergeableObject(value) {
+    return isNonNullObject(value) && !isSpecial(value);
+};
+function isNonNullObject(value) {
+    return !!value && typeof value === 'object';
+}
+function isSpecial(value) {
+    var stringValue = Object.prototype.toString.call(value);
+    return stringValue === '[object RegExp]' || stringValue === '[object Date]' || isReactElement(value);
+}
+// see https://github.com/facebook/react/blob/b5ac963fb791d1298e7f396236383bc955f916c1/src/isomorphic/classic/element/ReactElement.js#L21-L25
+var canUseSymbol = typeof Symbol === 'function' && Symbol.for;
+var REACT_ELEMENT_TYPE = canUseSymbol ? Symbol.for('react.element') : 0xeac7;
+function isReactElement(value) {
+    return value.$$typeof === REACT_ELEMENT_TYPE;
+}
+function emptyTarget(val) {
+    return Array.isArray(val) ? [] : {};
+}
+function cloneUnlessOtherwiseSpecified(value, options) {
+    return options.clone !== false && options.isMergeableObject(value) ? deepmerge(emptyTarget(value), value, options) : value;
+}
+function defaultArrayMerge(target, source, options) {
+    return target.concat(source).map(function(element) {
+        return cloneUnlessOtherwiseSpecified(element, options);
+    });
+}
+function getMergeFunction(key, options) {
+    if (!options.customMerge) {
+        return deepmerge;
+    }
+    var customMerge = options.customMerge(key);
+    return typeof customMerge === 'function' ? customMerge : deepmerge;
+}
+function getEnumerableOwnPropertySymbols(target) {
+    return Object.getOwnPropertySymbols ? Object.getOwnPropertySymbols(target).filter(function(symbol) {
+        return Object.propertyIsEnumerable.call(target, symbol);
+    }) : [];
+}
+function getKeys(target) {
+    return Object.keys(target).concat(getEnumerableOwnPropertySymbols(target));
+}
+function propertyIsOnObject(object, property) {
+    try {
+        return property in object;
+    } catch (_) {
+        return false;
+    }
+}
+// Protects from prototype poisoning and unexpected merging up the prototype chain.
+function propertyIsUnsafe(target, key) {
+    return propertyIsOnObject(target, key) // Properties are safe to merge if they don't exist in the target yet,
+     && !(Object.hasOwnProperty.call(target, key) // unsafe if they exist up the prototype chain,
+     && Object.propertyIsEnumerable.call(target, key)) // and also unsafe if they're nonenumerable.
+    ;
+}
+function mergeObject(target, source, options) {
+    var destination = {};
+    if (options.isMergeableObject(target)) {
+        getKeys(target).forEach(function(key) {
+            destination[key] = cloneUnlessOtherwiseSpecified(target[key], options);
+        });
+    }
+    getKeys(source).forEach(function(key) {
+        if (propertyIsUnsafe(target, key)) {
+            return;
+        }
+        if (propertyIsOnObject(target, key) && options.isMergeableObject(source[key])) {
+            destination[key] = getMergeFunction(key, options)(target[key], source[key], options);
+        } else {
+            destination[key] = cloneUnlessOtherwiseSpecified(source[key], options);
+        }
+    });
+    return destination;
+}
+function deepmerge(target, source, options) {
+    options = options || {};
+    options.arrayMerge = options.arrayMerge || defaultArrayMerge;
+    options.isMergeableObject = options.isMergeableObject || isMergeableObject;
+    // cloneUnlessOtherwiseSpecified is added to `options` so that custom arrayMerge()
+    // implementations can use it. The caller may not replace it.
+    options.cloneUnlessOtherwiseSpecified = cloneUnlessOtherwiseSpecified;
+    var sourceIsArray = Array.isArray(source);
+    var targetIsArray = Array.isArray(target);
+    var sourceAndTargetTypesMatch = sourceIsArray === targetIsArray;
+    if (!sourceAndTargetTypesMatch) {
+        return cloneUnlessOtherwiseSpecified(source, options);
+    } else if (sourceIsArray) {
+        return options.arrayMerge(target, source, options);
+    } else {
+        return mergeObject(target, source, options);
+    }
+}
+deepmerge.all = function deepmergeAll(array, options) {
+    if (!Array.isArray(array)) {
+        throw new Error('first argument should be an array');
+    }
+    return array.reduce(function(prev, next) {
+        return deepmerge(prev, next, options);
+    }, {});
+};
+var deepmerge_1 = deepmerge;
+module.exports = deepmerge_1;
+}),
+"[project]/Flight-app/flight-finder/node_modules/html-to-text/lib/html-to-text.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+__turbopack_context__.s([
+    "compile",
+    ()=>compile,
+    "convert",
+    ()=>convert,
+    "htmlToText",
+    ()=>convert
+]);
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$selderee$2f$plugin$2d$htmlparser2$2f$lib$2f$hp2$2d$builder$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/@selderee/plugin-htmlparser2/lib/hp2-builder.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$htmlparser2$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/htmlparser2/lib/esm/index.js [app-route] (ecmascript) <locals>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$selderee$2f$lib$2f$selderee$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/selderee/lib/selderee.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$deepmerge$2f$dist$2f$cjs$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/deepmerge/dist/cjs.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$dom$2d$serializer$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/dom-serializer/lib/esm/index.js [app-route] (ecmascript)");
+;
+;
+;
+;
+;
+/**
+ * Make a recursive function that will only run to a given depth
+ * and switches to an alternative function at that depth. \
+ * No limitation if `n` is `undefined` (Just wraps `f` in that case).
+ *
+ * @param   { number | undefined } n   Allowed depth of recursion. `undefined` for no limitation.
+ * @param   { Function }           f   Function that accepts recursive callback as the first argument.
+ * @param   { Function }           [g] Function to run instead, when maximum depth was reached. Do nothing by default.
+ * @returns { Function }
+ */ function limitedDepthRecursive(n, f, g = ()=>undefined) {
+    if (n === undefined) {
+        const f1 = function(...args) {
+            return f(f1, ...args);
+        };
+        return f1;
+    }
+    if (n >= 0) {
+        return function(...args) {
+            return f(limitedDepthRecursive(n - 1, f, g), ...args);
+        };
+    }
+    return g;
+}
+/**
+ * Return the same string or a substring with
+ * the given character occurrences removed from each side.
+ *
+ * @param   { string } str  A string to trim.
+ * @param   { string } char A character to be trimmed.
+ * @returns { string }
+ */ function trimCharacter(str, char) {
+    let start = 0;
+    let end = str.length;
+    while(start < end && str[start] === char){
+        ++start;
+    }
+    while(end > start && str[end - 1] === char){
+        --end;
+    }
+    return start > 0 || end < str.length ? str.substring(start, end) : str;
+}
+/**
+ * Return the same string or a substring with
+ * the given character occurrences removed from the end only.
+ *
+ * @param   { string } str  A string to trim.
+ * @param   { string } char A character to be trimmed.
+ * @returns { string }
+ */ function trimCharacterEnd(str, char) {
+    let end = str.length;
+    while(end > 0 && str[end - 1] === char){
+        --end;
+    }
+    return end < str.length ? str.substring(0, end) : str;
+}
+/**
+ * Return a new string will all characters replaced with unicode escape sequences.
+ * This extreme kind of escaping can used to be safely compose regular expressions.
+ *
+ * @param { string } str A string to escape.
+ * @returns { string } A string of unicode escape sequences.
+ */ function unicodeEscape(str) {
+    return str.replace(/[\s\S]/g, (c)=>'\\u' + c.charCodeAt().toString(16).padStart(4, '0'));
+}
+/**
+ * Deduplicate an array by a given key callback.
+ * Item properties are merged recursively and with the preference for last defined values.
+ * Of items with the same key, merged item takes the place of the last item,
+ * others are omitted.
+ *
+ * @param { any[] } items An array to deduplicate.
+ * @param { (x: any) => string } getKey Callback to get a value that distinguishes unique items.
+ * @returns { any[] }
+ */ function mergeDuplicatesPreferLast(items, getKey) {
+    const map = new Map();
+    for(let i = items.length; i-- > 0;){
+        const item = items[i];
+        const key = getKey(item);
+        map.set(key, map.has(key) ? (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$deepmerge$2f$dist$2f$cjs$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])(item, map.get(key), {
+            arrayMerge: overwriteMerge$1
+        }) : item);
+    }
+    return [
+        ...map.values()
+    ].reverse();
+}
+const overwriteMerge$1 = (acc, src, options)=>[
+        ...src
+    ];
+/**
+ * Get a nested property from an object.
+ *
+ * @param   { object }   obj  The object to query for the value.
+ * @param   { string[] } path The path to the property.
+ * @returns { any }
+ */ function get(obj, path) {
+    for (const key of path){
+        if (!obj) {
+            return undefined;
+        }
+        obj = obj[key];
+    }
+    return obj;
+}
+/**
+ * Convert a number into alphabetic sequence representation (Sequence without zeroes).
+ *
+ * For example: `a, ..., z, aa, ..., zz, aaa, ...`.
+ *
+ * @param   { number } num              Number to convert. Must be >= 1.
+ * @param   { string } [baseChar = 'a'] Character for 1 in the sequence.
+ * @param   { number } [base = 26]      Number of characters in the sequence.
+ * @returns { string }
+ */ function numberToLetterSequence(num, baseChar = 'a', base = 26) {
+    const digits = [];
+    do {
+        num -= 1;
+        digits.push(num % base);
+        num = num / base >> 0; // quick `floor`
+    }while (num > 0)
+    const baseCode = baseChar.charCodeAt(0);
+    return digits.reverse().map((n)=>String.fromCharCode(baseCode + n)).join('');
+}
+const I = [
+    'I',
+    'X',
+    'C',
+    'M'
+];
+const V = [
+    'V',
+    'L',
+    'D'
+];
+/**
+ * Convert a number to it's Roman representation. No large numbers extension.
+ *
+ * @param   { number } num Number to convert. `0 < num <= 3999`.
+ * @returns { string }
+ */ function numberToRoman(num) {
+    return [
+        ...num + ''
+    ].map((n)=>+n).reverse().map((v, i)=>v % 5 < 4 ? (v < 5 ? '' : V[i]) + I[i].repeat(v % 5) : I[i] + (v < 5 ? V[i] : I[i + 1])).reverse().join('');
+}
+/**
+ * Helps to build text from words.
+ */ class InlineTextBuilder {
+    /**
+   * Creates an instance of InlineTextBuilder.
+   *
+   * If `maxLineLength` is not provided then it is either `options.wordwrap` or unlimited.
+   *
+   * @param { Options } options           HtmlToText options.
+   * @param { number }  [ maxLineLength ] This builder will try to wrap text to fit this line length.
+   */ constructor(options, maxLineLength = undefined){
+        /** @type { string[][] } */ this.lines = [];
+        /** @type { string[] }   */ this.nextLineWords = [];
+        this.maxLineLength = maxLineLength || options.wordwrap || Number.MAX_VALUE;
+        this.nextLineAvailableChars = this.maxLineLength;
+        this.wrapCharacters = get(options, [
+            'longWordSplit',
+            'wrapCharacters'
+        ]) || [];
+        this.forceWrapOnLimit = get(options, [
+            'longWordSplit',
+            'forceWrapOnLimit'
+        ]) || false;
+        this.stashedSpace = false;
+        this.wordBreakOpportunity = false;
+    }
+    /**
+   * Add a new word.
+   *
+   * @param { string } word A word to add.
+   * @param { boolean } [noWrap] Don't wrap text even if the line is too long.
+   */ pushWord(word, noWrap = false) {
+        if (this.nextLineAvailableChars <= 0 && !noWrap) {
+            this.startNewLine();
+        }
+        const isLineStart = this.nextLineWords.length === 0;
+        const cost = word.length + (isLineStart ? 0 : 1);
+        if (cost <= this.nextLineAvailableChars || noWrap) {
+            this.nextLineWords.push(word);
+            this.nextLineAvailableChars -= cost;
+        } else {
+            // The word is moved to a new line - prefer to wrap between words.
+            const [first, ...rest] = this.splitLongWord(word);
+            if (!isLineStart) {
+                this.startNewLine();
+            }
+            this.nextLineWords.push(first);
+            this.nextLineAvailableChars -= first.length;
+            for (const part of rest){
+                this.startNewLine();
+                this.nextLineWords.push(part);
+                this.nextLineAvailableChars -= part.length;
+            }
+        }
+    }
+    /**
+   * Pop a word from the currently built line.
+   * This doesn't affect completed lines.
+   *
+   * @returns { string }
+   */ popWord() {
+        const lastWord = this.nextLineWords.pop();
+        if (lastWord !== undefined) {
+            const isLineStart = this.nextLineWords.length === 0;
+            const cost = lastWord.length + (isLineStart ? 0 : 1);
+            this.nextLineAvailableChars += cost;
+        }
+        return lastWord;
+    }
+    /**
+   * Concat a word to the last word already in the builder.
+   * Adds a new word in case there are no words yet in the last line.
+   *
+   * @param { string } word A word to be concatenated.
+   * @param { boolean } [noWrap] Don't wrap text even if the line is too long.
+   */ concatWord(word, noWrap = false) {
+        if (this.wordBreakOpportunity && word.length > this.nextLineAvailableChars) {
+            this.pushWord(word, noWrap);
+            this.wordBreakOpportunity = false;
+        } else {
+            const lastWord = this.popWord();
+            this.pushWord(lastWord ? lastWord.concat(word) : word, noWrap);
+        }
+    }
+    /**
+   * Add current line (and more empty lines if provided argument > 1) to the list of complete lines and start a new one.
+   *
+   * @param { number } n Number of line breaks that will be added to the resulting string.
+   */ startNewLine(n = 1) {
+        this.lines.push(this.nextLineWords);
+        if (n > 1) {
+            this.lines.push(...Array.from({
+                length: n - 1
+            }, ()=>[]));
+        }
+        this.nextLineWords = [];
+        this.nextLineAvailableChars = this.maxLineLength;
+    }
+    /**
+   * No words in this builder.
+   *
+   * @returns { boolean }
+   */ isEmpty() {
+        return this.lines.length === 0 && this.nextLineWords.length === 0;
+    }
+    clear() {
+        this.lines.length = 0;
+        this.nextLineWords.length = 0;
+        this.nextLineAvailableChars = this.maxLineLength;
+    }
+    /**
+   * Join all lines of words inside the InlineTextBuilder into a complete string.
+   *
+   * @returns { string }
+   */ toString() {
+        return [
+            ...this.lines,
+            this.nextLineWords
+        ].map((words)=>words.join(' ')).join('\n');
+    }
+    /**
+   * Split a long word up to fit within the word wrap limit.
+   * Use either a character to split looking back from the word wrap limit,
+   * or truncate to the word wrap limit.
+   *
+   * @param   { string }   word Input word.
+   * @returns { string[] }      Parts of the word.
+   */ splitLongWord(word) {
+        const parts = [];
+        let idx = 0;
+        while(word.length > this.maxLineLength){
+            const firstLine = word.substring(0, this.maxLineLength);
+            const remainingChars = word.substring(this.maxLineLength);
+            const splitIndex = firstLine.lastIndexOf(this.wrapCharacters[idx]);
+            if (splitIndex > -1) {
+                word = firstLine.substring(splitIndex + 1) + remainingChars;
+                parts.push(firstLine.substring(0, splitIndex + 1));
+            } else {
+                idx++;
+                if (idx < this.wrapCharacters.length) {
+                    word = firstLine + remainingChars;
+                } else {
+                    if (this.forceWrapOnLimit) {
+                        parts.push(firstLine);
+                        word = remainingChars;
+                        if (word.length > this.maxLineLength) {
+                            continue;
+                        }
+                    } else {
+                        word = firstLine + remainingChars;
+                    }
+                    break;
+                }
+            }
+        }
+        parts.push(word); // Add remaining part to array
+        return parts;
+    }
+}
+/* eslint-disable max-classes-per-file */ class StackItem {
+    constructor(next = null){
+        this.next = next;
+    }
+    getRoot() {
+        return this.next ? this.next : this;
+    }
+}
+class BlockStackItem extends StackItem {
+    constructor(options, next = null, leadingLineBreaks = 1, maxLineLength = undefined){
+        super(next);
+        this.leadingLineBreaks = leadingLineBreaks;
+        this.inlineTextBuilder = new InlineTextBuilder(options, maxLineLength);
+        this.rawText = '';
+        this.stashedLineBreaks = 0;
+        this.isPre = next && next.isPre;
+        this.isNoWrap = next && next.isNoWrap;
+    }
+}
+class ListStackItem extends BlockStackItem {
+    constructor(options, next = null, { interRowLineBreaks = 1, leadingLineBreaks = 2, maxLineLength = undefined, maxPrefixLength = 0, prefixAlign = 'left' } = {}){
+        super(options, next, leadingLineBreaks, maxLineLength);
+        this.maxPrefixLength = maxPrefixLength;
+        this.prefixAlign = prefixAlign;
+        this.interRowLineBreaks = interRowLineBreaks;
+    }
+}
+class ListItemStackItem extends BlockStackItem {
+    constructor(options, next = null, { leadingLineBreaks = 1, maxLineLength = undefined, prefix = '' } = {}){
+        super(options, next, leadingLineBreaks, maxLineLength);
+        this.prefix = prefix;
+    }
+}
+class TableStackItem extends StackItem {
+    constructor(next = null){
+        super(next);
+        this.rows = [];
+        this.isPre = next && next.isPre;
+        this.isNoWrap = next && next.isNoWrap;
+    }
+}
+class TableRowStackItem extends StackItem {
+    constructor(next = null){
+        super(next);
+        this.cells = [];
+        this.isPre = next && next.isPre;
+        this.isNoWrap = next && next.isNoWrap;
+    }
+}
+class TableCellStackItem extends StackItem {
+    constructor(options, next = null, maxColumnWidth = undefined){
+        super(next);
+        this.inlineTextBuilder = new InlineTextBuilder(options, maxColumnWidth);
+        this.rawText = '';
+        this.stashedLineBreaks = 0;
+        this.isPre = next && next.isPre;
+        this.isNoWrap = next && next.isNoWrap;
+    }
+}
+class TransformerStackItem extends StackItem {
+    constructor(next = null, transform){
+        super(next);
+        this.transform = transform;
+    }
+}
+function charactersToCodes(str) {
+    return [
+        ...str
+    ].map((c)=>'\\u' + c.charCodeAt(0).toString(16).padStart(4, '0')).join('');
+}
+/**
+ * Helps to handle HTML whitespaces.
+ *
+ * @class WhitespaceProcessor
+ */ class WhitespaceProcessor {
+    /**
+   * Creates an instance of WhitespaceProcessor.
+   *
+   * @param { Options } options    HtmlToText options.
+   * @memberof WhitespaceProcessor
+   */ constructor(options){
+        this.whitespaceChars = options.preserveNewlines ? options.whitespaceCharacters.replace(/\n/g, '') : options.whitespaceCharacters;
+        const whitespaceCodes = charactersToCodes(this.whitespaceChars);
+        this.leadingWhitespaceRe = new RegExp(`^[${whitespaceCodes}]`);
+        this.trailingWhitespaceRe = new RegExp(`[${whitespaceCodes}]$`);
+        this.allWhitespaceOrEmptyRe = new RegExp(`^[${whitespaceCodes}]*$`);
+        this.newlineOrNonWhitespaceRe = new RegExp(`(\\n|[^\\n${whitespaceCodes}])`, 'g');
+        this.newlineOrNonNewlineStringRe = new RegExp(`(\\n|[^\\n]+)`, 'g');
+        if (options.preserveNewlines) {
+            const wordOrNewlineRe = new RegExp(`\\n|[^\\n${whitespaceCodes}]+`, 'gm');
+            /**
+       * Shrink whitespaces and wrap text, add to the builder.
+       *
+       * @param { string }                  text              Input text.
+       * @param { InlineTextBuilder }       inlineTextBuilder A builder to receive processed text.
+       * @param { (str: string) => string } [ transform ]     A transform to be applied to words.
+       * @param { boolean }                 [noWrap] Don't wrap text even if the line is too long.
+       */ this.shrinkWrapAdd = function(text, inlineTextBuilder, transform = (str)=>str, noWrap = false) {
+                if (!text) {
+                    return;
+                }
+                const previouslyStashedSpace = inlineTextBuilder.stashedSpace;
+                let anyMatch = false;
+                let m = wordOrNewlineRe.exec(text);
+                if (m) {
+                    anyMatch = true;
+                    if (m[0] === '\n') {
+                        inlineTextBuilder.startNewLine();
+                    } else if (previouslyStashedSpace || this.testLeadingWhitespace(text)) {
+                        inlineTextBuilder.pushWord(transform(m[0]), noWrap);
+                    } else {
+                        inlineTextBuilder.concatWord(transform(m[0]), noWrap);
+                    }
+                    while((m = wordOrNewlineRe.exec(text)) !== null){
+                        if (m[0] === '\n') {
+                            inlineTextBuilder.startNewLine();
+                        } else {
+                            inlineTextBuilder.pushWord(transform(m[0]), noWrap);
+                        }
+                    }
+                }
+                inlineTextBuilder.stashedSpace = previouslyStashedSpace && !anyMatch || this.testTrailingWhitespace(text);
+            // No need to stash a space in case last added item was a new line,
+            // but that won't affect anything later anyway.
+            };
+        } else {
+            const wordRe = new RegExp(`[^${whitespaceCodes}]+`, 'g');
+            this.shrinkWrapAdd = function(text, inlineTextBuilder, transform = (str)=>str, noWrap = false) {
+                if (!text) {
+                    return;
+                }
+                const previouslyStashedSpace = inlineTextBuilder.stashedSpace;
+                let anyMatch = false;
+                let m = wordRe.exec(text);
+                if (m) {
+                    anyMatch = true;
+                    if (previouslyStashedSpace || this.testLeadingWhitespace(text)) {
+                        inlineTextBuilder.pushWord(transform(m[0]), noWrap);
+                    } else {
+                        inlineTextBuilder.concatWord(transform(m[0]), noWrap);
+                    }
+                    while((m = wordRe.exec(text)) !== null){
+                        inlineTextBuilder.pushWord(transform(m[0]), noWrap);
+                    }
+                }
+                inlineTextBuilder.stashedSpace = previouslyStashedSpace && !anyMatch || this.testTrailingWhitespace(text);
+            };
+        }
+    }
+    /**
+   * Add text with only minimal processing.
+   * Everything between newlines considered a single word.
+   * No whitespace is trimmed.
+   * Not affected by preserveNewlines option - `\n` always starts a new line.
+   *
+   * `noWrap` argument is `true` by default - this won't start a new line
+   * even if there is not enough space left in the current line.
+   *
+   * @param { string }            text              Input text.
+   * @param { InlineTextBuilder } inlineTextBuilder A builder to receive processed text.
+   * @param { boolean }           [noWrap] Don't wrap text even if the line is too long.
+   */ addLiteral(text, inlineTextBuilder, noWrap = true) {
+        if (!text) {
+            return;
+        }
+        const previouslyStashedSpace = inlineTextBuilder.stashedSpace;
+        let anyMatch = false;
+        let m = this.newlineOrNonNewlineStringRe.exec(text);
+        if (m) {
+            anyMatch = true;
+            if (m[0] === '\n') {
+                inlineTextBuilder.startNewLine();
+            } else if (previouslyStashedSpace) {
+                inlineTextBuilder.pushWord(m[0], noWrap);
+            } else {
+                inlineTextBuilder.concatWord(m[0], noWrap);
+            }
+            while((m = this.newlineOrNonNewlineStringRe.exec(text)) !== null){
+                if (m[0] === '\n') {
+                    inlineTextBuilder.startNewLine();
+                } else {
+                    inlineTextBuilder.pushWord(m[0], noWrap);
+                }
+            }
+        }
+        inlineTextBuilder.stashedSpace = previouslyStashedSpace && !anyMatch;
+    }
+    /**
+   * Test whether the given text starts with HTML whitespace character.
+   *
+   * @param   { string }  text  The string to test.
+   * @returns { boolean }
+   */ testLeadingWhitespace(text) {
+        return this.leadingWhitespaceRe.test(text);
+    }
+    /**
+   * Test whether the given text ends with HTML whitespace character.
+   *
+   * @param   { string }  text  The string to test.
+   * @returns { boolean }
+   */ testTrailingWhitespace(text) {
+        return this.trailingWhitespaceRe.test(text);
+    }
+    /**
+   * Test whether the given text contains any non-whitespace characters.
+   *
+   * @param   { string }  text  The string to test.
+   * @returns { boolean }
+   */ testContainsWords(text) {
+        return !this.allWhitespaceOrEmptyRe.test(text);
+    }
+    /**
+   * Return the number of newlines if there are no words.
+   *
+   * If any word is found then return zero regardless of the actual number of newlines.
+   *
+   * @param   { string }  text  Input string.
+   * @returns { number }
+   */ countNewlinesNoWords(text) {
+        this.newlineOrNonWhitespaceRe.lastIndex = 0;
+        let counter = 0;
+        let match;
+        while((match = this.newlineOrNonWhitespaceRe.exec(text)) !== null){
+            if (match[0] === '\n') {
+                counter++;
+            } else {
+                return 0;
+            }
+        }
+        return counter;
+    }
+}
+/**
+ * Helps to build text from inline and block elements.
+ *
+ * @class BlockTextBuilder
+ */ class BlockTextBuilder {
+    /**
+   * Creates an instance of BlockTextBuilder.
+   *
+   * @param { Options } options HtmlToText options.
+   * @param { import('selderee').Picker<DomNode, TagDefinition> } picker Selectors decision tree picker.
+   * @param { any} [metadata] Optional metadata for HTML document, for use in formatters.
+   */ constructor(options, picker, metadata = undefined){
+        this.options = options;
+        this.picker = picker;
+        this.metadata = metadata;
+        this.whitespaceProcessor = new WhitespaceProcessor(options);
+        /** @type { StackItem } */ this._stackItem = new BlockStackItem(options);
+        /** @type { TransformerStackItem } */ this._wordTransformer = undefined;
+    }
+    /**
+   * Put a word-by-word transform function onto the transformations stack.
+   *
+   * Mainly used for uppercasing. Can be bypassed to add unformatted text such as URLs.
+   *
+   * Word transformations applied before wrapping.
+   *
+   * @param { (str: string) => string } wordTransform Word transformation function.
+   */ pushWordTransform(wordTransform) {
+        this._wordTransformer = new TransformerStackItem(this._wordTransformer, wordTransform);
+    }
+    /**
+   * Remove a function from the word transformations stack.
+   *
+   * @returns { (str: string) => string } A function that was removed.
+   */ popWordTransform() {
+        if (!this._wordTransformer) {
+            return undefined;
+        }
+        const transform = this._wordTransformer.transform;
+        this._wordTransformer = this._wordTransformer.next;
+        return transform;
+    }
+    /**
+   * Ignore wordwrap option in followup inline additions and disable automatic wrapping.
+   */ startNoWrap() {
+        this._stackItem.isNoWrap = true;
+    }
+    /**
+   * Return automatic wrapping to behavior defined by options.
+   */ stopNoWrap() {
+        this._stackItem.isNoWrap = false;
+    }
+    /** @returns { (str: string) => string } */ _getCombinedWordTransformer() {
+        const wt = this._wordTransformer ? (str)=>applyTransformer(str, this._wordTransformer) : undefined;
+        const ce = this.options.encodeCharacters;
+        return wt ? ce ? (str)=>ce(wt(str)) : wt : ce;
+    }
+    _popStackItem() {
+        const item = this._stackItem;
+        this._stackItem = item.next;
+        return item;
+    }
+    /**
+   * Add a line break into currently built block.
+   */ addLineBreak() {
+        if (!(this._stackItem instanceof BlockStackItem || this._stackItem instanceof ListItemStackItem || this._stackItem instanceof TableCellStackItem)) {
+            return;
+        }
+        if (this._stackItem.isPre) {
+            this._stackItem.rawText += '\n';
+        } else {
+            this._stackItem.inlineTextBuilder.startNewLine();
+        }
+    }
+    /**
+   * Allow to break line in case directly following text will not fit.
+   */ addWordBreakOpportunity() {
+        if (this._stackItem instanceof BlockStackItem || this._stackItem instanceof ListItemStackItem || this._stackItem instanceof TableCellStackItem) {
+            this._stackItem.inlineTextBuilder.wordBreakOpportunity = true;
+        }
+    }
+    /**
+   * Add a node inline into the currently built block.
+   *
+   * @param { string } str
+   * Text content of a node to add.
+   *
+   * @param { object } [param1]
+   * Object holding the parameters of the operation.
+   *
+   * @param { boolean } [param1.noWordTransform]
+   * Ignore word transformers if there are any.
+   * Don't encode characters as well.
+   * (Use this for things like URL addresses).
+   */ addInline(str, { noWordTransform = false } = {}) {
+        if (!(this._stackItem instanceof BlockStackItem || this._stackItem instanceof ListItemStackItem || this._stackItem instanceof TableCellStackItem)) {
+            return;
+        }
+        if (this._stackItem.isPre) {
+            this._stackItem.rawText += str;
+            return;
+        }
+        if (str.length === 0 || this._stackItem.stashedLineBreaks && // stashed linebreaks make whitespace irrelevant
+        !this.whitespaceProcessor.testContainsWords(str) // no words to add
+        ) {
+            return;
+        }
+        if (this.options.preserveNewlines) {
+            const newlinesNumber = this.whitespaceProcessor.countNewlinesNoWords(str);
+            if (newlinesNumber > 0) {
+                this._stackItem.inlineTextBuilder.startNewLine(newlinesNumber);
+                // keep stashedLineBreaks unchanged
+                return;
+            }
+        }
+        if (this._stackItem.stashedLineBreaks) {
+            this._stackItem.inlineTextBuilder.startNewLine(this._stackItem.stashedLineBreaks);
+        }
+        this.whitespaceProcessor.shrinkWrapAdd(str, this._stackItem.inlineTextBuilder, noWordTransform ? undefined : this._getCombinedWordTransformer(), this._stackItem.isNoWrap);
+        this._stackItem.stashedLineBreaks = 0; // inline text doesn't introduce line breaks
+    }
+    /**
+   * Add a string inline into the currently built block.
+   *
+   * Use this for markup elements that don't have to adhere
+   * to text layout rules.
+   *
+   * @param { string } str Text to add.
+   */ addLiteral(str) {
+        if (!(this._stackItem instanceof BlockStackItem || this._stackItem instanceof ListItemStackItem || this._stackItem instanceof TableCellStackItem)) {
+            return;
+        }
+        if (str.length === 0) {
+            return;
+        }
+        if (this._stackItem.isPre) {
+            this._stackItem.rawText += str;
+            return;
+        }
+        if (this._stackItem.stashedLineBreaks) {
+            this._stackItem.inlineTextBuilder.startNewLine(this._stackItem.stashedLineBreaks);
+        }
+        this.whitespaceProcessor.addLiteral(str, this._stackItem.inlineTextBuilder, this._stackItem.isNoWrap);
+        this._stackItem.stashedLineBreaks = 0;
+    }
+    /**
+   * Start building a new block.
+   *
+   * @param { object } [param0]
+   * Object holding the parameters of the block.
+   *
+   * @param { number } [param0.leadingLineBreaks]
+   * This block should have at least this number of line breaks to separate it from any preceding block.
+   *
+   * @param { number }  [param0.reservedLineLength]
+   * Reserve this number of characters on each line for block markup.
+   *
+   * @param { boolean } [param0.isPre]
+   * Should HTML whitespace be preserved inside this block.
+   */ openBlock({ leadingLineBreaks = 1, reservedLineLength = 0, isPre = false } = {}) {
+        const maxLineLength = Math.max(20, this._stackItem.inlineTextBuilder.maxLineLength - reservedLineLength);
+        this._stackItem = new BlockStackItem(this.options, this._stackItem, leadingLineBreaks, maxLineLength);
+        if (isPre) {
+            this._stackItem.isPre = true;
+        }
+    }
+    /**
+   * Finalize currently built block, add it's content to the parent block.
+   *
+   * @param { object } [param0]
+   * Object holding the parameters of the block.
+   *
+   * @param { number } [param0.trailingLineBreaks]
+   * This block should have at least this number of line breaks to separate it from any following block.
+   *
+   * @param { (str: string) => string } [param0.blockTransform]
+   * A function to transform the block text before adding to the parent block.
+   * This happens after word wrap and should be used in combination with reserved line length
+   * in order to keep line lengths correct.
+   * Used for whole block markup.
+   */ closeBlock({ trailingLineBreaks = 1, blockTransform = undefined } = {}) {
+        const block = this._popStackItem();
+        const blockText = blockTransform ? blockTransform(getText(block)) : getText(block);
+        addText(this._stackItem, blockText, block.leadingLineBreaks, Math.max(block.stashedLineBreaks, trailingLineBreaks));
+    }
+    /**
+   * Start building a new list.
+   *
+   * @param { object } [param0]
+   * Object holding the parameters of the list.
+   *
+   * @param { number } [param0.maxPrefixLength]
+   * Length of the longest list item prefix.
+   * If not supplied or too small then list items won't be aligned properly.
+   *
+   * @param { 'left' | 'right' } [param0.prefixAlign]
+   * Specify how prefixes of different lengths have to be aligned
+   * within a column.
+   *
+   * @param { number } [param0.interRowLineBreaks]
+   * Minimum number of line breaks between list items.
+   *
+   * @param { number } [param0.leadingLineBreaks]
+   * This list should have at least this number of line breaks to separate it from any preceding block.
+   */ openList({ maxPrefixLength = 0, prefixAlign = 'left', interRowLineBreaks = 1, leadingLineBreaks = 2 } = {}) {
+        this._stackItem = new ListStackItem(this.options, this._stackItem, {
+            interRowLineBreaks: interRowLineBreaks,
+            leadingLineBreaks: leadingLineBreaks,
+            maxLineLength: this._stackItem.inlineTextBuilder.maxLineLength,
+            maxPrefixLength: maxPrefixLength,
+            prefixAlign: prefixAlign
+        });
+    }
+    /**
+   * Start building a new list item.
+   *
+   * @param {object} param0
+   * Object holding the parameters of the list item.
+   *
+   * @param { string } [param0.prefix]
+   * Prefix for this list item (item number, bullet point, etc).
+   */ openListItem({ prefix = '' } = {}) {
+        if (!(this._stackItem instanceof ListStackItem)) {
+            throw new Error('Can\'t add a list item to something that is not a list! Check the formatter.');
+        }
+        const list = this._stackItem;
+        const prefixLength = Math.max(prefix.length, list.maxPrefixLength);
+        const maxLineLength = Math.max(20, list.inlineTextBuilder.maxLineLength - prefixLength);
+        this._stackItem = new ListItemStackItem(this.options, list, {
+            prefix: prefix,
+            maxLineLength: maxLineLength,
+            leadingLineBreaks: list.interRowLineBreaks
+        });
+    }
+    /**
+   * Finalize currently built list item, add it's content to the parent list.
+   */ closeListItem() {
+        const listItem = this._popStackItem();
+        const list = listItem.next;
+        const prefixLength = Math.max(listItem.prefix.length, list.maxPrefixLength);
+        const spacing = '\n' + ' '.repeat(prefixLength);
+        const prefix = list.prefixAlign === 'right' ? listItem.prefix.padStart(prefixLength) : listItem.prefix.padEnd(prefixLength);
+        const text = prefix + getText(listItem).replace(/\n/g, spacing);
+        addText(list, text, listItem.leadingLineBreaks, Math.max(listItem.stashedLineBreaks, list.interRowLineBreaks));
+    }
+    /**
+   * Finalize currently built list, add it's content to the parent block.
+   *
+   * @param { object } param0
+   * Object holding the parameters of the list.
+   *
+   * @param { number } [param0.trailingLineBreaks]
+   * This list should have at least this number of line breaks to separate it from any following block.
+   */ closeList({ trailingLineBreaks = 2 } = {}) {
+        const list = this._popStackItem();
+        const text = getText(list);
+        if (text) {
+            addText(this._stackItem, text, list.leadingLineBreaks, trailingLineBreaks);
+        }
+    }
+    /**
+   * Start building a table.
+   */ openTable() {
+        this._stackItem = new TableStackItem(this._stackItem);
+    }
+    /**
+   * Start building a table row.
+   */ openTableRow() {
+        if (!(this._stackItem instanceof TableStackItem)) {
+            throw new Error('Can\'t add a table row to something that is not a table! Check the formatter.');
+        }
+        this._stackItem = new TableRowStackItem(this._stackItem);
+    }
+    /**
+   * Start building a table cell.
+   *
+   * @param { object } [param0]
+   * Object holding the parameters of the cell.
+   *
+   * @param { number } [param0.maxColumnWidth]
+   * Wrap cell content to this width. Fall back to global wordwrap value if undefined.
+   */ openTableCell({ maxColumnWidth = undefined } = {}) {
+        if (!(this._stackItem instanceof TableRowStackItem)) {
+            throw new Error('Can\'t add a table cell to something that is not a table row! Check the formatter.');
+        }
+        this._stackItem = new TableCellStackItem(this.options, this._stackItem, maxColumnWidth);
+    }
+    /**
+   * Finalize currently built table cell and add it to parent table row's cells.
+   *
+   * @param { object } [param0]
+   * Object holding the parameters of the cell.
+   *
+   * @param { number } [param0.colspan] How many columns this cell should occupy.
+   * @param { number } [param0.rowspan] How many rows this cell should occupy.
+   */ closeTableCell({ colspan = 1, rowspan = 1 } = {}) {
+        const cell = this._popStackItem();
+        const text = trimCharacter(getText(cell), '\n');
+        cell.next.cells.push({
+            colspan: colspan,
+            rowspan: rowspan,
+            text: text
+        });
+    }
+    /**
+   * Finalize currently built table row and add it to parent table's rows.
+   */ closeTableRow() {
+        const row = this._popStackItem();
+        row.next.rows.push(row.cells);
+    }
+    /**
+   * Finalize currently built table and add the rendered text to the parent block.
+   *
+   * @param { object } param0
+   * Object holding the parameters of the table.
+   *
+   * @param { TablePrinter } param0.tableToString
+   * A function to convert a table of stringified cells into a complete table.
+   *
+   * @param { number } [param0.leadingLineBreaks]
+   * This table should have at least this number of line breaks to separate if from any preceding block.
+   *
+   * @param { number } [param0.trailingLineBreaks]
+   * This table should have at least this number of line breaks to separate it from any following block.
+   */ closeTable({ tableToString, leadingLineBreaks = 2, trailingLineBreaks = 2 }) {
+        const table = this._popStackItem();
+        const output = tableToString(table.rows);
+        if (output) {
+            addText(this._stackItem, output, leadingLineBreaks, trailingLineBreaks);
+        }
+    }
+    /**
+   * Return the rendered text content of this builder.
+   *
+   * @returns { string }
+   */ toString() {
+        return getText(this._stackItem.getRoot());
+    // There should only be the root item if everything is closed properly.
+    }
+}
+function getText(stackItem) {
+    if (!(stackItem instanceof BlockStackItem || stackItem instanceof ListItemStackItem || stackItem instanceof TableCellStackItem)) {
+        throw new Error('Only blocks, list items and table cells can be requested for text contents.');
+    }
+    return stackItem.inlineTextBuilder.isEmpty() ? stackItem.rawText : stackItem.rawText + stackItem.inlineTextBuilder.toString();
+}
+function addText(stackItem, text, leadingLineBreaks, trailingLineBreaks) {
+    if (!(stackItem instanceof BlockStackItem || stackItem instanceof ListItemStackItem || stackItem instanceof TableCellStackItem)) {
+        throw new Error('Only blocks, list items and table cells can contain text.');
+    }
+    const parentText = getText(stackItem);
+    const lineBreaks = Math.max(stackItem.stashedLineBreaks, leadingLineBreaks);
+    stackItem.inlineTextBuilder.clear();
+    if (parentText) {
+        stackItem.rawText = parentText + '\n'.repeat(lineBreaks) + text;
+    } else {
+        stackItem.rawText = text;
+        stackItem.leadingLineBreaks = lineBreaks;
+    }
+    stackItem.stashedLineBreaks = trailingLineBreaks;
+}
+/**
+ * @param { string } str A string to transform.
+ * @param { TransformerStackItem } transformer A transformer item (with possible continuation).
+ * @returns { string }
+ */ function applyTransformer(str, transformer) {
+    return transformer ? applyTransformer(transformer.transform(str), transformer.next) : str;
+}
+/**
+ * Compile selectors into a decision tree,
+ * return a function intended for batch processing.
+ *
+ * @param   { Options } [options = {}]   HtmlToText options (defaults, formatters, user options merged, deduplicated).
+ * @returns { (html: string, metadata?: any) => string } Pre-configured converter function.
+ * @static
+ */ function compile$1(options = {}) {
+    const selectorsWithoutFormat = options.selectors.filter((s)=>!s.format);
+    if (selectorsWithoutFormat.length) {
+        throw new Error('Following selectors have no specified format: ' + selectorsWithoutFormat.map((s)=>`\`${s.selector}\``).join(', '));
+    }
+    const picker = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$selderee$2f$lib$2f$selderee$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["DecisionTree"](options.selectors.map((s)=>[
+            s.selector,
+            s
+        ])).build(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$selderee$2f$plugin$2d$htmlparser2$2f$lib$2f$hp2$2d$builder$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hp2Builder"]);
+    if (typeof options.encodeCharacters !== 'function') {
+        options.encodeCharacters = makeReplacerFromDict(options.encodeCharacters);
+    }
+    const baseSelectorsPicker = new __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$selderee$2f$lib$2f$selderee$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["DecisionTree"](options.baseElements.selectors.map((s, i)=>[
+            s,
+            i + 1
+        ])).build(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f40$selderee$2f$plugin$2d$htmlparser2$2f$lib$2f$hp2$2d$builder$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["hp2Builder"]);
+    function findBaseElements(dom) {
+        return findBases(dom, options, baseSelectorsPicker);
+    }
+    const limitedWalk = limitedDepthRecursive(options.limits.maxDepth, recursiveWalk, function(dom, builder) {
+        builder.addInline(options.limits.ellipsis || '');
+    });
+    return function(html, metadata = undefined) {
+        return process(html, metadata, options, picker, findBaseElements, limitedWalk);
+    };
+}
+/**
+ * Convert given HTML according to preprocessed options.
+ *
+ * @param { string } html HTML content to convert.
+ * @param { any } metadata Optional metadata for HTML document, for use in formatters.
+ * @param { Options } options HtmlToText options (preprocessed).
+ * @param { import('selderee').Picker<DomNode, TagDefinition> } picker
+ * Tag definition picker for DOM nodes processing.
+ * @param { (dom: DomNode[]) => DomNode[] } findBaseElements
+ * Function to extract elements from HTML DOM
+ * that will only be present in the output text.
+ * @param { RecursiveCallback } walk Recursive callback.
+ * @returns { string }
+ */ function process(html, metadata, options, picker, findBaseElements, walk) {
+    const maxInputLength = options.limits.maxInputLength;
+    if (maxInputLength && html && html.length > maxInputLength) {
+        console.warn(`Input length ${html.length} is above allowed limit of ${maxInputLength}. Truncating without ellipsis.`);
+        html = html.substring(0, maxInputLength);
+    }
+    const document = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$htmlparser2$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__$3c$locals$3e$__["parseDocument"])(html, {
+        decodeEntities: options.decodeEntities
+    });
+    const bases = findBaseElements(document.children);
+    const builder = new BlockTextBuilder(options, picker, metadata);
+    walk(bases, builder);
+    return builder.toString();
+}
+function findBases(dom, options, baseSelectorsPicker) {
+    const results = [];
+    function recursiveWalk(walk, /** @type { DomNode[] } */ dom) {
+        dom = dom.slice(0, options.limits.maxChildNodes);
+        for (const elem of dom){
+            if (elem.type !== 'tag') {
+                continue;
+            }
+            const pickedSelectorIndex = baseSelectorsPicker.pick1(elem);
+            if (pickedSelectorIndex > 0) {
+                results.push({
+                    selectorIndex: pickedSelectorIndex,
+                    element: elem
+                });
+            } else if (elem.children) {
+                walk(elem.children);
+            }
+            if (results.length >= options.limits.maxBaseElements) {
+                return;
+            }
+        }
+    }
+    const limitedWalk = limitedDepthRecursive(options.limits.maxDepth, recursiveWalk);
+    limitedWalk(dom);
+    if (options.baseElements.orderBy !== 'occurrence') {
+        results.sort((a, b)=>a.selectorIndex - b.selectorIndex);
+    }
+    return options.baseElements.returnDomByDefault && results.length === 0 ? dom : results.map((x)=>x.element);
+}
+/**
+ * Function to walk through DOM nodes and accumulate their string representations.
+ *
+ * @param   { RecursiveCallback } walk    Recursive callback.
+ * @param   { DomNode[] }         [dom]   Nodes array to process.
+ * @param   { BlockTextBuilder }  builder Passed around to accumulate output text.
+ * @private
+ */ function recursiveWalk(walk, dom, builder) {
+    if (!dom) {
+        return;
+    }
+    const options = builder.options;
+    const tooManyChildNodes = dom.length > options.limits.maxChildNodes;
+    if (tooManyChildNodes) {
+        dom = dom.slice(0, options.limits.maxChildNodes);
+        dom.push({
+            data: options.limits.ellipsis,
+            type: 'text'
+        });
+    }
+    for (const elem of dom){
+        switch(elem.type){
+            case 'text':
+                {
+                    builder.addInline(elem.data);
+                    break;
+                }
+            case 'tag':
+                {
+                    const tagDefinition = builder.picker.pick1(elem);
+                    const format = options.formatters[tagDefinition.format];
+                    format(elem, walk, builder, tagDefinition.options || {});
+                    break;
+                }
+        }
+    }
+    return;
+}
+/**
+ * @param { Object<string,string | false> } dict
+ * A dictionary where keys are characters to replace
+ * and values are replacement strings.
+ *
+ * First code point from dict keys is used.
+ * Compound emojis with ZWJ are not supported (not until Node 16).
+ *
+ * @returns { ((str: string) => string) | undefined }
+ */ function makeReplacerFromDict(dict) {
+    if (!dict || Object.keys(dict).length === 0) {
+        return undefined;
+    }
+    /** @type { [string, string][] } */ const entries = Object.entries(dict).filter(([, v])=>v !== false);
+    const regex = new RegExp(entries.map(([c])=>`(${unicodeEscape([
+            ...c
+        ][0])})`).join('|'), 'g');
+    const values = entries.map(([, v])=>v);
+    const replacer = (m, ...cgs)=>values[cgs.findIndex((cg)=>cg)];
+    return (str)=>str.replace(regex, replacer);
+}
+/**
+ * Dummy formatter that discards the input and does nothing.
+ *
+ * @type { FormatCallback }
+ */ function formatSkip(elem, walk, builder, formatOptions) {
+/* do nothing */ }
+/**
+ * Insert the given string literal inline instead of a tag.
+ *
+ * @type { FormatCallback }
+ */ function formatInlineString(elem, walk, builder, formatOptions) {
+    builder.addLiteral(formatOptions.string || '');
+}
+/**
+ * Insert a block with the given string literal instead of a tag.
+ *
+ * @type { FormatCallback }
+ */ function formatBlockString(elem, walk, builder, formatOptions) {
+    builder.openBlock({
+        leadingLineBreaks: formatOptions.leadingLineBreaks || 2
+    });
+    builder.addLiteral(formatOptions.string || '');
+    builder.closeBlock({
+        trailingLineBreaks: formatOptions.trailingLineBreaks || 2
+    });
+}
+/**
+ * Process an inline-level element.
+ *
+ * @type { FormatCallback }
+ */ function formatInline(elem, walk, builder, formatOptions) {
+    walk(elem.children, builder);
+}
+/**
+ * Process a block-level container.
+ *
+ * @type { FormatCallback }
+ */ function formatBlock$1(elem, walk, builder, formatOptions) {
+    builder.openBlock({
+        leadingLineBreaks: formatOptions.leadingLineBreaks || 2
+    });
+    walk(elem.children, builder);
+    builder.closeBlock({
+        trailingLineBreaks: formatOptions.trailingLineBreaks || 2
+    });
+}
+function renderOpenTag(elem) {
+    const attrs = elem.attribs && elem.attribs.length ? ' ' + Object.entries(elem.attribs).map(([k, v])=>v === '' ? k : `${k}=${v.replace(/"/g, '&quot;')}`).join(' ') : '';
+    return `<${elem.name}${attrs}>`;
+}
+function renderCloseTag(elem) {
+    return `</${elem.name}>`;
+}
+/**
+ * Render an element as inline HTML tag, walk through it's children.
+ *
+ * @type { FormatCallback }
+ */ function formatInlineTag(elem, walk, builder, formatOptions) {
+    builder.startNoWrap();
+    builder.addLiteral(renderOpenTag(elem));
+    builder.stopNoWrap();
+    walk(elem.children, builder);
+    builder.startNoWrap();
+    builder.addLiteral(renderCloseTag(elem));
+    builder.stopNoWrap();
+}
+/**
+ * Render an element as HTML block bag, walk through it's children.
+ *
+ * @type { FormatCallback }
+ */ function formatBlockTag(elem, walk, builder, formatOptions) {
+    builder.openBlock({
+        leadingLineBreaks: formatOptions.leadingLineBreaks || 2
+    });
+    builder.startNoWrap();
+    builder.addLiteral(renderOpenTag(elem));
+    builder.stopNoWrap();
+    walk(elem.children, builder);
+    builder.startNoWrap();
+    builder.addLiteral(renderCloseTag(elem));
+    builder.stopNoWrap();
+    builder.closeBlock({
+        trailingLineBreaks: formatOptions.trailingLineBreaks || 2
+    });
+}
+/**
+ * Render an element with all it's children as inline HTML.
+ *
+ * @type { FormatCallback }
+ */ function formatInlineHtml(elem, walk, builder, formatOptions) {
+    builder.startNoWrap();
+    builder.addLiteral((0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$dom$2d$serializer$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["render"])(elem, {
+        decodeEntities: builder.options.decodeEntities
+    }));
+    builder.stopNoWrap();
+}
+/**
+ * Render an element with all it's children as HTML block.
+ *
+ * @type { FormatCallback }
+ */ function formatBlockHtml(elem, walk, builder, formatOptions) {
+    builder.openBlock({
+        leadingLineBreaks: formatOptions.leadingLineBreaks || 2
+    });
+    builder.startNoWrap();
+    builder.addLiteral((0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$dom$2d$serializer$2f$lib$2f$esm$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["render"])(elem, {
+        decodeEntities: builder.options.decodeEntities
+    }));
+    builder.stopNoWrap();
+    builder.closeBlock({
+        trailingLineBreaks: formatOptions.trailingLineBreaks || 2
+    });
+}
+/**
+ * Render inline element wrapped with given strings.
+ *
+ * @type { FormatCallback }
+ */ function formatInlineSurround(elem, walk, builder, formatOptions) {
+    builder.addLiteral(formatOptions.prefix || '');
+    walk(elem.children, builder);
+    builder.addLiteral(formatOptions.suffix || '');
+}
+var genericFormatters = /*#__PURE__*/ Object.freeze({
+    __proto__: null,
+    block: formatBlock$1,
+    blockHtml: formatBlockHtml,
+    blockString: formatBlockString,
+    blockTag: formatBlockTag,
+    inline: formatInline,
+    inlineHtml: formatInlineHtml,
+    inlineString: formatInlineString,
+    inlineSurround: formatInlineSurround,
+    inlineTag: formatInlineTag,
+    skip: formatSkip
+});
+function getRow(matrix, j) {
+    if (!matrix[j]) {
+        matrix[j] = [];
+    }
+    return matrix[j];
+}
+function findFirstVacantIndex(row, x = 0) {
+    while(row[x]){
+        x++;
+    }
+    return x;
+}
+function transposeInPlace(matrix, maxSize) {
+    for(let i = 0; i < maxSize; i++){
+        const rowI = getRow(matrix, i);
+        for(let j = 0; j < i; j++){
+            const rowJ = getRow(matrix, j);
+            if (rowI[j] || rowJ[i]) {
+                const temp = rowI[j];
+                rowI[j] = rowJ[i];
+                rowJ[i] = temp;
+            }
+        }
+    }
+}
+function putCellIntoLayout(cell, layout, baseRow, baseCol) {
+    for(let r = 0; r < cell.rowspan; r++){
+        const layoutRow = getRow(layout, baseRow + r);
+        for(let c = 0; c < cell.colspan; c++){
+            layoutRow[baseCol + c] = cell;
+        }
+    }
+}
+function getOrInitOffset(offsets, index) {
+    if (offsets[index] === undefined) {
+        offsets[index] = index === 0 ? 0 : 1 + getOrInitOffset(offsets, index - 1);
+    }
+    return offsets[index];
+}
+function updateOffset(offsets, base, span, value) {
+    offsets[base + span] = Math.max(getOrInitOffset(offsets, base + span), getOrInitOffset(offsets, base) + value);
+}
+/**
+ * Render a table into a string.
+ * Cells can contain multiline text and span across multiple rows and columns.
+ *
+ * Modifies cells to add lines array.
+ *
+ * @param { TablePrinterCell[][] } tableRows Table to render.
+ * @param { number } rowSpacing Number of spaces between columns.
+ * @param { number } colSpacing Number of empty lines between rows.
+ * @returns { string }
+ */ function tableToString(tableRows, rowSpacing, colSpacing) {
+    const layout = [];
+    let colNumber = 0;
+    const rowNumber = tableRows.length;
+    const rowOffsets = [
+        0
+    ];
+    // Fill the layout table and row offsets row-by-row.
+    for(let j = 0; j < rowNumber; j++){
+        const layoutRow = getRow(layout, j);
+        const cells = tableRows[j];
+        let x = 0;
+        for(let i = 0; i < cells.length; i++){
+            const cell = cells[i];
+            x = findFirstVacantIndex(layoutRow, x);
+            putCellIntoLayout(cell, layout, j, x);
+            x += cell.colspan;
+            cell.lines = cell.text.split('\n');
+            const cellHeight = cell.lines.length;
+            updateOffset(rowOffsets, j, cell.rowspan, cellHeight + rowSpacing);
+        }
+        colNumber = layoutRow.length > colNumber ? layoutRow.length : colNumber;
+    }
+    transposeInPlace(layout, rowNumber > colNumber ? rowNumber : colNumber);
+    const outputLines = [];
+    const colOffsets = [
+        0
+    ];
+    // Fill column offsets and output lines column-by-column.
+    for(let x = 0; x < colNumber; x++){
+        let y = 0;
+        let cell;
+        const rowsInThisColumn = Math.min(rowNumber, layout[x].length);
+        while(y < rowsInThisColumn){
+            cell = layout[x][y];
+            if (cell) {
+                if (!cell.rendered) {
+                    let cellWidth = 0;
+                    for(let j = 0; j < cell.lines.length; j++){
+                        const line = cell.lines[j];
+                        const lineOffset = rowOffsets[y] + j;
+                        outputLines[lineOffset] = (outputLines[lineOffset] || '').padEnd(colOffsets[x]) + line;
+                        cellWidth = line.length > cellWidth ? line.length : cellWidth;
+                    }
+                    updateOffset(colOffsets, x, cell.colspan, cellWidth + colSpacing);
+                    cell.rendered = true;
+                }
+                y += cell.rowspan;
+            } else {
+                const lineOffset = rowOffsets[y];
+                outputLines[lineOffset] = outputLines[lineOffset] || '';
+                y++;
+            }
+        }
+    }
+    return outputLines.join('\n');
+}
+/**
+ * Process a line-break.
+ *
+ * @type { FormatCallback }
+ */ function formatLineBreak(elem, walk, builder, formatOptions) {
+    builder.addLineBreak();
+}
+/**
+ * Process a `wbr` tag (word break opportunity).
+ *
+ * @type { FormatCallback }
+ */ function formatWbr(elem, walk, builder, formatOptions) {
+    builder.addWordBreakOpportunity();
+}
+/**
+ * Process a horizontal line.
+ *
+ * @type { FormatCallback }
+ */ function formatHorizontalLine(elem, walk, builder, formatOptions) {
+    builder.openBlock({
+        leadingLineBreaks: formatOptions.leadingLineBreaks || 2
+    });
+    builder.addInline('-'.repeat(formatOptions.length || builder.options.wordwrap || 40));
+    builder.closeBlock({
+        trailingLineBreaks: formatOptions.trailingLineBreaks || 2
+    });
+}
+/**
+ * Process a paragraph.
+ *
+ * @type { FormatCallback }
+ */ function formatParagraph(elem, walk, builder, formatOptions) {
+    builder.openBlock({
+        leadingLineBreaks: formatOptions.leadingLineBreaks || 2
+    });
+    walk(elem.children, builder);
+    builder.closeBlock({
+        trailingLineBreaks: formatOptions.trailingLineBreaks || 2
+    });
+}
+/**
+ * Process a preformatted content.
+ *
+ * @type { FormatCallback }
+ */ function formatPre(elem, walk, builder, formatOptions) {
+    builder.openBlock({
+        isPre: true,
+        leadingLineBreaks: formatOptions.leadingLineBreaks || 2
+    });
+    walk(elem.children, builder);
+    builder.closeBlock({
+        trailingLineBreaks: formatOptions.trailingLineBreaks || 2
+    });
+}
+/**
+ * Process a heading.
+ *
+ * @type { FormatCallback }
+ */ function formatHeading(elem, walk, builder, formatOptions) {
+    builder.openBlock({
+        leadingLineBreaks: formatOptions.leadingLineBreaks || 2
+    });
+    if (formatOptions.uppercase !== false) {
+        builder.pushWordTransform((str)=>str.toUpperCase());
+        walk(elem.children, builder);
+        builder.popWordTransform();
+    } else {
+        walk(elem.children, builder);
+    }
+    builder.closeBlock({
+        trailingLineBreaks: formatOptions.trailingLineBreaks || 2
+    });
+}
+/**
+ * Process a blockquote.
+ *
+ * @type { FormatCallback }
+ */ function formatBlockquote(elem, walk, builder, formatOptions) {
+    builder.openBlock({
+        leadingLineBreaks: formatOptions.leadingLineBreaks || 2,
+        reservedLineLength: 2
+    });
+    walk(elem.children, builder);
+    builder.closeBlock({
+        trailingLineBreaks: formatOptions.trailingLineBreaks || 2,
+        blockTransform: (str)=>(formatOptions.trimEmptyLines !== false ? trimCharacter(str, '\n') : str).split('\n').map((line)=>'> ' + line).join('\n')
+    });
+}
+function withBrackets(str, brackets) {
+    if (!brackets) {
+        return str;
+    }
+    const lbr = typeof brackets[0] === 'string' ? brackets[0] : '[';
+    const rbr = typeof brackets[1] === 'string' ? brackets[1] : ']';
+    return lbr + str + rbr;
+}
+function pathRewrite(path, rewriter, baseUrl, metadata, elem) {
+    const modifiedPath = typeof rewriter === 'function' ? rewriter(path, metadata, elem) : path;
+    return modifiedPath[0] === '/' && baseUrl ? trimCharacterEnd(baseUrl, '/') + modifiedPath : modifiedPath;
+}
+/**
+ * Process an image.
+ *
+ * @type { FormatCallback }
+ */ function formatImage(elem, walk, builder, formatOptions) {
+    const attribs = elem.attribs || {};
+    const alt = attribs.alt ? attribs.alt : '';
+    const src = !attribs.src ? '' : pathRewrite(attribs.src, formatOptions.pathRewrite, formatOptions.baseUrl, builder.metadata, elem);
+    const text = !src ? alt : !alt ? withBrackets(src, formatOptions.linkBrackets) : alt + ' ' + withBrackets(src, formatOptions.linkBrackets);
+    builder.addInline(text, {
+        noWordTransform: true
+    });
+}
+// a img baseUrl
+// a img pathRewrite
+// a img linkBrackets
+// a     ignoreHref: false
+//            ignoreText ?
+// a     noAnchorUrl: true
+//            can be replaced with selector
+// a     hideLinkHrefIfSameAsText: false
+//            how to compare, what to show (text, href, normalized) ?
+// a     mailto protocol removed without options
+// a     protocols: mailto, tel, ...
+//            can be matched with selector?
+// anchors, protocols - only if no pathRewrite fn is provided
+// normalize-url ?
+// a
+// a[href^="#"] - format:skip by default
+// a[href^="mailto:"] - ?
+/**
+ * Process an anchor.
+ *
+ * @type { FormatCallback }
+ */ function formatAnchor(elem, walk, builder, formatOptions) {
+    function getHref() {
+        if (formatOptions.ignoreHref) {
+            return '';
+        }
+        if (!elem.attribs || !elem.attribs.href) {
+            return '';
+        }
+        let href = elem.attribs.href.replace(/^mailto:/, '');
+        if (formatOptions.noAnchorUrl && href[0] === '#') {
+            return '';
+        }
+        href = pathRewrite(href, formatOptions.pathRewrite, formatOptions.baseUrl, builder.metadata, elem);
+        return href;
+    }
+    const href = getHref();
+    if (!href) {
+        walk(elem.children, builder);
+    } else {
+        let text = '';
+        builder.pushWordTransform((str)=>{
+            if (str) {
+                text += str;
+            }
+            return str;
+        });
+        walk(elem.children, builder);
+        builder.popWordTransform();
+        const hideSameLink = formatOptions.hideLinkHrefIfSameAsText && href === text;
+        if (!hideSameLink) {
+            builder.addInline(!text ? href : ' ' + withBrackets(href, formatOptions.linkBrackets), {
+                noWordTransform: true
+            });
+        }
+    }
+}
+/**
+ * @param { DomNode }           elem               List items with their prefixes.
+ * @param { RecursiveCallback } walk               Recursive callback to process child nodes.
+ * @param { BlockTextBuilder }  builder            Passed around to accumulate output text.
+ * @param { FormatOptions }     formatOptions      Options specific to a formatter.
+ * @param { () => string }      nextPrefixCallback Function that returns increasing index each time it is called.
+ */ function formatList(elem, walk, builder, formatOptions, nextPrefixCallback) {
+    const isNestedList = get(elem, [
+        'parent',
+        'name'
+    ]) === 'li';
+    // With Roman numbers, index length is not as straightforward as with Arabic numbers or letters,
+    // so the dumb length comparison is the most robust way to get the correct value.
+    let maxPrefixLength = 0;
+    const listItems = (elem.children || [])// it might be more accurate to check only for html spaces here, but no significant benefit
+    .filter((child)=>child.type !== 'text' || !/^\s*$/.test(child.data)).map(function(child) {
+        if (child.name !== 'li') {
+            return {
+                node: child,
+                prefix: ''
+            };
+        }
+        const prefix = isNestedList ? nextPrefixCallback().trimStart() : nextPrefixCallback();
+        if (prefix.length > maxPrefixLength) {
+            maxPrefixLength = prefix.length;
+        }
+        return {
+            node: child,
+            prefix: prefix
+        };
+    });
+    if (!listItems.length) {
+        return;
+    }
+    builder.openList({
+        interRowLineBreaks: 1,
+        leadingLineBreaks: isNestedList ? 1 : formatOptions.leadingLineBreaks || 2,
+        maxPrefixLength: maxPrefixLength,
+        prefixAlign: 'left'
+    });
+    for (const { node, prefix } of listItems){
+        builder.openListItem({
+            prefix: prefix
+        });
+        walk([
+            node
+        ], builder);
+        builder.closeListItem();
+    }
+    builder.closeList({
+        trailingLineBreaks: isNestedList ? 1 : formatOptions.trailingLineBreaks || 2
+    });
+}
+/**
+ * Process an unordered list.
+ *
+ * @type { FormatCallback }
+ */ function formatUnorderedList(elem, walk, builder, formatOptions) {
+    const prefix = formatOptions.itemPrefix || ' * ';
+    return formatList(elem, walk, builder, formatOptions, ()=>prefix);
+}
+/**
+ * Process an ordered list.
+ *
+ * @type { FormatCallback }
+ */ function formatOrderedList(elem, walk, builder, formatOptions) {
+    let nextIndex = Number(elem.attribs.start || '1');
+    const indexFunction = getOrderedListIndexFunction(elem.attribs.type);
+    const nextPrefixCallback = ()=>' ' + indexFunction(nextIndex++) + '. ';
+    return formatList(elem, walk, builder, formatOptions, nextPrefixCallback);
+}
+/**
+ * Return a function that can be used to generate index markers of a specified format.
+ *
+ * @param   { string } [olType='1'] Marker type.
+ * @returns { (i: number) => string }
+ */ function getOrderedListIndexFunction(olType = '1') {
+    switch(olType){
+        case 'a':
+            return (i)=>numberToLetterSequence(i, 'a');
+        case 'A':
+            return (i)=>numberToLetterSequence(i, 'A');
+        case 'i':
+            return (i)=>numberToRoman(i).toLowerCase();
+        case 'I':
+            return (i)=>numberToRoman(i);
+        case '1':
+        default:
+            return (i)=>i.toString();
+    }
+}
+/**
+ * Given a list of class and ID selectors (prefixed with '.' and '#'),
+ * return them as separate lists of names without prefixes.
+ *
+ * @param { string[] } selectors Class and ID selectors (`[".class", "#id"]` etc).
+ * @returns { { classes: string[], ids: string[] } }
+ */ function splitClassesAndIds(selectors) {
+    const classes = [];
+    const ids = [];
+    for (const selector of selectors){
+        if (selector.startsWith('.')) {
+            classes.push(selector.substring(1));
+        } else if (selector.startsWith('#')) {
+            ids.push(selector.substring(1));
+        }
+    }
+    return {
+        classes: classes,
+        ids: ids
+    };
+}
+function isDataTable(attr, tables) {
+    if (tables === true) {
+        return true;
+    }
+    if (!attr) {
+        return false;
+    }
+    const { classes, ids } = splitClassesAndIds(tables);
+    const attrClasses = (attr['class'] || '').split(' ');
+    const attrIds = (attr['id'] || '').split(' ');
+    return attrClasses.some((x)=>classes.includes(x)) || attrIds.some((x)=>ids.includes(x));
+}
+/**
+ * Process a table (either as a container or as a data table, depending on options).
+ *
+ * @type { FormatCallback }
+ */ function formatTable(elem, walk, builder, formatOptions) {
+    return isDataTable(elem.attribs, builder.options.tables) ? formatDataTable(elem, walk, builder, formatOptions) : formatBlock(elem, walk, builder, formatOptions);
+}
+function formatBlock(elem, walk, builder, formatOptions) {
+    builder.openBlock({
+        leadingLineBreaks: formatOptions.leadingLineBreaks
+    });
+    walk(elem.children, builder);
+    builder.closeBlock({
+        trailingLineBreaks: formatOptions.trailingLineBreaks
+    });
+}
+/**
+ * Process a data table.
+ *
+ * @type { FormatCallback }
+ */ function formatDataTable(elem, walk, builder, formatOptions) {
+    builder.openTable();
+    elem.children.forEach(walkTable);
+    builder.closeTable({
+        tableToString: (rows)=>tableToString(rows, formatOptions.rowSpacing ?? 0, formatOptions.colSpacing ?? 3),
+        leadingLineBreaks: formatOptions.leadingLineBreaks,
+        trailingLineBreaks: formatOptions.trailingLineBreaks
+    });
+    function formatCell(cellNode) {
+        const colspan = +get(cellNode, [
+            'attribs',
+            'colspan'
+        ]) || 1;
+        const rowspan = +get(cellNode, [
+            'attribs',
+            'rowspan'
+        ]) || 1;
+        builder.openTableCell({
+            maxColumnWidth: formatOptions.maxColumnWidth
+        });
+        walk(cellNode.children, builder);
+        builder.closeTableCell({
+            colspan: colspan,
+            rowspan: rowspan
+        });
+    }
+    function walkTable(elem) {
+        if (elem.type !== 'tag') {
+            return;
+        }
+        const formatHeaderCell = formatOptions.uppercaseHeaderCells !== false ? (cellNode)=>{
+            builder.pushWordTransform((str)=>str.toUpperCase());
+            formatCell(cellNode);
+            builder.popWordTransform();
+        } : formatCell;
+        switch(elem.name){
+            case 'thead':
+            case 'tbody':
+            case 'tfoot':
+            case 'center':
+                elem.children.forEach(walkTable);
+                return;
+            case 'tr':
+                {
+                    builder.openTableRow();
+                    for (const childOfTr of elem.children){
+                        if (childOfTr.type !== 'tag') {
+                            continue;
+                        }
+                        switch(childOfTr.name){
+                            case 'th':
+                                {
+                                    formatHeaderCell(childOfTr);
+                                    break;
+                                }
+                            case 'td':
+                                {
+                                    formatCell(childOfTr);
+                                    break;
+                                }
+                        }
+                    }
+                    builder.closeTableRow();
+                    break;
+                }
+        }
+    }
+}
+var textFormatters = /*#__PURE__*/ Object.freeze({
+    __proto__: null,
+    anchor: formatAnchor,
+    blockquote: formatBlockquote,
+    dataTable: formatDataTable,
+    heading: formatHeading,
+    horizontalLine: formatHorizontalLine,
+    image: formatImage,
+    lineBreak: formatLineBreak,
+    orderedList: formatOrderedList,
+    paragraph: formatParagraph,
+    pre: formatPre,
+    table: formatTable,
+    unorderedList: formatUnorderedList,
+    wbr: formatWbr
+});
+/**
+ * Default options.
+ *
+ * @constant
+ * @type { Options }
+ * @default
+ * @private
+ */ const DEFAULT_OPTIONS = {
+    baseElements: {
+        selectors: [
+            'body'
+        ],
+        orderBy: 'selectors',
+        returnDomByDefault: true
+    },
+    decodeEntities: true,
+    encodeCharacters: {},
+    formatters: {},
+    limits: {
+        ellipsis: '...',
+        maxBaseElements: undefined,
+        maxChildNodes: undefined,
+        maxDepth: undefined,
+        maxInputLength: 1 << 24
+    },
+    longWordSplit: {
+        forceWrapOnLimit: false,
+        wrapCharacters: []
+    },
+    preserveNewlines: false,
+    selectors: [
+        {
+            selector: '*',
+            format: 'inline'
+        },
+        {
+            selector: 'a',
+            format: 'anchor',
+            options: {
+                baseUrl: null,
+                hideLinkHrefIfSameAsText: false,
+                ignoreHref: false,
+                linkBrackets: [
+                    '[',
+                    ']'
+                ],
+                noAnchorUrl: true
+            }
+        },
+        {
+            selector: 'article',
+            format: 'block',
+            options: {
+                leadingLineBreaks: 1,
+                trailingLineBreaks: 1
+            }
+        },
+        {
+            selector: 'aside',
+            format: 'block',
+            options: {
+                leadingLineBreaks: 1,
+                trailingLineBreaks: 1
+            }
+        },
+        {
+            selector: 'blockquote',
+            format: 'blockquote',
+            options: {
+                leadingLineBreaks: 2,
+                trailingLineBreaks: 2,
+                trimEmptyLines: true
+            }
+        },
+        {
+            selector: 'br',
+            format: 'lineBreak'
+        },
+        {
+            selector: 'div',
+            format: 'block',
+            options: {
+                leadingLineBreaks: 1,
+                trailingLineBreaks: 1
+            }
+        },
+        {
+            selector: 'footer',
+            format: 'block',
+            options: {
+                leadingLineBreaks: 1,
+                trailingLineBreaks: 1
+            }
+        },
+        {
+            selector: 'form',
+            format: 'block',
+            options: {
+                leadingLineBreaks: 1,
+                trailingLineBreaks: 1
+            }
+        },
+        {
+            selector: 'h1',
+            format: 'heading',
+            options: {
+                leadingLineBreaks: 3,
+                trailingLineBreaks: 2,
+                uppercase: true
+            }
+        },
+        {
+            selector: 'h2',
+            format: 'heading',
+            options: {
+                leadingLineBreaks: 3,
+                trailingLineBreaks: 2,
+                uppercase: true
+            }
+        },
+        {
+            selector: 'h3',
+            format: 'heading',
+            options: {
+                leadingLineBreaks: 3,
+                trailingLineBreaks: 2,
+                uppercase: true
+            }
+        },
+        {
+            selector: 'h4',
+            format: 'heading',
+            options: {
+                leadingLineBreaks: 2,
+                trailingLineBreaks: 2,
+                uppercase: true
+            }
+        },
+        {
+            selector: 'h5',
+            format: 'heading',
+            options: {
+                leadingLineBreaks: 2,
+                trailingLineBreaks: 2,
+                uppercase: true
+            }
+        },
+        {
+            selector: 'h6',
+            format: 'heading',
+            options: {
+                leadingLineBreaks: 2,
+                trailingLineBreaks: 2,
+                uppercase: true
+            }
+        },
+        {
+            selector: 'header',
+            format: 'block',
+            options: {
+                leadingLineBreaks: 1,
+                trailingLineBreaks: 1
+            }
+        },
+        {
+            selector: 'hr',
+            format: 'horizontalLine',
+            options: {
+                leadingLineBreaks: 2,
+                length: undefined,
+                trailingLineBreaks: 2
+            }
+        },
+        {
+            selector: 'img',
+            format: 'image',
+            options: {
+                baseUrl: null,
+                linkBrackets: [
+                    '[',
+                    ']'
+                ]
+            }
+        },
+        {
+            selector: 'main',
+            format: 'block',
+            options: {
+                leadingLineBreaks: 1,
+                trailingLineBreaks: 1
+            }
+        },
+        {
+            selector: 'nav',
+            format: 'block',
+            options: {
+                leadingLineBreaks: 1,
+                trailingLineBreaks: 1
+            }
+        },
+        {
+            selector: 'ol',
+            format: 'orderedList',
+            options: {
+                leadingLineBreaks: 2,
+                trailingLineBreaks: 2
+            }
+        },
+        {
+            selector: 'p',
+            format: 'paragraph',
+            options: {
+                leadingLineBreaks: 2,
+                trailingLineBreaks: 2
+            }
+        },
+        {
+            selector: 'pre',
+            format: 'pre',
+            options: {
+                leadingLineBreaks: 2,
+                trailingLineBreaks: 2
+            }
+        },
+        {
+            selector: 'section',
+            format: 'block',
+            options: {
+                leadingLineBreaks: 1,
+                trailingLineBreaks: 1
+            }
+        },
+        {
+            selector: 'table',
+            format: 'table',
+            options: {
+                colSpacing: 3,
+                leadingLineBreaks: 2,
+                maxColumnWidth: 60,
+                rowSpacing: 0,
+                trailingLineBreaks: 2,
+                uppercaseHeaderCells: true
+            }
+        },
+        {
+            selector: 'ul',
+            format: 'unorderedList',
+            options: {
+                itemPrefix: ' * ',
+                leadingLineBreaks: 2,
+                trailingLineBreaks: 2
+            }
+        },
+        {
+            selector: 'wbr',
+            format: 'wbr'
+        }
+    ],
+    tables: [],
+    whitespaceCharacters: ' \t\r\n\f\u200b',
+    wordwrap: 80
+};
+const concatMerge = (acc, src, options)=>[
+        ...acc,
+        ...src
+    ];
+const overwriteMerge = (acc, src, options)=>[
+        ...src
+    ];
+const selectorsMerge = (acc, src, options)=>acc.some((s)=>typeof s === 'object') ? concatMerge(acc, src) // selectors
+     : overwriteMerge(acc, src) // baseElements.selectors
+;
+/**
+ * Preprocess options, compile selectors into a decision tree,
+ * return a function intended for batch processing.
+ *
+ * @param   { Options } [options = {}]   HtmlToText options.
+ * @returns { (html: string, metadata?: any) => string } Pre-configured converter function.
+ * @static
+ */ function compile(options = {}) {
+    options = (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$deepmerge$2f$dist$2f$cjs$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])(DEFAULT_OPTIONS, options, {
+        arrayMerge: overwriteMerge,
+        customMerge: (key)=>key === 'selectors' ? selectorsMerge : undefined
+    });
+    options.formatters = Object.assign({}, genericFormatters, textFormatters, options.formatters);
+    options.selectors = mergeDuplicatesPreferLast(options.selectors, (s)=>s.selector);
+    handleDeprecatedOptions(options);
+    return compile$1(options);
+}
+/**
+ * Convert given HTML content to plain text string.
+ *
+ * @param   { string }  html           HTML content to convert.
+ * @param   { Options } [options = {}] HtmlToText options.
+ * @param   { any }     [metadata]     Optional metadata for HTML document, for use in formatters.
+ * @returns { string }                 Plain text string.
+ * @static
+ *
+ * @example
+ * const { convert } = require('html-to-text');
+ * const text = convert('<h1>Hello World</h1>', {
+ *   wordwrap: 130
+ * });
+ * console.log(text); // HELLO WORLD
+ */ function convert(html, options = {}, metadata = undefined) {
+    return compile(options)(html, metadata);
+}
+/**
+ * Map previously existing and now deprecated options to the new options layout.
+ * This is a subject for cleanup in major releases.
+ *
+ * @param { Options } options HtmlToText options.
+ */ function handleDeprecatedOptions(options) {
+    if (options.tags) {
+        const tagDefinitions = Object.entries(options.tags).map(([selector, definition])=>({
+                ...definition,
+                selector: selector || '*'
+            }));
+        options.selectors.push(...tagDefinitions);
+        options.selectors = mergeDuplicatesPreferLast(options.selectors, (s)=>s.selector);
+    }
+    function set(obj, path, value) {
+        const valueKey = path.pop();
+        for (const key of path){
+            let nested = obj[key];
+            if (!nested) {
+                nested = {};
+                obj[key] = nested;
+            }
+            obj = nested;
+        }
+        obj[valueKey] = value;
+    }
+    if (options['baseElement']) {
+        const baseElement = options['baseElement'];
+        set(options, [
+            'baseElements',
+            'selectors'
+        ], Array.isArray(baseElement) ? baseElement : [
+            baseElement
+        ]);
+    }
+    if (options['returnDomByDefault'] !== undefined) {
+        set(options, [
+            'baseElements',
+            'returnDomByDefault'
+        ], options['returnDomByDefault']);
+    }
+    for (const definition of options.selectors){
+        if (definition.format === 'anchor' && get(definition, [
+            'options',
+            'noLinkBrackets'
+        ])) {
+            set(definition, [
+                'options',
+                'linkBrackets'
+            ], false);
+        }
+    }
+}
+;
+}),
+"[project]/Flight-app/flight-finder/node_modules/@react-email/components/node_modules/@react-email/render/dist/node/index.mjs [app-route] (ecmascript)", ((__turbopack_context__) => {
+"use strict";
+
+return __turbopack_context__.a(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
+
+__turbopack_context__.s([
+    "plainTextSelectors",
+    ()=>plainTextSelectors,
+    "pretty",
+    ()=>pretty,
+    "render",
+    ()=>render,
+    "toPlainText",
+    ()=>toPlainText
+]);
+var __TURBOPACK__imported__module__$5b$externals$5d2f$prettier$2f$plugins$2f$html__$5b$external$5d$__$28$prettier$2f$plugins$2f$html$2c$__esm_import$2c$__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$prettier$29$__ = __turbopack_context__.i("[externals]/prettier/plugins/html [external] (prettier/plugins/html, esm_import, [project]/Flight-app/flight-finder/node_modules/prettier)");
+var __TURBOPACK__imported__module__$5b$externals$5d2f$prettier$2f$standalone__$5b$external$5d$__$28$prettier$2f$standalone$2c$__esm_import$2c$__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$prettier$29$__ = __turbopack_context__.i("[externals]/prettier/standalone [external] (prettier/standalone, esm_import, [project]/Flight-app/flight-finder/node_modules/prettier)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$html$2d$to$2d$text$2f$lib$2f$html$2d$to$2d$text$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/html-to-text/lib/html-to-text.mjs [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/Flight-app/flight-finder/node_modules/next/dist/server/route-modules/app-page/vendored/rsc/react-jsx-runtime.js [app-route] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$stream__$5b$external$5d$__$28$node$3a$stream$2c$__cjs$29$__ = __turbopack_context__.i("[externals]/node:stream [external] (node:stream, cjs)");
+var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
+    __TURBOPACK__imported__module__$5b$externals$5d2f$prettier$2f$plugins$2f$html__$5b$external$5d$__$28$prettier$2f$plugins$2f$html$2c$__esm_import$2c$__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$prettier$29$__,
+    __TURBOPACK__imported__module__$5b$externals$5d2f$prettier$2f$standalone__$5b$external$5d$__$28$prettier$2f$standalone$2c$__esm_import$2c$__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$prettier$29$__
+]);
+[__TURBOPACK__imported__module__$5b$externals$5d2f$prettier$2f$plugins$2f$html__$5b$external$5d$__$28$prettier$2f$plugins$2f$html$2c$__esm_import$2c$__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$prettier$29$__, __TURBOPACK__imported__module__$5b$externals$5d2f$prettier$2f$standalone__$5b$external$5d$__$28$prettier$2f$standalone$2c$__esm_import$2c$__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$prettier$29$__] = __turbopack_async_dependencies__.then ? (await __turbopack_async_dependencies__)() : __turbopack_async_dependencies__;
+;
+;
+;
+;
+;
+;
+//#region src/shared/utils/pretty.ts
+function getHtmlNode(path) {
+    const topNode = path.node;
+    if (topNode) return topNode;
+    return path.stack?.[path.stack.length - 1];
+}
+function recursivelyMapDoc(doc, callback) {
+    if (Array.isArray(doc)) return doc.map((innerDoc)=>recursivelyMapDoc(innerDoc, callback));
+    if (typeof doc === "object") {
+        if (doc.type === "line") return callback(doc.soft ? "" : " ");
+        if (doc.type === "group") return {
+            ...doc,
+            contents: recursivelyMapDoc(doc.contents, callback),
+            expandedStates: recursivelyMapDoc(doc.expandedStates, callback)
+        };
+        if ("contents" in doc) return {
+            ...doc,
+            contents: recursivelyMapDoc(doc.contents, callback)
+        };
+        if ("parts" in doc) return {
+            ...doc,
+            parts: recursivelyMapDoc(doc.parts, callback)
+        };
+        if (doc.type === "if-break") return {
+            ...doc,
+            breakContents: recursivelyMapDoc(doc.breakContents, callback),
+            flatContents: recursivelyMapDoc(doc.flatContents, callback)
+        };
+        const nextDoc = {
+            ...doc
+        };
+        for (const [key, value] of Object.entries(nextDoc))if (value && typeof value === "object") nextDoc[key] = recursivelyMapDoc(value, callback);
+        return nextDoc;
+    }
+    return callback(doc);
+}
+const modifiedHtml = {
+    ...__TURBOPACK__imported__module__$5b$externals$5d2f$prettier$2f$plugins$2f$html__$5b$external$5d$__$28$prettier$2f$plugins$2f$html$2c$__esm_import$2c$__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$prettier$29$__
+};
+if (modifiedHtml.printers) {
+    const previousPrint = modifiedHtml.printers.html.print;
+    modifiedHtml.printers.html.print = (path, options, print, args)=>{
+        const node = getHtmlNode(path);
+        const rawPrintingResult = previousPrint(path, options, print, args);
+        if (node?.type === "ieConditionalComment" || node?.kind === "ieConditionalComment") return recursivelyMapDoc(rawPrintingResult, (doc)=>{
+            if (typeof doc === "object" && doc.type === "line") return doc.soft ? "" : " ";
+            return doc;
+        });
+        return rawPrintingResult;
+    };
+}
+const defaults = {
+    endOfLine: "lf",
+    tabWidth: 2,
+    plugins: [
+        modifiedHtml
+    ],
+    bracketSameLine: true,
+    parser: "html"
+};
+const pretty = (str, options = {})=>{
+    return (0, __TURBOPACK__imported__module__$5b$externals$5d2f$prettier$2f$standalone__$5b$external$5d$__$28$prettier$2f$standalone$2c$__esm_import$2c$__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$prettier$29$__["format"])(str.replaceAll("\0", ""), {
+        ...defaults,
+        ...options
+    });
+};
+//#endregion
+//#region src/shared/utils/to-plain-text.ts
+const plainTextSelectors = [
+    {
+        selector: "img",
+        format: "skip"
+    },
+    {
+        selector: "[data-skip-in-text=true]",
+        format: "skip"
+    },
+    {
+        selector: "a",
+        options: {
+            linkBrackets: false,
+            hideLinkHrefIfSameAsText: true
+        }
+    }
+];
+function toPlainText(html$1, options) {
+    return (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$html$2d$to$2d$text$2f$lib$2f$html$2d$to$2d$text$2e$mjs__$5b$app$2d$route$5d$__$28$ecmascript$29$__["convert"])(html$1, {
+        wordwrap: false,
+        ...options,
+        selectors: [
+            ...plainTextSelectors,
+            ...options?.selectors ?? []
+        ]
+    });
+}
+//#endregion
+//#region src/shared/error-boundary.tsx
+function createErrorBoundary(reject) {
+    if (!__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].Component) return (props)=>/* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Fragment"], {
+            children: props.children
+        });
+    return class ErrorBoundary extends __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].Component {
+        componentDidCatch(error) {
+            reject(error);
+        }
+        render() {
+            return this.props.children;
+        }
+    };
+}
+//#endregion
+//#region src/node/read-stream.ts
+const readStream = async (stream)=>{
+    let result = "";
+    const decoder = new TextDecoder("utf-8");
+    if ("pipeTo" in stream) {
+        const writableStream = new WritableStream({
+            write (chunk) {
+                result += decoder.decode(chunk, {
+                    stream: true
+                });
+            },
+            close () {
+                result += decoder.decode();
+            }
+        });
+        await stream.pipeTo(writableStream);
+    } else {
+        const writable = new __TURBOPACK__imported__module__$5b$externals$5d2f$node$3a$stream__$5b$external$5d$__$28$node$3a$stream$2c$__cjs$29$__["Writable"]({
+            write (chunk, _encoding, callback) {
+                result += decoder.decode(chunk, {
+                    stream: true
+                });
+                callback();
+            },
+            final (callback) {
+                result += decoder.decode();
+                callback();
+            }
+        });
+        await new Promise((resolve, reject)=>{
+            writable.on("pipe", (source)=>{
+                source.on("error", (err)=>{
+                    writable.destroy(err);
+                });
+            });
+            writable.on("error", reject);
+            writable.on("close", ()=>{
+                resolve();
+            });
+            stream.pipe(writable);
+        });
+    }
+    return result;
+};
+//#endregion
+//#region src/node/render.tsx
+const render = async (node, options)=>{
+    const reactDOMServer = await __turbopack_context__.A("[project]/Flight-app/flight-finder/node_modules/next/dist/compiled/react-dom/server.node.js [app-route] (ecmascript, async loader)").then((m)=>{
+        if ("default" in m) return m.default;
+        return m;
+    });
+    let html$1;
+    await new Promise((resolve, reject)=>{
+        if (Object.hasOwn(reactDOMServer, "renderToReadableStream") && typeof WritableStream !== "undefined") {
+            const ErrorBoundary = createErrorBoundary(reject);
+            reactDOMServer.renderToReadableStream(/* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])(ErrorBoundary, {
+                children: /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Suspense"], {
+                    children: node
+                })
+            }), {
+                progressiveChunkSize: Number.POSITIVE_INFINITY,
+                onError (error) {
+                    reject(error);
+                }
+            }).then(async (stream)=>{
+                await stream.allReady;
+                return readStream(stream);
+            }).then((result)=>{
+                html$1 = result;
+                resolve();
+            }).catch(reject);
+        } else {
+            const ErrorBoundary = createErrorBoundary(reject);
+            const stream = reactDOMServer.renderToPipeableStream(/* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])(ErrorBoundary, {
+                children: /* @__PURE__ */ (0, __TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2d$jsx$2d$runtime$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["jsx"])(__TURBOPACK__imported__module__$5b$project$5d2f$Flight$2d$app$2f$flight$2d$finder$2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$rsc$2f$react$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["Suspense"], {
+                    children: node
+                })
+            }), {
+                async onAllReady () {
+                    html$1 = await readStream(stream);
+                    resolve();
+                },
+                onError (error) {
+                    reject(error);
+                },
+                progressiveChunkSize: Number.POSITIVE_INFINITY
+            });
+        }
+    });
+    if (options?.plainText) return toPlainText(html$1, options.htmlToTextOptions);
+    const document = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">${html$1.replace(/<!DOCTYPE.*?>/, "")}`;
+    if (options?.pretty) return pretty(document);
+    return document;
+};
+;
+__turbopack_async_result__();
+} catch(e) { __turbopack_async_result__(e); } }, false);}),
+];
+
+//# sourceMappingURL=%5Broot-of-the-server%5D__0go.cja._.js.map
