@@ -124,7 +124,6 @@ export function HomeHero({ children, heroTitle = "Where can I fly?" }: HomeHeroP
 
       <header className={styles.header}>
         <div className={styles.logo}>
-          <PlaneGlyph size={22} color="#fff" />
           <span>FlightFinder</span>
         </div>
 
